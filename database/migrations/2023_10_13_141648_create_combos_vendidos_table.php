@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('combos_vendidos', function (Blueprint $table) {
             $table->id();
+            $table->foreign('id_venta')->references('id_venta')->on('ventas');
+            $table->foreign('id_oferta_combo')->references('id_oferta_combo')->on('oferta_combo');
+            $table->integer('unidades_vendidas_combo');
             $table->timestamps();
         });
     }
