@@ -16,7 +16,7 @@ return new class extends Migration
             $table->float('monto_limite_descuento');
             $table->timestamps();
             $table->unsignedBigInteger('id_oferta_monto'); 
-            $table->foreign('id_oferta_monto')->references('id')->on('ofertas');
+            $table->foreign('id_oferta_monto')->references('id_oferta_monto')->on('ofertas');
         });
     }
 
