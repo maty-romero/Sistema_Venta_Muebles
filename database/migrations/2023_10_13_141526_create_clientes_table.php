@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('clientes', function (Blueprint $table) {
-            $table->id();
+            $table->primary('id_usuario_cliente');
             $table->string('nombre_cliente');
             $table->enum('tipo_cliente', ['fisico', 'juridico']);
             $table->unique('dni_cuit');
             $table->string('codigo_postal_cliente');
-            $table->foreign('id_venta')->references('id_venta')->on('ventas');
             $table->timestamps();
         });
     }

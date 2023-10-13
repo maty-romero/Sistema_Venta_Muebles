@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class OfertaCombo extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "nombre_combo" 
+    ]; 
+    protected $table = "ofertas_combos"; //tabla a referenciar
 }

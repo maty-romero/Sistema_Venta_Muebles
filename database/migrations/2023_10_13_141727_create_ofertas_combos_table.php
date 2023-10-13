@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ofertas_combos', function (Blueprint $table) {
-            $table->id();
+            $table->primary('id_oferta_combo');
+            $table->string('nombre_combo');
             $table->timestamps();
         });
     }

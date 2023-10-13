@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ofertas_montos', function (Blueprint $table) {
-            $table->id();
+            $table->primary('id_oferta_monto');
+            $table->float('monto_limite_descuento');
             $table->timestamps();
         });
     }
