@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_oferta_tipo'); 
             $table->foreign('id_oferta_tipo')->references('id')->on('ofertas');
             $table->unsignedBigInteger('id_tipo_mueble');
-            $table->foreign('id_tipo_mueble')->references('id_tipo_mueble')->on('tipos_muebles');
+            $table->foreign('id_tipo_mueble')->references('id')->on('tipos_muebles');
         });
     }
 
