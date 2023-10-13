@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unique('dni_cuit');
             $table->string('codigo_postal_cliente');
             $table->timestamps();
+            $table->unsignedBigInteger('id_usuario_cliente');
+            $table->foreign('id_usuario_cliente')->references('id')->on('users');
         });
     }
 
