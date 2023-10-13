@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ProductoVendidos extends Model
 {
     use HasFactory;
-    
-
-    protected $fillable = ["unidades_vendidas_prod", "precio_venta_prod"]; //campos solicitados al momento de enviar el request
+    //campos solicitados al momento de enviar el request
+    protected $fillable = [
+        "unidades_vendidas_prod", 
+        "precio_venta_prod"
+    ]; 
     protected $table = "productos_vendidos"; //tabla a referenciar
 
 
