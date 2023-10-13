@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('cantidad_producto_combo');
             $table->timestamps();
             $table->unsignedBigInteger('id_producto'); 
-            $table->foreign('id_producto')->references('id_producto')->on('productos');
+            $table->foreign('id_producto')->references('id')->on('productos');
             $table->unsignedBigInteger('id_oferta_combo'); 
             $table->foreign('id_oferta_combo')->references('id_oferta_combo')->on('ofertas_combos');
         });
