@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cliente extends Model
 {
@@ -14,6 +15,10 @@ class Cliente extends Model
 
     // Relaciones 
 
-    
+    //1 a M con Venta
+    public function ventas(): HasMany 
+    {
+        return $this->hasMany(Ventas::class);
+    }
 
 }
