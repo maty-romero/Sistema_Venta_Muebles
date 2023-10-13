@@ -10,7 +10,7 @@ class Cliente extends Model
     use HasFactory;
 
     protected $fillable = [""]; //campos solicitados al momento de enviar el request
-    protected $table = "clienstes"; //tabla a referenciar
+    protected $table = "clientes"; //tabla a referenciar
 
     // Relaciones 
 
