@@ -16,10 +16,12 @@ return new class extends Migration
             $table->dateTime('fecha_venta');
             $table->float('monto_final_venta')->nullable()->default(0.00);
             $table->integer('nro_pago');
+            $table->string('codigo_postal_destino');
+            $table->string('domicilio_destino');
          //   $table->increments('nro_venta');
          $table->timestamps();
-         $table->unsignedBigInteger('user_id'); 
-         $table->foreign('user_id')->references('id')->on('users');
+         $table->unsignedBigInteger('id_usuario_cliente'); 
+         $table->foreign('id_usuario_cliente')->references('id_usuario_cliente')->on('clientes');
          $table->unsignedBigInteger('id_oferta_monto'); 
          $table->foreign('id_oferta_monto')->references('id_oferta_monto')->on('ofertas_montos');
         });

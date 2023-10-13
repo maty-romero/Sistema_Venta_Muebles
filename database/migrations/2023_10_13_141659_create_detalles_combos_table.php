@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detalles_combos', function (Blueprint $table) {
-            $table->id();
             $table->integer('cantidad_producto_combo');
             $table->timestamps();
             $table->unsignedBigInteger('id_producto'); 
