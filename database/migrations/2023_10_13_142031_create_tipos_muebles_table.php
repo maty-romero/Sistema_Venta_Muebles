@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tipos_muebles', function (Blueprint $table) {
-            $table->id();
+            $table->primary("id");
+            $table->enum('nombre_tipo_mueble', ['exterior', 'interior']);
             $table->timestamps();
         });
     }

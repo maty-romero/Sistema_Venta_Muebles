@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ventas', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->primary("id");
+            $table->dateTime('fecha_venta')->default(new DateTime());
+            $table->float('monto_final_venta')->nullable()->default(0.00);
+            $table->integer('nro_pago');
+         //   $table->increments('nro_venta');
+         $table->timestamps();
+         $table->unsignedBigInteger('user_id'); 
+         $table->foreign('user_id')->references('id')->on('users');
+         $table->unsignedBigInteger('id_oferta_monto'); 
+         $table->foreign('id_oferta_monto')->references('id')->on('ofertas_montos');
         });
     }
 

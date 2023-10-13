@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     use HasFactory;
+
+    
+    protected $fillable = ["nombre_producto","descripcion","discontinuado","stock","precio_producto","largo","ancho","alto","material","id_tipo_mueble"];
+    protected $table = "productos"; //tabla a referenciar
+
+    
 }
