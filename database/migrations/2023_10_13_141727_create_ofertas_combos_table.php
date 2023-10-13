@@ -15,6 +15,8 @@ return new class extends Migration
             $table->primary('id_oferta_combo');
             $table->string('nombre_combo');
             $table->timestamps();
+            $table->unsignedBigInteger('id_oferta_combo'); 
+            $table->foreign('id_oferta_combo')->references('id')->on('ofertas');
         });
     }
 

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('ofertas_tipos_muebles', function (Blueprint $table) {
             $table->primary('id_oferta_tipo');
             $table->timestamps();
+            $table->unsignedBigInteger('id_oferta_tipo'); 
+            $table->foreign('id_oferta_tipo')->references('id')->on('ofertas');
             $table->unsignedBigInteger('id_tipo_mueble');
             $table->foreign('id_tipo_mueble')->references('id_tipo_mueble')->on('tipos_muebles');
         });
