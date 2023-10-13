@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ventas', function (Blueprint $table) {
-            $table->primary("id");
+       
             $table->dateTime('fecha_venta')->default(new DateTime());
             $table->float('monto_final_venta')->nullable()->default(0.00);
             $table->integer('nro_pago');
