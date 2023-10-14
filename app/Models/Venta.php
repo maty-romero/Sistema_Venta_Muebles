@@ -37,6 +37,13 @@ class Venta extends Model
         return $this->belongsToMany(OfertaCombo::class, "oferta_combo_venta", "id_venta", "id_oferta_combo")->withPivot('unidades_vendidas_combo');;
     }
 
+    // M:1 venta-ofertaMonto
+
+    public function ofertaMonto(): BelongsTo
+    {
+        return $this->belongsTo(OfertaMonto::class, "id_oferta_monto");
+    }
+
     //M a 1 Clientes
     public function cliente(): BelongsTo
     {
