@@ -11,12 +11,14 @@ class Venta extends Model
     use HasFactory;
     //campos solicitados al momento de enviar el request
     protected $fillable = [
-        "nombre_cliente", 
-        "tipo_cliente", 
-        "dni_cuit", 
-        "codigo_postal_cliente", 
-        "email"
-    ]; 
+        "fecha_venta",
+        "monto_final_venta",
+        "nro_pago",
+        "codigo_postal_destino",
+        "domicilio_destino",
+        "id_usuario_cliente",
+        "id_oferta_monto"
+    ];
     protected $table = "ventas"; //tabla a referenciar
 
     //Relaciones 
@@ -26,6 +28,4 @@ class Venta extends Model
     {
         return $this->belongsTo(Cliente::class, 'id_usuario_cliente');
     }
-
-    
 }
