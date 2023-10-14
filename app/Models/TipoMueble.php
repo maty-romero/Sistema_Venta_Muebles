@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 
 class TipoMueble extends Model
 {
@@ -12,4 +13,9 @@ class TipoMueble extends Model
     protected $fillable = ["nombre_tipo_mueble"];
     protected $table = "tipos_muebles"; //tabla a referenciar
 
+
+    public function producto(): hasMany
+    {
+        return $this->hasMany(Producto::class, "id_tipo_mueble");
+    }
 }
