@@ -15,11 +15,13 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        // $producto = Producto::find(1);
+        //     $producto = Producto::find(1);
 
-        // echo $producto->tipo_mueble->nombre_tipo_mueble;
+        //     echo $producto->oferta;
 
 
+        $oferta = Oferta::find(1);
+        echo $oferta->producto;
 
         // $combo = ComboVendido::where("id_oferta_combo", 7)->first();
         // echo $combo->venta;

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\hasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Oferta extends Model
 {
@@ -16,6 +17,10 @@ class Oferta extends Model
     ];
     protected $table = "ofertas"; //tabla a referenciar
 
+    public function producto(): BelongsToMany
+    {
+        return $this->belongsToMany(Producto::class, "oferta_producto", "id_oferta", "id_producto");
+    }
 
     public function ofertaCombo(): hasMany
     {
