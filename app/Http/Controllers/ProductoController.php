@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ComboVendido;
 use App\Models\Venta;
 use App\Models\Oferta;
+use App\Models\OfertaCombo;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 
@@ -18,11 +19,18 @@ class ProductoController extends Controller
         //     $producto = Producto::find(1);
 
         //     echo $producto->oferta;
-
-
-        $oferta = Oferta::find(1);
-        echo $oferta->producto;
-
+        $producto = new Producto();
+        //Producto::(1)->oferta()->get();
+        $productos = Producto::all();
+        //$ofertas = array();
+        $producto_oferta = array();
+        foreach($productos as $producto){
+            //$producto_oferta[] = $producto;
+            $producto_oferta[] = $producto;  
+            $producto_oferta[] = $producto->oferta_combo_producto;
+            //echo $producto->oferta;
+        } 
+        return $producto_oferta;
         // $combo = ComboVendido::where("id_oferta_combo", 7)->first();
         // echo $combo->venta;
     }

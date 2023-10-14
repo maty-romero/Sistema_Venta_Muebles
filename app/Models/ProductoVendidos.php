@@ -17,5 +17,8 @@ class ProductoVendidos extends Model
 
 
 
+    //Relaciones
+    //M a M -> Venta y Producto
+    
 
 }

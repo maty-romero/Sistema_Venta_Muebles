@@ -14,8 +14,7 @@ class OfertaCombo extends Model
     protected $fillable = [
         "nombre_combo"
     ];
-    protected $table = "ofertas_combos"; //tabla a referenciar
-
+    protected $table = "ofertas_combos_productos"; //tabla a referenciar
 
     public function oferta(): BelongsTo
     {
@@ -23,9 +22,12 @@ class OfertaCombo extends Model
     }
 
     // M:M ofertaCombo-Ventas
-
     public function venta(): BelongsToMany
     {
         return $this->belongsToMany(Venta::class, "oferta_combo_venta", "id_oferta_combo", "id_venta")->withPivot('unidades_vendidas_combo');
     }
+    public function oferta_combo_producto(){
+        return $this->belongsToMany(Producto::class, 'oferta_combo_producto', 'id_oferta_combo', 'id_producto')->withPivot('cantidad_producto_combo');
+    }
+
 }

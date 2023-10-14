@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ofertas_combos', function (Blueprint $table) {
+        Schema::create('oferta_combo', function (Blueprint $table) {
             $table->primary('id_oferta_combo');
             $table->string('nombre_combo');
             $table->timestamps();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ofertas_combos');
+        Schema::dropIfExists('oferta_combo_producto');
     }
 };

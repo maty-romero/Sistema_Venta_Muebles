@@ -34,7 +34,6 @@ class Producto extends Model
     {
         return $this->belongsTo(TipoMueble::class, "id_tipo_mueble");
     }
-
     // M:M producto-oferta
 
     public function oferta(): BelongsToMany
@@ -42,11 +41,15 @@ class Producto extends Model
         return $this->belongsToMany(Oferta::class, "oferta_producto", "id_producto", "id_oferta");
     }
 
-
     // M:M producto-venta
 
     public function venta(): BelongsToMany
     {
         return $this->belongsToMany(Producto::class, "producto_venta", "id_producto", "id_venta")->withPivot('unidades_vendidas_prod', "precio_venta_prod");
     }
+
+    public function oferta_combo_producto(){
+        return $this->belongsToMany(OfertaCombo::class, 'oferta_combo_producto', 'id_oferta_combo', 'id_producto')->withPivot('cantidad_producto_combo');
+    }
+
 }

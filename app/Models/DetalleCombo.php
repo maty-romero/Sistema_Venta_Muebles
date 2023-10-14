@@ -14,4 +14,7 @@ class DetalleCombo extends Model
         "cantidad_producto_combo", 
     ]; 
     protected $table = "detalles_combos"; //tabla a referenciar
+
+    
+
 }

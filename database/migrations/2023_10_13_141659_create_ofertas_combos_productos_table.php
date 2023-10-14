@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detalles_combos', function (Blueprint $table) {
+        Schema::create('oferta_combo_producto', function (Blueprint $table) {
             $table->integer('cantidad_producto_combo');
             $table->timestamps();
             $table->unsignedBigInteger('id_producto'); 
             $table->foreign('id_producto')->references('id')->on('productos');
             $table->unsignedBigInteger('id_oferta_combo'); 
-            $table->foreign('id_oferta_combo')->references('id_oferta_combo')->on('ofertas_combos');
+            $table->foreign('id_oferta_combo')->references('id_oferta_combo')->on('oferta_combo');
         });
     }
 
