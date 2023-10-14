@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('combos_vendidos', function (Blueprint $table) {
+        Schema::create('oferta_combo_venta', function (Blueprint $table) {
             $table->primary(['id_venta', 'id_oferta_combo']);
             $table->integer('unidades_vendidas_combo');
             $table->timestamps();
-            $table->unsignedBigInteger('id_venta'); 
+            $table->unsignedBigInteger('id_venta');
             $table->foreign('id_venta')->references('id')->on('ventas');
             $table->unsignedBigInteger('id_oferta_combo');
             $table->foreign('id_oferta_combo')->references('id_oferta_combo')->on('ofertas_combos');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('combos_vendidos');
+        Schema::dropIfExists('oferta_combo_venta');
     }
 };

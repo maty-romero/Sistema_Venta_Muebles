@@ -28,14 +28,25 @@ class Producto extends Model
     protected $table = "productos"; //tabla a referenciar
 
 
+    // M:1 producto-tipoMueble
+
     public function tipo_mueble(): BelongsTo
     {
         return $this->belongsTo(TipoMueble::class, "id_tipo_mueble");
     }
 
+    // M:M producto-oferta
 
     public function oferta(): BelongsToMany
     {
         return $this->belongsToMany(Oferta::class, "oferta_producto", "id_producto", "id_oferta");
+    }
+
+
+    // M:M producto-venta
+
+    public function venta(): BelongsToMany
+    {
+        return $this->belongsToMany(Producto::class, "producto_venta", "id_producto", "id_venta")->withPivot('unidades_vendidas_prod', "precio_venta_prod");
     }
 }

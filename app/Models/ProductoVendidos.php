@@ -10,10 +10,12 @@ class ProductoVendidos extends Model
     use HasFactory;
     //campos solicitados al momento de enviar el request
     protected $fillable = [
-        "unidades_vendidas_prod", 
+        "unidades_vendidas_prod",
         "precio_venta_prod"
-    ]; 
-    protected $table = "productos_vendidos"; //tabla a referenciar
+    ];
+    protected $table = "producto_venta"; //tabla a referenciar
+
+
 
 
 }

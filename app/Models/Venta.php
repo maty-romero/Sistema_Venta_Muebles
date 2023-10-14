@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -24,6 +23,19 @@ class Venta extends Model
     protected $table = "ventas"; //tabla a referenciar
 
     //Relaciones 
+
+    // M:M producto-venta
+
+    public function producto(): BelongsToMany
+    {
+        return $this->belongsToMany(Producto::class, "producto_venta", "id_venta", "id_producto")->withPivot('unidades_vendidas_prod', "precio_venta_prod");
+    }
+    // M:M ofertaCombo-Ventas
+
+    public function ofertaCombo(): BelongsToMany
+    {
+        return $this->belongsToMany(OfertaCombo::class, "oferta_combo_venta", "id_venta", "id_oferta_combo")->withPivot('unidades_vendidas_combo');;
+    }
 
     //M a 1 Clientes
     public function cliente(): BelongsTo
