@@ -12,9 +12,9 @@ class OfertaCombo extends Model
     use HasFactory;
     protected $primaryKey = 'id_oferta_combo';
     protected $fillable = [
-        "nombre_combo"
+        "nombre_combo",
     ];
-    protected $table = "ofertas_combos_productos"; //tabla a referenciar
+    protected $table = "oferta_combo"; //tabla a referenciar
 
     public function oferta(): BelongsTo
     {
@@ -26,8 +26,8 @@ class OfertaCombo extends Model
     {
         return $this->belongsToMany(Venta::class, "oferta_combo_venta", "id_oferta_combo", "id_venta")->withPivot('unidades_vendidas_combo');
     }
-    public function oferta_combo_producto(){
+    public function oferta_combo_producto()
+    {
         return $this->belongsToMany(Producto::class, 'oferta_combo_producto', 'id_oferta_combo', 'id_producto')->withPivot('cantidad_producto_combo');
     }
-
 }

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('oferta_combo_producto', function (Blueprint $table) {
             $table->integer('cantidad_producto_combo');
             $table->timestamps();
-            $table->unsignedBigInteger('id_producto'); 
+            $table->unsignedBigInteger('id_producto');
             $table->foreign('id_producto')->references('id')->on('productos');
-            $table->unsignedBigInteger('id_oferta_combo'); 
+            $table->unsignedBigInteger('id_oferta_combo');
             $table->foreign('id_oferta_combo')->references('id_oferta_combo')->on('oferta_combo');
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detalles_combos');
+        Schema::dropIfExists('oferta_combo_producto');
     }
 };

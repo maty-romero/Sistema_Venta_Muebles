@@ -9,12 +9,12 @@ class DetalleCombo extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "id_producto", 
-        "id_oferta_combo", 
-        "cantidad_producto_combo", 
-    ]; 
-    protected $table = "detalles_combos"; //tabla a referenciar
+        "id_producto",
+        "id_oferta_combo",
+        "cantidad_producto_combo",
+    ];
+    protected $table = "oferta_combo_producto"; //tabla a referenciar
 
-    
+
 
 }

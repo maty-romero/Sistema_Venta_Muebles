@@ -17,11 +17,11 @@ class OfertaComboFactory extends Factory
     public function definition(): array
     {
 
-        static $id = 1; 
+        static $id = 1;
 
         return [
-            "id_oferta_combo"=>$id++,
-            "nombre_combo"=> fake()->name()
+            "id_oferta_combo" => $id++,
+            "nombre_combo" => fake()->name()
         ];
     }
 }
