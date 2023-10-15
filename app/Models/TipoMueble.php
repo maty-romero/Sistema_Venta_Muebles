@@ -13,6 +13,7 @@ class TipoMueble extends Model
     protected $fillable = ["nombre_tipo_mueble"];
     protected $table = "tipos_muebles"; //tabla a referenciar
 
+    // 1:M tipoMueble-producto
 
     public function producto(): hasMany
     {

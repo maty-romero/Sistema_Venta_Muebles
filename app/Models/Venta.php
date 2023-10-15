@@ -30,6 +30,7 @@ class Venta extends Model
     {
         return $this->belongsToMany(Producto::class, "producto_venta", "id_venta", "id_producto")->withPivot('unidades_vendidas_prod', "precio_venta_prod");
     }
+
     // M:M ofertaCombo-Ventas
 
     public function ofertaCombo(): BelongsToMany
@@ -44,7 +45,8 @@ class Venta extends Model
         return $this->belongsTo(OfertaMonto::class, "id_oferta_monto");
     }
 
-    //M a 1 Clientes
+    // M a 1 Clientes
+
     public function cliente(): BelongsTo
     {
         return $this->belongsTo(Cliente::class, 'id_usuario_cliente');

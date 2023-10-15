@@ -11,6 +11,7 @@ class ProductoOferta extends Model
 {
     use HasFactory;
 
+    // TABLA RELACION
 
     protected $fillable = ["id_producto", "id_oferta"];
     protected $table = "oferta_producto"; //tabla a referenciar

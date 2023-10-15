@@ -16,10 +16,14 @@ class OfertaTipoMueble extends Model
     ];
     protected $table = "ofertas_tipos_muebles"; //tabla a referenciar
 
+    // M:1 ofertaTipoMueble-oferta
+
     public function oferta(): BelongsTo
     {
         return $this->belongsTo(Oferta::class, "id_oferta_tipo");
     }
+
+    // M:1 ofertaTipoMueble-tipoMueble
 
     public function tipoMueble(): BelongsTo
     {

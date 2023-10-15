@@ -48,8 +48,10 @@ class Producto extends Model
         return $this->belongsToMany(Producto::class, "producto_venta", "id_producto", "id_venta")->withPivot('unidades_vendidas_prod', "precio_venta_prod");
     }
 
-    public function oferta_combo_producto(){
+    // M:M producto-ofertaComboProducto
+
+    public function oferta_combo_producto()
+    {
         return $this->belongsToMany(OfertaCombo::class, 'oferta_combo_producto', 'id_oferta_combo', 'id_producto')->withPivot('cantidad_producto_combo');
     }
-
 }

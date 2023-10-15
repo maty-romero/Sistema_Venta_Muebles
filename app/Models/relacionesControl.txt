@@ -1,0 +1,54 @@
+Cliente
+1:M cliente-ventas
+1:1 cliente-usuario
+
+ComboVendido
+Tabla relacion (pivot)
+
+DetalleCombo
+Tabla relacion (pivot)
+
+Oferta
+M:M oferta-producto
+1:M oferta-ofertaCombo
+1:M oferta-ofertaMonto
+1:M oferta-ofertaMueble
+1:M oferta-productoVendido
+
+OfertaCombo
+M:1 ofertaCombo-oferta
+M:M ofertaCombo-venta
+M:M ofertaCombo-producto
+
+OfertaMonto
+M:1 ofertaMonto-oferta
+1:M ofertaMonto-venta
+
+OfertaTipoMueble
+M:1 ofertaTipoMueble-oferta
+M:1 ofertaTipoMueble-tipoMueble
+
+Producto
+M:1 producto-tipoMueble
+M:M producto-oferta
+M:M producto-venta
+M:M producto-ofertaComboProducto
+
+ProductoOferta
+Tabla relacion (pivot)
+
+ProductoVendido
+1:M productoVendido-oferta
+
+TipoMueble
+1:M tipoMueble-producto
+
+Usuario
+1:1 usuario-cliente
+
+Venta
+M:M producto-venta
+M:M ofertaCombo-Ventas
+M:1 venta-ofertaMonto
+M:1 venta-cliente
+

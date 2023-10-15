@@ -16,12 +16,14 @@ class OfertaMonto extends Model
     ];
     protected $table = "ofertas_montos"; //tabla a referenciar
 
+    // M:1 ofertaMonto-oferta
 
     public function oferta(): BelongsTo
     {
         return $this->belongsTo(Oferta::class);
     }
 
+    // 1:M ofertaMonto-venta
 
     public function venta(): HasMany
     {

@@ -16,6 +16,9 @@ class OfertaCombo extends Model
     ];
     protected $table = "oferta_combo"; //tabla a referenciar
 
+
+    // M:1 ofertaCombo-oferta
+
     public function oferta(): BelongsTo
     {
         return $this->belongsTo(Oferta::class);
@@ -26,6 +29,9 @@ class OfertaCombo extends Model
     {
         return $this->belongsToMany(Venta::class, "oferta_combo_venta", "id_oferta_combo", "id_venta")->withPivot('unidades_vendidas_combo');
     }
+
+    // M:M ofertaCombo-producto
+
     public function oferta_combo_producto()
     {
         return $this->belongsToMany(Producto::class, 'oferta_combo_producto', 'id_oferta_combo', 'id_producto')->withPivot('cantidad_producto_combo');

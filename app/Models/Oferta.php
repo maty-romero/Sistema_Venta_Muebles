@@ -45,8 +45,10 @@ class Oferta extends Model
         return $this->hasMany(OfertaTipoMueble::class, "id_oferta_tipo");
     }
 
+    // 1:M oferta-productoVendido
+
     public function ofertaProductoVendido(): hasMany
     {
-        return $this->hasMany(ProductoVendidos::class, "id_oferta");
+        return $this->hasMany(ProductoVendido::class, "id_oferta");
     }
 }

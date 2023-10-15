@@ -12,7 +12,7 @@ use App\Models\OfertaMonto;
 use App\Models\OfertaTipoMueble;
 use App\Models\Producto;
 use App\Models\ProductoOferta;
-use App\Models\ProductoVendidos;
+use App\Models\ProductoVendido;
 use App\Models\TipoMueble;
 use App\Models\Venta;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -44,6 +44,6 @@ class DatabaseSeeder extends Seeder
         ComboVendido::factory(10)->create();
         DetalleCombo::factory(10)->create();
         ProductoOferta::factory(10)->create();
-        ProductoVendidos::factory(10)->create(); //falta
+        ProductoVendido::factory(10)->create();
     }
 }
