@@ -31,6 +31,11 @@ Route::middleware('auth')->group(function () {
 
 // TEST ROUTES 
 
-Route::get("/productos", [ProductoController::class, "index"])->name("productos.index");
+//Route::get("/productos", [ProductoController::class, "index"])->name("productos.index");
+
+Route::resource('/producto', ProductoController::class)->middleware("auth");
+
+
+
 
 require __DIR__ . '/auth.php';
