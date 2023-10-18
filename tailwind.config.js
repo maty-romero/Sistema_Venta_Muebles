@@ -14,6 +14,9 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            backgroundImage: (theme) => ({
+                'pattern-image': "url('/public/images/pattern/Mask_group.svg')",
+              }),
         },
     },
 

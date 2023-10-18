@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+    /* PANTALLA CLIENTE*/
+    --primary-colorCliente: #FFE794;
+
+    /*Card cliente*/
+    --productType-card: #B3B3B3;
+    --productPrice-card: #5690FF; 
+    --hover-color:
+    
+    
+    /* PANTALLA ADMINISTRADOR*/
+    --primary-colorAdmin: #F0F0F0;
+    --sidebar-colorAdmin: #343B53;
+
+    background-color: url("../../public/images/pattern/Mask_group.svg");
+}
+

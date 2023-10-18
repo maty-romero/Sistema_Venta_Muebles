@@ -1,0 +1,1 @@
+<input class="rounded-lg border-gray-200 " placeholder="Buscar producto">

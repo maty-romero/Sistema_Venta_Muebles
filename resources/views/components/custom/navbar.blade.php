@@ -1,39 +1,43 @@
 <!-- component -->
-<nav class="bg-white shadow">
+<nav class="bg-white shadow px-32">
     <div class="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center">
-      <div class="flex justify-between items-center">
-        <div>
-          <a class="text-gray-800 text-xl font-bold md:text-2xl hover:text-gray-700" href="#">Brand</a>
+        <div class="flex justify-between items-center">
+            <x-custom.input-search></x-input-search>
         </div>
-  
-        <!-- Mobile menu button -->
-        <div class="flex md:hidden">
-          <button type="button" class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600" aria-label="toggle menu">
-            <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current">
-              <path fill-rule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
-            </svg>
-          </button>
+
+        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+        <div class="md:flex items-center">
+
+
+
+            <div class="grid grid-cols-2 divide-x ">
+                <div class="flex justify-center items-center ml-auto pr-4">
+                    <a class="relative text-gray-500 font-bold" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                        <!-- <span class="absolute top-0 left-0 rounded-full bg-indigo-500 text-white p-1 text-xs"></span> -->
+                    </a>
+                </div>
+                <div class="pl-4 text-gray-500">
+                    @if (Route::has('login'))
+                    @auth
+        
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
+                                            this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
+                
+                    @else
+                    <a href="{{ route('login') }}" class="hover:text-gray-600 pr-4"> Iniciar sesión</a>
+                    <a href="{{ route('register') }}" class="hover:text-gray-600">Registrarse</a>
+                    @endif      
+                    @endauth                                              
+                </div>
+            </div>
         </div>
-      </div>
-  
-      <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
-      <div class="md:flex items-center">
-        <div class="flex flex-col md:flex-row md:mx-6">
-          <a class="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0" href="#">Home</a>
-          <a class="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0" href="#">Shop</a>
-          <a class="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0" href="#">Contact</a>
-          <a class="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0" href="#">About</a>
-        </div>
-  
-        <div class="flex justify-center md:block">
-          <a class="relative text-gray-700 hover:text-gray-600" href="#">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-  
-            <span class="absolute top-0 left-0 rounded-full bg-indigo-500 text-white p-1 text-xs"></span>
-          </a>
-        </div>
-      </div>
     </div>
-  </nav>
+</nav>
