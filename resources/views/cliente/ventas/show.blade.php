@@ -23,9 +23,34 @@
     <div id="detalleVenta" class="container mx-auto p-6">
         <h1 class="mb-2 block font-sans text-5xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Detalle Compra</h1><br>
         <x-custom.table>
-
         </x-custom.table>
+    
+        <div class="bg-gray-600 container mx-auto rounded-lg p-6">
+            <div class="flex justify-between">
+                <p class="text-white font-poppins text-2xl">Total</p>
+                <p class="text-white font-poppins text-2xl">$3000</p>
+            </div>
+            <div class="flex justify-between">
+                <p class="text-white font-poppins text-2xl">Fecha Facturaci&oacute;n</p>
+                <p class="text-white font-poppins text-2xl">01/10/2023</p>
+            </div>
+            <div class="flex justify-between">
+                <p class="text-white font-poppins text-2xl">Domicilio Facturaci&oacuten</p>
+                <p class="text-white font-poppins text-2xl">Calle Ejemplo #123</p>
+            </div>
+        </div>
+        
+        <br>
+        <div class="flex justify-end">
+            <button class="bg-gray-800 text-white py-2 px-4 rounded-md text-base">
+                Ver Comprobante
+            </button>
+        </div>
     </div>
+    
+    
+    
+    
     
     
     
