@@ -36,11 +36,8 @@ Route::middleware('auth')->group(function () {
 Route::resource('/producto', ProductoController::class)->middleware("auth");
 
 Route::view('/perfil','cliente.usuario.index')->name('show.cliente');
-/*
-Route::get('/perfil', function(){
-    return view('cliente.usuario.index');
-    //return "Hola mundo"; 
-});
-*/ 
+
+Route::view('/detalleCompra','cliente.ventas.show')->name('show.venta');
+
 
 require __DIR__ . '/auth.php';

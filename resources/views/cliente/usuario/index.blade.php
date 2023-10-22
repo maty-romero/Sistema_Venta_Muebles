@@ -67,11 +67,11 @@
     
     <div id="comprasRecientes" class="container mx-auto mt-10 bg-white rounded-2xl p-6">
         <h2 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Compras recientes</h2><br>
-        <div>
-            <x-custom.sale-item>
-            </x-custom.sale-item>
+        
+        <x-custom.sale-item>
+        </x-custom.sale-item>
               
-        </div>
+        
          
     </div>    
 </body>
