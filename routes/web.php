@@ -35,12 +35,19 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('/producto', ProductoController::class)->middleware("auth");
 
+
 //Rutas de administrativos
 
 Route::middleware('auth')->group(function () {
-    Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios_index');
+    Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios');
 
-    Route::view('/productos', 'administrador.productos.index')->name('administrador_productos_index');
+    Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
+
+    Route::view('/ventas', 'administrador.ventas.index')->name('administrador_ventas');
+
+    Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
+
+    Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
 
 
