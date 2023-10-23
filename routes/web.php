@@ -36,6 +36,6 @@ Route::middleware('auth')->group(function () {
 Route::resource('/producto', ProductoController::class)->middleware("auth");
 
 
-
+Route::view('/administrador_create_usuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 
 require __DIR__ . '/auth.php';
