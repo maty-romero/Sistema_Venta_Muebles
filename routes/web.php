@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('cliente.welcome');
-})->middleware(['auth', 'verified']);
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -35,7 +35,13 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('/producto', ProductoController::class)->middleware("auth");
 
+//Rutas de administrativos
 
+Route::middleware('auth')->group(function () {
+    Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios_index');
+
+    Route::view('/productos', 'administrador.productos.index')->name('administrador_productos_index');
+});
 
 
 require __DIR__ . '/auth.php';
