@@ -18,8 +18,8 @@
 
 </head>
 <body class="antialiased bg-[#FFE794] shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)] bg-pattern-image">
-    <x-custom.navbar>
-    </x-custom.navbar>
+    <x-custom.navbar_client>
+    </x-custom.navbar_client>
     <br><br>
     <div id="infoCliente" class="container mx-auto bg-white rounded-2xl p-6">
         <h3 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Usuario</h3>
