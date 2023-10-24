@@ -22,9 +22,31 @@
     </x-custom.navbar_adm>
     <div id="detalleVenta" class="container mx-auto p-6">
         <h1 class="mb-2 block font-sans text-5xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Detalle Compra</h1><br>
-        <x-custom.table>
+        
+        @php
+            $products = [
+                [
+                    'nombre' => 'Producto 1',
+                    'cantidad' => 3,
+                    'precio' => 25000,
+                    'descuento' => 5000,
+                ]
+            ];
+
+        @endphp
+        
+        <x-custom.table :columnas="['Nombre', 'Cantidad', 'Precio Unitario', 'Descuento', 'Total']">
+            @foreach ($products as $product)
+                <tr>
+                    <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $product['nombre'] }}</td>
+                    <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $product['cantidad'] }}</td>
+                    <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">${{ number_format($product['precio'], 2) }}</td>
+                    <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">${{ number_format($product['descuento'], 2) }} (20%)</td>
+                    <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">${{ number_format($product['cantidad'] * ($product['precio'] - $product['descuento']), 2) }}</td>
+                </tr>
+            @endforeach
         </x-custom.table>
-    
+
         <div class="bg-gray-600 container mx-auto rounded-lg p-6">
             <div class="flex justify-between">
                 <p class="text-white font-poppins text-2xl">Total</p>
