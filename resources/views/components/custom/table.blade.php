@@ -16,8 +16,6 @@
                     </thead>
                     <tbody>
                         {{ $slot }}
-
-                        <!-- Agrega el resto de las filas aquí siguiendo el mismo patrón -->
                     </tbody>
                 </table>
             </div>
