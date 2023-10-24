@@ -35,10 +35,10 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('/producto', ProductoController::class)->middleware("auth");
 
-Route::view('/perfil','cliente.usuario.index')->name('show.cliente');
+Route::view('/perfilCliente','cliente.usuario.index')->name('cliente_show');
 
-Route::view('/detalleCompra','cliente.ventas.show')->name('show.venta');
+Route::view('/detalleCompra','cliente.ventas.show')->name('cliente_show_venta');
 
-Route::view('/administrador_create_usuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
+Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 
 require __DIR__ . '/auth.php';
