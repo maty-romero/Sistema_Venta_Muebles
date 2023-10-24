@@ -12,19 +12,19 @@
                                 Producto
                             </th>
                             <th
-                                class="px-5 py-3 border-b-2 border-gray-500 bg-gray-400 text-lg font-semibold text-white">
+                                class="px-5 py-3 border-b-2 border-gray-500 bg-gray-400 text-left text-lg font-semibold text-white">
                                 Cantidad
                             </th>
                             <th
-                                class="px-5 py-3 border-b-2 border-gray-500 bg-gray-400 text-lg font-semibold text-white">
+                                class="px-5 py-3 border-b-2 border-gray-500 bg-gray-400 text-left text-lg font-semibold text-white">
                                 Precio Unitario
                             </th>
                             <th
-                                class="px-5 py-3 border-b-2 border-gray-500 bg-gray-400 text-lg font-semibold text-white">
+                                class="px-5 py-3 border-b-2 border-gray-500 bg-gray-400 text-left text-lg font-semibold text-white">
                                 Descuento
                             </th>
                             <th
-                                class="px-5 py-3 border-b-2 border-gray-500 bg-gray-400 text-lg font-semibold text-white">
+                                class="px-5 py-3 border-b-2 border-gray-500 bg-gray-400 text-left text-lg font-semibold text-white">
                                 Total
                             </th>
                         </tr>
@@ -32,40 +32,32 @@
                     <tbody>
                         <tr>
                             <td
-                                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-white">
-                                <p class="text-gray-900 whitespace-no-wrap">Nombre</p>
+                                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                                Nombre
                             </td>
                             <td
-                                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-white">
-                                <p class="text-gray-900 whitespace-no-wrap">3</p>
+                                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                                3
                             </td>
                             <td
-                                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-white">
-                                <p class="text-gray-900 whitespace-no-wrap">
-                                    $25,000
-                                </p>
+                                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                                $25,000
                             </td>
                             <td
-                                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-white">
-                                <p class="text-gray-900 whitespace-no-wrap">
-                                    $5,000 (20%)
-                                </p>
+                                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                                $5,000 (20%)
                             </td>
                             <td
-                                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-white">
-                                <p class="text-gray-900 whitespace-no-wrap">
-                                    $75,000
-                                </p>
+                                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                                $75,000
                             </td>
                         </tr>
 
                         <!-- Agrega el resto de las filas aquí siguiendo el mismo patrón -->
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
     </div>
 </body>
+
