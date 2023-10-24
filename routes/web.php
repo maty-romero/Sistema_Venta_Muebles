@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
 
     Route::view('/productos', 'administrador.productos.index')->name('administrador_productos_index');
 });
+Route::view('/perfilCliente','cliente.usuario.index')->name('cliente_show');
 
+Route::view('/detalleCompra','cliente.ventas.show')->name('cliente_show_venta');
+
+Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 
 require __DIR__ . '/auth.php';

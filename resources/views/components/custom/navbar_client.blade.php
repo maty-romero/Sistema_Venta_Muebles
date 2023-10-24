@@ -8,8 +8,6 @@
         <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
         <div class="md:flex items-center">
 
-
-
             <div class="grid grid-cols-2 divide-x ">
                 <div class="flex justify-center items-center ml-auto pr-4">
                     <a class="relative text-gray-500 font-bold" href="#">
