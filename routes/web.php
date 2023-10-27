@@ -30,10 +30,13 @@ Route::middleware('auth')->group(function () {
 });
 
 // TEST ROUTES 
-
 //Route::get("/productos", [ProductoController::class, "index"])->name("productos.index");
+//Route::resource('/producto', ProductoController::class)->middleware("auth");
 
-Route::resource('/producto', ProductoController::class)->middleware("auth");
+//Rutas de productos para el cliente
+Route::middleware('auth')->group(function () {
+    Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto.show');
+});
 
 
 //Rutas de administrativos

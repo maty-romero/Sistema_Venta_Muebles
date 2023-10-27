@@ -1,26 +1,13 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.administrativo')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('titulo')
+    Productos
+@endsection
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+@section('encabezado')
+    Productos
+@endsection
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-
-<body class="antialiased bg-[#F0F0F0] shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)] bg-pattern-image ">
-    <x-custom.navbar>
-    </x-custom.navbar>
-    <x-custom.sidebar></x-custom.sidebar>
-</body>
-
-</html>
+@section('contenido')
+    
+@endsection
