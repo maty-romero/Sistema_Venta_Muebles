@@ -30,17 +30,27 @@ Route::middleware('auth')->group(function () {
 });
 
 // TEST ROUTES 
-
 //Route::get("/productos", [ProductoController::class, "index"])->name("productos.index");
+//Route::resource('/producto', ProductoController::class)->middleware("auth");
 
-Route::resource('/producto', ProductoController::class)->middleware("auth");
+//Rutas de productos para el cliente
+Route::middleware('auth')->group(function () {
+    Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto.show');
+});
+
 
 //Rutas de administrativos
 
 Route::middleware('auth')->group(function () {
-    Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios_index');
+    Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios');
 
-    Route::view('/productos', 'administrador.productos.index')->name('administrador_productos_index');
+    Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
+
+    Route::view('/ventas', 'administrador.ventas.index')->name('administrador_ventas');
+
+    Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
+
+    Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
 Route::view('/perfilCliente','cliente.usuario.index')->name('cliente_show');
 

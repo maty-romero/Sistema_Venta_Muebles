@@ -1,5 +1,5 @@
 <!-- component -->
-<nav class="bg-white shadow px-32">
+<nav class="bg-white px-32 shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
     <div class="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center">
         <div class="flex justify-between items-center">
             <x-custom.input-search></x-input-search>
