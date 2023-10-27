@@ -18,8 +18,8 @@
 
 
 <body class="antialiased bg-[#FFE794] bg-pattern-image ">
-    <x-custom.navbar>
-    </x-custom.navbar>
+    <x-custom.navbar_client>
+    </x-custom.navbar_client>
 
     <header class='w-5/6 ml-auto mr-auto mt-10'>
         <h1 class='text-5xl text-left'>Muebles &raquo; {{Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble)}}</h1>

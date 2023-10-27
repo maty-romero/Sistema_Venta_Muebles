@@ -17,7 +17,7 @@
     <title>Perfil Cliente</title>
 
 </head>
-<body class="antialiased bg-[#FFE794] shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)] bg-pattern-image">
+<body class="antialiased bg-[#FFE794] bg-pattern-image">
     <x-custom.navbar_client>
     </x-custom.navbar_client>
     <br><br>
