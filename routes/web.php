@@ -54,4 +54,6 @@ Route::view('/detalleCompra','cliente.ventas.show')->name('cliente_show_venta');
 
 Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 
+Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
+
 require __DIR__ . '/auth.php';
