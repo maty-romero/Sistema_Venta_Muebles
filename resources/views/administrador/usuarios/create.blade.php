@@ -31,6 +31,6 @@
         </button>
     </form>
     
-    
+
 </div>
 @endsection

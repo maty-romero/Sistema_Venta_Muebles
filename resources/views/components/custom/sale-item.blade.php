@@ -36,10 +36,10 @@
             </p>
         </div>
     </div>
-    <div class="w-2/6 flex justify-end items-center p-4">
+    <div class="w-2/6 flex justify-end items-center p-6">
         <a class="inline-block" href="#">
             <button
-                class="flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase bg-green-500 text-white hover:bg-green-600 transition-all active:bg-green-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex select-none items-center gap-2 rounded-lg py-2 px-7 text-center align-middle font-sans text-sm font-bold bg-green-500 text-white hover:bg-green-600 transition-all active:bg-green-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
                 Ver detalles
             </button>

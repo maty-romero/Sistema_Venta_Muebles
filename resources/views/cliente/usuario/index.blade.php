@@ -51,13 +51,13 @@
             </div>
             
             <div class="relative flex flex-row">
-                <button class="flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase bg-gray-500 text-white hover:bg-gray-500 transition-all active:bg-gray-600 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                <button class="flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-sm font-bold bg-gray-500 text-white hover:bg-gray-500 transition-all active:bg-gray-600 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
                     Editar Contraseña
                 </button>
             </div>
             <br>
             <div class="relative flex flex-row">
-                <button id="btnConfirmarCambios" class="ml-auto py-3 px-6 rounded-lg text-center font-sans text-sm font-bold uppercase bg-green-500 text-white hover:bg-green-600 transition-all" type="button">
+                <button id="btnConfirmarCambios" class="ml-auto py-3 px-6 rounded-lg text-center font-sans text-sm font-bold bg-green-500 text-white hover:bg-green-600 transition-all" type="button">
                     Confirmar cambios
                 </button>
             </div>
