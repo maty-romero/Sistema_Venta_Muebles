@@ -21,11 +21,6 @@
     <div id="detalleVenta" class="container mx-auto p-6">
         <h1 class="mb-2 block font-sans text-5xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Crear Usuario</h1><br>
         
-        <!-- 
-        Nombre Usuario
-        Email 
-        Rol Usuario
-        -->
         <form action="">
             <p class="font-poppins text-1g">Nombre Usuario</p>
             <input id="txtNombreUsuario" type="text" class="rounded-md mb-10">

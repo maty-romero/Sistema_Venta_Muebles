@@ -1,21 +1,21 @@
 <!-- stylesheet -->
 <link rel="stylesheet" href="https://unpkg.com/@material-tailwind/html@latest/styles/material-tailwind.css"/>
 
-<div class="flex flex-row rounded-xl bg-white border border-red-500 p-4 text-gray-700 shadow-md">
+<div class="flex flex-row rounded-xl bg-white border border-red-500 p-4 text-gray-700 shadow-md mb-5">
     <div class="w-1/5 relative shrink-0 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
+        {{-- https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=150&amp;q=80 --}}
         <img
-            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=150&amp;q=80"
+            src="{{ $imagenURL }}"
             alt="image"
             class="h-full w-full object-cover"
         />
     </div>
     <div class="w-5/7 p-4">
         <h4 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-            Silla
+            {{ $nombreProducto }}
         </h4>
         <p class="mb-2 block font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus repudiandae facere aliquam excepturi voluptate veniam,
-            expedita iste. Suscipit eos numquam commodi quasi, itaque iste, cumque nam sed, fugiat laboriosam vitae.
+            {{ $descripcionProducto }}
         </p>
     </div>
     <div class="w-1/5 p-4">
@@ -24,7 +24,7 @@
                 Fecha
             </h4>
             <p class="mb-2 block font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
-                10/10/20
+                {{ $fechaVenta }}
             </p>
         </div>
         <div class="mb-2">
@@ -32,7 +32,7 @@
                 Total
             </h4>
             <p class="mb-2 block font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
-                $4000
+                ${{ $totalVenta }}
             </p>
         </div>
     </div>
