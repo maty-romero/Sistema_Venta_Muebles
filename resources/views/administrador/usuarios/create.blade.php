@@ -15,7 +15,7 @@
     <title>Crear Usuario</title>
 
 </head>
-<body class="antialiased bg-[#F0F0F0] shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)] bg-pattern-image">
+<body class="antialiased bg-[#F0F0F0] bg-pattern-image">
     <x-custom.navbar_adm>
     </x-custom.navbar_adm>
     <div id="detalleVenta" class="container mx-auto p-6">
