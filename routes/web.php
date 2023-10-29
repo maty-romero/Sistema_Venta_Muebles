@@ -15,9 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('cliente.welcome');
-})->middleware(['auth', 'verified']);
+Route::get('/', [ProductoController::class, 'index'])->middleware(['auth', 'verified']);
+
+
+Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
+
+// Route::get('/', function () {
+//     return view('cliente.welcome');
+// })->middleware(['auth', 'verified']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

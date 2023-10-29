@@ -54,4 +54,7 @@ class Producto extends Model
     {
         return $this->belongsToMany(OfertaCombo::class, 'oferta_combo_producto', 'id_oferta_combo', 'id_producto')->withPivot('cantidad_producto_combo');
     }
+
+    // Funciones
+
 }
