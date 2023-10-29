@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,10 +34,9 @@ Route::middleware('auth')->group(function () {
 //Route::get("/productos", [ProductoController::class, "index"])->name("productos.index");
 //Route::resource('/producto', ProductoController::class)->middleware("auth");
 
-//Rutas de productos para el cliente
-Route::middleware('auth')->group(function () {
-    Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto.show');
-});
+//Rutas de cliente
+Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
+Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
 
 
 //Rutas de administrativos

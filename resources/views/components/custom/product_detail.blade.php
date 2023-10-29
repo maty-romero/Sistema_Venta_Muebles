@@ -6,7 +6,7 @@
         </div>
         <div class="lg:w-1/2 w-full lg:px-10 lg:py-16 py-6 px-5 lg:mt-0 bg-[#5690FF]">
           <h1 class="text-gray-900 text-3xl title-font font-medium mb-4 text-white">{{$producto->nombre_producto}}</h1>
-          <p class="title-font font-medium text-2xl text-gray-900 mb-4 text-white">${{$producto->precio_producto}}</p>
+          <p class="title-font font-medium text-2xl text-gray-900 mb-4 text-white">@money($producto->precio_producto)</p>
           <p class="leading-relaxed flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-4 text-white">{{$producto->descripcion}}</p>
           <div class="flex-col">
             <p class="title-font font-medium text-2xl text-gray-900 mb-2 text-white">Cantidad</p>
