@@ -24,6 +24,10 @@
         <h1 class="mb-2 block font-sans text-5xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Detalle Compra</h1><br>
         
         @php
+
+            dump($datos); 
+
+
             $products = [
                 [
                     'nombre' => 'Producto 1',

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,7 +51,9 @@ Route::middleware('auth')->group(function () {
 
 Route::view('/perfilCliente','cliente.usuario.index')->name('cliente_show');
 
-Route::view('/detalleCompra','cliente.ventas.show')->name('cliente_show_venta');
+Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
+
+//Route::view('/detalleCompra/{idVenta}','cliente.ventas.show')->name('cliente_show_venta');
 
 Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 

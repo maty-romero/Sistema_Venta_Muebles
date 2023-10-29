@@ -21,13 +21,13 @@ class OfertaCombo extends Model
 
     public function oferta(): BelongsTo
     {
-        return $this->belongsTo(Oferta::class);
+        return $this->belongsTo(Oferta::class, "id_oferta_combo");
     }
 
     // M:M ofertaCombo-Ventas
     public function venta(): BelongsToMany
     {
-        return $this->belongsToMany(Venta::class, "oferta_combo_venta", "id_oferta_combo", "id_venta")->withPivot('unidades_vendidas_combo');
+        return $this->belongsToMany(Venta::class, "oferta_combo_venta", "id_oferta_combo", "id_venta")->withPivot('unidades_vendidas_combo', 'precio_combo');
     }
 
     // M:M ofertaCombo-producto
