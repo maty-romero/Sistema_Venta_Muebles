@@ -17,7 +17,9 @@
 </head>
 
 <body class="font-sans antialiased">
-    <main class="antialiased bg-[#FFE794] shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)] bg-pattern-image ">
+    <main class=" min-h-screen antialiased bg-[#FFE794] shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)] bg-pattern-image ">
+        <x-custom.navbar_client>
+        </x-custom.navbar_client>
         {{ $slot }}
     </main>
 </body>

@@ -9,8 +9,8 @@
       <p class="mt-1 text-sm font-medium text-gray-400 capitalize">{{$producto->tipo_mueble->nombre_tipo_mueble}}</p>
       <p class="text-base font-medium text-black dark:text-gray-300 capitalize">{{$producto->nombre_producto}}</p>
 
-        <p class=" text-xs font-semibold text-[#5690FF] line-through">${{$producto->precio_producto}}</p>
-        <p class=" text-base font-semibold text-[#5690FF] ">${{$producto->precio_producto*((100-$producto->oferta[0]->porcentaje_descuento)/100)}}</p>
+      <p class=" text-xs font-semibold text-[#5690FF] line-through">${{$producto->precio_producto}}</p>
+      <p class=" text-base font-semibold text-[#5690FF] ">${{$producto->precio_producto*((100-$producto->oferta[0]->porcentaje_descuento)/100)}}</p>
     </div>
     <div class="card-layer flex-col items-center p-4">
       <p class="mt-10 text-2xl font-medium text-white capitalize">{{$producto->nombre_producto}}</p>
@@ -18,7 +18,7 @@
       <p class="mt-2 text-sm font-medium text-white">Medidas</p>
       <p class="text-sm font-light text-white">Alto: {{$producto->alto}} cm</p>
       <p class="text-sm font-light text-white">Ancho: {{$producto->ancho}} cm</p>
-      <a href="">
+      <a href="{{route('producto.show',['idProd' => $producto->id])}}">
         <button class="rounded-3xl bg-white text-[#5690FF] font-medium text-sm px-4 py-2 ">Ver producto</button></a>
     </div>
   </div>
@@ -39,7 +39,7 @@
       <p class="mt-2 text-sm font-medium text-white">Medidas</p>
       <p class="text-sm font-light text-white">Alto: {{$producto->alto}} cm</p>
       <p class="text-sm font-light text-white">Ancho: {{$producto->ancho}} cm</p>
-      <a href="">
+      <a href="{{route('producto.show',['idProd' => $producto->id])}}">
         <button class="rounded-3xl bg-white text-[#5690FF] font-medium text-sm px-4 py-2 ">Ver producto</button></a>
     </div>
   </div>
