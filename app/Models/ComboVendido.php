@@ -15,6 +15,7 @@ class ComboVendido extends Model
         "id_venta",
         "id_oferta_combo",
         "unidades_vendidas_combo",
+        "precio_combo"
     ];
 
     protected $table = "oferta_combo_venta"; //tabla a referenciar

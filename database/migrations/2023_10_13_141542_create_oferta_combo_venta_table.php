@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('oferta_combo_venta', function (Blueprint $table) {
             $table->primary(['id_venta', 'id_oferta_combo']);
             $table->integer('unidades_vendidas_combo');
+            $table->float('precio_combo');
             $table->timestamps();
             $table->unsignedBigInteger('id_venta');
             $table->foreign('id_venta')->references('id')->on('ventas');
