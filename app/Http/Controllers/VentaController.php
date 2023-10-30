@@ -33,7 +33,6 @@ class VentaController extends Controller
         //
     }
 
-    
     public function show(string $id)
     {
         $datos = [];  
@@ -42,6 +41,14 @@ class VentaController extends Controller
         $venta = Venta::select('id','fecha_venta', 'monto_final_venta', 'domicilio_destino')
             ->findOrFail($id);
 
+        $datos['venta'] = $venta; 
+        $datos['productos'] = VentaController::getProductosVendidos($venta);
+        $datos['combos'] = VentaController::getCombosVendidos($venta);
+
+        return view('cliente.ventas.show', ['datos' => $datos]);
+    }
+
+    private static function getProductosVendidos($venta){
         // Productos vendidos con su oferta 
         $productosVenta = $venta->producto;
 
@@ -67,7 +74,10 @@ class VentaController extends Controller
 
             $productosArray[] = $productoInfo;
         }
+        return $productosArray;     
+    }
 
+    private static function getCombosVendidos($venta){
         $combosVenta = $venta->ofertaCombo;
 
         $combosArray = [];
@@ -77,7 +87,7 @@ class VentaController extends Controller
             $unidadesVendidasCombo = $combo->pivot->unidades_vendidas_combo;
             $precioCombo = $combo->pivot->precio_combo; //precio_venta_combo -> luego del descuento
 
-            $productos = $combo->oferta_combo_producto(); 
+            $productos = $combo->oferta_combo_producto()->get(); 
             $datos['hola'] = $productos;
             
             $precioUnitarioCombo = 0.0; 
@@ -86,10 +96,6 @@ class VentaController extends Controller
                 $cantidadProductoCombo = $producto->pivot->cantidad_producto_combo;
                 $precioProducto = $producto->precio_producto;
                 $precioUnitarioCombo += $cantidadProductoCombo * $precioProducto;
-                //var_dump($precioUnitarioCombo);
-                dump($precioUnitarioCombo).
-                Debugbar::addMessage($precioUnitarioCombo);
-                //dd($precioUnitarioCombo);
             }
 
             // Obtengo la oferta vinculada a ese combo (solo 1 para utilizar el modelo)
@@ -107,14 +113,10 @@ class VentaController extends Controller
             ];
 
             $combosArray[] = $comboInfo;
-        }
-
-        $datos['venta'] = $venta; 
-        $datos['productos'] = $productosArray;
-        $datos['combos'] = $combosArray;
-
-        return view('cliente.ventas.show', ['datos' => $datos]);
+        }  
+        return $combosArray;   
     }
+
 
     /**
      * Update the specified resource in storage.
