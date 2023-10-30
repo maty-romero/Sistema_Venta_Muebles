@@ -56,15 +56,15 @@
             <div class="bg-gray-600 container mx-auto rounded-lg p-6">
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Total</p>
-                    <p class="text-white font-poppins text-2xl">$3000</p>
+                    <p class="text-white font-poppins text-2xl">${{ $datos['venta']['monto_final_venta'] }}</p>
                 </div>
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Fecha Facturaci&oacute;n</p>
-                    <p class="text-white font-poppins text-2xl">01/10/2023</p>
+                    <p class="text-white font-poppins text-2xl">{{ $datos['venta']['fecha_venta'] }}</p>
                 </div>
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Domicilio Facturaci&oacuten</p>
-                    <p class="text-white font-poppins text-2xl">Calle Ejemplo #123</p>
+                    <p class="text-white font-poppins text-2xl">{{ $datos['venta']['domicilio_destino'] }}</p>
                 </div>
             </div>
 

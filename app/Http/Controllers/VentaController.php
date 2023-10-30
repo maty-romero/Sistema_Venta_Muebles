@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use App\Models\Venta;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
 
 class VentaController extends Controller
@@ -74,7 +75,22 @@ class VentaController extends Controller
         foreach ($combosVenta as $combo) {
             $nombreCombo = $combo->nombre_combo;
             $unidadesVendidasCombo = $combo->pivot->unidades_vendidas_combo;
-            $precioCombo = $combo->pivot->precio_combo;
+            $precioCombo = $combo->pivot->precio_combo; //precio_venta_combo -> luego del descuento
+
+            $productos = $combo->oferta_combo_producto(); 
+            $datos['hola'] = $productos;
+            
+            $precioUnitarioCombo = 0.0; 
+            
+            foreach ($productos as $producto) {
+                $cantidadProductoCombo = $producto->pivot->cantidad_producto_combo;
+                $precioProducto = $producto->precio_producto;
+                $precioUnitarioCombo += $cantidadProductoCombo * $precioProducto;
+                //var_dump($precioUnitarioCombo);
+                dump($precioUnitarioCombo).
+                Debugbar::addMessage($precioUnitarioCombo);
+                //dd($precioUnitarioCombo);
+            }
 
             // Obtengo la oferta vinculada a ese combo (solo 1 para utilizar el modelo)
             $oferta = $combo->oferta()->first();
@@ -85,7 +101,8 @@ class VentaController extends Controller
             $comboInfo = [
                 'nombre_combo' => $nombreCombo,
                 'unidades_vendidas' => $unidadesVendidasCombo,
-                'precio_combo' => $precioCombo,
+                'precio_combo_final' => $precioCombo,
+                'precio_unitario' => $precioUnitarioCombo,
                 'porcentaje_descuento' => $porcentajeDescuento
             ];
 
