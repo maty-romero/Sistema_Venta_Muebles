@@ -37,7 +37,7 @@ class VentaController extends Controller
     {
         $datos = [];  
         
-        // Info de la venta en general 
+        // Info de la venta dado un id en general 
         $venta = Venta::select('id','fecha_venta', 'monto_final_venta', 'domicilio_destino')
             ->findOrFail($id);
 
