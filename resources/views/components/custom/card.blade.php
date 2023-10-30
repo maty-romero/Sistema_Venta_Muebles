@@ -18,7 +18,7 @@
       <p class="mt-2 text-sm font-medium text-white">Medidas</p>
       <p class="text-sm font-light text-white">Alto: {{$producto->alto}} cm</p>
       <p class="text-sm font-light text-white">Ancho: {{$producto->ancho}} cm</p>
-      <a href="{{route('producto.show',['idProd' => $producto->id])}}">
+      <a href="{{route('producto_show',['idProd' => $producto->id])}}">
         <button class="rounded-3xl bg-white text-[#5690FF] font-medium text-sm px-4 py-2 ">Ver producto</button></a>
     </div>
   </div>
