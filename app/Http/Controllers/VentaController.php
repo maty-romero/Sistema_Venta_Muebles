@@ -41,7 +41,11 @@ class VentaController extends Controller
         $venta = Venta::select('id','fecha_venta', 'monto_final_venta', 'domicilio_destino')
             ->findOrFail($id);
 
-        $datos['venta'] = $venta; 
+        //formateo de la fecha venta
+        $fechaNueva = date("d/m/Y", strtotime($venta->fecha_venta));
+        $venta->fecha_venta = $fechaNueva;
+
+        $datos['venta'] = $venta;
         $datos['productos'] = VentaController::getProductosVendidos($venta);
         $datos['combos'] = VentaController::getCombosVendidos($venta);
 
