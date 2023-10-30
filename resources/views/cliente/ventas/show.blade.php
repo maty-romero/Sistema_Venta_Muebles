@@ -55,7 +55,7 @@
                                     -
                                 @endif
                             </td>
-                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">${{ $producto['precio_venta'] }}</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($producto['precio_venta'])</td>
                         </tr>
                     @endforeach
                 @endif
@@ -73,7 +73,7 @@
                                     -
                                 @endif
                             </td>
-                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">${{ $combo['precio_combo_final'] }}</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($combo['precio_combo_final'])</td>
                         </tr>
                     @endforeach
                 @endif
