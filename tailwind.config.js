@@ -12,7 +12,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ["inter",'Figtree', ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: (theme) => ({
                 'pattern-image': "url('/public/images/pattern/Mask_group.svg')",

@@ -19,7 +19,7 @@
 
 <body class="antialiased bg-[#F0F0F0] bg-pattern-image ">
     
-    <x-custom.navbar></x-custom.navbar>
+    <x-custom.navbar_adm></x-custom.navbar_adm>
 
     <div class='flex m-0 p-0 float-left h-screen transition-transform -translate-x-full sm:translate-x-0'>
        <x-custom.sidebar></x-custom.sidebar>

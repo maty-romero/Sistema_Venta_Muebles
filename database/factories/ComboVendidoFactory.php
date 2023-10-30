@@ -22,6 +22,7 @@ class ComboVendidoFactory extends Factory
 
         return [
             "unidades_vendidas_combo" => fake()->numberBetween($min = 1, $max = 100),
+            "precio_combo" => fake()->numberBetween($min = 10.00, $max = 400.00),
             "id_venta" => array_pop($key1),
             "id_oferta_combo" => array_pop($key2),
         ];

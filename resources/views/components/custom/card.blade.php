@@ -1,13 +1,48 @@
 <!-- component -->
-<div class="mx-auto mt-11 w-80 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md duration-300 hover:scale-105 hover:shadow-lg">
-    <img class="h-48 w-full object-cover object-center" src="https://images.unsplash.com/photo-1674296115670-8f0e92b1fddb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="Product Image" />
-    <div class="p-4">
-      <h2 class="mb-2 text-lg font-medium dark:text-white text-gray-900">Product Name</h2>
-      <p class="mb-2 text-base dark:text-gray-300 text-gray-700">Product description goes here.</p>
-      <div class="flex items-center">
-        <p class="mr-2 text-lg font-semibold text-gray-900 dark:text-white">$20.00</p>
-        <p class="text-base  font-medium text-gray-500 line-through dark:text-gray-300">$25.00</p>
-        <p class="ml-auto text-base font-medium text-green-500">20% off</p>
-      </div>
+@if (isset($producto->oferta[0]) && $producto->oferta[0]->porcentaje_descuento>0)
+
+<div class="mx-auto mt-11 w-auto h-96 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md ">
+  <div class="p-4 relative h-full">
+    <div class="absolute right-8 top-6 bg-[#22C55E] text-white px-2 rounded-xl">Descuento {{$producto->oferta[0]->porcentaje_descuento}}%</div>
+    <img class="h-60 w-full object-cover object-center  rounded-xl" src="https://images.unsplash.com/photo-1674296115670-8f0e92b1fddb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="Product Image" />
+    <div class="flex-col items-center mt-6">
+      <p class="mt-1 text-sm font-medium text-gray-400 capitalize">{{$producto->tipo_mueble->nombre_tipo_mueble}}</p>
+      <p class="text-base font-medium text-black dark:text-gray-300 capitalize">{{$producto->nombre_producto}}</p>
+
+      <p class=" text-xs font-semibold text-[#5690FF] line-through">${{$producto->precio_producto}}</p>
+      <p class=" text-base font-semibold text-[#5690FF] ">${{$producto->precio_producto*((100-$producto->oferta[0]->porcentaje_descuento)/100)}}</p>
+    </div>
+    <div class="card-layer flex-col items-center p-4">
+      <p class="mt-10 text-2xl font-medium text-white capitalize">{{$producto->nombre_producto}}</p>
+      <p class="mt-2 text-sm font-light text-white ">{{$producto->descripcion}}</p>
+      <p class="mt-2 text-sm font-medium text-white">Medidas</p>
+      <p class="text-sm font-light text-white">Alto: {{$producto->alto}} cm</p>
+      <p class="text-sm font-light text-white">Ancho: {{$producto->ancho}} cm</p>
+      <a href="{{route('producto.show',['idProd' => $producto->id])}}">
+        <button class="rounded-3xl bg-white text-[#5690FF] font-medium text-sm px-4 py-2 ">Ver producto</button></a>
     </div>
   </div>
+
+</div>
+@else
+<div class="mx-auto mt-11 w-auto h-96 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md ">
+  <div class="p-4 relative h-full">
+    <img class="h-60 w-full object-cover object-center  rounded-xl" src="https://images.unsplash.com/photo-1674296115670-8f0e92b1fddb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="Product Image" />
+    <div class="flex-col items-center mt-6">
+      <p class="mt-1 text-sm font-medium text-gray-400 capitalize">{{$producto->tipo_mueble->nombre_tipo_mueble}}</p>
+      <p class=" text-base  font-medium text-black dark:text-gray-300 capitalize">{{$producto->nombre_producto}}</p>
+      <p class=" text-base font-semibold text-[#5690FF] ">${{$producto->precio_producto}}</p>
+    </div>
+    <div class="card-layer flex-col items-center p-4">
+      <p class="mt-10 text-2xl font-medium text-white capitalize">{{$producto->nombre_producto}}</p>
+      <p class="mt-2 text-sm font-light text-white ">{{$producto->descripcion}}</p>
+      <p class="mt-2 text-sm font-medium text-white">Medidas</p>
+      <p class="text-sm font-light text-white">Alto: {{$producto->alto}} cm</p>
+      <p class="text-sm font-light text-white">Ancho: {{$producto->ancho}} cm</p>
+      <a href="{{route('producto.show',['idProd' => $producto->id])}}">
+        <button class="rounded-3xl bg-white text-[#5690FF] font-medium text-sm px-4 py-2 ">Ver producto</button></a>
+    </div>
+  </div>
+
+</div>
+@endif

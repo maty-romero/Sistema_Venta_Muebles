@@ -20,3 +20,23 @@
     background-color: url("../../public/images/pattern/Mask_group.svg");
 }
 
+
+.card-layer{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Transición suave */
+    font-size: 1.7rem;
+    color: red;
+    background-color: #5690FF;
+     
+}
+
+.card-layer:hover {
+    opacity: 1;
+    color: red;
+ } 
+  

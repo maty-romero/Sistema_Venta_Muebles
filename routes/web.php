@@ -16,9 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('cliente.welcome');
-});
+Route::get('/', [ProductoController::class, 'index'])->middleware(['auth', 'verified']);
+
+
+Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
+
+// Route::get('/', function () {
+//     return view('cliente.welcome');
+// })->middleware(['auth', 'verified']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -40,18 +45,20 @@ Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
 
 
 //Rutas de administrativos
-
 Route::middleware('auth')->group(function () {
     Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios');
-
     Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
-
     Route::view('/ventas', 'administrador.ventas.index')->name('administrador_ventas');
-
     Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
-
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
 
+Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
+
+Route::view('/detalleCompra', 'cliente.ventas.show')->name('cliente_show_venta');
+
+Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
+
+Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
 
 require __DIR__ . '/auth.php';
