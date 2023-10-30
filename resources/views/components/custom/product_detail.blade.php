@@ -11,7 +11,7 @@
           <div class="flex-col">
             <p class="title-font font-medium text-2xl text-gray-900 mb-2 text-white">Cantidad</p>
             <input type='text' class='flex mr-auto mb-3 h-8 w-56'>
-            <button class="flex mr-auto justify-center text-black bg-slate-50 border-0 w-56 py-2 px-6 focus:outline-none hover:bg-red-600">Agregar al carrito</button>
+            <button class="flex mr-auto justify-center text-black bg-slate-50 border-0 w-56 py-2 px-6 focus:outline-none hover:bg-zinc-300">Agregar al carrito</button>
           </div>
         </div>
       </div>
