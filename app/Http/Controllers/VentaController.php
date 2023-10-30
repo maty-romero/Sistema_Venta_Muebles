@@ -6,7 +6,6 @@ use App\Models\Producto;
 use App\Models\Venta;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
-use App\Models\Producto;
 
 class VentaController extends Controller
 {
@@ -79,6 +78,7 @@ class VentaController extends Controller
     }
 
     private static function getCombosVendidos($venta){
+        // Combos vendidos 
         $combosVenta = $venta->ofertaCombo;
 
         $combosArray = [];
@@ -118,10 +118,6 @@ class VentaController extends Controller
         return $combosArray;   
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //

@@ -47,10 +47,10 @@
                         <tr>
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $producto['nombre_producto'] }}</td>
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $producto['unidades_vendidas'] }}</td>
-                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">${{ $producto['precio_producto'] }}</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($producto['precio_producto'])</td>
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                                 @if ($producto['porcentaje_descuento'] != null)
-                                    {{ ($producto['porcentaje_descuento'] * $producto['precio_producto']) / 100 }} (%{{ $producto['porcentaje_descuento'] }})
+                                    @money(($producto['porcentaje_descuento'] * $producto['precio_producto']) / 100) (%{{ $producto['porcentaje_descuento'] }})
                                 @else
                                     -
                                 @endif
@@ -65,10 +65,10 @@
                         <tr>
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $combo['nombre_combo'] }}</td>
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $combo['unidades_vendidas'] }}</td>
-                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">${{ $combo['precio_unitario'] }}</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($combo['precio_unitario'])</td>
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                                 @if ($combo['porcentaje_descuento'] != null)
-                                    {{ ($combo['porcentaje_descuento'] * $combo['precio_unitario']) / 100 }} (%{{ $combo['porcentaje_descuento'] }})
+                                @money(($combo['porcentaje_descuento'] * $combo['precio_unitario']) / 100) (%{{ $combo['porcentaje_descuento'] }})
                                 @else
                                     -
                                 @endif
@@ -83,7 +83,7 @@
             <div class="bg-gray-600 container mx-auto rounded-lg p-6">
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Total</p>
-                    <p class="text-white font-poppins text-2xl">${{ $datos['venta']['monto_final_venta'] }}</p>
+                    <p class="text-white font-poppins text-2xl"> @money($datos['venta']['monto_final_venta'])</p>
                 </div>
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Fecha Facturaci&oacute;n</p>
