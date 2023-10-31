@@ -30,7 +30,7 @@
         <header class='w-full ml-16 mt-4 pb-2 border-white border-b-4'>
             <h1 class='text-6xl text-left'>@yield('encabezado')</h1>
         </header>
-        <div class='overflow-hidden w-max-content float-center mt-5 ml-16 mr-0'>
+        <div class='overflow-hidden w-max-content float-center mt-5 ml-16 mr-0 mb-20'>
             @yield('contenido')
         </div>
     </div>

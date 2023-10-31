@@ -1,5 +1,6 @@
 <!-- component -->
 <section class="text-gray-700 body-font overflow-hidden">
+@if(!empty($carrito))
   @foreach ($carrito as $item)  
   <div class="container mx-auto flex flex-wrap mb-1 overflow-hidden bg-white shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
         <div class="container mx-auto flex flex-wrap w-1/4">
@@ -16,16 +17,27 @@
           </div>
           <div class="grid grid-cols-2 mt-auto h-2/3 items-end">
             <div>
-              <p class="title-font font-medium text-1xl line-through text-gray-900 text-white">@money($item->precio_producto)</p>
+              
+              @if ($item->precio_producto == $item->getPrecioDeVenta())
               <p class="title-font font-medium text-2xl text-gray-900 text-white lg:mb-0">@money($item->precio_producto)</p>
+              @else
+              <p class="title-font font-medium text-1xl line-through text-gray-900 text-white">@money($item->precio_producto)</p>
+              <p class="title-font font-medium text-2xl text-gray-900 text-white lg:mb-0">@money($item->getPrecioDeVenta())</p>
+              @endif
+
             </div>
             <div class="align-text-bottom items-end ml-auto">
-              <button class='rounded-l-full bg-white h-8 w-8 bold text-2xl'>-</button>
+              <button class='rounded-l-full bg-white hover:bg-gray-200 h-8 w-8 bold text-2xl'>-</button>
               <input type='number' min='1' max='' value='' class='w-14 h-8 border-0 text-2xl p-0 text-center my-auto [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'>
-              <button class='rounded-r-full bg-white h-8 w-8 bold text-2xl'>+</button>
+              <button class='rounded-r-full bg-white hover:bg-gray-200 h-8 w-8 bold text-2xl'>+</button>
             </div>
           </div>
         </div>
       </div>
     @endforeach  
+  @else
+    <div class="container mx-auto flex flex-wrap mb-1 overflow-hidden bg-[#5690FF] shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
+      <p class='w-full py-20 text-white font-bold text-2xl text-center'>El carrito de compras est&aacute; vac&iacute;o</p>
+    </div>
+  @endif
   </section>

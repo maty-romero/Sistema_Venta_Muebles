@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductoController::class, 'index'])->middleware(['auth', 'verified']);
-
+Route::get('/', [ProductoController::class, 'index'])->name('home');
 
 Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
 
@@ -35,13 +34,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// TEST ROUTES 
-//Route::get("/productos", [ProductoController::class, "index"])->name("productos.index");
-//Route::resource('/producto', ProductoController::class)->middleware("auth");
-
 //Rutas de cliente
 Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
+
 Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
+Route::post('/producto/{idProd}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
 
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {

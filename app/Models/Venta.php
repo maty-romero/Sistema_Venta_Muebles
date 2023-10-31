@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,4 +52,26 @@ class Venta extends Model
     {
         return $this->belongsTo(Cliente::class, 'id_usuario_cliente');
     }
+
+    public static function getProductosCarrito(){
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $carrito = $request->session()->get('carrito');
+        $productos = array();
+        if(isset($carrito)){
+            foreach ($carrito as $id) {
+              $productos[] = Producto::findOrFail($id);
+            }
+        }
+        return $productos;
+    }
+
+    public static function agregarAlCarrito($idProd){
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $carrito = $request->session()->get('carrito');
+        $carrito[] = $idProd;
+        $request->session()->put('carrito', $carrito);
+    }
+
 }

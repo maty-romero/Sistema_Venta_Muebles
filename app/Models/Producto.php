@@ -56,5 +56,9 @@ class Producto extends Model
     }
 
     // Funciones
+    public function getPrecioDeVenta(){
+        //Revisar si trae la oferta de mayor prioridad y qu esté activa
+        return $this->precio_producto*((100-$this->oferta[0]->porcentaje_descuento)/100);
+    }
 
 }

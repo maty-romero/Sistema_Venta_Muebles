@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use App\Models\Venta;
 
 class VentaController extends Controller
 {
@@ -50,10 +51,14 @@ class VentaController extends Controller
     // METODO PARA MOSTRAR CARRITO
     public function cart()
     {
-        for ($i=1; $i < 4; $i++) { 
-            $carrito[] = Producto::findOrFail($i);
-        }
-
+        $carrito = Venta::getProductosCarrito();
         return view('cliente/ventas/carrito', ['carrito' => $carrito]);
+    }
+
+    public function updateCart($idProd)
+    {
+        Venta::agregarAlCarrito($idProd);
+        //return view('producto/'.$idProd);
+        return to_route('home');
     }
 }
