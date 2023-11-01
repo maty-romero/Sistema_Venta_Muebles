@@ -28,7 +28,19 @@
         <p class="font-poppins text-1g">Stock</p>
         <input id="txtStockInicial" type="number" class="rounded-md w-64 mb-5">
 
-        <button class="mt-5 bg-gray-500 text-white py-2 px-4 rounded-md text-base ml-4">
+        <x-modal name="pepe">
+            <h3>Agregar stock</h3>
+            <div class="align-text-bottom items-end ml-auto">
+                <button class='rounded-l-full bg-white h-8 w-8 bold text-2xl'>-</button>
+                <input type='number' min='1' max='' value='' class='w-14 h-8 border-0 text-2xl p-0 text-center my-auto [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'>
+                <button class='rounded-r-full bg-white h-8 w-8 bold text-2xl'>+</button>
+            </div>
+            <p>Actualizar precio</p>
+            <input type="number" name="txtNuevoPrecio" id="idTxtNuevoPrecio" class="rounded-md mb-5">
+            <button x-on:click="$dispatch('close')" class="bg-red-500 text-white px-4 py-2 mt-4">Confirmar</button>
+        </x-modal>
+
+        <button x-on:click="$dispatch('open-modal', 'pepe')" type="button" class="mt-5 bg-gray-500 text-white py-2 px-4 rounded-md text-base ml-4">
             Actualizar stock
         </button>
 
