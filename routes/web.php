@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,7 +46,9 @@ Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
 
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {
-    Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios');
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
+    //Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios');
+    
     Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
     Route::view('/ventas', 'administrador.ventas.index')->name('administrador_ventas');
     Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');

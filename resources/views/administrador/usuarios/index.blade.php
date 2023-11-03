@@ -12,6 +12,7 @@
 
     @php
     //'Nombre', 'Rol', 'Fecha Creacion', '', 'Moficacion', '
+    /*
     $usuarios = [
         [
             'nombre' => 'Juan',
@@ -29,8 +30,11 @@
             'fecha_creacion' => '31/11/22',
         ]
     ];
-
+    */; 
+    dump($usuarios);
+    //echo $usuarios[0]['name']; 
     @endphp
+    
 
     <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
     <div class="flex justify-between ml-4">
@@ -60,13 +64,13 @@
             <tr>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                    {{ $usuario['nombre'] }}</td>
+                    {{ $usuario->name }}</td>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                    {{ $usuario['rol'] }}</td>
+                    {{ $usuario->rol_usuario }}</td>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                    {{ $usuario['fecha_creacion'] }}</td>
+                    {{ date('d-m-Y', strtotime($usuario->created_at))  }}</td>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                     @if ($usuario['rol'] == 'Cliente')
@@ -81,6 +85,7 @@
                     <a href="">Eliminar</a></td>
             </tr>
         @endforeach
+         
     </x-custom.table>
     </div>
 
