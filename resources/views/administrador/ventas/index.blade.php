@@ -9,19 +9,6 @@
 @endsection
 
 @section('contenido')
-    @php
-    $ventas = [
-        [
-            'cliente' => 'Juan Perez',
-            'tipo_cliente' => 'Fisica',
-            'fecha' => '21/04/23',
-            'total' => 4000,
-            'domicilio' => 'Calle Ejemplo 123'
-        ],
-    ];
-
-    @endphp
-
     <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
     <div class="flex justify-between ml-4">
     <x-custom.filters>
@@ -44,19 +31,19 @@
             <tr>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                    {{ $venta['cliente'] }}</td>
+                    {{ $venta['nombre_cliente'] }}</td>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                     {{ $venta['tipo_cliente'] }}</td>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                    ${{ $venta['fecha'] }}</td>
+                    {{ date('d-m-Y', strtotime($venta['fecha_venta'])) }}</td>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                    @money($venta['total'])</td>
+                    @money($venta['total_venta'])</td>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                    {{ $venta['domicilio'] }}</td>
+                    {{ $venta['domicilio_venta'] }}</td>
                 
             </tr>
         @endforeach

@@ -2,17 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Venta;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 
 class VentaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $ventas = Venta::with('cliente')->get();
+
+        // Aquí puedes iterar sobre todas las ventas y crear un array de datos
+        $infoVentas = [];
+
+        foreach ($ventas as $venta) {
+            $infoVentas[] = [
+                'id' => $venta->id,
+                'fecha_venta' => $venta->fecha_venta,
+                'total_venta' => $venta->monto_final_venta,
+                'domicilio_venta' => $venta->domicilio_destino,
+                'nombre_cliente' => $venta->cliente->nombre_cliente,
+                'tipo_cliente' => $venta->cliente->tipo_cliente,
+                
+            ];
+        }
+        
+        return view("administrador.ventas.index", ['ventas' => $infoVentas]);
     }
 
     /**
