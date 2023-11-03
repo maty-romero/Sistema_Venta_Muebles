@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Producto;
 use App\Models\Venta;
 
@@ -51,14 +52,25 @@ class VentaController extends Controller
     // METODO PARA MOSTRAR CARRITO
     public function cart()
     {
-        $carrito = Venta::getProductosCarrito();
+        $carrito = Venta::getCarrito();
         return view('cliente/ventas/carrito', ['carrito' => $carrito]);
     }
 
     public function updateCart($idProd)
     {
         Venta::agregarAlCarrito($idProd);
-        //return view('producto/'.$idProd);
         return to_route('home');
+    }
+
+    public function editCart(FormRequest $r, Producto $prod)
+    {
+        Venta::editarCantidadCarrito($prod->id, $r->incremento);
+        return to_route('carrito');
+    }
+
+    public function removeFromCart($idProd)
+    {
+        Venta::removerDelCarrito($idProd);
+        return to_route('carrito');
     }
 }

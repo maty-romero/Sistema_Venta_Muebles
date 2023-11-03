@@ -20,10 +20,6 @@ Route::get('/', [ProductoController::class, 'index'])->name('home');
 
 Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
 
-// Route::get('/', function () {
-//     return view('cliente.welcome');
-// })->middleware(['auth', 'verified']);
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -37,8 +33,11 @@ Route::middleware('auth')->group(function () {
 //Rutas de cliente
 Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
 
+//Rutas del carrito
 Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
-Route::post('/producto/{idProd}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
+Route::post('/carrito/{idProd}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
+Route::patch('/carrito/{prod}', [VentaController::class, 'editCart'])->name('carrito_editar');
+Route::delete('/carrito/{idProd}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
 
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {

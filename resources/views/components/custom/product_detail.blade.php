@@ -17,7 +17,7 @@
             
             <form method='POST' action='{{route('carrito_agregar', $producto->id)}}'>
               @csrf
-              <input type='number' min='1' max='' value='' class='flex mr-auto mb-3 h-8 w-56 border-0 text-2xl p-0 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'>
+              <input type='number' name='unidadesProducto' min='1' max='' value='1' class='flex mr-auto mb-3 h-8 w-56 border-0 text-2xl p-0 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'>
               <input type='submit' name='' value='Agregar al carrito' class="flex mr-auto justify-center text-black bg-slate-50 border-0 w-56 py-2 px-6 focus:outline-none hover:bg-zinc-300">
             </form>
             
