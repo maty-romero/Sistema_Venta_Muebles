@@ -22,17 +22,18 @@
 
     @endphp
 
+    <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
     <div class="flex justify-between ml-4">
         <x-custom.filters>
             <select class="form-control mr-5 rounded-lg" id="ordenamiento">
-                <option value="alfabeticamente">Alfabeticamente</option>
-                <option value="sinorden">Sin orden</option>
+                <option value="precio">Precio</option>
+                <option value="nombre">Nombre</option>
             </select>
             <select class="form-control mr-5 rounded-lg" id="direccion_orden">
                 <option value="ascendente">Ascendente</option>
                 <option value="descendente">Descendente</option>
             </select>
-            <x-custom.input-search class="mr-5" />
+            <x-custom.input-search />
         </x-custom.filters>
 
         <a href="{{ route('administrador_create_producto') }}">
@@ -40,11 +41,10 @@
                 Crear Producto
             </button>
         </a>
-        
     </div>
 
     <div class="w-full">
-        <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion']">
+        <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion', '']">
             @foreach ($products as $product)
                 <tr>
                     <td
@@ -64,10 +64,10 @@
                         ${{ number_format($product['cantidad'] * ($product['precio'] - $product['descuento']), 2) }}</td>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                        <a href="">Modificar</a>
-                        &emsp;&emsp;&emsp;
-                        <a href="">Eliminar</a>
-                        </td>
+                        <a href="">Modificar</a></td>
+                    <td
+                        class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                        <a href="">Eliminar</a></td>
                 </tr>
             @endforeach
         </x-custom.table>
