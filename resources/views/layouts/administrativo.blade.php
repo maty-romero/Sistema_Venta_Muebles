@@ -33,7 +33,7 @@
             @yield('contenido')
         </div>
     </div>
-
+    </div>
 </body>
 
 </html>
