@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\ReporteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,10 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductoController::class, 'index'])->middleware(['auth', 'verified']);
-
-
-Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
+Route::get('/', [ProductoController::class, 'testFetchOferta']);
+Route::get("/search", [ProductoController::class, 'search']);
 
 // Route::get('/', function () {
 //     return view('cliente.welcome');
@@ -42,6 +41,10 @@ Route::middleware('auth')->group(function () {
 //Rutas de cliente
 Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
 Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
+//Rutas de productos para el cliente
+
+Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto.show');
+
 
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {
@@ -64,5 +67,9 @@ Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrad
 Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
 
 Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
+//Rutas reportes
+
+Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
+
 
 require __DIR__ . '/auth.php';
