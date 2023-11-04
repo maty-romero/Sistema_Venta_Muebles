@@ -35,7 +35,7 @@ class Venta extends Model
 
     public function ofertaCombo(): BelongsToMany
     {
-        return $this->belongsToMany(OfertaCombo::class, "oferta_combo_venta", "id_venta", "id_oferta_combo")->withPivot('unidades_vendidas_combo');;
+        return $this->belongsToMany(OfertaCombo::class, "oferta_combo_venta", "id_venta", "id_oferta_combo")->withPivot('unidades_vendidas_combo', 'precio_combo');;
     }
 
     // M:1 venta-ofertaMonto

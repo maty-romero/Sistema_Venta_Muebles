@@ -58,7 +58,9 @@ Route::middleware('auth')->group(function () {
 
 Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
 
-Route::view('/detalleCompra', 'cliente.ventas.show')->name('cliente_show_venta');
+Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta');
+
+//Route::view('/detalleCompra/{idVenta}','cliente.ventas.show')->name('cliente_show_venta');
 
 Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 
@@ -68,5 +70,6 @@ Route::view('/crearProducto', 'administrador.productos.create')->name('administr
 
 Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
 
+Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
 
 require __DIR__ . '/auth.php';
