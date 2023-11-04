@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,9 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductoController::class, 'index'])->name('home');
-
-Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
+Route::get('/', [ProductoController::class, 'index']);
+Route::get("/search", [ProductoController::class, 'search']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -30,8 +30,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//Rutas de cliente
-Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
+// TEST ROUTES 
+//Route::get("/productos", [ProductoController::class, "index"])->name("productos.index");
+//Route::resource('/producto', ProductoController::class)->middleware("auth");
+
+//Rutas de productos para el cliente
+
+Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto.show');
 
 //Rutas del carrito
 Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
@@ -56,5 +61,10 @@ Route::view('/detalleCompra', 'cliente.ventas.show')->name('cliente_show_venta')
 Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 
 Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
+
+//Rutas reportes
+
+Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
+
 
 require __DIR__ . '/auth.php';
