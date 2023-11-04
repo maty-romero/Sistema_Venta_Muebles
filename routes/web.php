@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductoController::class, 'index']);
+Route::get('/', [ProductoController::class, 'testFetchOferta']);
 Route::get("/search", [ProductoController::class, 'search']);
 
 // Route::get('/', function () {
@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
 //Rutas de productos para el cliente
 
 Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto.show');
+
 
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {

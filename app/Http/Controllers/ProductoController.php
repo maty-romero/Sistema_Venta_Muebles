@@ -9,9 +9,11 @@ use App\Models\Oferta;
 use App\Models\OfertaCombo;
 use App\Models\OfertaTipoMueble;
 use App\Models\Producto;
+use App\Models\ProductoOferta;
 use App\Models\ProductoVendido;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
@@ -120,5 +122,56 @@ class ProductoController extends Controller
         $productos->appends(["name" =>  $name]);
 
         return view("cliente.productos.index", compact("name", "productos"));
+    }
+
+    public function testFetchOferta()
+    {
+
+        // $producto = Producto::whereHas(
+        //     "oferta_combo_producto",
+        //     function ($query) {
+        //         $query->where("cantidad_producto_combo", ">", 50);
+        //     }
+        // )->get();
+
+        // CONSULTA PARA TRAER PRODUCTOS CON COMBO ACTIVOS EN EL DIA DE HOY
+        $productoOfertasCombos = Producto::where("discontinuado", 0)->where("stock", ">=", 1)->whereHas("oferta", function ($query) {
+            $todayDate = date('Y-m-d'); // dia de hoy
+            $query->where('ofertas.fecha_inicio_oferta', "<=", "2024-09-23");
+            $query->where('ofertas.fecha_fin_oferta', ">=", "2024-09-23");
+        })->whereHas(
+            "oferta_combo_producto"
+        )->get();
+
+
+        // CONSULTA PARA TRAER PRODUCTOS CON OFERTAS UNITARIAS SIN COMBO ACTIVAS EN EL DIA DE HOY
+        $productoOfertasUnitarias = Producto::where("discontinuado", 0)->where("stock", ">=", 1)->whereHas("oferta", function ($query) {
+            $todayDate = date('Y-m-d'); // dia de hoy
+            $query->where('ofertas.fecha_inicio_oferta', "<=", "2024-09-23");
+            $query->where('ofertas.fecha_fin_oferta', ">=", "2024-09-23");
+        })->whereDoesntHave(
+            "oferta_combo_producto"
+        )->get();
+
+        // RETORNA TODAS LAS OFERTAS COMBOS VIGENTES POR FECHA
+
+        $combos = Oferta::where('ofertas.fecha_inicio_oferta', "<=", "2024-09-23")->where('ofertas.fecha_fin_oferta', ">=", "2024-09-23")->whereHas(
+            "ofertaCombo"
+        )->get();
+
+        $arrayProductosCombos = [];
+
+        foreach ($combos as $combo) {
+            $idProductos = DB::select("select id_producto from oferta_combo_producto where id_oferta_combo = '$combo->id'");
+
+            dd($idProductos);
+        }
+
+
+
+
+
+
+        dd($combos);
     }
 }
