@@ -6,6 +6,8 @@ use App\Models\Producto;
 use App\Models\Venta;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\FormRequest;
+
 
 class VentaController extends Controller
 {
@@ -149,7 +151,24 @@ class VentaController extends Controller
         for ($i = 1; $i < 4; $i++) {
             $carrito[] = Producto::findOrFail($i);
         }
-
         return view('cliente/ventas/carrito', ['carrito' => $carrito]);
+    }
+
+    public function updateCart($idProd)
+    {
+        Venta::agregarAlCarrito($idProd);
+        return to_route('home');
+    }
+
+    public function editCart(FormRequest $r, Producto $prod)
+    {
+        Venta::editarCantidadCarrito($prod->id, $r->incremento);
+        return to_route('carrito');
+    }
+
+    public function removeFromCart($idProd)
+    {
+        Venta::removerDelCarrito($idProd);
+        return to_route('carrito');
     }
 }

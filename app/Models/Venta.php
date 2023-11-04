@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use stdClass;
 
 class Venta extends Model
 {
@@ -51,4 +53,74 @@ class Venta extends Model
     {
         return $this->belongsTo(Cliente::class, 'id_usuario_cliente');
     }
+
+    public static function getCarrito()
+    {
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $carrito = $request->session()->get('carrito');
+        return $carrito;
+    }
+
+    public static function productoEnCarrito($idProd)
+    {
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $carrito = $request->session()->get('carrito');
+        foreach($carrito as $item) {
+            if($item->producto->id == $idProd){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function agregarAlCarrito($idProd)
+    {
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $carrito = $request->session()->get('carrito');
+
+        $itemVenta = new stdClass();
+        $itemVenta->unidades = request()->input('unidadesProducto');;
+        $itemVenta->producto = Producto::findOrFail($idProd);
+
+        $carrito[] = $itemVenta;
+        $request->session()->put('carrito', $carrito);
+    }
+
+    public static function editarCantidadCarrito($idProd, $operacion)
+    {
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $carrito = $request->session()->get('carrito');
+
+        foreach($carrito as $item) {
+            if($item->producto->id == $idProd){
+                if($operacion == '+'){
+                    $item->unidades++;
+                } else {
+                    if($item->unidades > 1){
+                        $item->unidades--;
+                    }
+                }
+            }
+        }
+    }
+
+    public static function removerDelCarrito($idProd)
+    {
+        $request = new Request();
+        $request->setLaravelSession(session());
+
+        $carrito = $request->session()->get('carrito');
+        $carrito2 = array();
+        foreach($carrito as $item) {
+            if($item->producto->id != $idProd){
+                $carrito2[] = $item;
+            }
+        }
+        $request->session()->put('carrito', $carrito2);
+    }
+
 }

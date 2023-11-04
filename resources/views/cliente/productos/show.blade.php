@@ -26,7 +26,7 @@
     </header>
 
     <div class='w-5/6 mx-auto mt-10 pb-10'>
-        <x-custom.product_detail :producto='$producto'></x-custom.product_detail>
+        <x-custom.product_detail :producto='$producto' :enCarrito='$enCarrito'></x-custom.product_detail>
     </div>
 
 </body>
