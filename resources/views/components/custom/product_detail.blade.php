@@ -11,7 +11,7 @@
             <p class="title-font font-medium text-1xl text-gray-900 text-white mt-auto line-through">@money($producto->precio_producto)</p>
           </div>
           <p class="leading-relaxed flex mt-6 items-center text-white pb-2">{{$producto->descripcion}}</p>
-          <p class='pb-4 text-white'>Medidas <br> Ancho: {{$producto->ancho}}&emsp;Largo: {{$producto->largo}}&emsp;Alto: {{$producto->alto}}</p>
+          <p class='pb-4 text-white'>Medidas <br> Ancho: {{$producto->ancho}}cm&emsp;Largo: {{$producto->largo}}cm&emsp;Alto: {{$producto->alto}}cm</p>
           <div class="flex-col">
             
             @if (!$enCarrito)

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductoController::class, 'index']);
+Route::get('/', [ProductoController::class, 'index'])->name('home');
 Route::get("/search", [ProductoController::class, 'search']);
 
 Route::get('/dashboard', function () {

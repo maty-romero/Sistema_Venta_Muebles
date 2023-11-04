@@ -54,6 +54,19 @@ class Venta extends Model
         return $this->belongsTo(Cliente::class, 'id_usuario_cliente');
     }
 
+    public static function calcularSubtotal($venta)
+    {
+        foreach($venta as $item) {
+            
+                $item->unidades++;
+           
+                if($item->unidades > 1){
+                    $item->unidades--;
+                }
+        
+        }
+    }
+
     public static function getCarrito()
     {
         $request = new Request();
@@ -64,12 +77,11 @@ class Venta extends Model
 
     public static function productoEnCarrito($idProd)
     {
-        $request = new Request();
-        $request->setLaravelSession(session());
-        $carrito = $request->session()->get('carrito');
-        foreach($carrito as $item) {
-            if($item->producto->id == $idProd){
-                return true;
+        if($carrito = Venta::getCarrito()){
+            foreach($carrito as $item) {
+                if($item->producto->id == $idProd){
+                    return true;
+                }
             }
         }
         return false;
