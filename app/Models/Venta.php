@@ -62,6 +62,19 @@ class Venta extends Model
         return $carrito;
     }
 
+    public static function productoEnCarrito($idProd)
+    {
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $carrito = $request->session()->get('carrito');
+        foreach($carrito as $item) {
+            if($item->producto->id == $idProd){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static function agregarAlCarrito($idProd)
     {
         $request = new Request();
