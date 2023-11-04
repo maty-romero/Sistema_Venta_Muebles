@@ -54,17 +54,18 @@ class Venta extends Model
         return $this->belongsTo(Cliente::class, 'id_usuario_cliente');
     }
 
-    public static function calcularSubtotal($venta)
+    public static function calcularSubtotal()
     {
-        foreach($venta as $item) {
-            
-                $item->unidades++;
-           
-                if($item->unidades > 1){
-                    $item->unidades--;
-                }
-        
+        $subtotal = 0;
+
+        //Subtotal del carrito
+        if($carrito = Venta::getCarrito()){
+            foreach($carrito as $item) {
+                $subtotal += $item->producto->getPrecioDeVenta() * $item->unidades;        
+            }
         }
+
+        return $subtotal;
     }
 
     public static function getCarrito()

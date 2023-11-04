@@ -53,7 +53,8 @@ class VentaController extends Controller
     public function cart()
     {
         $carrito = Venta::getCarrito();
-        return view('cliente/ventas/carrito', ['carrito' => $carrito]);
+        $subtotal = Venta::calcularSubtotal();
+        return view('cliente/ventas/carrito', ['carrito' => $carrito, 'subtotal' => $subtotal]);
     }
 
     public function updateCart($idProd)

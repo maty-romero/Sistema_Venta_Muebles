@@ -23,7 +23,7 @@
     <header class='lg:w-2/3 w-5/6 ml-auto mr-auto lg:mt-10 mt-4'>
     <div class="grid grid-cols-2 divide-x ">
         <h1 class='w-full md:text-5xl text-4xl text-left'>Carrito</h1>
-        <h1 class='w-full md:text-5xl text-4xl text-right'>Total @money(90000)</h1>
+        <h1 class='w-full md:text-5xl text-4xl text-right'>Total @money($subtotal)</h1>
     </div>
     </header>
 
