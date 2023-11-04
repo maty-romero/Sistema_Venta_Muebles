@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductoController::class, 'testFetchOferta']);
+Route::get('/', [ProductoController::class, 'index']);
 Route::get("/search", [ProductoController::class, 'search']);
 
 // Route::get('/', function () {
