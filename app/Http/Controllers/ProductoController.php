@@ -20,9 +20,15 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all();
+        $productos = Producto::paginate(4);
 
         return (view("cliente.welcome", compact("productos")));
+
+
+        // $temp = OfertaCombo::fetchCombo();
+
+        // dd($temp);
+
 
         //     echo $producto->oferta;
         // $producto = new Producto();
@@ -103,12 +109,16 @@ class ProductoController extends Controller
         //
     }
 
-    public function searchProduct(Request $request)
+    public function search(Request $request)
     {
-        $productos = Producto::where("nombre_producto", $request->input('name'))->orWhere('nombre_producto', 'like', '%' .  $request->input('name') . '%')->paginate(2);
+        $name =  $request->input('name');
 
-        $productos->appends(["name" => $request->input('name')]);
+        $matchInput = ['id_tipo_mueble' => 2, "discontinuado" => 0];
 
-        return (view("cliente.productos.index", compact("productos")));
+        $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy('nombre_producto', 'ASC')->paginate(2);
+
+        $productos->appends(["name" =>  $name]);
+
+        return view("cliente.productos.index", compact("name", "productos"));
     }
 }

@@ -18,18 +18,18 @@
 
 
 <body class="antialiased bg-[#F0F0F0] bg-pattern-image ">
-    
+
     <x-custom.navbar_adm></x-custom.navbar_adm>
 
     <div class='flex m-0 p-0 float-left h-screen transition-transform -translate-x-full sm:translate-x-0'>
-       <x-custom.sidebar></x-custom.sidebar>
+        <x-custom.sidebar></x-custom.sidebar>
     </div>
 
     <div class='overflow-hidden h-fit float-center w-max-content m-0'>
-        <header class='w-full ml-[8%] mt-4'>
+        <header class='w-full ml-[4%] mt-4'>
             <h1 class='text-6xl text-left'>@yield('encabezado')</h1>
         </header>
-        <div class='overflow-hidden w-max-content float-center mt-5 ml-[8%]'>
+        <div class='overflow-hidden w-max-content float-center mt-5 ml-[4%]'>
             @yield('contenido')
         </div>
     </div>

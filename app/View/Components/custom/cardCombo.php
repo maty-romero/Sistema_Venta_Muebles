@@ -2,20 +2,20 @@
 
 namespace App\View\Components\custom;
 
-use App\Models\Producto;
+use App\Models\OfertaCombo;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class card extends Component
+class cardCombo extends Component
 {
-    public $producto;
+    public $combo;
     /**
      * Create a new component instance.
      */
-    public function __construct(Producto $producto)
+    public function __construct(OfertaCombo $combo)
     {
-        $this->producto = $producto;
+        $this->combo = $combo;
     }
 
     /**
@@ -23,6 +23,6 @@ class card extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.custom.card');
+        return view('components.custom.card-combo');
     }
 }
