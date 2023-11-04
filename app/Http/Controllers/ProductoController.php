@@ -15,43 +15,16 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $productos = Producto::all();
-
         return (view("cliente.welcome", compact("productos")));
+    }
 
-        //     echo $producto->oferta;
-        // $producto = new Producto();
-        // //Producto::(1)->oferta()->get();
-        // $productos = Producto::all();
-        // //$ofertas = array();
-        // $producto_oferta = array();
-        // foreach($productos as $producto){
-        //     //$producto_oferta[] = $producto;
-        //     $producto_oferta[] = $producto;  
-        //     $producto_oferta[] = $producto->oferta_combo_producto;
-        //     //echo $producto->oferta;
-        // } 
-        // return $producto_oferta;
-        // $combo = ComboVendido::where("id_oferta_combo", 7)->first();
-        // echo $combo->venta;
-
-        // $productoVenta = ProductoVendido::where("id_venta", 2)->where("id_producto", 9)->first();
-        // echo $productoVenta->oferta;
-        // $oferta = Oferta::find(1);
-        // echo $oferta->ofertaProductoVendido;
-
-        // $ofertaMueble = OfertaTipoMueble::find(7);
-        // echo $ofertaMueble->tipoMueble;
-
-        // $cliente = Cliente::find(1);
-        // echo $cliente->usuario;
-
-
+    public function index_adm(){
+        $productos = Producto::within('tipos_muebles');
+        //$productos->tipo_mueble; 
+        return (view("administrador.productos.index", compact("productos")));
     }
 
     /**

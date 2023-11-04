@@ -48,8 +48,8 @@ Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
 Route::middleware('auth')->group(function () {
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
     
-    Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
-    //Route::get('/productos', [ProductoController::class, 'index'])->name('administrador_productos');
+    //Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
+    Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
 
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
 

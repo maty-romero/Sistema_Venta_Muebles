@@ -11,6 +11,7 @@
 @section('contenido')
 
     @php
+    /*
         $products = [
             [
                 'nombre' => 'Producto 1',
@@ -19,7 +20,9 @@
                 'descuento' => 5000,
             ],
         ];
-
+    */
+    dump($productos);
+    $products = $productos; 
     @endphp
 
     <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
