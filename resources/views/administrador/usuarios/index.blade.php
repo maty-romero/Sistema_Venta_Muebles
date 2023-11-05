@@ -11,28 +11,7 @@
 @section('contenido')
 
     @php
-    //'Nombre', 'Rol', 'Fecha Creacion', '', 'Moficacion', '
-    /*
-    $usuarios = [
-        [
-            'nombre' => 'Juan',
-            'rol' => 'Jefe de Ventas',
-            'fecha_creacion' => '12/12/12',
-        ],
-        [
-            'nombre' => 'Pepe',
-            'rol' => 'Cliente',
-            'fecha_creacion' => '21/02/16',
-        ],
-        [
-            'nombre' => 'Emma',
-            'rol' => 'Cliente',
-            'fecha_creacion' => '31/11/22',
-        ]
-    ];
-    */; 
-    dump($usuarios);
-    //echo $usuarios[0]['name']; 
+        //dump($usuarios);
     @endphp
     
 
@@ -73,7 +52,7 @@
                     {{ date('d-m-Y', strtotime($usuario->created_at))  }}</td>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                    @if ($usuario['rol'] == 'Cliente')
+                    @if ($usuario->rol_usuario == 'cliente')
                         <a href="">Informe Compras</a>    
                     @endif    
                     </td>
@@ -88,5 +67,5 @@
          
     </x-custom.table>
     </div>
-
+    <div class="flex justify-center">{{ $usuarios->links() }}</div>
 @endsection
