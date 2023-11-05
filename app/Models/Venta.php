@@ -67,9 +67,12 @@ class Venta extends Model
         $request = new Request();
         $request->setLaravelSession(session());
         $carrito = $request->session()->get('carrito');
-        foreach($carrito as $item) {
-            if($item->producto->id == $idProd){
-                return true;
+        // el carrito estaba tirandome null, supongo que porque estara vacio?
+        if ($carrito) {
+            foreach ($carrito as $item) {
+                if ($item->producto->id == $idProd) {
+                    return true;
+                }
             }
         }
         return false;
@@ -95,12 +98,12 @@ class Venta extends Model
         $request->setLaravelSession(session());
         $carrito = $request->session()->get('carrito');
 
-        foreach($carrito as $item) {
-            if($item->producto->id == $idProd){
-                if($operacion == '+'){
+        foreach ($carrito as $item) {
+            if ($item->producto->id == $idProd) {
+                if ($operacion == '+') {
                     $item->unidades++;
                 } else {
-                    if($item->unidades > 1){
+                    if ($item->unidades > 1) {
                         $item->unidades--;
                     }
                 }
@@ -115,12 +118,11 @@ class Venta extends Model
 
         $carrito = $request->session()->get('carrito');
         $carrito2 = array();
-        foreach($carrito as $item) {
-            if($item->producto->id != $idProd){
+        foreach ($carrito as $item) {
+            if ($item->producto->id != $idProd) {
                 $carrito2[] = $item;
             }
         }
         $request->session()->put('carrito', $carrito2);
     }
-
 }

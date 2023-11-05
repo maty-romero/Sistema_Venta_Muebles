@@ -28,7 +28,6 @@ class ProductoController extends Controller
         $productos = Producto::paginate(4);
 
         $combos = array_slice($this->combosActivos(), 0, 4);
-
         return (view("cliente.welcome", compact("productos", "combos")));
     }
 
@@ -255,9 +254,10 @@ class ProductoController extends Controller
                 foreach ($idProductosCheck as $producto) {
                     $infoProducto = Producto::find($producto->id);
 
+
                     $productoArray = [
                         'producto' => $infoProducto,
-                        'stockCombo' => $producto->cantidad_producto_combo,
+                        'cantidadCombo' => $producto->cantidad_producto_combo,
                     ];
                     $precioTotal +=  $infoProducto->precio_producto * $producto->cantidad_producto_combo;
                     array_push($tempProductoArray, $productoArray);
@@ -280,6 +280,6 @@ class ProductoController extends Controller
             return strcmp($a['nombreCombo'], $b['nombreCombo']);
         });
 
-        dd($arrayProductosCombos);
+        return ($arrayProductosCombos);
     }
 }
