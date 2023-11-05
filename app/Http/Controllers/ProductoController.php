@@ -22,6 +22,7 @@ class ProductoController extends Controller
     }
 
     public function index_adm(){
+        /*
         $productos = Producto::with('tipo_mueble')->get();
  
         $datos = []; 
@@ -36,6 +37,11 @@ class ProductoController extends Controller
         }
         //$productos->tipo_mueble; 
         return (view("administrador.productos.index", ['data' => $datos]));
+        */
+
+        $products = Producto::with('tipo_mueble')->paginate(5);
+        return (view("administrador.productos.index", compact('products')));
+
     }
 
     /**

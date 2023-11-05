@@ -11,18 +11,8 @@
 @section('contenido')
 
     @php
-    /*
-        $products = [
-            [
-                'nombre' => 'Producto 1',
-                'cantidad' => 3,
-                'precio' => 25000,
-                'descuento' => 5000,
-            ],
-        ];
-    */
-    dump($data);
-    $products = $data; 
+    dump($products);
+    //$products = $data; 
     @endphp
 
     <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
@@ -52,13 +42,13 @@
                 <tr>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                        {{ $product['nombre_producto'] }}</td>
+                        {{ $product->nombre_producto }}</td>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                        {{ $product['nombre_tipo_mueble'] }}</td>
+                        {{ $product->tipo_mueble->nombre_tipo_mueble }}</td>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">    
-                        @if ($product['discontinuado'])
+                        @if ($product->discontinuado)
                             SI
                         @else
                             NO    
@@ -66,10 +56,10 @@
                         </td>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                        @money($product['precio_producto'])</td>
+                        @money($product->precio_producto)</td>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                        {{ $product['stock'] }}</td>
+                        {{ $product->stock }}</td>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                         <a href="">Modificar</a></td>
@@ -80,5 +70,5 @@
             @endforeach
         </x-custom.table>
     </div>
-
+    <div class="flex justify-center">{{ $products->links() }}</div>
 @endsection
