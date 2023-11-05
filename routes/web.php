@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,13 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// TEST ROUTES 
-//Route::get("/productos", [ProductoController::class, "index"])->name("productos.index");
-//Route::resource('/producto', ProductoController::class)->middleware("auth");
-
-//Rutas de productos para el cliente
-
-Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto.show');
+//Rutas de cliente
+Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
 
 //Rutas del carrito
 Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
@@ -46,9 +42,13 @@ Route::delete('/carrito/{idProd}', [VentaController::class, 'removeFromCart'])->
 
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {
-    Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios');
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
+
     Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
-    Route::view('/ventas', 'administrador.ventas.index')->name('administrador_ventas');
+    //Route::get('/productos', [ProductoController::class, 'index'])->name('administrador_productos');
+
+    Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
+
     Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
     Route::view('/ofertas/crear', 'administrador.ofertas.create')->name('crear_oferta');
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
@@ -56,7 +56,9 @@ Route::middleware('auth')->group(function () {
 
 Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
 
-Route::view('/detalleCompra', 'cliente.ventas.show')->name('cliente_show_venta');
+Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta');
+
+//Route::view('/detalleCompra/{idVenta}','cliente.ventas.show')->name('cliente_show_venta');
 
 Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 
@@ -66,5 +68,6 @@ Route::view('/crearProducto', 'administrador.productos.create')->name('administr
 
 Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
 
+Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
 
 require __DIR__ . '/auth.php';
