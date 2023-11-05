@@ -21,8 +21,8 @@
             ],
         ];
     */
-    dump($productos);
-    $products = $productos; 
+    dump($data);
+    $products = $data; 
     @endphp
 
     <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
@@ -52,19 +52,24 @@
                 <tr>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                        {{ $product['nombre'] }}</td>
+                        {{ $product['nombre_producto'] }}</td>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                        {{ $product['cantidad'] }}</td>
+                        {{ $product['nombre_tipo_mueble'] }}</td>
+                    <td
+                        class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">    
+                        @if ($product['discontinuado'])
+                            SI
+                        @else
+                            NO    
+                        @endif
+                        </td>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                        ${{ number_format($product['precio'], 2) }}</td>
+                        @money($product['precio_producto'])</td>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                        ${{ number_format($product['descuento'], 2) }} (20%)</td>
-                    <td
-                        class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                        ${{ number_format($product['cantidad'] * ($product['precio'] - $product['descuento']), 2) }}</td>
+                        {{ $product['stock'] }}</td>
                     <td
                         class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                         <a href="">Modificar</a></td>
