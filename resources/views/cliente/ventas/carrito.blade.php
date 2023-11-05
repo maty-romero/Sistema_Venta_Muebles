@@ -30,9 +30,18 @@
     <div class='lg:w-2/3 w-5/6 mx-auto lg:mt-10 pb-10 mt-4'>
         <x-custom.cart_item :carrito='$carrito'></x-custom.cart_item>
         <p class='w-full text-right'>
-        <button class="bg-zinc-700 hover:bg-zinc-500 text-white font-bold py-4 px-12 mt-5 mx-auto text-2xl rounded">
-            Finalizar compra
-        </button>
+        
+        @component('components.custom.modal_login')
+            @slot('textoBtn', 'Finalizar compra')
+            @slot('clasesBtn', 'bg-zinc-700 hover:bg-zinc-500 text-white font-bold py-4 px-12 mt-5 mx-auto text-2xl rounded')
+
+            @slot('encabezado', 'Encabezado')
+
+            @slot('contenido')
+                <input type='number'>
+            @endslot
+        @endcomponent
+        
         </p>
     </div>
 </body>
