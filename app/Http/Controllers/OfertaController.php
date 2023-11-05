@@ -2,13 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Oferta;
 use Illuminate\Http\Request;
 
 class OfertaController extends Controller
 {
     public function index()
     {
+        //Falta el filtrado con peticion Asincronica. 
+        $ofertas = Oferta::with('ofertaCombo')->get();
         
+        
+        $infoOfertas = []; 
+        foreach($ofertas as $oferta){
+            $infoOfertas[] = [
+                'nombre_oferta' => 
+            ]; 
+        } 
+
+
+        return view('administrador.ofertas.index', compact('ofertas'));
     }
 
     /**

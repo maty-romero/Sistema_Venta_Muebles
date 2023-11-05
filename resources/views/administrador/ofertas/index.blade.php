@@ -10,6 +10,7 @@
 
 @section('contenido')
     @php
+    /*
     $products = [
         [
             'nombre' => 'Producto 1',
@@ -18,6 +19,8 @@
             'descuento' => 5000,
         ],
     ];
+    */
+    dump($ofertas);
 
     @endphp
 
