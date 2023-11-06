@@ -29,10 +29,10 @@
         <div>
 
           @if ($item->producto->precio_producto == $item->producto->getPrecioDeVenta())
-          <p class="title-font font-medium text-2xl text-gray-900 text-white lg:mb-0">@money($item->producto->precio_producto)</p>
+          <p class="title-font font-medium text-2xl text-gray-900 text-white lg:mb-0">@money($item->producto->precio_producto * $item->unidades)</p>
           @else
-          <p class="title-font font-medium text-1xl line-through text-gray-900 text-white">@money($item->producto->precio_producto)</p>
-          <p class="title-font font-medium text-2xl text-gray-900 text-white lg:mb-0">@money($item->producto->getPrecioDeVenta())</p>
+          <p class="title-font font-medium text-1xl line-through text-gray-900 text-white">@money($item->producto->precio_producto * $item->unidades)</p>
+          <p class="title-font font-medium text-2xl text-gray-900 text-white lg:mb-0">@money($item->producto->getPrecioDeVenta() * $item->unidades)</p>
           @endif
 
         </div>

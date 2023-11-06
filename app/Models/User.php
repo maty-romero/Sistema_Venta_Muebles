@@ -51,9 +51,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(Cliente::class, "id_usuario_cliente");
     }
-
-    public function getCodPostal()
-    {
-        return $this->cliente->codigo_postal_cliente;
-    }
 }

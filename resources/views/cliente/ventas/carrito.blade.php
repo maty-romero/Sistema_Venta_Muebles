@@ -49,7 +49,7 @@
                     </div>
                 <div class='mt-4'>
                     <label class='block font-medium text-sm text-zinc-700'>C&oacute;digo postal</label>
-                    <input id='codPostal' name='codPostal' value='{{ Auth::user()->getCodPostal() }}' required class='block w-full mt-1 border-gray-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                    <input id='codPostal' name='codPostal' value='{{ Auth::user()->cliente->codigo_postal_cliente }}' required class='block w-full mt-1 border-gray-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
                 </div>
                 <div class='mt-4 flex items-center justify-end'>
                     <button type='submit' class='inline-flex items-center px-4 py-2 bg-zinc-700 hover:bg-zinc-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'>Confirmar pago</button>
