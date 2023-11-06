@@ -33,15 +33,65 @@
         
         @component('components.custom.modal_login')
             @slot('textoBtn', 'Finalizar compra')
-            @slot('clasesBtn', 'bg-zinc-700 hover:bg-zinc-500 text-white font-bold py-4 px-12 mt-5 mx-auto text-2xl rounded')
+            @slot('clasesBtn', 'bg-zinc-700 hover:bg-zinc-500 text-white font-bold py-4 px-12 mt-5 mx-auto text-2xl rounded-md')
 
-            @slot('encabezado', 'Encabezado')
-
+        @if (Auth::user())
+            
+            @slot('encabezado', 'Información de pago')
             @slot('contenido')
-                <input type='number'>
+            <form>
+                <div>
+                    <label class='block font-medium text-sm text-zinc-700'>Medio de pago</label>
+                    <select id='medioPago' name='medioPago' required class='block w-full mt-1 border-gray-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                        <option></option>
+                        <option>Opcion 1</option>
+                    </select>
+                    </div>
+                <div class='mt-4'>
+                    <label class='block font-medium text-sm text-zinc-700'>C&oacute;digo postal</label>
+                    <input id='codPostal' name='codPostal' value='{{ Auth::user()->getCodPostal() }}' required class='block w-full mt-1 border-gray-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                </div>
+                <div class='mt-4 flex items-center justify-end'>
+                    <button type='submit' class='inline-flex items-center px-4 py-2 bg-zinc-700 hover:bg-zinc-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'>Confirmar pago</button>
+                </div>
+            </form>
             @endslot
+
+        @else
+
+            @slot('encabezado', 'Iniciar sesión')
+            @slot('contenido')
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div>
+                        <label class='block font-medium text-sm text-zinc-700'>Email</label>
+                        <input id='email' name='email' required class='block w-full mt-1 border-gray-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                    </div>
+                    <div class="mt-4">
+                        <label class='block font-medium text-sm text-zinc-700'>Contrase&ntilde;a</label>
+                        <input id='password' name='password' type='password' required class='block w-full mt-1 border-gray-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                    </div>
+                    <div class="block mt-4">
+                        <label for="remember_me" class="inline-flex items-center">
+                            <input id="remember_me" type="checkbox" class="rounded border-gray-400 text-zinc-700 shadow-sm focus:ring-indigo-500" name="remember">
+                            <span class="ml-2 text-sm text-gray-600">{{ __('Recordarme') }}</span>
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-end mt-4">
+                        @if (Route::has('password.request'))
+                            <a class="underline mr-2 text-sm text-zinc-700 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                                {{ __('Forgot your password?') }}
+                            </a>
+                        @endif
+                        <button type='submit' class='inline-flex items-center px-4 py-2 bg-zinc-700 hover:bg-zinc-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'>Iniciar sesi&oacute;n</button>
+                    </div>
+                </form>
+            @endslot
+
+        @endif
+
         @endcomponent
-        
+
         </p>
     </div>
 </body>

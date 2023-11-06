@@ -57,7 +57,6 @@ class Venta extends Model
     public static function calcularSubtotal()
     {
         $subtotal = 0;
-
         //Subtotal del carrito
         if($carrito = Venta::getCarrito()){
             foreach($carrito as $item) {
