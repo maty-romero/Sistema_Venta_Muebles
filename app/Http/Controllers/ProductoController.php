@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\DB;
 class ProductoController extends Controller
 {
 
-
-
     /**
      * Display a listing of the resource.
      */
@@ -30,42 +28,6 @@ class ProductoController extends Controller
         $combos = array_slice($this->combosActivos(), 0, 4);
         return (view("cliente.welcome", compact("productos", "combos")));
     }
-
-
-
-
-    // $temp = OfertaCombo::fetchCombo();
-
-    // dd($temp);
-
-
-    //     echo $producto->oferta;
-    // $producto = new Producto();
-    // //Producto::(1)->oferta()->get();
-    // $productos = Producto::all();
-    // //$ofertas = array();
-    // $producto_oferta = array();
-    // foreach($productos as $producto){
-    //     //$producto_oferta[] = $producto;
-    //     $producto_oferta[] = $producto;  
-    //     $producto_oferta[] = $producto->oferta_combo_producto;
-    //     //echo $producto->oferta;
-    // } 
-    // return $producto_oferta;
-    // $combo = ComboVendido::where("id_oferta_combo", 7)->first();
-    // echo $combo->venta;
-
-    // $productoVenta = ProductoVendido::where("id_venta", 2)->where("id_producto", 9)->first();
-    // echo $productoVenta->oferta;
-    // $oferta = Oferta::find(1);
-    // echo $oferta->ofertaProductoVendido;
-
-    // $ofertaMueble = OfertaTipoMueble::find(7);
-    // echo $ofertaMueble->tipoMueble;
-
-    // $cliente = Cliente::find(1);
-    // echo $cliente->usuario;
-
 
     /**
      * Show the form for creating a new resource.
