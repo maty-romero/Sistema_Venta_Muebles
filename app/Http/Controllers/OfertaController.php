@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\OfertaCombo;
+use App\Models\Venta;
 
 class OfertaController extends Controller
 {
@@ -35,7 +37,9 @@ class OfertaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $combo = OfertaCombo::findOrFail($id);
+        $enCarrito = Venta::enCarrito('Combo', $id);
+        return view('cliente/combo/show', ['combo' => $combo, 'enCarrito' => $enCarrito]);
     }
 
     /**

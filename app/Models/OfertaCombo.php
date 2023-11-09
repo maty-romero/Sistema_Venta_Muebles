@@ -61,4 +61,16 @@ class OfertaCombo extends Model
 
         return $arrayCombos;
     }
+
+    public function getPrecioComboSinDescuento(){
+        $sum = 0;
+        foreach($this->oferta_combo_producto as $prod){
+            $sum += $prod->precio_producto * $prod->pivot->cantidad_producto_combo;
+        }
+        return $sum;
+    }
+
+    public function getPrecioCombo(){
+        return $this->getPrecioComboSinDescuento() * (1 - $this->oferta->porcentaje_descuento/100);
+    }
 }

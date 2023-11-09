@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReporteController;
@@ -33,12 +34,13 @@ Route::middleware('auth')->group(function () {
 
 //Rutas de cliente
 Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
+Route::get('/combo/{idCombo}', [OfertaController::class, 'show'])->name('combo_show');
 
 //Rutas del carrito
 Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
-Route::post('/carrito/{idProd}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
-Route::patch('/carrito/{prod}', [VentaController::class, 'editCart'])->name('carrito_editar');
-Route::delete('/carrito/{idProd}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
+Route::post('/carrito/{tipoItem}/{id}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
+Route::patch('/carrito/{tipoItem}/{id}', [VentaController::class, 'editCart'])->name('carrito_editar');
+Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
 
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {

@@ -60,7 +60,11 @@ class Venta extends Model
         //Subtotal del carrito
         if($carrito = Venta::getCarrito()){
             foreach($carrito as $item) {
-                $subtotal += $item->producto->getPrecioDeVenta() * $item->unidades;        
+                if($item->tipoItem == 'Producto'){
+                    $subtotal += $item->elemento->getPrecioDeVenta() * $item->unidades;  
+                } else {
+                    $subtotal += $item->elemento->getPrecioCombo() * $item->unidades;
+                }
             }
         }
 
@@ -75,61 +79,80 @@ class Venta extends Model
         return $carrito;
     }
 
-    public static function productoEnCarrito($idProd)
+    public static function enCarrito($tipoItem, $id)
     {
+        // tipoItem = Producto o Combo
         if($carrito = Venta::getCarrito()){
             foreach($carrito as $item) {
-                if($item->producto->id == $idProd){
-                    return true;
+                if($tipoItem == $item->tipoItem){
+                    if (($tipoItem == 'Producto' && $item->elemento->id == $id) || ($tipoItem == 'Combo' && $item->elemento->id_oferta_combo == $id)){
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 
-    public static function agregarAlCarrito($idProd)
+    public static function agregarAlCarrito($tipoItem, $id)
     {
         $request = new Request();
         $request->setLaravelSession(session());
         $carrito = $request->session()->get('carrito');
 
         $itemVenta = new stdClass();
-        $itemVenta->unidades = request()->input('unidadesProducto');;
-        $itemVenta->producto = Producto::findOrFail($idProd);
-
+        if($tipoItem == 'Producto'){ 
+            $itemVenta->unidades = request()->input('unidadesProducto');
+            $itemVenta->elemento = Producto::findOrFail($id);
+        }else if($tipoItem == 'Combo'){
+            $itemVenta->unidades = request()->input('unidadesCombo');
+            $itemVenta->elemento = OfertaCombo::findOrFail($id);
+        }
+        $itemVenta->tipoItem = $tipoItem;
         $carrito[] = $itemVenta;
         $request->session()->put('carrito', $carrito);
     }
 
-    public static function editarCantidadCarrito($idProd, $operacion)
+    public static function editarCantidadCarrito($id, $operacion, $tipoItem)
     {
         $request = new Request();
         $request->setLaravelSession(session());
         $carrito = $request->session()->get('carrito');
 
         foreach ($carrito as $item) {
-            if ($item->producto->id == $idProd) {
-                if ($operacion == '+') {
-                    $item->unidades++;
-                } else {
-                    if ($item->unidades > 1) {
-                        $item->unidades--;
+            if($tipoItem == $item->tipoItem){
+                if ( ($tipoItem == 'Producto' && $item->elemento->id == $id) || ($tipoItem == 'Combo' && $item->elemento->id_oferta_combo == $id)) {
+                    if ($operacion == '+') {
+                        $item->unidades++;
+                    } else {
+                        if ($item->unidades > 1) {
+                            $item->unidades--;
+                        }
                     }
                 }
-            }
+            }   
         }
     }
 
-    public static function removerDelCarrito($idProd)
+    public static function removerDelCarrito($tipoItem, $id)
     {
         $request = new Request();
         $request->setLaravelSession(session());
 
         $carrito = $request->session()->get('carrito');
         $carrito2 = array();
+
         foreach ($carrito as $item) {
-            if ($item->producto->id != $idProd) {
+            if($tipoItem != $item->tipoItem){
                 $carrito2[] = $item;
+            }else if($tipoItem == 'Producto'){
+                if($id != $item->elemento->id){
+                    $carrito2[] = $item;
+                }
+            } else {
+                if($id != $item->elemento->id_oferta_combo){
+                    $carrito2[] = $item;
+                }
             }
         }
         $request->session()->put('carrito', $carrito2);

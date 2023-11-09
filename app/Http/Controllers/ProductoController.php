@@ -51,7 +51,7 @@ class ProductoController extends Controller
     public function show(string $id)
     {
         $producto = Producto::findOrFail($id);
-        $enCarrito = Venta::productoEnCarrito($id);
+        $enCarrito = Venta::enCarrito('Producto', $id);
         return view('cliente/productos/show', ['producto' => $producto, 'enCarrito' => $enCarrito]);
     }
 

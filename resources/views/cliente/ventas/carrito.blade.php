@@ -28,12 +28,22 @@
     </header>
 
     <div class='lg:w-2/3 w-5/6 mx-auto lg:mt-10 pb-10 mt-4'>
-        <x-custom.cart_item :carrito='$carrito'></x-custom.cart_item>
-        <p class='w-full text-right'>
+        <section class="text-gray-700 body-font overflow-hidden">
+        @if(!empty($carrito))
+            @foreach ($carrito as $item)
+                <x-custom.cart_item :item='$item'></x-custom.cart_item>
+            @endforeach
+        @else
+            <div class="container mx-auto flex flex-wrap mb-1 overflow-hidden bg-[#5690FF] shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
+              <p class='w-full py-20 text-white font-bold text-2xl text-center'>El carrito de compras est&aacute; vac&iacute;o</p>
+            </div>
+        @endif
+        </section>
         
+        <p class='w-full text-right'>
         @component('components.custom.modal_login')
             @slot('textoBtn', 'Finalizar compra')
-            @slot('clasesBtn', 'bg-zinc-700 hover:bg-zinc-500 text-white font-bold py-4 px-12 mt-5 mx-auto text-2xl rounded-md')
+            @slot('clasesBtn', 'bg-zinc-700 hover:bg-zinc-500 text-white font-bold py-4 px-12 mt-2 mx-auto text-2xl rounded-md')
 
         @if (Auth::user())
             

@@ -153,21 +153,21 @@ class VentaController extends Controller
         return view('cliente/ventas/carrito', ['carrito' => $carrito, 'subtotal' => $subtotal]);
     }
 
-    public function updateCart($idProd)
+    public function updateCart($id, $tipoItem)
     {
-        Venta::agregarAlCarrito($idProd);
+        Venta::agregarAlCarrito($id, $tipoItem);
         return to_route('home');
     }
 
-    public function editCart(FormRequest $r, Producto $prod)
+    public function editCart(FormRequest $r, $tipoItem, $id)
     {
-        Venta::editarCantidadCarrito($prod->id, $r->incremento);
+        Venta::editarCantidadCarrito($id, $r->incremento, $tipoItem);
         return to_route('carrito');
     }
 
-    public function removeFromCart($idProd)
+    public function removeFromCart($id, $tipoItem)
     {
-        Venta::removerDelCarrito($idProd);
+        Venta::removerDelCarrito($id, $tipoItem);
         return to_route('carrito');
     }
 }
