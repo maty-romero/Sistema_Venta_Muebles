@@ -22,23 +22,6 @@ class ProductoController extends Controller
     }
 
     public function index_adm(){
-        /*
-        $productos = Producto::with('tipo_mueble')->get();
- 
-        $datos = []; 
-        foreach($productos as $producto){
-            $datos[] = [
-                'nombre_producto' => $producto->nombre_producto,
-                'nombre_tipo_mueble' => $producto->tipo_mueble->nombre_tipo_mueble,
-                'discontinuado' => $producto->discontinuado,
-                'precio_producto' => $producto->precio_producto,
-                'stock' => $producto->stock
-            ];
-        }
-        //$productos->tipo_mueble; 
-        return (view("administrador.productos.index", ['data' => $datos]));
-        */
-
         $products = Producto::with('tipo_mueble')->paginate(5);
         return (view("administrador.productos.index", compact('products')));
 

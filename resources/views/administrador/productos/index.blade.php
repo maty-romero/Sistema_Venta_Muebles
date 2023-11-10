@@ -11,7 +11,7 @@
 @section('contenido')
 
     @php
-    dump($products);
+    //dump($products);
     //$products = $data; 
     @endphp
 

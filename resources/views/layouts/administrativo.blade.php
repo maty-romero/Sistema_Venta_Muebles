@@ -17,7 +17,7 @@
 </head>
 
 
-<body class="antialiased bg-[#F0F0F0] bg-pattern-image ">
+<body class="antialiased bg-[#F0F0F0] bg-pattern-image">
     
     <x-custom.navbar_adm></x-custom.navbar_adm>
 

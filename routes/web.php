@@ -48,14 +48,9 @@ Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
-    
     Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
-
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
-
-    //Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
     Route::get('/ofertas', [OfertaController::class, 'index'])->name('administrador_ofertas');
-
 
     Route::view('/ofertas/crear', 'administrador.ofertas.create')->name('crear_oferta');
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
