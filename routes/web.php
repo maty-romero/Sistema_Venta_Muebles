@@ -69,10 +69,10 @@ Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrad
 
 Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
 
-//Rutas reportes
+Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
 
+//Rutas reportes
 Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
 
-Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
 
 require __DIR__ . '/auth.php';
