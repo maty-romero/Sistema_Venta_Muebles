@@ -115,10 +115,7 @@ class Venta extends Model
 
     public static function editarCantidadCarrito($id, $operacion, $tipoItem)
     {
-        $request = new Request();
-        $request->setLaravelSession(session());
-        $carrito = $request->session()->get('carrito');
-
+        $carrito = Venta::getCarrito();
         foreach ($carrito as $item) {
             if($tipoItem == $item->tipoItem){
                 if ( ($tipoItem == 'Producto' && $item->elemento->id == $id) || ($tipoItem == 'Combo' && $item->elemento->id_oferta_combo == $id)) {
@@ -139,7 +136,7 @@ class Venta extends Model
         $request = new Request();
         $request->setLaravelSession(session());
 
-        $carrito = $request->session()->get('carrito');
+        $carrito = Venta::getCarrito();
         $carrito2 = array();
 
         foreach ($carrito as $item) {
@@ -156,5 +153,61 @@ class Venta extends Model
             }
         }
         $request->session()->put('carrito', $carrito2);
+    }
+
+    public static function verificarStockCarrito()
+    {
+        return true;
+    }
+
+    public static function finalizarVenta($idCliente, $codPostal, $direccionDestino)
+    {
+        $carrito = Venta::getCarrito();
+        
+        //$venta->actualizarStockVendido();
+
+        //Guardar venta
+        $venta = new Venta;
+        $venta->fecha_venta = now('GMT-3');
+        $venta->monto_final_venta = Venta::calcularSubtotal();
+        $venta->nro_pago = rand(1, 100000); //Al ser simulado se genera un random
+        $venta->codigo_postal_destino = $codPostal;
+        $venta->domicilio_destino = $direccionDestino;
+        $venta->id_usuario_cliente = $idCliente;
+        $venta->id_oferta_monto = 1;
+        $venta->save();
+
+        //Guardar combos vendidos y productos vendidos
+        foreach($carrito as $item){
+            if($item->tipoItem == 'Combo'){
+                $combo = new ComboVendido();
+                $combo->id_venta = $venta->id;
+                $combo->id_oferta_combo = $item->elemento->id_oferta_combo;
+                $combo->unidades_vendidas_combo = $item->unidades;
+                $combo->save();
+            } else if ($item->tipoItem == 'Producto'){
+                $producto = new ProductoVendido();
+                $producto->id_venta = $venta->id;
+                $producto->id_producto = $item->elemento->id;
+                $producto->unidades_vendidas_prod = $item->unidades;
+                $producto->id_oferta = $item->elemento->oferta[0]->id;
+                $producto->precio_venta_prod = $item->elemento->getPrecioDeVenta();
+                $producto->save();
+            }
+        }
+
+        //Limpia el carrito
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $request->session()->put('carrito', array());
+    }
+
+    private function actualizarStockVendido(){
+
+    }
+
+    public static function realizarPago()
+    {   //Simula la aceptación o no del pago
+        return rand(0, 1);
     }
 }

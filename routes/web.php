@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//Rutas de cliente
+//Rutas para ver productos y combos
 Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
 Route::get('/combo/{idCombo}', [OfertaController::class, 'show'])->name('combo_show');
 
@@ -41,6 +41,9 @@ Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
 Route::post('/carrito/{tipoItem}/{id}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
 Route::patch('/carrito/{tipoItem}/{id}', [VentaController::class, 'editCart'])->name('carrito_editar');
 Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
+
+//Rutas de ventas para cliente
+Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
 
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {

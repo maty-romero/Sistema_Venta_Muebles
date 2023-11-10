@@ -44,9 +44,19 @@ class VentaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $idCliente)
     {
-        //
+        if(Venta::verificarStockCarrito()){
+            if(Venta::realizarPago()){
+                Venta::finalizarVenta($idCliente, $request->codPostal, $request->direccionDestino);
+                //Debería devolver la vista del detalle de venta
+                return view("cliente.ventas.carrito", ['msj' => 'Todo joya', 'subtotal' => 1]);
+            } else {
+                return view("cliente.ventas.carrito", ['msj' => 'Pago Joyant', 'subtotal' => Venta::calcularSubtotal()]);
+            }
+        } else {
+            return view("cliente.ventas.carrito", ['msj' => 'Stock Joyant', 'subtotal' => Venta::calcularSubtotal()]);
+        }
     }
 
     public function show(string $id)
@@ -150,7 +160,7 @@ class VentaController extends Controller
     {
         $carrito = Venta::getCarrito();
         $subtotal = Venta::calcularSubtotal();
-        return view('cliente/ventas/carrito', ['carrito' => $carrito, 'subtotal' => $subtotal]);
+        return view('cliente.ventas.carrito', ['carrito' => $carrito, 'subtotal' => $subtotal]);
     }
 
     public function updateCart($id, $tipoItem)
@@ -170,4 +180,5 @@ class VentaController extends Controller
         Venta::removerDelCarrito($id, $tipoItem);
         return to_route('carrito');
     }
+
 }
