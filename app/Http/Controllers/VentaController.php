@@ -93,7 +93,6 @@ class VentaController extends Controller
             $precioCombo = $combo->pivot->precio_combo; //precio_venta_combo -> luego del descuento
 
             $productos = $combo->oferta_combo_producto()->get(); 
-            $datos['hola'] = $productos;
             
             $precioUnitarioCombo = 0.0; 
             
