@@ -45,6 +45,8 @@ Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCa
 //Rutas de ventas para cliente
 Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
 
+Route::view('/{$a}', 'administrador.productos.index')->name('prueba');
+
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');

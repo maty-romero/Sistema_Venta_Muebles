@@ -46,7 +46,7 @@ class VentaController extends Controller
      */
     public function store(Request $request, $idCliente)
     {
-        if(Venta::verificarStockCarrito()){
+        if(Venta::hayStockCarrito()){
             if(Venta::realizarPago()){
                 $idVenta = Venta::finalizarVenta($idCliente, $request->codPostal, $request->direccionDestino);
                 //Debería devolver la vista del detalle de venta
@@ -55,11 +55,14 @@ class VentaController extends Controller
                 $msj = 'Error al procesar el pago. Intente de nuevo.';
             }
         } else {
-            $msj = 'Error al realizar la compra. Alguno de los productos de tu carrito no tienen stock suficiente.';
+            $msj = 'Error al realizar la compra. Algunos de los productos de tu carrito no tienen stock suficiente.';
         }
         $request = new Request();
         $request->setLaravelSession(session());
         $ofertaMonto = $request->session()->get('ofertaMonto');
+        if(!isset($ofertaMonto)){
+            $ofertaMonto = null;
+        }
         return view("cliente.ventas.carrito", ['msj' => $msj, 'subtotal' => Venta::calcularSubtotal(), 'carrito' => Venta::getCarrito(), 'ofertaMonto' => $ofertaMonto]);
     }
 

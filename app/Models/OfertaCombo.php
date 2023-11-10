@@ -70,7 +70,27 @@ class OfertaCombo extends Model
         return $sum;
     }
 
-    public function getPrecioCombo(){
+    public function getPrecioCombo()
+    {
         return $this->getPrecioComboSinDescuento() * (1 - $this->oferta->porcentaje_descuento/100);
+    }
+
+    public function hayStockCombo($unidadesCombo)
+    {
+        foreach($this->oferta_combo_producto as $prod){
+            $totalUnidades = $unidadesCombo * $prod->pivot->cantidad_producto_combo;
+            if(!$prod->hayStockProducto($totalUnidades)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function reducirStockCombo($unidadesCombo)
+    {
+        foreach($this->oferta_combo_producto as $comboProd){
+            $totalUnidades = $unidadesCombo * $comboProd->pivot->cantidad_producto_combo;
+            $comboProd->reducirStockProducto($totalUnidades);
+        }
     }
 }

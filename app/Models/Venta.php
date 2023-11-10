@@ -67,13 +67,12 @@ class Venta extends Model
                 }
             }
             $ofertaMonto = OfertaMonto::getOfertaMonto($subtotal);
+            $descuento = 0;
             if(isset($ofertaMonto)){
                 $descuento = $ofertaMonto->porcentaje_descuento;
                 $request = new Request();
                 $request->setLaravelSession(session());
                 $request->session()->put('ofertaMonto', $ofertaMonto);
-            } else {
-                $descuento = 0;
             }
             $subtotal = $subtotal * (1 - $descuento / 100);
         }
@@ -164,8 +163,20 @@ class Venta extends Model
         $request->session()->put('carrito', $carrito2);
     }
 
-    public static function verificarStockCarrito()
+    public static function hayStockCarrito()
     {
+        $carrito = Venta::getCarrito();
+        foreach($carrito as $item){
+            if($item->tipoItem == 'Producto'){
+                if(!$item->elemento->hayStockProducto($item->unidades)){
+                    return false;
+                }
+            } else if($item->tipoItem == 'Combo'){
+                if(!$item->elemento->hayStockCombo($item->unidades)){
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -175,8 +186,6 @@ class Venta extends Model
         $request->setLaravelSession(session());
         $ofertaMonto = $request->session()->get('ofertaMonto');
         $carrito = Venta::getCarrito();
-        
-        //$venta->actualizarStockVendido();
 
         //Guardar venta
         $venta = new Venta;
@@ -198,6 +207,8 @@ class Venta extends Model
                 $combo->unidades_vendidas_combo = $item->unidades;
                 $combo->precio_combo = $item->elemento->getPrecioCombo();
                 $combo->save();
+                //Actualizar stock del combo
+                $item->elemento->reducirStockCombo($item->unidades);
             } else if ($item->tipoItem == 'Producto'){
                 $producto = new ProductoVendido();
                 $producto->id_venta = $venta->id;
@@ -206,6 +217,8 @@ class Venta extends Model
                 $producto->id_oferta = $item->elemento->oferta[0]->id;
                 $producto->precio_venta_prod = $item->elemento->getPrecioDeVenta();
                 $producto->save();
+                //Actualizar stock del producto
+                $item->elemento->reducirStockProducto($item->unidades);
             }
         }
 
