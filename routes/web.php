@@ -50,7 +50,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
 
     Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
-    //Route::get('/productos', [ProductoController::class, 'index'])->name('administrador_productos');
 
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
 
@@ -60,7 +59,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
-
 Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta');
 
 //Route::view('/detalleCompra/{idVenta}','cliente.ventas.show')->name('cliente_show_venta');
@@ -68,7 +66,6 @@ Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('c
 Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 
 Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
-
 Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
 
 //Rutas reportes

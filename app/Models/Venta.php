@@ -66,8 +66,17 @@ class Venta extends Model
                     $subtotal += $item->elemento->getPrecioCombo() * $item->unidades;
                 }
             }
+            $ofertaMonto = OfertaMonto::getOfertaMonto($subtotal);
+            if(isset($ofertaMonto)){
+                $descuento = $ofertaMonto->porcentaje_descuento;
+                $request = new Request();
+                $request->setLaravelSession(session());
+                $request->session()->put('ofertaMonto', $ofertaMonto);
+            } else {
+                $descuento = 0;
+            }
+            $subtotal = $subtotal * (1 - $descuento / 100);
         }
-
         return $subtotal;
     }
 
@@ -162,6 +171,9 @@ class Venta extends Model
 
     public static function finalizarVenta($idCliente, $codPostal, $direccionDestino)
     {
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $ofertaMonto = $request->session()->get('ofertaMonto');
         $carrito = Venta::getCarrito();
         
         //$venta->actualizarStockVendido();
@@ -174,7 +186,7 @@ class Venta extends Model
         $venta->codigo_postal_destino = $codPostal;
         $venta->domicilio_destino = $direccionDestino;
         $venta->id_usuario_cliente = $idCliente;
-        $venta->id_oferta_monto = 1;
+        $venta->id_oferta_monto = $ofertaMonto->id;
         $venta->save();
 
         //Guardar combos vendidos y productos vendidos
@@ -184,6 +196,7 @@ class Venta extends Model
                 $combo->id_venta = $venta->id;
                 $combo->id_oferta_combo = $item->elemento->id_oferta_combo;
                 $combo->unidades_vendidas_combo = $item->unidades;
+                $combo->precio_combo = $item->elemento->getPrecioCombo();
                 $combo->save();
             } else if ($item->tipoItem == 'Producto'){
                 $producto = new ProductoVendido();
@@ -200,6 +213,8 @@ class Venta extends Model
         $request = new Request();
         $request->setLaravelSession(session());
         $request->session()->put('carrito', array());
+
+        return $venta->id;
     }
 
     private function actualizarStockVendido(){

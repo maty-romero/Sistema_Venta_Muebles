@@ -48,15 +48,19 @@ class VentaController extends Controller
     {
         if(Venta::verificarStockCarrito()){
             if(Venta::realizarPago()){
-                Venta::finalizarVenta($idCliente, $request->codPostal, $request->direccionDestino);
+                $idVenta = Venta::finalizarVenta($idCliente, $request->codPostal, $request->direccionDestino);
                 //Debería devolver la vista del detalle de venta
-                return view("cliente.ventas.carrito", ['msj' => 'Todo joya', 'subtotal' => 1]);
+                return to_route('cliente_show_venta', $idVenta);
             } else {
-                return view("cliente.ventas.carrito", ['msj' => 'Pago Joyant', 'subtotal' => Venta::calcularSubtotal()]);
+                $msj = 'Error al procesar el pago. Intente de nuevo.';
             }
         } else {
-            return view("cliente.ventas.carrito", ['msj' => 'Stock Joyant', 'subtotal' => Venta::calcularSubtotal()]);
+            $msj = 'Error al realizar la compra. Alguno de los productos de tu carrito no tienen stock suficiente.';
         }
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $ofertaMonto = $request->session()->get('ofertaMonto');
+        return view("cliente.ventas.carrito", ['msj' => $msj, 'subtotal' => Venta::calcularSubtotal(), 'carrito' => Venta::getCarrito(), 'ofertaMonto' => $ofertaMonto]);
     }
 
     public function show(string $id)
@@ -160,7 +164,10 @@ class VentaController extends Controller
     {
         $carrito = Venta::getCarrito();
         $subtotal = Venta::calcularSubtotal();
-        return view('cliente.ventas.carrito', ['carrito' => $carrito, 'subtotal' => $subtotal]);
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $ofertaMonto = $request->session()->get('ofertaMonto');
+        return view('cliente.ventas.carrito', ['carrito' => $carrito, 'subtotal' => $subtotal, 'ofertaMonto' => $ofertaMonto]);
     }
 
     public function updateCart($id, $tipoItem)
