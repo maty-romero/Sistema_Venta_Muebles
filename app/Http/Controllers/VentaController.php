@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OfertaCombo;
 use App\Models\Producto;
 use App\Models\Venta;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -173,9 +174,9 @@ class VentaController extends Controller
         return view('cliente.ventas.carrito', ['carrito' => $carrito, 'subtotal' => $subtotal, 'ofertaMonto' => $ofertaMonto]);
     }
 
-    public function updateCart($id, $tipoItem)
+    public function updateCart($tipoItem, $id)
     {
-        Venta::agregarAlCarrito($id, $tipoItem);
+        Venta::agregarAlCarrito($tipoItem, $id);
         return to_route('home');
     }
 

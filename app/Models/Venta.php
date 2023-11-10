@@ -128,9 +128,13 @@ class Venta extends Model
             if($tipoItem == $item->tipoItem){
                 if ( ($tipoItem == 'Producto' && $item->elemento->id == $id) || ($tipoItem == 'Combo' && $item->elemento->id_oferta_combo == $id)) {
                     if ($operacion == '+') {
-                        $item->unidades++;
+                        if($item->tipoItem == 'Producto' && $item->elemento->hayStockProducto($item->unidades + 1)){
+                            $item->unidades++;
+                        } else if($item->tipoItem == 'Combo' && $item->elemento->hayStockCombo($item->unidades + 1)){
+                            $item->unidades++;
+                        }
                     } else {
-                        if ($item->unidades > 1) {
+                        if($item->unidades > 1) {
                             $item->unidades--;
                         }
                     }

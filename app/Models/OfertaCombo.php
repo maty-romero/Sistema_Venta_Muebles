@@ -93,4 +93,15 @@ class OfertaCombo extends Model
             $comboProd->reducirStockProducto($totalUnidades);
         }
     }
+
+    public function unidadesMaximas(){
+        $maximoTotal = 100000;
+        foreach($this->oferta_combo_producto as $prod){
+            $maximoItem = $prod->stock / $prod->pivot->cantidad_producto_combo;
+            if(!isset($maximoTotal) || $maximoTotal > $maximoItem){
+                $maximoTotal = $maximoItem;
+            }
+        }
+        return (int)$maximoTotal;
+    }
 }
