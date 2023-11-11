@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\ComboVendido;
 use App\Models\Venta;
 use App\Models\Cliente;
-use App\Models\Oferta;
 use App\Models\OfertaCombo;
 use App\Models\OfertaTipoMueble;
 use App\Models\Producto;
