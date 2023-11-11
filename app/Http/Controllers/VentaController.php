@@ -75,7 +75,7 @@ class VentaController extends Controller
         $venta = Venta::select('id', 'fecha_venta', 'monto_final_venta', 'domicilio_destino', 'id_usuario_cliente')
             ->findOrFail($id);
 
-        if(Auth::user()->id == $venta->id){
+        if(Auth::user()->cliente->id_usuario_cliente == $venta->id_usuario_cliente){
             $datos = [];
             //formateo de la fecha venta
             $fechaNueva = date("d/m/Y", strtotime($venta->fecha_venta));
