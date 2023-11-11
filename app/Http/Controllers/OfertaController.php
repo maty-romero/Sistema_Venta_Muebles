@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\OfertaCombo;
+use App\Models\Producto;
 use App\Models\Venta;
 
 class OfertaController extends Controller
@@ -21,7 +22,8 @@ class OfertaController extends Controller
      */
     public function create()
     {
-        //
+        $productos = Producto::all();
+        return view('administrador.ofertas.create', ['productos' => $productos]);
     }
 
     /**

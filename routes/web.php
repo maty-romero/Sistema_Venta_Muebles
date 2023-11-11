@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
 
     Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
-    Route::view('/ofertas/crear', 'administrador.ofertas.create')->name('crear_oferta');
+    Route::get('/ofertas/crear', [OfertaController::class, 'create'])->name('crear_oferta');
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
 

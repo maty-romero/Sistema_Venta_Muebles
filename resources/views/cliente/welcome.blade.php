@@ -18,6 +18,4 @@
     @endforeach
 </div>
 
-{{var_dump($combos)}}
-
 @endsection
