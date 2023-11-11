@@ -6,7 +6,7 @@
         <img
             src="{{ $imagenURL }}"
             alt="image"
-            class="h-full w-full object-cover"
+            class="h-100 w-100 object-cover"
         />
     </div>
     <div class="w-1/2 p-4">
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="w-2/6 flex justify-end items-center p-6">
-        <a class="inline-block" href="#">
+        <a class="inline-block" href="{{ route('cliente_show_venta', ['idVenta' => $ventaId]) }}">
             <button
                 class="flex select-none items-center gap-2 rounded-lg py-2 px-7 text-center align-middle font-sans text-sm font-bold bg-green-500 text-white hover:bg-green-600 transition-all active:bg-green-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
