@@ -26,6 +26,7 @@ class ProductoFactory extends Factory
             "ancho"=>fake()->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = 200) ,
             "alto"=>fake()->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = 200) ,
             "material"=> fake()->randomElement(['acero' ,"aluminio",'madera',"roble","pino"]),
+            "imagenUrl" => fake()->randomElement(["https://unsplash.com/es/fotos/sofa-de-tela-verde-fZuleEfeA1Q","https://unsplash.com/es/fotos/silla-acolchada-amarilla-con-marco-de-madera-marron-_HqHX3LBN18","https://unsplash.com/es/fotos/planta-verde-en-maceta-de-ceramica-blanca-IH7wPsjwomc"]),
             "id_tipo_mueble"=>fake()->numberBetween($min = 1, $max = 2),
         ];
     }

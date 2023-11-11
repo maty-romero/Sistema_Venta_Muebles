@@ -40,8 +40,8 @@
                     </tr>
                     <tr>
                         <td class="pr-16"><input id="txtNombre" type="text" class="rounded-md" value="{{ $cliente->nombre_cliente }}"></td>
-                        <td class="pr-16"><input id="txtPersoneria" type="text" disabled class="rounded-md"></td>
-                        <td class="pr-16"><input id="txtDocumento" type="text" class="rounded-md"></td>
+                        <td class="pr-16"><input id="txtPersoneria" type="text" disabled class="rounded-md" value="{{ $cliente->tipo_cliente }}"></td>
+                        <td class="pr-16"><input id="txtDocumento" type="text" class="rounded-md"></td value="{{ $cliente->dni_cuit }}">
                     </tr>
                     <tr>
                         <td class="pr-16 pt-8"><label class="font-poppins">Email</label></td>
@@ -49,9 +49,9 @@
                         <td class="pr-16 pt-8"><label class="font-poppins">N&uacute;mero de T&eacute;lefono</label></td>
                     </tr>
                     <tr>
-                        <td class="pr-16"><input id="txtEmail" type="text" class="rounded-md"></td>
-                        <td class="pr-16"><input id="txtCodigoPostal" type="text" class="rounded-md"></td>
-                        <td class="pr-16"><input id="txtNroTel" type="text" class="rounded-md"></td>
+                        <td class="pr-16"><input id="txtEmail" type="text" class="rounded-md" value="{{ $cliente->nombre_cliente }}"></td>
+                        <td class="pr-16"><input id="txtCodigoPostal" type="text" class="rounded-md" value="{{ $cliente->codigo_postal_cliente }}"></td>
+                        <td class="pr-16"><input id="txtNroTel" type="text" class="rounded-md" value="{{ $cliente->codigo_postal_cliente }}"></td>
                     </tr>
                 </table>
             </div>

@@ -21,7 +21,8 @@ class OfertaComboFactory extends Factory
 
         return [
             "id_oferta_combo" => $id++,
-            "nombre_combo" => fake()->name()
+            "nombre_combo" => fake()->name(),
+            "imagenUrl" => fake()->randomElement(["https://unsplash.com/es/fotos/sofa-de-tela-verde-fZuleEfeA1Q","https://unsplash.com/es/fotos/silla-acolchada-amarilla-con-marco-de-madera-marron-_HqHX3LBN18","https://unsplash.com/es/fotos/planta-verde-en-maceta-de-ceramica-blanca-IH7wPsjwomc"]),
         ];
     }
 }

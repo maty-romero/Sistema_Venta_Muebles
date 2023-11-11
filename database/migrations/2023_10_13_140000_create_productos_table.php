@@ -22,6 +22,7 @@ return new class extends Migration
             $table->float('ancho')->default(0.00);
             $table->float('alto')->default(0.00);
             $table->string('material', 100)->nullable();
+            $table->string('imagenURL');
             $table->timestamps();
             $table->unsignedBigInteger('id_tipo_mueble'); 
             $table->foreign('id_tipo_mueble')->references('id')->on('tipos_muebles');
