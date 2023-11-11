@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class OfertaMonto extends Model
 {
@@ -28,5 +29,15 @@ class OfertaMonto extends Model
     public function venta(): HasMany
     {
         return $this->hasMany(Venta::class, "id_oferta_monto");
+    }
+
+    public static function getOfertaMonto($monto)
+    {
+        $idOferta = DB::table('ofertas_montos')->select('id_oferta_monto')->where('monto_limite_descuento', '<=', $monto)->orderBy('monto_limite_descuento', 'desc')->first();
+        if(isset($idOferta) && !is_null($idOferta)){
+            $oferta = Oferta::findOrFail($idOferta->id_oferta_monto);
+            return $oferta;
+        }
+        return null;
     }
 }

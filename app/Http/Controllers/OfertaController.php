@@ -9,6 +9,9 @@ use App\Models\Venta;
 use App\Models\Oferta;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\OfertaCombo;
+use App\Models\Producto;
+use App\Models\Venta;
 
 class OfertaController extends Controller
 {

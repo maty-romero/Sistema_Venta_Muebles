@@ -61,4 +61,47 @@ class OfertaCombo extends Model
 
         return $arrayCombos;
     }
+
+    public function getPrecioComboSinDescuento(){
+        $sum = 0;
+        foreach($this->oferta_combo_producto as $prod){
+            $sum += $prod->precio_producto * $prod->pivot->cantidad_producto_combo;
+        }
+        return $sum;
+    }
+
+    public function getPrecioCombo()
+    {
+        return $this->getPrecioComboSinDescuento() * (1 - $this->oferta->porcentaje_descuento/100);
+    }
+
+    public function hayStockCombo($unidadesCombo)
+    {
+        foreach($this->oferta_combo_producto as $prod){
+            $totalUnidades = $unidadesCombo * $prod->pivot->cantidad_producto_combo;
+            if(!$prod->hayStockProducto($totalUnidades)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function reducirStockCombo($unidadesCombo)
+    {
+        foreach($this->oferta_combo_producto as $comboProd){
+            $totalUnidades = $unidadesCombo * $comboProd->pivot->cantidad_producto_combo;
+            $comboProd->reducirStockProducto($totalUnidades);
+        }
+    }
+
+    public function unidadesMaximas(){
+        $maximoTotal = 100000;
+        foreach($this->oferta_combo_producto as $prod){
+            $maximoItem = $prod->stock / $prod->pivot->cantidad_producto_combo;
+            if(!isset($maximoTotal) || $maximoTotal > $maximoItem){
+                $maximoTotal = $maximoItem;
+            }
+        }
+        return (int)$maximoTotal;
+    }
 }

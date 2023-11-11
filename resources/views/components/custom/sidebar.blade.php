@@ -5,7 +5,7 @@
     </svg>
 </button>
 
-<aside id="default-sidebar" class=" top-0 left-0 z-40 w-48 h-screen transition-transform -translate-x-full sm:translate-x-0 " aria-label="Sidebar">
+<aside id="default-sidebar" class=" top-0 left-0 z-40 w-48 h-full transition-transform -translate-x-full sm:translate-x-0 " aria-label="Sidebar">
     <div class="bg-[#343B53]   h-full px-3 py-4 overflow-y-auto  dark:bg-gray-800">
         <ul class="space-y-2 font-medium ">
             <li>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OfertaCombo;
 use App\Models\Producto;
 use App\Models\Venta;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -44,9 +45,26 @@ class VentaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $idCliente)
     {
-        //
+        if(Venta::hayStockCarrito()){
+            if(Venta::realizarPago()){
+                $idVenta = Venta::finalizarVenta($idCliente, $request->codPostal, $request->direccionDestino);
+                //Debería devolver la vista del detalle de venta
+                return to_route('cliente_show_venta', $idVenta);
+            } else {
+                $msj = 'Error al procesar el pago. Intente de nuevo.';
+            }
+        } else {
+            $msj = 'Error al realizar la compra. Algunos de los productos de tu carrito no tienen stock suficiente.';
+        }
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $ofertaMonto = $request->session()->get('ofertaMonto');
+        if(!isset($ofertaMonto)){
+            $ofertaMonto = null;
+        }
+        return view("cliente.ventas.carrito", ['msj' => $msj, 'subtotal' => Venta::calcularSubtotal(), 'carrito' => Venta::getCarrito(), 'ofertaMonto' => $ofertaMonto]);
     }
 
     public function show(string $id)
@@ -148,27 +166,30 @@ class VentaController extends Controller
     // METODO PARA MOSTRAR CARRITO
     public function cart()
     {
-        for ($i = 1; $i < 4; $i++) {
-            $carrito[] = Producto::findOrFail($i);
-        }
-        return view('cliente/ventas/carrito', ['carrito' => $carrito]);
+        $carrito = Venta::getCarrito();
+        $subtotal = Venta::calcularSubtotal();
+        $request = new Request();
+        $request->setLaravelSession(session());
+        $ofertaMonto = $request->session()->get('ofertaMonto');
+        return view('cliente.ventas.carrito', ['carrito' => $carrito, 'subtotal' => $subtotal, 'ofertaMonto' => $ofertaMonto]);
     }
 
-    public function updateCart($idProd)
+    public function updateCart($tipoItem, $id)
     {
-        Venta::agregarAlCarrito($idProd);
+        Venta::agregarAlCarrito($tipoItem, $id);
         return to_route('home');
     }
 
-    public function editCart(FormRequest $r, Producto $prod)
+    public function editCart(FormRequest $r, $tipoItem, $id)
     {
-        Venta::editarCantidadCarrito($prod->id, $r->incremento);
+        Venta::editarCantidadCarrito($id, $r->incremento, $tipoItem);
         return to_route('carrito');
     }
 
-    public function removeFromCart($idProd)
+    public function removeFromCart($id, $tipoItem)
     {
-        Venta::removerDelCarrito($idProd);
+        Venta::removerDelCarrito($id, $tipoItem);
         return to_route('carrito');
     }
+
 }

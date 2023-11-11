@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\DB;
 
 class Producto extends Model
 {
@@ -57,9 +58,21 @@ class Producto extends Model
     }
 
     // Funciones
-    public function getPrecioDeVenta(){
+    public function getPrecioDeVenta()
+    {
         //Revisar si trae la oferta de mayor prioridad y qu esté activa
         return $this->precio_producto*((100-$this->oferta[0]->porcentaje_descuento)/100);
+    }
+
+    public function hayStockProducto($unidadesProd)
+    {
+        $stockDisp = Producto::findOrFail($this->id)->stock;
+        return $stockDisp >= $unidadesProd;
+    }
+
+    public function reducirStockProducto($unidadesProd)
+    {
+        DB::table('productos')->where('id', $this->id)->decrement('stock', $unidadesProd);
     }
 
 }

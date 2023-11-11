@@ -1,5 +1,3 @@
-//combo detail
-
 <!-- component -->
 <section class="text-gray-700 body-font overflow-hidden bg-white shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
   <div class="container mx-auto flex flex-wrap">

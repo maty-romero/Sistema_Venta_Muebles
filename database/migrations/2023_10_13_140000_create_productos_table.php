@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('descripcion', 500)->nullable();
             $table->boolean('discontinuado')->default(false);
             $table->integer('stock')->default(1);
-            $table->float('precio_producto')->default(0.00);
+            $table->decimal('precio_producto', 12, 2)->default(0.00);
             $table->float('largo')->default(0.00);
             $table->float('ancho')->default(0.00);
             $table->float('alto')->default(0.00);
