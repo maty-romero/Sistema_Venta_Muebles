@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\ComboVendido;
 use App\Models\Venta;
@@ -11,21 +12,18 @@ use App\Models\OfertaCombo;
 use App\Models\OfertaTipoMueble;
 use App\Models\Producto;
 use App\Models\ProductoVendido;
-use App\Models\User;
 
 class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(){
-    
-        //$usuarios = User::paginate(5);
-        $usuarios = User::orderBy('name', 'asc')->paginate(5);;
-        return view("administrador.usuarios.index", compact("usuarios"));
-
-        }
-
+    public function index()
+    {
+        $usuarios = User::paginate(5);
+        return view("administrador.usuarios.index", compact('usuarios'));
+        
+    }
 
     /**
      * Show the form for creating a new resource.

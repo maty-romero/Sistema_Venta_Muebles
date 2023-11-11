@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
@@ -71,6 +72,15 @@ Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
     // Route::view('/ofertas/crear', 'administrador.ofertas.create')->name('crear_oferta');
     // Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 //});
+Route::middleware('auth')->group(function () {
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
+    Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
+    Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
+    Route::get('/ofertas', [OfertaController::class, 'index'])->name('administrador_ofertas');
+
+    Route::view('/ofertas/crear', 'administrador.ofertas.create')->name('crear_oferta');
+    Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
+});
 
 Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
 

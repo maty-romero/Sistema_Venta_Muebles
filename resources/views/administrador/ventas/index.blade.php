@@ -9,38 +9,49 @@
 @endsection
 
 @section('contenido')
-<h1>Ventas</h1>
-<h2>Ordenar</h2>
-<select name="select1">
-  <option value="Nombre" >Alfabeticamente</option>
-  <option value="Personeria">Personeria</option>
-  <option value="Precio">Precio</option>
-  <option value="Fecha" selected>Fecha</option>
-</select>
-<select name="select2">
-  <option value="Acendente" selected>Acendente</option>
-  <option value="Decendente">Decendente</option>
-</select>
-<input type="text">
-<div>
-<div>
-    <table>
-        <tr>
-            <td>Comprador</td>
-            <td>Personeria</td>
-            <td>Total</td>
-            <td>Fecha</td>
-            <td>Modificacion</td>
-        </tr>
-        @foreach ( $ventas as $venta )
-        <tr>
-        <td>{{$venta-> domicilio_destino}}</td>
-        <td>{{$venta-> fecha_venta}}</td>
-        <td>{{$venta-> monto_final_venta}}</td>
-        <td>{{$venta-> fecha_venta}}</td>
-        </tr>
-        @endforeach
-    </table>
-    {{ $ventas->links() }}
-</div>
+
+    <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
+    <div class="flex justify-between ml-4">
+    <x-custom.filters>
+        <select class="form-control mr-5 rounded-lg" id="ordenamiento">
+            <option value="total">Total</option>
+            <option value="fecha">Fecha</option>
+            <option value="nombreCliente">Nombre del Cliente</option>
+        </select>
+        <select class="form-control mr-5 rounded-lg" id="direccion_orden">
+            <option value="ascendente">Ascendente</option>
+            <option value="descendente">Descendente</option>
+        </select>
+        <x-custom.input-search />
+    </x-custom.filters>
+    </div>
+
+    <div class="w-full text-center">
+        <x-custom.table :columnas="['Cliente', 'Personaria', 'Fecha', 'Total', 'Domicilio de Destino']">
+            @foreach ($ventas as $venta)
+                <tr>
+                    <td
+                        class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                        {{ $venta->cliente->nombre_cliente }}</td>
+                    <td
+                        class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                        {{ $venta->cliente->tipo_cliente }}</td>
+                    <td
+                        class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                        {{ date('d-m-Y', strtotime($venta->fecha_venta)) }}</td>
+                    <td
+                        class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                        @money($venta->monto_final_venta)</td>
+                    <td
+                        class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                        {{ $venta->domicilio_destino }}</td>
+                </tr>
+            @endforeach
+        </x-custom.table>
+    
+        <div class="flex justify-center">{{ $ventas->links() }}</div>
+    </div>
+    
+
+
 @endsection

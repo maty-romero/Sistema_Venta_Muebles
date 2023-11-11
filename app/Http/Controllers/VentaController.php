@@ -2,25 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Venta;
 use Illuminate\Http\Request;
 use App\Models\Producto;
-use App\Models\Venta;
 
 class VentaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //$ventas = Venta::table('ventas')
-        //    ->join('contacts', 'ventas.id', '=', 'contacts.user_id')
-        //    ->select('users.*', 'contacts.phone')
-        //    ->orderBy('fecha_venta', 'asc')
-        //    ->paginate(5);
-        $ventas = Venta::orderBy('fecha_venta', 'asc')->paginate(5);;
-        //$ventas = Venta::paginate(5);
-        return (view("administrador.ventas.index", compact("ventas")));
+       $ventas = Venta::with('cliente')->paginate(5);
+       return view("administrador.ventas.index", compact('ventas'));
+
     }
 
     /**

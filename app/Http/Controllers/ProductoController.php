@@ -15,55 +15,15 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // public function indexProductos()
-    //{
-    //   $productos = Producto::get();
-    //   return (view("administrador.productos.index", compact("productos")));
-    //}
-    
+    public function index()
+    {
+        $productos = Producto::all();
+        return (view("cliente.welcome", compact("productos")));
+    }
 
-    public function index(){
-    
-        //$users = User::where('name', 'John')->orWhere('name', 'Jane')->get();
-        $productos = Producto::orderBy('nombre_producto', 'asc')->paginate(5);;
-        // $productos = Producto::paginate(5);
-        // dd($productos);
-
-         return view("administrador.productos.index", compact("productos"));
-        //$productos = Producto::all();
-        
-       //return (view("cliente.welcome", compact("productos")));
-
-        //     echo $producto->oferta;
-        // $producto = new Producto();
-        // //Producto::(1)->oferta()->get();
-        // $productos = Producto::all();
-        // //$ofertas = array();
-        // $producto_oferta = array();
-        // foreach($productos as $producto){
-        //     //$producto_oferta[] = $producto;
-        //     $producto_oferta[] = $producto;  
-        //     $producto_oferta[] = $producto->oferta_combo_producto;
-        //     //echo $producto->oferta;
-        // } 
-        // return $producto_oferta;
-        // $combo = ComboVendido::where("id_oferta_combo", 7)->first();
-        // echo $combo->venta;
-
-        // $productoVenta = ProductoVendido::where("id_venta", 2)->where("id_producto", 9)-first();
-        // echo $productoVenta->oferta;
-        // $oferta = Oferta::find(1);
-        // echo $oferta->ofertaProductoVendido;
-
-        // $ofertaMueble = OfertaTipoMueble::find(7);
-        // echo $ofertaMueble->tipoMueble;
-
-        // $cliente = Cliente::find(1);
-        // echo $cliente->usuario;
-
+    public function index_adm(){
+        $products = Producto::with('tipo_mueble')->paginate(5);
+        return (view("administrador.productos.index", compact('products')));
 
     }
 
