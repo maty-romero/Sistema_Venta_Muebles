@@ -22,7 +22,10 @@ class OfertaComboFactory extends Factory
         return [
             "id_oferta_combo" => $id++,
             "nombre_combo" => fake()->name(),
-            "imagenUrl" => fake()->randomElement(["https://unsplash.com/es/fotos/sofa-de-tela-verde-fZuleEfeA1Q","https://unsplash.com/es/fotos/silla-acolchada-amarilla-con-marco-de-madera-marron-_HqHX3LBN18","https://unsplash.com/es/fotos/planta-verde-en-maceta-de-ceramica-blanca-IH7wPsjwomc"]),
+            "imagenUrl" => fake()->randomElement([
+                "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ]),
         ];
     }
 }

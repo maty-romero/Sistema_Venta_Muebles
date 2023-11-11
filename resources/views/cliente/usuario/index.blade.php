@@ -23,8 +23,9 @@
     <br><br>
 
     @php
-        dump($cliente);
+        //dump($cliente);
         dump($ventas);
+        dump($ventas->first()->producto->first())
     @endphp
 
     <div id="infoCliente" class="container mx-auto bg-white rounded-2xl p-6">
@@ -41,7 +42,7 @@
                     <tr>
                         <td class="pr-16"><input id="txtNombre" type="text" class="rounded-md" value="{{ $cliente->nombre_cliente }}"></td>
                         <td class="pr-16"><input id="txtPersoneria" type="text" disabled class="rounded-md" value="{{ $cliente->tipo_cliente }}"></td>
-                        <td class="pr-16"><input id="txtDocumento" type="text" class="rounded-md"></td value="{{ $cliente->dni_cuit }}">
+                        <td class="pr-16"><input id="txtDocumento" type="text" class="rounded-md" value="{{ $cliente->dni_cuit }}"></td>
                     </tr>
                     <tr>
                         <td class="pr-16 pt-8"><label class="font-poppins">Email</label></td>
@@ -49,9 +50,9 @@
                         <td class="pr-16 pt-8"><label class="font-poppins">N&uacute;mero de T&eacute;lefono</label></td>
                     </tr>
                     <tr>
-                        <td class="pr-16"><input id="txtEmail" type="text" class="rounded-md" value="{{ $cliente->nombre_cliente }}"></td>
+                        <td class="pr-16"><input id="txtEmail" type="text" class="rounded-md" value="{{ $cliente->usuario->email }}"></td>
                         <td class="pr-16"><input id="txtCodigoPostal" type="text" class="rounded-md" value="{{ $cliente->codigo_postal_cliente }}"></td>
-                        <td class="pr-16"><input id="txtNroTel" type="text" class="rounded-md" value="{{ $cliente->codigo_postal_cliente }}"></td>
+                        <td class="pr-16"><input id="txtNroTel" type="text" class="rounded-md" value="{{ $cliente->nro_telefono }}"></td>
                     </tr>
                 </table>
             </div>
@@ -95,7 +96,28 @@
 
         @endphp
 
-        @foreach ($items_venta as $item)
+        @if (count($ventas) > 0)
+            @foreach ($ventas as $venta)
+            
+                @php
+                    $imagenURL = $venta->producto->first()->imagenURL ?? $venta->ofertaCombo->first()->imagenURL;
+                @endphp
+
+                <x-custom.sale-item  
+                    :imagenURL="$imagenURL"
+                    :nroPago="$venta->nro_pago"
+                    :domicilioEnvio="$venta->domicilio_destino"
+                    :fechaVenta="$venta->fecha_venta"
+                    :totalVenta="$venta->monto_final_venta"
+                />
+
+            @endforeach    
+        @endif
+        
+
+        
+        {{-- 
+            
             <x-custom.sale-item  
             :imagenURL="$item['imagenURL']"
             :nombreProducto="$item['nombreProducto']"
@@ -103,8 +125,7 @@
             :fechaVenta="$item['fechaVenta']"
             :totalVenta="$item['totalVenta']"
             />
-        @endforeach
-        
+        --}}
               
         
          

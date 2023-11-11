@@ -23,7 +23,7 @@ class UsuarioController extends Controller
     public function show()
     {
         $cliente = Auth::user()->cliente;
-        $ventas = $cliente->ventas;
+        $ventas = $cliente->ventas()->orderBy('fecha_venta', 'desc')->get();
         //$clienteLogeado = User::find($usuario->id)->with('cliente')->first(); 
         return view('cliente.usuario.index', compact('cliente', 'ventas'));
     }
