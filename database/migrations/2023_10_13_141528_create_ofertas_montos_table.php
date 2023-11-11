@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ofertas_montos', function (Blueprint $table) {
             $table->primary('id_oferta_monto');
-            $table->float('monto_limite_descuento');
+            $table->decimal('monto_limite_descuento', 12, 2);
             $table->timestamps();
             $table->unsignedBigInteger('id_oferta_monto'); 
             $table->foreign('id_oferta_monto')->references('id')->on('ofertas');

@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\VentaController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,12 +19,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductoController::class, 'testFetchOferta']);
+Route::get('/', [ProductoController::class, 'index'])->name('home');
 Route::get("/search", [ProductoController::class, 'search']);
-
-// Route::get('/', function () {
-//     return view('cliente.welcome');
-// })->middleware(['auth', 'verified']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -38,29 +35,33 @@ Route::middleware('auth')->group(function () {
     Route::get('/perfilCliente', [UsuarioController::class, 'show'])->name('cliente_show');
 });
 
-// TEST ROUTES 
-//Route::get("/productos", [ProductoController::class, "index"])->name("productos.index");
-//Route::resource('/producto', ProductoController::class)->middleware("auth");
-
-//Rutas de cliente
+//Rutas para ver productos y combos
 Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
+Route::get('/combo/{idCombo}', [OfertaController::class, 'show'])->name('combo_show');
+
+//Rutas del carrito
 Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
-//Rutas de productos para el cliente
+Route::post('/carrito/{tipoItem}/{id}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
+Route::patch('/carrito/{tipoItem}/{id}', [VentaController::class, 'editCart'])->name('carrito_editar');
+Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
 
-Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto.show');
-
+//Rutas de ventas para cliente
+Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
 
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {
-    Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios');
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
+
     Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
-    Route::view('/ventas', 'administrador.ventas.index')->name('administrador_ventas');
+
+    Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
+
     Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
-    Route::view('/ofertas/crear', 'administrador.ofertas.create')->name('crear_oferta');
+    Route::get('/ofertas/crear', [OfertaController::class, 'create'])->name('crear_oferta');
+    Route::post('/ofertas/guardar', [OfertaController::class, 'store'])->name('guardar_oferta');
+    
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
-
-
 
 Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
 
@@ -69,10 +70,9 @@ Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('c
 Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 
 Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
-
 Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
-//Rutas reportes
 
+//Rutas reportes
 Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
 
 

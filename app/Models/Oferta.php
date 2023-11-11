@@ -51,4 +51,25 @@ class Oferta extends Model
     {
         return $this->hasMany(ProductoVendido::class, "id_oferta");
     }
+
+    public static function crearOferta(){
+        $oferta = new Oferta();
+        $oferta->fecha_inicio_oferta = request()->input('fechaInicio');
+        $oferta->fecha_fin_oferta = request()->input('fechaFin');
+        $oferta->porcentaje_descuento = request()->input('descuento');
+        $oferta->save();
+        switch (request()->input('tipoOferta')) {
+            case 'unitaria':
+                break;
+            case 'monto':
+                OfertaMonto::crearOfertaMonto($oferta->id);
+                break;
+            case 'combo':
+                break;
+            case 'tipo':
+                break;
+            default:
+                break;
+        };
+    }
 }

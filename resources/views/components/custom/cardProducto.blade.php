@@ -12,14 +12,16 @@
       <p class=" text-xs font-semibold text-[#5690FF] line-through">${{$producto->precio_producto}}</p>
       <p class=" text-base font-semibold text-[#5690FF] ">${{$producto->precio_producto*((100-$producto->oferta[0]->porcentaje_descuento)/100)}}</p>
     </div>
-    <div class="card-layer flex-col items-center p-4">
+    <div class="flex flex-col card-layer p-4">
       <p class="mt-10 text-2xl font-medium text-white capitalize">{{$producto->nombre_producto}}</p>
       <p class="mt-2 text-sm font-light text-white ">{{$producto->descripcion}}</p>
       <p class="mt-2 text-sm font-medium text-white">Medidas</p>
       <p class="text-sm font-light text-white">Alto: {{$producto->alto}} cm</p>
       <p class="text-sm font-light text-white">Ancho: {{$producto->ancho}} cm</p>
-      <a href="{{route('producto_show',['idProd' => $producto->id])}}">
-        <button class="rounded-3xl bg-white text-[#5690FF] font-medium text-sm px-4 py-2 ">Ver producto</button></a>
+      <div class="flex mt-auto justify-center">
+        <a href="{{route('producto_show',['idProd' => $producto->id])}}">
+          <button class="rounded-3xl bg-white text-[#5690FF] font-medium text-base px-10 py-3 ">Ver producto</button></a>
+      </div>
     </div>
   </div>
 
@@ -39,8 +41,11 @@
       <p class="mt-2 text-sm font-medium text-white">Medidas</p>
       <p class="text-sm font-light text-white">Alto: {{$producto->alto}} cm</p>
       <p class="text-sm font-light text-white">Ancho: {{$producto->ancho}} cm</p>
-      <a href="{{route('producto.show',['idProd' => $producto->id])}}">
-        <button class="rounded-3xl bg-white text-[#5690FF] font-medium text-sm px-4 py-2 ">Ver producto</button></a>
+
+      <div class="flex mt-auto justify-center">
+        <a href="{{route('producto_show',['idProd' => $producto->id])}}">
+          <button class="rounded-3xl bg-white text-[#5690FF] font-medium text-base px-10 py-4 ">Ver producto</button></a>
+      </div>
     </div>
   </div>
 

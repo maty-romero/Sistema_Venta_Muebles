@@ -30,13 +30,11 @@
     opacity: 0;
     transition: opacity 0.3s ease; /* Transición suave */
     font-size: 1.7rem;
-    color: red;
     background-color: #5690FF;
      
 }
 
 .card-layer:hover {
     opacity: 1;
-    color: red;
  } 
   

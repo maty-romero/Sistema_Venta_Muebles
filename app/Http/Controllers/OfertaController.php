@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\OfertaCombo;
+use App\Models\Producto;
+use App\Models\Venta;
+use App\Models\Oferta;
 
 class OfertaController extends Controller
 {
@@ -19,15 +23,17 @@ class OfertaController extends Controller
      */
     public function create()
     {
-        //
+        $productos = Producto::all();
+        return view('administrador.ofertas.create', ['productos' => $productos]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        Oferta::crearOferta();
+        return to_route('administrador_ofertas');
     }
 
     /**
@@ -35,7 +41,9 @@ class OfertaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $combo = OfertaCombo::findOrFail($id);
+        $enCarrito = Venta::enCarrito('Combo', $id);
+        return view('cliente/combo/show', ['combo' => $combo, 'enCarrito' => $enCarrito]);
     }
 
     /**
