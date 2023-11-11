@@ -5,7 +5,7 @@
 @endsection
 
 @section('encabezado')
-    
+    Ventas
 @endsection
 
 @section('contenido')
