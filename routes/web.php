@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
+    Route::get('/perfilCliente', [UsuarioController::class, 'show'])->name('cliente_show');
 });
 
 // TEST ROUTES 
@@ -56,7 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
 
-Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
+
 
 Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
 

@@ -21,8 +21,14 @@
     <x-custom.navbar_client>
     </x-custom.navbar_client>
     <br><br>
+
+    @php
+        dump($usuario);
+        dump($ventas);
+    @endphp
+
     <div id="infoCliente" class="container mx-auto bg-white rounded-2xl p-6">
-        <h3 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Usuario</h3>
+        <h3 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Perfil del cliente</h3>
         <form action="">
 
             <div class="py-5">
@@ -68,7 +74,8 @@
     <div id="comprasRecientes" class="container mx-auto mt-10 bg-white rounded-2xl p-6">
         <h2 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Compras recientes</h2><br>
         
-        @php 
+        @php
+
             $items_venta = [
                 [
                     'imagenURL' => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=150&amp;q=80 ',
