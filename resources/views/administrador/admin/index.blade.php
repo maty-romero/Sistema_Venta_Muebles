@@ -1,17 +1,13 @@
 @extends('layouts.administrativo')
 
 @section('titulo')
-    Ventas
+    index
 @endsection
 
 @section('encabezado')
-    
+
 @endsection
 
 @section('contenido')
-<a href="">crear</a>
-<div>
-
-
-
+    pagina de inicio vite
 @endsection

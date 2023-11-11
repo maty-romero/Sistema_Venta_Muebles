@@ -14,6 +14,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
 </head>
 
 
@@ -32,6 +33,7 @@
         </header>
         <div class='overflow-hidden w-max-content float-center mt-5 ml-16 mr-0'>
             @yield('contenido')
+
         </div>
     </div>
     </div>

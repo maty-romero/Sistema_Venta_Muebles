@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use App\Models\Venta;
 
 class VentaController extends Controller
 {
@@ -12,7 +13,14 @@ class VentaController extends Controller
      */
     public function index()
     {
-        //
+        //$ventas = Venta::table('ventas')
+        //    ->join('contacts', 'ventas.id', '=', 'contacts.user_id')
+        //    ->select('users.*', 'contacts.phone')
+        //    ->orderBy('fecha_venta', 'asc')
+        //    ->paginate(5);
+        $ventas = Venta::orderBy('fecha_venta', 'asc')->paginate(5);;
+        //$ventas = Venta::paginate(5);
+        return (view("administrador.ventas.index", compact("ventas")));
     }
 
     /**

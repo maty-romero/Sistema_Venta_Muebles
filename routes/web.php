@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Stmt\Return_;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +18,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductoController::class, 'index'])->middleware(['auth', 'verified']);
+// Route::get('/', [ProductoController::class, 'index'])->middleware(['auth', 'verified']);
 
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], function () {
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::resource('/usuario', UsuarioController::class);
+    Route::resource('/producto', ProductoController::class);
+    Route::resource('/ventas', VentaController::class);
+    Route::resource('/ofertas', OfertaController::class);
+    Route::resource('/reportes', ReporteController::class);
+    
+});
 
 Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
 
@@ -25,9 +39,9 @@ Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
 //     return view('cliente.welcome');
 // })->middleware(['auth', 'verified']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,21 +51,26 @@ Route::middleware('auth')->group(function () {
 
 // TEST ROUTES 
 //Route::get("/productos", [ProductoController::class, "index"])->name("productos.index");
-//Route::resource('/producto', ProductoController::class)->middleware("auth");
+// Route::resource('/producto', ProductoController::class)->middleware("auth");
 
 //Rutas de cliente
 Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
 Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
 
 //Rutas de administrativos
-Route::middleware('auth')->group(function () {
-    Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios');
-    Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
-    Route::view('/ventas', 'administrador.ventas.index')->name('administrador_ventas');
-    Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
-    Route::view('/ofertas/crear', 'administrador.ofertas.create')->name('crear_oferta');
-    Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
-});
+
+//Route::middleware('auth')->group(function () {
+    // Route::view('/admin', 'administrador.admin.index')->name('administrador_admin');
+    //Route::view('/usuarios', 'administrador.usuarios.index')->name('administrador_usuarios');
+    // Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+    //Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
+    // Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+    // Route::view('/productos/crear', 'administrador.productos.create')->name('administrador_productos');
+    // Route::view('/ventas', 'administrador.ventas.index')->name('administrador_ventas');
+    // Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
+    // Route::view('/ofertas/crear', 'administrador.ofertas.create')->name('crear_oferta');
+    // Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
+//});
 
 Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
 
