@@ -31,6 +31,13 @@ class OfertaMonto extends Model
         return $this->hasMany(Venta::class, "id_oferta_monto");
     }
 
+    public static function crearOfertaMonto($id){
+        $ofertaMonto = new OfertaMonto();
+        $ofertaMonto->id_oferta_monto = $id;
+        $ofertaMonto->monto_limite_descuento = request()->input('montoMin');
+        $ofertaMonto->save();
+    }
+
     public static function getOfertaMonto($monto)
     {
         $idOferta = DB::table('ofertas_montos')->select('id_oferta_monto')->where('monto_limite_descuento', '<=', $monto)->orderBy('monto_limite_descuento', 'desc')->first();

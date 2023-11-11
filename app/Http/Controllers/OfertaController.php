@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\OfertaCombo;
 use App\Models\Producto;
 use App\Models\Venta;
+use App\Models\Oferta;
 
 class OfertaController extends Controller
 {
@@ -29,9 +30,10 @@ class OfertaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        Oferta::crearOferta();
+        return to_route('administrador_ofertas');
     }
 
     /**

@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function () {
 
     Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
     Route::get('/ofertas/crear', [OfertaController::class, 'create'])->name('crear_oferta');
+    Route::post('/ofertas/guardar', [OfertaController::class, 'store'])->name('guardar_oferta');
+    
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
 

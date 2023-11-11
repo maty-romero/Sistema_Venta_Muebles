@@ -14,11 +14,12 @@
 
 @section('contenido')
     <div class='flex float-left border-white border-r-2 pr-5 pt-4 mr-5'>
-    <form action="" class='pl-1 w-full'>
+    <form method="POST" action='{{route("guardar_oferta")}}' class='pl-1 w-full'>
+    @csrf
     <table class='w-[100px]'>
     <tr class='block'><td>
         <p class="font-poppins text-1g">Tipo de oferta</p>
-        <select id="tipoOferta" name='tipoOferta' onchange='formularioPorTipo()' class="w-[200px] rounded-md mb-5 mr-6 w-36">
+        <select id="tipoOferta" name='tipoOferta' onchange='formularioPorTipo()' required class="w-[200px] rounded-md mb-5 mr-6 w-36">
             <option></option>
             <option value='unitaria'>Unitaria</option>
             <option value='tipo'>Por tipo</option>
@@ -30,7 +31,7 @@
         <p class="font-poppins text-1g">Porcentaje de descuento</p>
         <div class="flex">
             <div class="relative w-[200px] mb-5 mr-1 ">
-                <input type='number' id='descuento' max='90' min='5' class="block p-2.5 w-full z-20 text-sm rounded-md border focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" required>
+                <input type='number' id='descuento' name='descuento' max='90' min='5' class="block p-2.5 w-full z-20 text-sm rounded-md border focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" required>
                 <div class="absolute mt-[2px] top-0 end-0 p-2.5 text-sm font-medium h-full rounded-e-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg> 
                 </div>
@@ -39,15 +40,15 @@
     </td></tr>
     <tr class='block'><td>
         <p class="font-poppins text-1g">Fecha de inicio</p>
-        <input id="fechaInicio" type="date" class="w-[200px] rounded-md mb-5 mr-6">
+        <input id="fechaInicio" name='fechaInicio' type="date" required class="w-[200px] rounded-md mb-5 mr-6">
     </td>
     <td>
         <p class="font-poppins text-1g">Fecha de fin</p>
-        <input id="fechaFin" type="date" class="w-[200px] rounded-md mb-5">
+        <input id="fechaFin" name='fechaFin' type="date" required class="w-[200px] rounded-md mb-5">
     </td></tr>
     <tr id='nombreCombo' class='hidden'><td class='w-min'>
         <p class="font-poppins text-1g">Nombre del combo</p>
-        <input id="" type="text" placeholder='Ingrese un nombre' class="w-[200px] rounded-md mb-5 placeholder-gray-500">
+        <input id="nombreCombo" name='nombreCombo' type="text" placeholder='Ingrese un nombre' class="w-[200px] rounded-md mb-5 placeholder-gray-500">
     </td></tr>
     <tr id='tipoProducto' class='hidden'><td>
         <p class="font-poppins text-1g">Tipo de producto</p>
@@ -68,7 +69,7 @@
     </td></tr>
     <tr id='seleccionProds' class='hidden'><td>
         <p class="font-poppins text-1g">Selecci&oacute;n de productos</p>
-        <input type='text' id="" name="" placeholder='Buscar producto' class="w-[200px] resize-none rounded-md mb-5 mr-1 placeholder-gray-400">
+        <input type='text' id="buscarProductos" name="buscarProductos" placeholder='Buscar producto' class="w-[200px] resize-none rounded-md mb-5 mr-1 placeholder-gray-400">
     </td></tr>
     <tr id='encTabla' class='hidden'><td>
         Tabla de productos
@@ -110,7 +111,7 @@
                             <td class="px-2.5 py-2 bg-slate-50 font-bold text-center text-slate-700">
                                 <div class='w-24 h-content align-baseline mx-auto'>
                                 <button type='button' onclick='decrementar({{$p->id}})' class='rounded-l-full bg-gray-800 hover:bg-gray-600 h-8 w-6 m-0 bold text-2xl text-white'>-</button>
-                                <input id='{{$p->id}}' type='number' min='1' max='999' value='0' class='inpCant w-8 h-8 align-top m-0 p-0 border-1 border-gray-800 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'>
+                                <input id='{{$p->id}}' name='inp{{$p->id}}' type='number' min='0' max='999' value='0' class='inpCant w-8 h-8 align-top m-0 p-0 border-1 border-gray-800 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'>
                                 <button type='button' onclick='incrementar({{$p->id}})' class='rounded-r-full bg-gray-800 hover:bg-gray-600 h-8 w-6 bold text-2xl text-white'>+</button>
                                 </div>
                             </td>
