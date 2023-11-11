@@ -69,11 +69,11 @@ class VentaController extends Controller
         return view("cliente.ventas.carrito", ['msj' => $msj, 'subtotal' => Venta::calcularSubtotal(), 'carrito' => Venta::getCarrito(), 'ofertaMonto' => $ofertaMonto]);
     }
 
-    public function show(string $id)
+    public function show(string $idVenta)
     {
         // Info de la venta dado un id en general 
         $venta = Venta::select('id', 'fecha_venta', 'monto_final_venta', 'domicilio_destino', 'id_usuario_cliente')
-            ->findOrFail($id);
+            ->findOrFail($idVenta);
 
         if(Auth::user()->cliente->id_usuario_cliente == $venta->id_usuario_cliente){
             $datos = [];
