@@ -2,39 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ComboVendido;
 use App\Models\Venta;
-use App\Models\Cliente;
 use App\Models\Oferta;
 use App\Models\OfertaCombo;
-use App\Models\OfertaTipoMueble;
 use App\Models\Producto;
-use App\Models\ProductoOferta;
-use App\Models\ProductoVendido;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
-
-
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
         $productos = Producto::paginate(4);
         $combos = array_slice($this->combosActivos("", "", ""), 0, 4);
         return (view("cliente.welcome", compact("productos", "combos")));
     }
-
-
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -58,9 +44,10 @@ class ProductoController extends Controller
     public function show(string $id)
     {
         $producto = Producto::findOrFail($id);
-        $enCarrito = Venta::productoEnCarrito($id);
-        return view('cliente/productos/show', ['producto' => $producto, 'enCarrito' => $enCarrito]);
+        $enCarrito = Venta::enCarrito('Producto', $id);
+        return view('cliente.productos.show', ['producto' => $producto, 'enCarrito' => $enCarrito]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -155,7 +142,10 @@ class ProductoController extends Controller
         // return view("cliente.productos.index", compact("name", "productos"));
     }
 
-    function combosActivos($searchTerm, $ordenCriterio, $orden)
+
+    // FUNCION PARA BUSCAR TODOS LOS COMBOS ACTIVOS BAJO LOS CRITERIOS DE FILTRADO
+
+    public function combosActivos($searchTerm, $ordenCriterio, $orden)
     {
 
         $today = date("Y-m-d");
