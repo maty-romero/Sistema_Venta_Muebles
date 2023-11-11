@@ -23,7 +23,7 @@
     <br><br>
 
     @php
-        dump($usuario);
+        dump($cliente);
         dump($ventas);
     @endphp
 
@@ -39,7 +39,7 @@
                         <td class="pr-16"><label class="font-poppins">Documento</label></td>
                     </tr>
                     <tr>
-                        <td class="pr-16"><input id="txtNombre" type="text" class="rounded-md"></td>
+                        <td class="pr-16"><input id="txtNombre" type="text" class="rounded-md" value="{{ $cliente->nombre_cliente }}"></td>
                         <td class="pr-16"><input id="txtPersoneria" type="text" disabled class="rounded-md"></td>
                         <td class="pr-16"><input id="txtDocumento" type="text" class="rounded-md"></td>
                     </tr>

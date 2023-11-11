@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('tipo_cliente', ['fisico', 'juridico']);
             $table->string('dni_cuit')->unique();
             $table->string('codigo_postal_cliente');
+            $table->string('nro_telefono');
             $table->timestamps();
             $table->unsignedBigInteger('id_usuario_cliente');
             $table->foreign('id_usuario_cliente')->references('id')->on('users');
