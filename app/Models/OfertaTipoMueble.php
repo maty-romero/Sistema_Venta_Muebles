@@ -29,4 +29,11 @@ class OfertaTipoMueble extends Model
     {
         return $this->belongsTo(Oferta::class, "id_tipo_mueble");
     }
+
+    public static function crearOfertaTipo($id){
+        $ofertaMonto = new OfertaTipoMueble();
+        $ofertaMonto->id_oferta_tipo = $id;
+        $ofertaMonto->id_tipo_mueble = request()->input('tipoMueble');
+        $ofertaMonto->save();
+    }
 }

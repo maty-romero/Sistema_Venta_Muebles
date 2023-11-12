@@ -7,6 +7,7 @@ use App\Models\OfertaCombo;
 use App\Models\Producto;
 use App\Models\Venta;
 use App\Models\Oferta;
+use App\Models\TipoMueble;
 
 class OfertaController extends Controller
 {
@@ -24,13 +25,14 @@ class OfertaController extends Controller
     public function create()
     {
         $productos = Producto::all();
-        return view('administrador.ofertas.create', ['productos' => $productos]);
+        $tiposProducto = TipoMueble::all();
+        return view('administrador.ofertas.create', ['productos' => $productos, 'tiposProducto' => $tiposProducto]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store()
+    public function store(Request $request)
     {
         Oferta::crearOferta();
         return to_route('administrador_ofertas');

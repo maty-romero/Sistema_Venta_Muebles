@@ -16,4 +16,22 @@ class ProductoOferta extends Model
     protected $fillable = ["id_producto", "id_oferta"];
     protected $table = "oferta_producto"; //tabla a referenciar
 
+    public static function crearOfertaUnitaria($productos, $oferta)
+    {
+        $primero = true;
+        foreach($productos as $prod){
+            $idProd = (int)explode(".", $prod)[0];
+            $ofertaProducto = new ProductoOferta();
+            $ofertaProducto->id_producto = $idProd;
+            if($primero){
+                $ofertaProducto->id_oferta = $oferta->id;
+                $primero = false;
+            } else {
+                $nuevaOferta = $oferta->replicate();
+                $nuevaOferta->save();
+                $ofertaProducto->id_oferta = $nuevaOferta->id;
+            }
+            $ofertaProducto->save();
+        }
+    }
 }

@@ -62,7 +62,21 @@ class OfertaCombo extends Model
         return $arrayCombos;
     }
 
-    public function getPrecioComboSinDescuento(){
+    public static function crearCombo($productos, $idOferta)
+    {
+        foreach($productos as $prod){
+            $idProd = (int)explode(".", $prod)[0];
+            $cant = (int)explode("x", $prod)[count(explode("x", $prod))-1];
+            $detalleCombo = new DetalleCombo();
+            $detalleCombo->id_producto = $idProd;
+            $detalleCombo->id_oferta_combo = $idOferta;
+            $detalleCombo->cantidad_producto_combo = $cant;
+            $detalleCombo->save();
+        }
+    }
+
+    public function getPrecioComboSinDescuento()
+    {
         $sum = 0;
         foreach($this->oferta_combo_producto as $prod){
             $sum += $prod->precio_producto * $prod->pivot->cantidad_producto_combo;

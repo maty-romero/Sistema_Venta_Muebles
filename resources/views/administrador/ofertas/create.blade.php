@@ -13,8 +13,9 @@
 @endsection
 
 @section('contenido')
-    <div class='flex float-left border-white border-r-2 pr-5 pt-4 mr-5'>
+<div>
     <form method="POST" action='{{route("guardar_oferta")}}' class='pl-1 w-full'>
+    <div class='flex float-left border-white border-r-2 pr-5 pt-4 mr-5'>
     @csrf
     <table class='w-[100px]'>
     <tr class='block'><td>
@@ -52,10 +53,11 @@
     </td></tr>
     <tr id='tipoProducto' class='hidden'><td>
         <p class="font-poppins text-1g">Tipo de producto</p>
-        <select id="" type="text" class="w-[200px] rounded-md mb-5 w-36">
+        <select id="tipoMueble" name='tipoMueble' type="text" class="w-[200px] rounded-md mb-5 w-36">
             <option></option>
-            <option value='Interior'>Interior</option>
-            <option value='Exterior'>Exterior</option>
+            @foreach($tiposProducto as $tipo)
+            <option value='{{$tipo->id}}'>{{Str::ucfirst($tipo->nombre_tipo_mueble)}}</option>
+            @endforeach
         </select>
     </td></tr>
     <tr id='montoMinimo' class='hidden'><td>
@@ -111,7 +113,7 @@
                             <td class="px-2.5 py-2 bg-slate-50 font-bold text-center text-slate-700">
                                 <div class='w-24 h-content align-baseline mx-auto'>
                                 <button type='button' onclick='decrementar({{$p->id}})' class='rounded-l-full bg-gray-800 hover:bg-gray-600 h-8 w-6 m-0 bold text-2xl text-white'>-</button>
-                                <input id='{{$p->id}}' name='inp{{$p->id}}' type='number' min='0' max='999' value='0' class='inpCant w-8 h-8 align-top m-0 p-0 border-1 border-gray-800 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'>
+                                <input id='{{$p->id}}' name='inp{{$p->id}}' type='number' min='0' value='0' class='inpCant w-8 h-8 align-top m-0 p-0 border-1 border-gray-800 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'>
                                 <button type='button' onclick='incrementar({{$p->id}})' class='rounded-r-full bg-gray-800 hover:bg-gray-600 h-8 w-6 bold text-2xl text-white'>+</button>
                                 </div>
                             </td>
@@ -130,15 +132,16 @@
     </table>
     </div>
 
-    <div class='flex flex-col w-max-content max-w-[380px] min-w-[250px]'>
-        <ul id='lista' class="w-full px-5 mt-4 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
-            <li class="elementoLista w-full py-3 h-10 px-4 border-b-[1.5px] border-gray-200 rounded-t-lg dark:border-gray-600"></li>
-            <li class="elementoLista w-full py-3 px-4 h-10 border-b-[1.5px] border-gray-200 dark:border-gray-600"></li>
-            <li class="elementoLista w-full py-3 px-4 h-10"></li>
+    <div class='flex flex-col w-max-content max-w-[320px]'>
+        <ul id='lista' class="">
+            <li class="w-full py-3 h-10 px-4"></li>
+            <li><input type="text" readonly class="elementoLista w-[250px] rounded-md mr-1 border-gray-600">
+                <button type='button' disabled class='btnLista bg-gray-600 hover:bg-gray-600 text-white h-8 w-8 rounded-md'>X</button>
+            </li>
         </ul>
-        <button type='submit' class="mt-5 ml-auto bg-gray-800 hover:bg-gray-700 text-white h-12 w-[200px] rounded-md">
+        <button type='submit' class="mt-5 bg-gray-800 hover:bg-gray-700 text-white h-12 w-[200px] rounded-md">
             Crear oferta
         </button>
     </form>
-    </div>
+</div>
 @endsection
