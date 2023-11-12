@@ -78,54 +78,43 @@ class ProductoController extends Controller
     public function search(Request $request)
     {
 
+        // FALTAN VALIDACIONES
 
         $name =  $request->input('name');
-        $tipoMueble =  $request->input('tipoMueble') === "ext" ? "1" : "2";
-        $filtro =  $request->input('filtro');
+        $tipoMueble =  $request->input('tipoMueble') === "int" ?  "2" : "1";
+        $filtro =  $request->input('filtro') !== null ? $request->input('filtro') :  "todo";
         $ordenCriterio = $request->input("ordenCriterio")  === "nombre" ? "nombre_producto" : "precio_producto";
-        $orden =  $request->input('orden');
+        $orden =  $request->input('orden') !== null ? $request->input('orden') :  "asc";
         $matchInput = ['id_tipo_mueble' => $tipoMueble, "discontinuado" => 0];
 
         // SE NECESITA USAR DB EN ESTE CASO PORQUE ARMO DOS ESTRUCTURAS PRODUCTOS Y COMBOS
         // NECESITO QUE SEAN ARRAYS PARA ORDENARLOS MAS COMODAMENTE
 
-
-        if (count($request->all()) <= 1) {
-            // EN CASO DE BUSCAR SIN FILTROS
-            $matchInput = ["discontinuado" => 0];
-            $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy('nombre_producto', 'ASC')->paginate(2);
-            $resultados->appends(["name" =>  $name]);
-            return view("cliente.productos.index", compact("name", "resultados"));
+        if ($filtro === "todo") {
+            // PRODUCTOS Y COMBOS 
+            $combos = $this->combosActivos($name);
+            $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio,  $orden)->paginate(2);
+            $resultados = array_merge($productos->items(), $combos);
+            // ordenamiento
+            $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
+            // paginacion
+            $resultados = $this->paginate($resultados, 4, $request->input('page'));
+            $resultados->appends(["name" => $name, "tipoMueble" => $tipoMueble, "filtro" => $filtro, "ordenCriterio" => $ordenCriterio, "orden" => $orden]);
+        } else  if ($filtro === "productos") {
+            // PRODUCTOS
+            $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio,  $orden)->paginate(4);
         } else {
-            if ($filtro === "todo") {
-                // PRODUCTOS Y COMBOS 
-                $combos = $this->combosActivos($name);
-                $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio,  $orden)->paginate(2);
-                $resultados = array_merge($productos->items(), $combos);
-                // ordenamiento
-                $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
-
-                // paginacion
-                $resultados = $this->paginate($resultados, 4, $request->input('page'));
-
-                $resultados->appends(["name" => $name, "tipoMueble" => $tipoMueble, "filtro" => $filtro, "ordenCriterio" => $ordenCriterio, "orden" => $orden]);
-                return view("cliente.productos.index", compact("name", "tipoMueble", "filtro", "ordenCriterio", "orden", "resultados"));
-            } else  if ($filtro === "productos") {
-                // PRODUCTOS
-                $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio,  $orden)->paginate(4);
-                return view("cliente.productos.index", compact("name", "tipoMueble", "filtro", "ordenCriterio", "orden", "resultados"));
-            } else {
-                // COMBOS
-                $resultados = $this->combosActivos($name);
-                $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
-                $resultados = $this->paginate($resultados, 4, $request->input('page'));
-                return view("cliente.productos.index", compact("name", "tipoMueble", "filtro", "ordenCriterio", "orden", "resultados"));
-            }
+            // COMBOS
+            $resultados = $this->combosActivos($name);
+            $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
+            $resultados = $this->paginate($resultados, 4, $request->input('page'));
         }
+
+        return view("cliente.productos.index", compact("name", "tipoMueble", "filtro", "ordenCriterio", "orden", "resultados"));
     }
 
 
-    // FUNCION PARA BUSCAR TODOS LOS COMBOS ACTIVOS BAJO LOS CRITERIOS DE FILTRADO
+    // FUNCION PARA BUSCAR TODOS LOS COMBOS ACTIVOS
 
     public function combosActivos($searchTerm)
     {
