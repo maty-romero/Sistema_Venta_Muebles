@@ -7,6 +7,8 @@ use App\Models\Oferta;
 use App\Models\OfertaCombo;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
@@ -75,81 +77,60 @@ class ProductoController extends Controller
 
     public function search(Request $request)
     {
+
+
         $name =  $request->input('name');
-        $tipoMueble =  $request->input('tipoMueble');
-        $filtro =  $request->input('filtro');
-        $ordenCriterio =  $request->input('ordenCriterio');
-        $orden =  $request->input('orden');
-
-
-        // GET PARA BUSQUEDA EN TODO EL SISTEMA
-
-
-        // $validated = $request->validate([
-        // "name" => ""
-        // "tipoMueble" => ""
-        // "filtro" => ""
-        // "ordenCriterio" => ""
-        // "orden" => ""
-        // ]);
-
-        if (count($request->all()) < 3) {
-            $matchInput = ["discontinuado" => 0];
-
-            $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy('nombre_producto', 'ASC')->paginate(2);
-
-            $resultados->appends(["name" =>  $name]);
-
-            return view("cliente.productos.index", compact("name", "resultados"));
-        }
-
-        // POST PARA HACERLO EN INDEX PRODUCTOS
-
         $tipoMueble =  $request->input('tipoMueble') === "ext" ? "1" : "2";
+        $filtro =  $request->input('filtro');
         $ordenCriterio = $request->input("ordenCriterio")  === "nombre" ? "nombre_producto" : "precio_producto";
+        $orden =  $request->input('orden');
         $matchInput = ['id_tipo_mueble' => $tipoMueble, "discontinuado" => 0];
 
+        // SE NECESITA USAR DB EN ESTE CASO PORQUE ARMO DOS ESTRUCTURAS PRODUCTOS Y COMBOS
+        // NECESITO QUE SEAN ARRAYS PARA ORDENARLOS MAS COMODAMENTE
 
-        if ($request->input('filtro') === "todo") { //PRODUCTOS Y COMBOS
-            // $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $request->input("orden"))->paginate(2);
-            // $combos = $this->combosActivos($name, $ordenCriterio, $request->input("orden"));
 
-            // $resultados = ["productos" => $productos, "combos" => $combos];  
+        if (count($request->all()) <= 1) {
+            // EN CASO DE BUSCAR SIN FILTROS
+            $matchInput = ["discontinuado" => 0];
+            $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy('nombre_producto', 'ASC')->paginate(2);
+            $resultados->appends(["name" =>  $name]);
+            return view("cliente.productos.index", compact("name", "resultados"));
+        } else {
+            if ($filtro === "todo") {
+                // PRODUCTOS Y COMBOS 
+                $combos = $this->combosActivos($name);
+                $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio,  $orden)->paginate(2);
+                $resultados = array_merge($productos->items(), $combos);
+                // ordenamiento
+                $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
 
-            $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $request->input("orden"))->paginate(2);
-        } else if ($request->input('filtro') === "productos") { // PRODUCTOS
-            $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $request->input("orden"))->paginate(2);
-        } else {  // COMBOS 
-            $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $request->input("orden"))->paginate(2);
+                // paginacion
+                $resultados = $this->paginate($resultados, 4, $request->input('page'));
 
-            // $resultados = $this->combosActivos($name, $ordenCriterio, $request->input("orden"));
+                $resultados->appends(["name" => $name, "tipoMueble" => $tipoMueble, "filtro" => $filtro, "ordenCriterio" => $ordenCriterio, "orden" => $orden]);
+                return view("cliente.productos.index", compact("name", "tipoMueble", "filtro", "ordenCriterio", "orden", "resultados"));
+            } else  if ($filtro === "productos") {
+                // PRODUCTOS
+                $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio,  $orden)->paginate(4);
+                return view("cliente.productos.index", compact("name", "tipoMueble", "filtro", "ordenCriterio", "orden", "resultados"));
+            } else {
+                // COMBOS
+                $resultados = $this->combosActivos($name);
+                $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
+                $resultados = $this->paginate($resultados, 4, $request->input('page'));
+                return view("cliente.productos.index", compact("name", "tipoMueble", "filtro", "ordenCriterio", "orden", "resultados"));
+            }
         }
-
-        // dd($resultados);
-
-        //  dd($resultados->links());
-
-        return view("cliente.productos.index", compact("name", "tipoMueble", "filtro", "ordenCriterio", "orden", "resultados"));
-
-        //     return view("cliente.productos.index", compact("name", "resultados"));
-
-
-
-        // $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy('nombre_producto', 'ASC')->paginate(2);
-
-        // $productos->appends(["name" =>  $name]);
-
-        // return view("cliente.productos.index", compact("name", "productos"));
     }
 
 
     // FUNCION PARA BUSCAR TODOS LOS COMBOS ACTIVOS BAJO LOS CRITERIOS DE FILTRADO
 
-    public function combosActivos($searchTerm, $ordenCriterio, $orden)
+    public function combosActivos($searchTerm)
     {
 
         $today = date("Y-m-d");
-        $ordenCheck = $orden === "" ? "asc" : $orden;
 
 
         // SI HAY TERMINO DE BUSQUEDA 
@@ -217,40 +198,56 @@ class ProductoController extends Controller
                 array_push($arrayProductosCombos, $comboCompleto);
             }
         }
+
+
+
+        return ($arrayProductosCombos);
+    }
+
+
+    public function paginate($items, $perPage, $actualPage)
+    {
+        $pageStart = $actualPage;
+        // Start displaying items from this number;
+        $offSet = ($pageStart * $perPage) - $perPage;
+
+        // Get only the items you need using array_slice
+        $itemsForCurrentPage = array_slice($items, $offSet, $perPage, true);
+
+        return new LengthAwarePaginator($itemsForCurrentPage, count($items), $perPage, Paginator::resolveCurrentPage(), array('path' => Paginator::resolveCurrentPath()));
+    }
+
+    public function sortArray($array, $ordenCriterio, $orden)
+    {
         if ($ordenCriterio !== "") {
             if ($orden  === "asc") {
-
                 if ($ordenCriterio === "nombre_producto") {
-                    usort($arrayProductosCombos, function ($a, $b) {
-                        return strcmp($a['nombreCombo'], $b['nombreCombo']);
+                    usort($array, function ($a, $b) {
+                        return strcmp(isset($a['nombre_producto']) ? $a['nombre_producto'] : $a['nombreCombo'], isset($b['nombre_producto']) ? $b['nombre_producto'] : $b['nombreCombo']);
                     });
                 } else {
-                    usort($arrayProductosCombos, function ($a, $b) {
-                        return strcmp($a['precioTotal'], $b['precioTotal']);
+                    usort($array, function ($a, $b) {
+                        return strcmp(isset($a['precioTotal']) ? $a['precioTotal'] : $a['precio_producto'], isset($b['precioTotal']) ? $b['precioTotal'] : $b['precio_producto']);
                     });
                 }
             } else {
                 if ($ordenCriterio === "nombre_producto") {
 
-                    usort($arrayProductosCombos, function ($a, $b) {
-                        return strcmp($b['nombreCombo'], $a['nombreCombo']);
+                    usort($array, function ($a, $b) {
+                        return strcmp(isset($b['nombre_producto']) ? $b['nombre_producto'] : $b['nombreCombo'], isset($a['nombre_producto']) ? $a['nombre_producto'] : $a['nombreCombo']);
                     });
                 } else {
-                    usort($arrayProductosCombos, function ($a, $b) {
-                        return strcmp($b['precioTotal'], $a['precioTotal']);
+                    usort($array, function ($a, $b) {
+                        return strcmp(isset($b['precioTotal']) ? $b['precioTotal'] : $b['precio_producto'], isset($a['precioTotal']) ? $a['precioTotal'] : $a['precio_producto']);
                     });
                 }
             }
         } else {
-            usort($arrayProductosCombos, function ($a, $b) {
-                return strcmp($a['nombreCombo'], $b['nombreCombo']);
+            usort($array, function ($a, $b) {
+                return strcmp(isset($a['nombre_producto']) ? $a['nombre_producto'] : $a['nombreCombo'], isset($b['nombre_producto']) ? $b['nombre_producto'] : $b['nombreCombo']);
             });
         }
 
-
-
-
-
-        return ($arrayProductosCombos);
+        return $array;
     }
 }
