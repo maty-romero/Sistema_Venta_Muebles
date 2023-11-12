@@ -26,6 +26,7 @@ class ClienteFactory extends Factory
             'tipo_cliente' => fake()->randomElement(['fisico', 'juridico']),
             "dni_cuit" => fake()->numberBetween($min = 10000000, $max = 99999999),
             "codigo_postal_cliente" => fake()->numberBetween($min = 10000000, $max = 99999999),
+            "nro_telefono" => fake()->numberBetween($min = 10000000, $max = 99999999)
         ];
     }
 }

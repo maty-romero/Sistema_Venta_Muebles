@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
+    Route::get('/perfilCliente', [UsuarioController::class, 'show'])->name('cliente_show');
 });
 
 //Rutas para ver productos y combos
@@ -60,8 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
 
-Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
-Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta');
+Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
 
 //Route::view('/detalleCompra/{idVenta}','cliente.ventas.show')->name('cliente_show_venta');
 

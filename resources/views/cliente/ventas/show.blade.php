@@ -24,19 +24,8 @@
         <h1 class="mb-2 block font-sans text-5xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Detalle Compra</h1><br>
         
         @php
-
             dump($datos); 
-
-
-            $products = [
-                [
-                    'nombre' => 'Producto 1',
-                    'cantidad' => 3,
-                    'precio' => 25000,
-                    'descuento' => 5000,
-                ]
-            ];
-
+            $totalVenta = 0; 
         @endphp
         
         <div class="w-full">
@@ -55,7 +44,10 @@
                                     -
                                 @endif
                             </td>
-                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($producto['precio_venta'])</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($producto['precio_producto']*$producto['unidades_vendidas'])</td>
+                            @php
+                                $totalVenta += $producto['precio_producto']*$producto['unidades_vendidas']; 
+                            @endphp
                         </tr>
                     @endforeach
                 @endif
@@ -73,7 +65,11 @@
                                     -
                                 @endif
                             </td>
-                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($combo['precio_combo_final'])</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($combo['precio_unitario']*$combo['unidades_vendidas'])</td>
+                        
+                            @php
+                                $totalVenta += $combo['precio_unitario']*$combo['unidades_vendidas']; 
+                            @endphp
                         </tr>
                     @endforeach
                 @endif
@@ -83,7 +79,7 @@
             <div class="bg-gray-600 container mx-auto rounded-lg p-6">
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Total</p>
-                    <p class="text-white font-poppins text-2xl"> @money($datos['venta']['monto_final_venta'])</p>
+                    <p class="text-white font-poppins text-2xl"> @money($totalVenta)</p>
                 </div>
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Fecha Facturaci&oacute;n</p>

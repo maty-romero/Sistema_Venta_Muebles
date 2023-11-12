@@ -21,8 +21,15 @@
     <x-custom.navbar_client>
     </x-custom.navbar_client>
     <br><br>
+
+    @php
+        //dump($cliente);
+        //dump($ventas);
+        //dump($ventas->first()->producto->first())
+    @endphp
+
     <div id="infoCliente" class="container mx-auto bg-white rounded-2xl p-6">
-        <h3 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Usuario</h3>
+        <h3 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Perfil del cliente</h3>
         <form action="">
 
             <div class="py-5">
@@ -33,9 +40,9 @@
                         <td class="pr-16"><label class="font-poppins">Documento</label></td>
                     </tr>
                     <tr>
-                        <td class="pr-16"><input id="txtNombre" type="text" class="rounded-md"></td>
-                        <td class="pr-16"><input id="txtPersoneria" type="text" disabled class="rounded-md"></td>
-                        <td class="pr-16"><input id="txtDocumento" type="text" class="rounded-md"></td>
+                        <td class="pr-16"><input id="txtNombre" type="text" class="rounded-md" value="{{ $cliente->nombre_cliente }}"></td>
+                        <td class="pr-16"><input id="txtPersoneria" type="text" disabled class="rounded-md" value="{{ $cliente->tipo_cliente }}"></td>
+                        <td class="pr-16"><input id="txtDocumento" type="text" class="rounded-md" value="{{ $cliente->dni_cuit }}"></td>
                     </tr>
                     <tr>
                         <td class="pr-16 pt-8"><label class="font-poppins">Email</label></td>
@@ -43,9 +50,9 @@
                         <td class="pr-16 pt-8"><label class="font-poppins">N&uacute;mero de T&eacute;lefono</label></td>
                     </tr>
                     <tr>
-                        <td class="pr-16"><input id="txtEmail" type="text" class="rounded-md"></td>
-                        <td class="pr-16"><input id="txtCodigoPostal" type="text" class="rounded-md"></td>
-                        <td class="pr-16"><input id="txtNroTel" type="text" class="rounded-md"></td>
+                        <td class="pr-16"><input id="txtEmail" type="text" class="rounded-md" value="{{ $cliente->usuario->email }}"></td>
+                        <td class="pr-16"><input id="txtCodigoPostal" type="text" class="rounded-md" value="{{ $cliente->codigo_postal_cliente }}"></td>
+                        <td class="pr-16"><input id="txtNroTel" type="text" class="rounded-md" value="{{ $cliente->nro_telefono }}"></td>
                     </tr>
                 </table>
             </div>
@@ -66,41 +73,31 @@
     </div>
     
     <div id="comprasRecientes" class="container mx-auto mt-10 bg-white rounded-2xl p-6">
-        <h2 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Compras recientes</h2><br>
-        
-        @php 
-            $items_venta = [
-                [
-                    'imagenURL' => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=150&amp;q=80 ',
-                    'nombreProducto' => 'Silla',
-                    'descripcionProducto' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean auctor nisl eget nunc consectetur, ut dictum lectus convallis. Donec mi lorem, tincidunt in facilisis sed, feugiat ac nunc. Cras tincidunt id nisl nec dapibus. Nullam mollis lectus a venenatis dapibus. Quisque non euismod turpis. Curabitur a nisl nisl. Nunc tincidunt ac nibh vel mattis. Proin vel luctus eros. Vestibulum ac nulla condimentum, consectetur purus id, consequat lectus.',
-                    'fechaVenta' => '10/10/20',
-                    'totalVenta' => '4000' 
-                ],
-                [
-                    'imagenURL' => 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                    'nombreProducto' => 'Auriculares',
-                    'descripcionProducto' => 'Ut consequat diam in nunc malesuada fermentum. Nulla ut ligula sagittis, porta neque a, pulvinar ex. Phasellus vel vulputate nunc. Curabitur placerat suscipit massa, in feugiat ligula elementum vulputate. Aliquam posuere fermentum finibus. Aliquam iaculis dapibus iaculis. In tristique augue et efficitur feugiat. Sed ut nibh a nulla vehicula accumsan.',
-                    'fechaVenta' => '20/11/22',
-                    'totalVenta' => '8000'     
-                ]
-            ]; 
+        <h2 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
+            Compras recientes
+        </h2>
+        <br>
 
-        @endphp
+        @if (count($ventas) > 0)
+            @foreach ($ventas as $venta)
+            
+                @php
+                    $imagenURL = $venta->producto->first()->imagenURL ?? $venta->ofertaCombo->first()->imagenURL;
+                    $fechaVenta = date('d-m-Y H:m', strtotime($venta->fecha_venta))
+                @endphp
 
-        @foreach ($items_venta as $item)
-            <x-custom.sale-item  
-            :imagenURL="$item['imagenURL']"
-            :nombreProducto="$item['nombreProducto']"
-            :descripcionProducto="$item['descripcionProducto']"
-            :fechaVenta="$item['fechaVenta']"
-            :totalVenta="$item['totalVenta']"
-            />
-        @endforeach
-        
+                <x-custom.sale-item  
+                    :imagenURL="$imagenURL"
+                    :nroPago="$venta->nro_pago"
+                    :domicilioEnvio="$venta->domicilio_destino"
+                    :fechaVenta="$fechaVenta"
+                    :totalVenta="$venta->monto_final_venta"
+                    :ventaId="$venta->id"
+                />
+            @endforeach    
+        @endif
               
-        
-         
-    </div>    
+    </div> 
+    <br>   
 </body>
 </html>

@@ -8,6 +8,8 @@ use App\Models\Venta;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 
 class VentaController extends Controller
@@ -67,23 +69,32 @@ class VentaController extends Controller
         return view("cliente.ventas.carrito", ['msj' => $msj, 'subtotal' => Venta::calcularSubtotal(), 'carrito' => Venta::getCarrito(), 'ofertaMonto' => $ofertaMonto]);
     }
 
-    public function show(string $id)
+    public function show(string $idVenta)
     {
-        $datos = [];
-
         // Info de la venta dado un id en general 
-        $venta = Venta::select('id', 'fecha_venta', 'monto_final_venta', 'domicilio_destino')
-            ->findOrFail($id);
+        $venta = Venta::select('id', 'fecha_venta', 'monto_final_venta', 'domicilio_destino', 'id_usuario_cliente')
+            ->findOrFail($idVenta);
 
-        //formateo de la fecha venta
-        $fechaNueva = date("d/m/Y", strtotime($venta->fecha_venta));
-        $venta->fecha_venta = $fechaNueva;
+        if(Auth::user()->cliente->id_usuario_cliente == $venta->id_usuario_cliente){
+            $datos = [];
+            //formateo de la fecha venta
+            $fechaNueva = date("d/m/Y", strtotime($venta->fecha_venta));
+            $venta->fecha_venta = $fechaNueva;
 
-        $datos['venta'] = $venta;
-        $datos['productos'] = VentaController::getProductosVendidos($venta);
-        $datos['combos'] = VentaController::getCombosVendidos($venta);
+            $datos['venta'] = $venta;
+            $datos['productos'] = VentaController::getProductosVendidos($venta);
+            $datos['combos'] = VentaController::getCombosVendidos($venta);
 
-        return view('cliente.ventas.show', ['datos' => $datos]);
+            return view('cliente.ventas.show', ['datos' => $datos]);    
+        }
+
+        //No hay coincidencia 
+        return Redirect::route('home');
+        
+
+        
+
+        
     }
 
     private static function getProductosVendidos($venta)
@@ -128,10 +139,9 @@ class VentaController extends Controller
             $unidadesVendidasCombo = $combo->pivot->unidades_vendidas_combo;
             $precioCombo = $combo->pivot->precio_combo; //precio_venta_combo -> luego del descuento
 
-            $productos = $combo->oferta_combo_producto()->get();
-            $datos['hola'] = $productos;
-
-            $precioUnitarioCombo = 0.0;
+            $productos = $combo->oferta_combo_producto()->get(); 
+            
+            $precioUnitarioCombo = 0.0; 
 
             foreach ($productos as $producto) {
                 $cantidadProductoCombo = $producto->pivot->cantidad_producto_combo;
