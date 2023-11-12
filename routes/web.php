@@ -7,6 +7,7 @@ use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Stmt\Return_;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,16 +23,32 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ProductoController::class, 'index'])->name('home');
 Route::get("/search", [ProductoController::class, 'search']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], function () {
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    Route::resource('/usuario', UsuarioController::class);
+    Route::resource('/producto', ProductoController::class);
+    Route::resource('/ventas', VentaController::class);
+    Route::resource('/ofertas', OfertaController::class);
+    Route::resource('/reportes', ReporteController::class);
+});
+
+Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
+
+// Route::get('/', function () {
+//     return view('cliente.welcome');
+// })->middleware(['auth', 'verified']);
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
     Route::get('/perfilCliente', [UsuarioController::class, 'show'])->name('cliente_show');
 });
 
@@ -46,31 +63,33 @@ Route::patch('/carrito/{tipoItem}/{id}', [VentaController::class, 'editCart'])->
 Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
 
 //Rutas de ventas para cliente
+Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
 Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
+
+Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');   
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 
 //Rutas de administrativos
 Route::middleware('auth')->group(function () {
+    // Route::view('/admin', 'administrador.admin.index')->name('administrador_admin');
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
-
-    Route::view('/productos', 'administrador.productos.index')->name('administrador_productos');
+    Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
+    
+    Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
+    Route::view('/productos/crear', 'administrador.productos.create')->name('administrador_productos');
+    Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
+    Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
 
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
 
-    Route::view('/ofertas', 'administrador.ofertas.index')->name('administrador_ofertas');
+    Route::get('/ofertas', [OfertaController::class, 'index'])->name('administrador_ofertas');
     Route::get('/ofertas/crear', [OfertaController::class, 'create'])->name('crear_oferta');
     Route::post('/ofertas/guardar', [OfertaController::class, 'store'])->name('guardar_oferta');
     
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
 
-Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
 
-//Route::view('/detalleCompra/{idVenta}','cliente.ventas.show')->name('cliente_show_venta');
-
-Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
-
-Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
-Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
 
 //Rutas reportes
 Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");

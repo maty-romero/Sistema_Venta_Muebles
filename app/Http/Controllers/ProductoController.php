@@ -17,6 +17,7 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
+    
     public function index()
     {
         $productos = Producto::paginate(4);
@@ -24,12 +25,18 @@ class ProductoController extends Controller
         return (view("cliente.welcome", compact("productos", "combos")));
     }
 
+    public function index_adm(){
+        $products = Producto::with('tipo_mueble')->paginate(5);
+        return (view("administrador.productos.index", compact('products')));
+
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view("administrador.productos.create");
     }
 
     /**
@@ -37,7 +44,23 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->input('nombreProducto'));
+        // dd($request->input('cmbTipoMueble'));
+        
+              $producto = Producto::create(['nombre_producto' => $request->input('nombreProducto'),
+        'descripcion' => $request->input('descripcion'),
+        'stock' => $request->input('stockInical'),
+        'precio_producto' => $request->input('precio'),
+        'id_tipo_mueble' => $request->input('cmbTipoMueble'),
+        'largo' => $request->input('largo'),
+        'ancho' => $request->input('ancho'),
+        'alto' => $request->input('alto'),
+        'material' => $request->input('cmbMaterialMueble')
+        , ]);
+
+        $producto->save();
+        
+        return redirect()->route('producto.index');
     }
 
     /**
@@ -54,25 +77,36 @@ class ProductoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Producto $producto)
     {
-        //
+        return view('administrador.productos.edit', compact('producto'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Producto $producto)
     {
-        //
+
+        $producto->update(['nombre_producto' => $request->input('nombreProducto'),
+        'descripcion' => $request->input('descripcion'),
+        'precio_producto' => $request->input('precio'),
+        'id_tipo_mueble' => $request->input('cmbTipoMueble'),
+        'largo' => $request->input('largo'),
+        'ancho' => $request->input('ancho'),
+        'alto' => $request->input('alto'),
+        'material' => $request->input('cmbMaterialMueble')
+        , ]);
+        return redirect()->route('producto.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Producto $producto)
     {
-        //
+        $producto->delete();
+        return redirect()->route('producto.index');
     }
 
     public function search(Request $request)
@@ -238,5 +272,12 @@ class ProductoController extends Controller
         }
 
         return $array;
+    }
+
+    public function updateStock(Request $request, Producto $producto)
+    {
+
+        $producto->update(['stock' => $request->input('stockActualizado'),]);
+        return 'Stock nuevo';//redirect()->route('producto.index');
     }
 }

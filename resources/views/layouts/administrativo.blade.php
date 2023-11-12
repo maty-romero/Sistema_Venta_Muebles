@@ -14,11 +14,12 @@
     @yield('scripts')
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
 </head>
 
 
-<body class="antialiased bg-[#F0F0F0] bg-pattern-image ">
-
+<body class="antialiased bg-[#F0F0F0] bg-pattern-image">
+    
     <x-custom.navbar_adm></x-custom.navbar_adm>
 
     <div class='flex w-full m-0'>
@@ -32,6 +33,7 @@
         </header>
         <div class='overflow-hidden w-max-content float-center mt-5 ml-16 mr-0'>
             @yield('contenido')
+
         </div>
     </div>
     </div>
