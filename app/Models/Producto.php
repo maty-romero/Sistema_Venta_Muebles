@@ -23,6 +23,7 @@ class Producto extends Model
         "ancho",
         "alto",
         "material",
+        "imagenURL",
         "id_tipo_mueble"
     ];
 
