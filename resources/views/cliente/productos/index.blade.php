@@ -2,9 +2,10 @@
 @section('content')
 
 
-
-<x-custom.filters :tipoMueble="$tipoMueble" :filtro="$filtro" :ordenCriterio="$ordenCriterio" :orden="$orden">
-</x-custom.filters>
+<div class="px-32 pb-12">
+  <x-custom.filters :tipoMueble="$tipoMueble" :filtro="$filtro" :ordenCriterio="$ordenCriterio" :orden="$orden">
+  </x-custom.filters>
+</div>
 <div id="containerResultados" class=" grid grid-cols-4 px-32 pb-10 gap-x-4 ">
   @foreach ( $resultados as $item )
   @if (isset($item->nombre_producto))
