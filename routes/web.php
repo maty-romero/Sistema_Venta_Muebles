@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
     //Route::view('/perfilCliente', 'cliente.usuario.index')->name('cliente_show');
     Route::get('/perfilCliente', [UsuarioController::class, 'show'])->name('cliente_show');
+    Route::get('/perfilCliente/{idCliente}', [UsuarioController::class, 'update_psw'])->name('cliente_cambio_contrasenia');
 });
 
 //Rutas para ver productos y combos

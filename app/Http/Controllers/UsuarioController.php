@@ -29,6 +29,13 @@ class UsuarioController extends Controller
         //$clienteLogeado = User::find($usuario->id)->with('cliente')->first(); 
         return view('cliente.usuario.index', compact('cliente', 'ventas'));
     }
+
+    public function update_psw(string $idCliente, Request $request){
+        $usuario = User::findOrFail($idCliente);
+        $nuevaContrasenia = $request->input('nuevaContrasenia'); 
+        $usuario->update(['password' => bcrypt($nuevaContrasenia)]); 
+    }
+
     public function edit(string $id)
     {
         //

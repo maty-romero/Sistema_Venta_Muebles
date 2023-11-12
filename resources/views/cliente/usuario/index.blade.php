@@ -58,10 +58,31 @@
             </div>
             
             <div class="relative flex flex-row">
-                <button class="flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-sm font-bold bg-gray-500 text-white hover:bg-gray-500 transition-all active:bg-gray-600 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                {{-- <button class="flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-sm font-bold bg-gray-500 text-white hover:bg-gray-500 transition-all active:bg-gray-600 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
                     Editar Contraseña
-                </button>
+                </button> --}}
+
+                @component('components.custom.modal_login')
+                    @slot('textoBtn', 'Editar Contraseña')
+                    @slot('clasesBtn', 'flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-sm font-bold bg-gray-500 text-white hover:bg-gray-500 transition-all active:bg-gray-600 disabled:opacity-50 disabled:shadow-none')
+                    @slot('encabezado', 'Ingrese su nueva contraseña')
+                    @slot('contenido')
+                        <form  method="POST" action='{{ route('cliente_cambio_contrasenia', Auth::user()->cliente->id_usuario_cliente) }}'>
+                            @csrf
+                            <div>
+                                <label class='block font-medium text-sm text-zinc-700'>Ingrese su nueva contraseña</label>
+                                <input id='idNuevaContrasenia' type='text' name='nuevaContrasenia' required class='block w-full mt-1 border-gray-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                            </div>
+                            <div class='mt-4 flex items-center justify-end'>
+                                <button type='submit' class='py-3 px-6 rounded-lg text-center font-sans text-sm font-bold bg-green-500 text-white hover:bg-green-600 transition-all'>Confirmar</button>
+                            </div>
+                        </form>
+                    @endslot
+                @endcomponent
             </div>
+
+            
+
             <br>
             <div class="relative flex flex-row">
                 <button id="btnConfirmarCambios" class="ml-auto py-3 px-6 rounded-lg text-center font-sans text-sm font-bold bg-green-500 text-white hover:bg-green-600 transition-all" type="button">
