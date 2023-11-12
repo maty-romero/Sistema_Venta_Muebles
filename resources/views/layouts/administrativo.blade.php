@@ -11,7 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+    @yield('scripts')
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
@@ -24,10 +24,10 @@
 
     <div class='flex w-full m-0'>
     <div class='min-h-screen m-0 p-0 float-left h-max-content transition-transform -translate-x-full sm:translate-x-0'>
-       <x-custom.sidebar></x-custom.sidebar>
+        <x-custom.sidebar></x-custom.sidebar>
     </div>
 
-    <div class='overflow-hidden h-fit float-center w-full mr-4'>
+    <div class='overflow-hidden h-fit float-center w-full mr-4 mb-8'>
         <header class='w-full ml-16 mt-4 pb-2 border-white border-b-4'>
             <h1 class='text-6xl text-left'>@yield('encabezado')</h1>
         </header>

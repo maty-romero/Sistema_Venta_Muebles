@@ -14,8 +14,8 @@
         <p class="font-poppins text-1g">Nombre del producto</p>
         <input id="txtNombreProducto" type="text" class="rounded-md mb-5" name="nombreProducto">
 
-        <p class="font-poppins text-1g">Descripci&oacute;n</p>
-        <textarea id="txtDescripcion" name="descripcion" rows="3" cols="40" class="resize-none rounded-md mb-5"></textarea>
+        <p class="font-poppins text-1g">Descripción</p>
+        <textarea id="txtDescripcion" name="descripcion" rows="3" cols="40" class="resize-none rounded-md w-64 mb-5"></textarea>
 
         <p class="font-poppins text-1g">Precio</p>
         <input id="txtPrecio" type="number" class="rounded-md mb-5" name="precio">

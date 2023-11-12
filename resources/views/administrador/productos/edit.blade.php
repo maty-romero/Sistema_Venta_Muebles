@@ -3,7 +3,8 @@
 @section('titulo')
     Editar Producto
 @endsection
- @section('encabezado')
+
+@section('encabezado')
     Editar producto
 @endsection
 

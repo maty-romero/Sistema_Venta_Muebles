@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class card extends Component
+class cardProducto extends Component
 {
     public $producto;
     /**
@@ -23,6 +23,6 @@ class card extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.custom.card');
+        return view('components.custom.cardProducto');
     }
 }

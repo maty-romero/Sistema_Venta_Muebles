@@ -1,9 +1,21 @@
-<x-app-layout>
+@extends("layouts.app")
 
-    <div class="grid grid-cols-4 px-32 gap-x-4">
-        @foreach ( $productos as $producto )
-        <x-custom.card :producto="$producto">
-        </x-custom.card>
-        @endforeach
-    </div>
-</x-app-layout>
+@section('content')
+<h1 class="pl-32 text-5xl pb-6 font-medium">Productos</h1>
+<div class="grid  grid-cols-4 px-32 gap-x-4">
+    @foreach ( $productos as $producto )
+    <x-custom.cardProducto :producto="$producto">
+    </x-custom.cardProducto>
+    @endforeach
+</div>
+<h1 class="pl-32 text-5xl pb-6 font-medium">Combos</h1>
+<div class="grid grid-cols-4 px-32 gap-x-4">
+    @foreach ( $combos as $combo )
+
+    <x-custom.cardCombo :combo="$combo">
+    </x-custom.cardCombo>
+
+    @endforeach
+</div>
+
+@endsection

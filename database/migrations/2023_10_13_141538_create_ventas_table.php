@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
             $table->dateTime('fecha_venta');
-            $table->float('monto_final_venta')->nullable()->default(0.00);
+            $table->decimal('monto_final_venta', 12, 2)->nullable()->default(0.00);
             $table->integer('nro_pago');
             $table->string('codigo_postal_destino');
             $table->string('domicilio_destino');

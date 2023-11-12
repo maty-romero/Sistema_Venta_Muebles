@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{$producto->nombre_producto}}</title>
+    <title>{{$combo["nombre_combo"]}}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -22,11 +22,11 @@
     </x-custom.navbar_client>
 
     <header class='w-5/6 ml-auto mr-auto mt-10'>
-        <h1 class='text-5xl text-left'>Muebles &raquo; {{Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble)}}</h1>
+        <h1 class='text-5xl text-left'>Combos</h1>
     </header>
 
     <div class='w-5/6 mx-auto mt-10 pb-10'>
-        <x-custom.product_detail :producto='$producto' :enCarrito='$enCarrito'></x-custom.product_detail>
+        <x-custom.combo_detail :combo='$combo' :enCarrito='$enCarrito'></x-custom.combo_detail>
     </div>
 
 </body>

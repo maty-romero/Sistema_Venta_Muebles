@@ -24,6 +24,10 @@
         <h1 class="mb-2 block font-sans text-5xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Detalle Compra</h1><br>
         
         @php
+
+            dump($datos); 
+
+
             $products = [
                 [
                     'nombre' => 'Producto 1',
@@ -37,30 +41,57 @@
         
         <div class="w-full">
 
-            <x-custom.table :columnas="['Nombre', 'Cantidad', 'Precio Unitario', 'Descuento', 'Total']">
-                @foreach ($products as $product)
-                    <tr>
-                        <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $product['nombre'] }}</td>
-                        <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $product['cantidad'] }}</td>
-                        <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">${{ number_format($product['precio'], 2) }}</td>
-                        <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">${{ number_format($product['descuento'], 2) }} (20%)</td>
-                        <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">${{ number_format($product['cantidad'] * ($product['precio'] - $product['descuento']), 2) }}</td>
-                    </tr>
-                @endforeach
+            <x-custom.table :columnas="['Nombre Producto', 'Cantidad', 'Precio Unitario', 'Descuento', 'Total']">
+                @if (count($datos['productos']) > 0)
+                    @foreach ($datos['productos'] as $producto)
+                        <tr>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $producto['nombre_producto'] }}</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $producto['unidades_vendidas'] }}</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($producto['precio_producto'])</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                                @if ($producto['porcentaje_descuento'] != null)
+                                    @money(($producto['porcentaje_descuento'] * $producto['precio_producto']) / 100) (%{{ $producto['porcentaje_descuento'] }})
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($producto['precio_venta'])</td>
+                        </tr>
+                    @endforeach
+                @endif
+               
+                @if (count($datos['combos']) > 0)
+                    @foreach ($datos['combos'] as $combo)
+                        <tr>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $combo['nombre_combo'] }}</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">{{ $combo['unidades_vendidas'] }}</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($combo['precio_unitario'])</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                                @if ($combo['porcentaje_descuento'] != null)
+                                @money(($combo['porcentaje_descuento'] * $combo['precio_unitario']) / 100) (%{{ $combo['porcentaje_descuento'] }})
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($combo['precio_combo_final'])</td>
+                        </tr>
+                    @endforeach
+                @endif
+
             </x-custom.table>
 
             <div class="bg-gray-600 container mx-auto rounded-lg p-6">
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Total</p>
-                    <p class="text-white font-poppins text-2xl">$3000</p>
+                    <p class="text-white font-poppins text-2xl"> @money($datos['venta']['monto_final_venta'])</p>
                 </div>
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Fecha Facturaci&oacute;n</p>
-                    <p class="text-white font-poppins text-2xl">01/10/2023</p>
+                    <p class="text-white font-poppins text-2xl">{{ $datos['venta']['fecha_venta'] }}</p>
                 </div>
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Domicilio Facturaci&oacuten</p>
-                    <p class="text-white font-poppins text-2xl">Calle Ejemplo #123</p>
+                    <p class="text-white font-poppins text-2xl">{{ $datos['venta']['domicilio_destino'] }}</p>
                 </div>
             </div>
 
