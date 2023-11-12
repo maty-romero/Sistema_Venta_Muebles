@@ -11,7 +11,7 @@ class Cliente extends Model
 {
     use HasFactory;
     protected $primaryKey = "id_usuario_cliente";
-    protected $fillable = ["nombre_cliente", "tipo_cliente", "dni_cuit", "codigo_postal_cliente"]; //campos solicitados al momento de enviar el request
+    protected $fillable = ["nombre_cliente", "tipo_cliente", "dni_cuit", "codigo_postal_cliente", "nro_telefono"]; //campos solicitados al momento de enviar el request
     protected $table = "clientes"; //tabla a referenciar
 
     // Relaciones 
@@ -29,4 +29,16 @@ class Cliente extends Model
         return $this->belongsTo(User::class, "id_usuario_cliente");
     }
 
+    public static function crearCliente($idUsr)
+    {
+        $cliente = new Cliente();
+        $cliente->id_usuario_cliente = $idUsr;
+        $cliente->dni_cuit = 12312323;
+        $cliente->nombre_cliente = 'A';
+        $cliente->codigo_postal_cliente = 9000;
+        $cliente->tipo_cliente = 'fisico';
+        $cliente->nro_telefono = 2;
+
+        $cliente->save();
+    }
 }
