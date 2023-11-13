@@ -14,6 +14,7 @@ class OfertaCombo extends Model
     protected $primaryKey = 'id_oferta_combo';
     protected $fillable = [
         "nombre_combo",
+        "imagenURL",
     ];
     protected $table = "oferta_combo"; //tabla a referenciar
 

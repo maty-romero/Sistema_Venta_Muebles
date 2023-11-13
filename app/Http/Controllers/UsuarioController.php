@@ -39,21 +39,31 @@ class UsuarioController extends Controller
         return view('cliente.usuario.index', compact('cliente', 'ventas'));
     }
 
-    public function edit(string $id)
-    {    
-        return view('administrador.usuarios.edit', compact('usuario'));
+    public function update_psw(Request $request){
+        $usuario = Auth::user();
+        $nuevaContrasenia = $request->input('nuevaContrasenia');
+        $usuario->update(['password' => $nuevaContrasenia]);
+        return redirect()->back()->with('success','');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $usuario)
+    public function edit(string $id)
     {
-        $usuario->update(['name' => $request->input('nombreUsuario'),
-        'email' => $request->input('email'),
-        'rol_usuario' => $request->input('cmbRolUsuario'), ]);
+        ////return view('administrador.usuarios.index', compact('usuario', 'nuevaContrasenia')); 
+    }
+    public function update(Request $request)
+    {
+        $usuario =  Auth::user();
+        $usuario->update(['email' => $request->input('email')]);
 
-        return  redirect()->route('usuario.index');
+        $cliente = $usuario->cliente;
+        $cliente->update([
+            'nombre_cliente' => $request->input('nombre'), 
+            'dni_cuit' => $request->input('documento'),
+            'codigo_postal_cliente' => $request->input('codigoPostal'),
+            'nro_telefono' => $request->input('telefono'),
+        ]);
+
+        return redirect()->back()->with('success','');
     }
 
     /**

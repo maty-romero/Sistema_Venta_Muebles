@@ -50,6 +50,8 @@ Route::middleware('soloCliente')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/perfilCliente', [UsuarioController::class, 'show'])->name('cliente_show');
+    Route::post('/perfilCliente/cambioContrasenia', [UsuarioController::class, 'update_psw'])->name('cliente_cambio_contrasenia');
+    Route::patch('/perfilCliente/cambiosPerfil', [UsuarioController::class, 'update'])->name('cliente_cambio_perfil');
 });
 
 //Rutas para ver productos y combos
