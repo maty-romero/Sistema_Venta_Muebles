@@ -1,12 +1,10 @@
 @props(["combo"])
 
-<div class="mx-auto mb-11 w-auto h-96 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md ">
+<div class="mx-auto mb-11 w-auto h-96 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md min-w-[200px]">
     <div class="p-4 relative h-full">
         <div class="absolute right-8 top-6 bg-[#4DBAF8] text-white px-2 rounded-xl">Combo -{{$combo["descuentoCombo"]}}%
         </div>
-        <img class="h-60 w-full object-cover object-center  rounded-xl"
-            src="https://images.unsplash.com/photo-1674296115670-8f0e92b1fddb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-            alt="Product Image" />
+        <img class="h-60 w-full object-cover object-center  rounded-xl" src="https://images.unsplash.com/photo-1674296115670-8f0e92b1fddb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="Product Image" />
         <div class="flex-col items-center mt-6">
             <p class="text-base font-medium text-black dark:text-gray-300 capitalize">{{$combo["nombreCombo"]}}</p>
             <p class=" text-xs font-semibold text-[#5690FF] line-through">${{$combo["precioTotal"]}}</p>
