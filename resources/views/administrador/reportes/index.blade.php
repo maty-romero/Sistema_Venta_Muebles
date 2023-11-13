@@ -13,7 +13,8 @@
 
 
  
-<form method="POST" action='{{route("reporteRedirect")}}' target="_blank">
+<form method="POST" action="{{route('reporteRedirect')}}" target="_blank"> 
+   
     @csrf
 
 <h1 class=" text-2xl pb-2 font-medium">Tipo de reporte</h1>

@@ -22,18 +22,22 @@ class ProductoController extends Controller
     */
 
     public function index_adm(){
-        $products = Producto::with('tipo_mueble')->paginate(5);
-        return (view("administrador.productos.index", compact('products')));
-
-
+        //$products = Producto::with('tipo_mueble')->paginate(5);
+        //return (view("administrador.productos.index", compact('products')));
+        $products = Producto::paginate(4);
+        $combos = array_slice($this->combosActivos("", "", ""), 0, 4);
+        return (view("cliente.welcome", compact("products", "combos")));
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $productos = Producto::paginate(4);
-        $combos = array_slice($this->combosActivos("", "", ""), 0, 4);
-        return (view("cliente.welcome", compact("productos", "combos")));
+        $products = Producto::paginate(5);
+        return (view("administrador.productos.index", compact('products')));
+        //$products = Producto::paginate(4);
+        //$combos = array_slice($this->combosActivos("", "", ""), 0, 4);
+        //return (view("cliente.welcome", compact("products", "combos")));
     }
 
     /**
@@ -95,7 +99,6 @@ class ProductoController extends Controller
 
         $producto->update(['nombre_producto' => $request->input('nombreProducto'),
         'descripcion' => $request->input('descripcion'),
-        'precio_producto' => $request->input('precio'),
         'id_tipo_mueble' => $request->input('cmbTipoMueble'),
         'largo' => $request->input('largo'),
         'ancho' => $request->input('ancho'),
@@ -105,6 +108,14 @@ class ProductoController extends Controller
         return redirect()->route('producto.index');
     }
 
+    public function updateStock(Request $request, Producto $producto)
+    {
+
+        $producto->update([
+        'precio_producto' => $request->input('precio'),
+        'material' => $request->input('cmbMaterialMueble'),]);
+        return redirect()->route('producto.index');
+    }
     /**
      * Remove the specified resource from storage.
      */
@@ -279,10 +290,10 @@ class ProductoController extends Controller
         return $array;
     }
 
-    public function updateStock(Request $request, Producto $producto)
-    {
+    //public function updateStock(Request $request, Producto $producto)
+    //{
 
-        $producto->update(['stock' => $request->input('stockActualizado'),]);
-        return 'Stock nuevo';//redirect()->route('producto.index');
-    }
+    //    $producto->update(['stock' => $request->input('stockActualizado'),]);
+    //    return 'Stock nuevo';//redirect()->route('producto.index');
+    //}
 }
