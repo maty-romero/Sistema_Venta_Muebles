@@ -68,6 +68,7 @@ class OfertaCombo extends Model
         $ofertaCombo = new OfertaCombo();
         $ofertaCombo->id_oferta_combo = $idOferta;
         $ofertaCombo->nombre_combo = request()->input('nombreCombo');
+        $ofertaCombo->imagenURL = request()->input('imgCombo');
         $ofertaCombo->save();
 
         foreach($productos as $prod){

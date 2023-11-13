@@ -67,8 +67,7 @@ Route::middleware('soloAdm')->group(function () {
     Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
     
     Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
-    Route::view('/productos/crear', 'administrador.productos.create')->name('administrador_productos');
-    Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
+    Route::view('/productos/crear', 'administrador.productos.create')->name('administrador_create_producto');
     Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
 
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
