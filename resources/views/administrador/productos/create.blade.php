@@ -9,6 +9,7 @@
 @endsection
 
 @section('contenido')
+<div class='pl-2'>
     <form action="{{ route('producto.store') }}" method="POST">
     @csrf
         <p class="font-poppins text-1g">Nombre del producto</p>
@@ -50,5 +51,5 @@
             Crear producto
         </button>
     </form>
-    
+</div>
 @endsection

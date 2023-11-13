@@ -20,7 +20,6 @@ class UsuarioController extends Controller
     {
         $usuarios = User::paginate(5);
         return view("administrador.usuarios.index", compact('usuarios'));
-        
     }
     public function create()
     {

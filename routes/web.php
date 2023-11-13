@@ -44,7 +44,7 @@ Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('soloCliente')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -70,7 +70,7 @@ Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.ind
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 
 //Rutas de administrativos
-Route::middleware('auth')->group(function () {
+Route::middleware('soloAdm')->group(function () {
     // Route::view('/admin', 'administrador.admin.index')->name('administrador_admin');
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
     Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');

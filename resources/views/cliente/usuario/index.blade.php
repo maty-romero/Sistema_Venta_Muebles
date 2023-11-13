@@ -22,12 +22,6 @@
     </x-custom.navbar_client>
     <br><br>
 
-    @php
-        //dump($cliente);
-        //dump($ventas);
-        //dump($ventas->first()->producto->first())
-    @endphp
-
     <div id="infoCliente" class="container mx-auto bg-white rounded-2xl p-6">
         <h3 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Perfil del cliente</h3>
         <form action="">

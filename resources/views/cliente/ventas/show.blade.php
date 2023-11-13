@@ -82,11 +82,11 @@
                     <p class="text-white font-poppins text-2xl"> @money($totalVenta)</p>
                 </div>
                 <div class="flex justify-between">
-                    <p class="text-white font-poppins text-2xl">Fecha Facturaci&oacute;n</p>
+                    <p class="text-white font-poppins text-2xl">Fecha de facturaci&oacute;n</p>
                     <p class="text-white font-poppins text-2xl">{{ $datos['venta']['fecha_venta'] }}</p>
                 </div>
                 <div class="flex justify-between">
-                    <p class="text-white font-poppins text-2xl">Domicilio Facturaci&oacuten</p>
+                    <p class="text-white font-poppins text-2xl">Domicilio destino</p>
                     <p class="text-white font-poppins text-2xl">{{ $datos['venta']['domicilio_destino'] }}</p>
                 </div>
             </div>
