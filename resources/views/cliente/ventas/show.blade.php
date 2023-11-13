@@ -73,13 +73,16 @@
                 @if ($datos['venta']->ofertaMonto)
                     @php
                         $montoFinalVenta = floatval($datos['venta']['monto_final_venta']);
-                        $montoDesuentoLimite = floatval($datos['venta']->ofertaMonto->monto_limite_descuento);
-                        $porcentajeDescuento = floatval($datos['venta']->ofertaMonto->oferta->porcentaje_descuento);
-                        $descuentoMonto = ($porcentajeDescuento * $montoFinalVenta) / 100; 
+                        $montoDesuentoLimite = floatval($datos['venta']->ofertaMonto->monto_limite_descuento); 
                     @endphp
 
                     @if ($montoFinalVenta >= $montoDesuentoLimite) 
                     
+                        @php
+                            $porcentajeDescuento = floatval($datos['venta']->ofertaMonto->oferta->porcentaje_descuento);
+                            $descuentoMonto = ($porcentajeDescuento * $montoFinalVenta) / 100;
+                        @endphp
+
                         <div class="flex justify-between">
                             <p class="text-white font-poppins text-2xl">Total sin descuento monto:</p>
                             <p class="text-white font-poppins text-2xl"> @money($montoFinalVenta + $descuentoMonto)</p>
