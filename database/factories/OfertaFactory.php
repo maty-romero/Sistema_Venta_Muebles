@@ -17,9 +17,9 @@ class OfertaFactory extends Factory
     public function definition(): array
     {
         return [
-            "fecha_inicio_oferta"=>fake()->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = null), 
-            "fecha_fin_oferta"=>fake()->dateTimeBetween($startDate = '+1 years', $endDate = '+3 years', $timezone = null), 
-            "porcentaje_descuento"=>fake()->randomFloat($nbMaxDecimals = NULL, $min = 0.01, $max = 99.99), 
+            "fecha_inicio_oferta" => fake()->dateTimeBetween($startDate = '-1years', $endDate = 'now', $timezone = null),
+            "fecha_fin_oferta" => fake()->dateTimeBetween($startDate = 'now', $endDate = '+3 years', $timezone = null),
+            "porcentaje_descuento" => fake()->randomFloat($nbMaxDecimals = NULL, $min = 0.01, $max = 99.99),
         ];
     }
 }
