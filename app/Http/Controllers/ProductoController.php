@@ -119,7 +119,7 @@ class ProductoController extends Controller
 
 
         $name =  $request->input('name');
-        $tipoMueble =  $request->input('tipoMueble');
+        $tipoMueble =  $request->input('tipoMueble') !== null ? $request->input('tipoMueble') :  1;
         $filtro =  $request->input('filtro') !== null ? $request->input('filtro') :  "todo";
         $ordenCriterio = $request->input("ordenCriterio")  === "nombre_producto" ? "nombre_producto" : "precio_producto";
         $orden =  $request->input('orden') !== null ? $request->input('orden') :  "asc";
@@ -131,23 +131,24 @@ class ProductoController extends Controller
         // SE NECESITA USAR DB EN ESTE CASO PORQUE ARMO DOS ESTRUCTURAS PRODUCTOS Y COMBOS
         // NECESITO QUE SEAN ARRAYS PARA ORDENARLOS MAS COMODAMENTE
 
-        if ($filtro === "todo") {
+        if ($filtro === "todo" || $filtro === null) {
+
             // PRODUCTOS Y COMBOS 
             $combos = $this->combosActivos($name);
-            $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio,  $orden)->paginate(2);
-            $resultados = array_merge($productos->items(), $combos);
-            // ordenamiento
+            $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $orden)->get();
+            $resultados = array_merge($productos->all(), $combos);
             $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
+            $resultados = $this->paginate($resultados, 4, $request->input('page') === null ? 1 : $request->input('page'));
             // paginacion
-            $resultados = $this->paginate($resultados, 4, $request->input('page'));
         } else  if ($filtro === "productos") {
             // PRODUCTOS
-            $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio,  $orden)->paginate(4);
+            $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio,  $orden)->get();
+            $resultados = $resultados->all();
         } else {
             // COMBOS
             $resultados = $this->combosActivos($name);
             $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
-            $resultados = $this->paginate($resultados, 4, $request->input('page'));
+            $resultados = $this->paginate($resultados, 4, $request->input('page') === null ? 1 : $request->input('page'));
         }
         $resultados->appends(["name" => $name, "tipoMueble" => $tipoMueble, "filtro" => $filtro, "ordenCriterio" => $ordenCriterio, "orden" => $orden]);
 
