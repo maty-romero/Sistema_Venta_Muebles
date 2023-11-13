@@ -68,12 +68,12 @@ class Venta extends Model
             }
             $ofertaMonto = OfertaMonto::getOfertaMonto($subtotal);
             $descuento = 0;
+            $request = new Request();
+            $request->setLaravelSession(session());
+            $request->session()->put('ofertaMonto', $ofertaMonto);
             if(isset($ofertaMonto)){
-                $descuento = $ofertaMonto->porcentaje_descuento;
-                $request = new Request();
-                $request->setLaravelSession(session());
-                $request->session()->put('ofertaMonto', $ofertaMonto);
-            }
+                $descuento = $ofertaMonto->porcentaje_descuento;  
+            } 
             $subtotal = $subtotal * (1 - $descuento / 100);
         }
         return $subtotal;
@@ -199,7 +199,7 @@ class Venta extends Model
         $venta->codigo_postal_destino = $codPostal;
         $venta->domicilio_destino = $direccionDestino;
         $venta->id_usuario_cliente = $idCliente;
-        $venta->id_oferta_monto = $ofertaMonto->id;
+        $venta->id_oferta_monto = (isset($ofertaMonto))? $ofertaMonto->id : null;
         $venta->save();
 
         //Guardar combos vendidos y productos vendidos

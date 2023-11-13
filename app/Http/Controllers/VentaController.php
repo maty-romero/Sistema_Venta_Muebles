@@ -48,9 +48,12 @@ class VentaController extends Controller
      */
     public function store(Request $request, $idCliente)
     {
+        $request = new Request();
+        $request->setLaravelSession(session());
         if(Venta::hayStockCarrito()){
             if(Venta::realizarPago()){
-                $idVenta = Venta::finalizarVenta($idCliente, $request->codPostal, $request->direccionDestino);
+                $idVenta = Venta::finalizarVenta($idCliente, request()->codPostal, request()->direccionDestino);
+                $request->session()->put('ofertaMonto', null);
                 //Debería devolver la vista del detalle de venta
                 return to_route('cliente_show_venta', $idVenta);
             } else {
@@ -59,8 +62,6 @@ class VentaController extends Controller
         } else {
             $msj = 'Error al realizar la compra. Algunos de los productos de tu carrito no tienen stock suficiente.';
         }
-        $request = new Request();
-        $request->setLaravelSession(session());
         $ofertaMonto = $request->session()->get('ofertaMonto');
         if(!isset($ofertaMonto)){
             $ofertaMonto = null;
@@ -89,11 +90,6 @@ class VentaController extends Controller
 
         //No hay coincidencia 
         return Redirect::route('home');
-        
-
-        
-
-        
     }
 
     private static function getProductosVendidos($venta)
