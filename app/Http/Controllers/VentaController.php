@@ -72,8 +72,8 @@ class VentaController extends Controller
     public function show(string $idVenta)
     {
         // Info de la venta dado un id en general 
-        $venta = Venta::select('id', 'fecha_venta', 'monto_final_venta', 'domicilio_destino', 'id_usuario_cliente')
-            ->findOrFail($idVenta);
+        $venta = Venta::with('ofertaMonto.oferta')->findOrFail($idVenta);
+        //$venta = $venta->ofertaMonto->oferta; 
 
         if(Auth::user()->cliente->id_usuario_cliente == $venta->id_usuario_cliente){
             $datos = [];

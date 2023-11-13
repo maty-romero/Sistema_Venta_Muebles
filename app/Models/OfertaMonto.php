@@ -21,7 +21,7 @@ class OfertaMonto extends Model
 
     public function oferta(): BelongsTo
     {
-        return $this->belongsTo(Oferta::class);
+        return $this->belongsTo(Oferta::class, "id_oferta_monto");
     }
 
     // 1:M ofertaMonto-venta
