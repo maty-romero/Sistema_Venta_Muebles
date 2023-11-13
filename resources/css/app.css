@@ -37,4 +37,10 @@
 .card-layer:hover {
     opacity: 1;
  } 
-  
+
+.filter-no-style{
+    border: unset;
+    padding-top: 0;
+    padding-bottom: 0;
+    cursor: pointer;
+}
