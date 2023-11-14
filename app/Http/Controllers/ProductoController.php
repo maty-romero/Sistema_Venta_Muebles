@@ -44,9 +44,6 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->input('nombreProducto'));
-        // dd($request->input('cmbTipoMueble'));
-
         $producto = Producto::create([
             'nombre_producto' => $request->input('nombreProducto'),
             'descripcion' => $request->input('descripcion'),
@@ -61,7 +58,7 @@ class ProductoController extends Controller
 
         $producto->save();
 
-        return redirect()->route('producto.index');
+        return redirect()->route('administrador_create_producto');
     }
 
     /**
@@ -91,7 +88,6 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-
         $producto->update([
             'nombre_producto' => $request->input('nombreProducto'),
             'descripcion' => $request->input('descripcion'),
@@ -102,7 +98,7 @@ class ProductoController extends Controller
             'alto' => $request->input('alto'),
             'material' => $request->input('cmbMaterialMueble'),
         ]);
-        return redirect()->route('producto.index');
+        return redirect()->route('administrador_create_producto');
     }
 
     /**
@@ -111,25 +107,19 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         $producto->delete();
-        return redirect()->route('producto.index');
+        return redirect()->route('administrador_create_producto');
     }
 
     public function search(Request $request)
     {
 
         // FALTAN VALIDACIONES
-
-
-
         $name =  $request->input('name');
         $tipoMueble =  $request->input('tipoMueble') !== null ? $request->input('tipoMueble') :  1;
         $filtro =  $request->input('filtro') !== null ? $request->input('filtro') :  "todo";
         $ordenCriterio = $request->input("ordenCriterio")  === "nombre_producto" ? "nombre_producto" : "precio_producto";
         $orden =  $request->input('orden') !== null ? $request->input('orden') :  "asc";
         $matchInput = ['id_tipo_mueble' => $tipoMueble, "discontinuado" => 0];
-
-
-
 
         // SE NECESITA USAR DB EN ESTE CASO PORQUE ARMO DOS ESTRUCTURAS PRODUCTOS Y COMBOS
         // NECESITO QUE SEAN ARRAYS PARA ORDENARLOS MAS COMODAMENTE
@@ -158,14 +148,10 @@ class ProductoController extends Controller
         return view("cliente.productos.index", compact("name", "tipoMueble", "filtro", "ordenCriterio", "orden", "resultados"));
     }
 
-
     // FUNCION PARA BUSCAR TODOS LOS COMBOS ACTIVOS
-
     public function combosActivos($searchTerm)
     {
-
         $today = date("Y-m-d");
-
 
         // SI HAY TERMINO DE BUSQUEDA 
         if (isset($searchTerm) && $searchTerm !== "") {
@@ -238,7 +224,6 @@ class ProductoController extends Controller
         return ($arrayProductosCombos);
     }
 
-
     public function paginate($items, $perPage, $actualPage)
     {
         $pageStart = $actualPage;
@@ -287,8 +272,9 @@ class ProductoController extends Controller
 
     public function updateStock(Request $request, Producto $producto)
     {
-
-        $producto->update(['stock' => $request->input('stockActualizado'),]);
+        $producto->stock += $request->input('stock');
+        $producto->precio_producto = $request->input('precio');
+        $producto->update();
         return 'Stock nuevo'; //redirect()->route('producto.index');
     }
 }

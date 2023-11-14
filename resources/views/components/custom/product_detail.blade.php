@@ -8,7 +8,9 @@
       <h1 class="text-gray-900 text-3xl title-font font-medium mb-4 text-white">{{$producto->nombre_producto}}</h1>
       <div class='grid grid-cols-2 w-fit'>
         <p class="title-font font-medium text-2xl text-gray-900 text-white mr-3">@money($producto->getPrecioDeVenta())</p>
+        @if($producto->getPrecioDeVenta() != $producto->precio_producto)
         <p class="title-font font-medium text-1xl text-gray-900 text-white mt-auto line-through">@money($producto->precio_producto)</p>
+        @endif
       </div>
       <p class="leading-relaxed flex mt-6 items-center text-white pb-2">{{$producto->descripcion}}</p>
       <p class='pb-4 text-white'>Medidas <br> Ancho: {{$producto->ancho}}cm&emsp;Largo: {{$producto->largo}}cm&emsp;Alto: {{$producto->alto}}cm</p>

@@ -9,11 +9,6 @@ Usuarios
 @endsection
 
 @section('contenido')
-@php
-//dump($usuarios);
-@endphp
-
-
 <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
 <div class="flex justify-between ml-4">
 
@@ -37,14 +32,14 @@ Usuarios
 </div>
 
 <div class="w-full">
-    <x-custom.table :columnas="['Nombre', 'Rol', 'Fecha Creacion', '', 'Moficacion', '']">
+    <x-custom.table :columnas="['Nombre', 'Rol', 'Fecha Creacion', '', '', '']">
         @foreach ($usuarios as $usuario)
         <tr>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 {{ $usuario->name }}
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                {{ $usuario->rol_usuario }}
+                {{ Str::ucfirst($usuario->rol_usuario) }}
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 {{ date('d-m-Y', strtotime($usuario->created_at))  }}
@@ -55,9 +50,9 @@ Usuarios
                 @endif
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                <a href="{{ route('usuario.edit', $usuario) }}">Editar</a>
+                <a href="{{ route('administrador_edit_usuarios', $usuario->id) }}">Editar</a>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                <form action="{{ route('usuario.destroy', $usuario) }}" method="POST">
+                <form action="{{ route('administrador_delete_usuarios', $usuario) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit">Eliminar</button>

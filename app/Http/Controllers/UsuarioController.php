@@ -21,6 +21,7 @@ class UsuarioController extends Controller
         $usuarios = User::paginate(5);
         return view("administrador.usuarios.index", compact('usuarios'));
     }
+
     public function create()
     {
         return view('administrador.usuarios.create');
@@ -46,10 +47,12 @@ class UsuarioController extends Controller
         return redirect()->back()->with('success','');
     }
 
-    public function edit(string $id)
+    public function edit(string $idUsr)
     {
-        ////return view('administrador.usuarios.index', compact('usuario', 'nuevaContrasenia')); 
+        $usuario = User::findOrFail($idUsr);
+        return view('administrador.usuarios.edit', compact('usuario')); 
     }
+
     public function update(Request $request)
     {
         $usuario =  Auth::user();
@@ -72,7 +75,7 @@ class UsuarioController extends Controller
     public function destroy(User $usuario)
     {
         //$usuario->delete();
-        return redirect()->route('usuarios.index');
+        return redirect()->route('administrador_usuarios');
     }
     
 }
