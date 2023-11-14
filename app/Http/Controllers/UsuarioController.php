@@ -94,7 +94,7 @@ class UsuarioController extends Controller
 
         return redirect()->route('usuarios/crear'); 
         */
-        return $request; 
+        return $request;
     }
 
     public function show()
@@ -116,7 +116,7 @@ class UsuarioController extends Controller
     public function edit(string $idUsr)
     {
         $usuario = User::findOrFail($idUsr);
-        return view('administrador.usuarios.edit', compact('usuario')); 
+        return view('administrador.usuarios.edit', compact('usuario'));
     }
 
     public function update(Request $request)
