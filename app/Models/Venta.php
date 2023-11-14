@@ -240,6 +240,7 @@ class Venta extends Model
 
     public static function realizarPago()
     {   //Simula la aceptación o no del pago
+        return true;
         return rand(0, 1);
     }
 }

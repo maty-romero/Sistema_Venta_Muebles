@@ -26,12 +26,16 @@ Route::get("/search", [ProductoController::class, 'search']);
 
 Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
 
-Route::middleware('auth')->group(function () {
+Route::middleware('soloCliente')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
     Route::get('/perfilCliente', [UsuarioController::class, 'show'])->name('cliente_show');
+    Route::post('/perfilCliente/cambioContrasenia', [UsuarioController::class, 'update_psw'])->name('cliente_cambio_contrasenia');
+    Route::patch('/perfilCliente/cambiosPerfil', [UsuarioController::class, 'update'])->name('cliente_cambio_perfil');
+    //Rutas de ventas para cliente
+    Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
+    Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
 });
 
 //Rutas para ver productos y combos
@@ -43,10 +47,6 @@ Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
 Route::post('/carrito/{tipoItem}/{id}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
 Route::patch('/carrito/{tipoItem}/{id}', [VentaController::class, 'editCart'])->name('carrito_editar');
 Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
-
-//Rutas de ventas para cliente
-Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
-Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
 
 //Rutas de administrativos
 Route::middleware(['auth', 'soloAdm'])->group(function () {

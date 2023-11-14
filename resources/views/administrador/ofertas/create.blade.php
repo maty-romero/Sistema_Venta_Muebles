@@ -101,6 +101,9 @@
                                     C&oacute;digo
                                 </th> 
                                 <th class="px-2.5 py-2 border-b-2 border-gray-500 bg-slate-500 text-center text-white">
+                                    Stock
+                                </th> 
+                                <th class="px-2.5 py-2 border-b-2 border-gray-500 bg-slate-500 text-center text-white">
                                     Cantidad
                                 </th>
                                 <th class="pl-2.5 pr-5 py-2 border-b-2 border-gray-500 bg-slate-500 text-left text-white"></th>                    
@@ -116,6 +119,9 @@
                             </td>
                             <td class="px-2.5 py-2 bg-slate-50 font-bold text-center text-slate-700">
                                 <p>{{$p->id}}</p>
+                            </td>
+                            <td class="px-2.5 py-2 bg-slate-50 font-bold text-center text-slate-700">
+                                <p>{{$p->stock}}</p>
                             </td>
                             <td class="px-2.5 py-2 bg-slate-50 font-bold text-center text-slate-700">
                                 <div class='w-24 h-content align-baseline mx-auto'>
