@@ -111,8 +111,11 @@ class OfertaController extends Controller
     public function show(string $id)
     {
         $combo = OfertaCombo::findOrFail($id);
-        $enCarrito = Venta::enCarrito('Combo', $id);
-        return view('cliente/combo/show', ['combo' => $combo, 'enCarrito' => $enCarrito]);
+        if($combo->comboActivo()){
+            $enCarrito = Venta::enCarrito('Combo', $id);
+            return view('cliente/combo/show', ['combo' => $combo, 'enCarrito' => $enCarrito]);
+        }
+        return to_route('home');
     }
 
     public function edit(string $id)

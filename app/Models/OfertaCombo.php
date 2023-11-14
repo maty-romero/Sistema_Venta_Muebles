@@ -126,4 +126,13 @@ class OfertaCombo extends Model
         }
         return (int)$maximoTotal;
     }
+
+    public function comboActivo(){
+        foreach($this->oferta_combo_producto as $prod){
+            if($prod->discontinuado == 1 || $prod->stock <= 0){
+                return false;
+            }
+        }
+        return true;
+    }
 }

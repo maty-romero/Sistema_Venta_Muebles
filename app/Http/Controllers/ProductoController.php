@@ -70,8 +70,11 @@ class ProductoController extends Controller
     public function show(string $id)
     {
         $producto = Producto::findOrFail($id);
-        $enCarrito = Venta::enCarrito('Producto', $id);
-        return view('cliente.productos.show', ['producto' => $producto, 'enCarrito' => $enCarrito]);
+        if($producto->discontinuado == 0 && $producto->stock > 0){
+            $enCarrito = Venta::enCarrito('Producto', $id);
+            return view('cliente.productos.show', ['producto' => $producto, 'enCarrito' => $enCarrito]);
+        }
+        return to_route('home');
     }
 
 

@@ -32,7 +32,7 @@
             <td>stock</td>
             <td>Modificacion</td>
         </tr>
-        @foreach ( $productos as $producto )
+        @foreach ( $products as $producto )
         <tr>
         <td>{{$producto-> nombre_producto}}</td>
         <td>@if($producto-> id_tipo_mueble =='1')
@@ -41,13 +41,13 @@
     <p>Interior</p>
     @endif
         </td>
-        <td>@if($producto-> discontinuado =='1')
+        <td>@if($producto->discontinuado =='1')
     <input type="radio"checked="checked" disabled/>
     @else 
     <input type="radio" disabled/>
     @endif</td>
-        <td>{{$producto-> precio_producto}}</td>
-        <td>{{$producto-> stock}}</td>
+        <td>{{$producto->precio_producto}}</td>
+        <td>{{$producto->stock}}</td>
         <td>
         <a href="{{ route('producto.edit', $producto) }}">Editar</a>
             <form action="{{ route('producto.destroy', $producto) }}" method="POST">
@@ -59,14 +59,8 @@
         </tr>
         @endforeach
     </table>
-    {{ $productos->links() }}
+    {{ $products->links() }}
 </div>
-
-
-    @php
-    //dump($products);
-    //$products = $data; 
-    @endphp
 
     <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
     <div class="flex justify-between ml-4">
