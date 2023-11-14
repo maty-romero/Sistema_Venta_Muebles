@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class OfertaCombo extends Model
 {
@@ -68,7 +69,7 @@ class OfertaCombo extends Model
         $ofertaCombo = new OfertaCombo();
         $ofertaCombo->id_oferta_combo = $idOferta;
         $ofertaCombo->nombre_combo = request()->input('nombreCombo');
-        $ofertaCombo->imagenURL = request()->input('imgCombo');
+        $ofertaCombo->imagenURL = request()->input('iamgenCombo');
         $ofertaCombo->save();
 
         foreach($productos as $prod){
@@ -124,5 +125,14 @@ class OfertaCombo extends Model
             }
         }
         return (int)$maximoTotal;
+    }
+
+    public function comboActivo(){
+        foreach($this->oferta_combo_producto as $prod){
+            if($prod->discontinuado == 1 || $prod->stock <= 0){
+                return false;
+            }
+        }
+        return true;
     }
 }

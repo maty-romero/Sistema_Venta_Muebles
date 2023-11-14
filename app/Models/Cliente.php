@@ -31,14 +31,16 @@ class Cliente extends Model
 
     public static function crearCliente($idUsr)
     {
-        $cliente = new Cliente();
-        $cliente->id_usuario_cliente = $idUsr;
-        $cliente->dni_cuit = 12312323;
-        $cliente->nombre_cliente = 'A';
-        $cliente->codigo_postal_cliente = 9000;
-        $cliente->tipo_cliente = 'fisico';
-        $cliente->nro_telefono = 2;
+        if(request()->input('cmbRolUsuario') == 'cliente'){
+            $cliente = new Cliente();
+            $cliente->id_usuario_cliente = $idUsr;
+            $cliente->dni_cuit = request()->input('dni_cuit');
+            $cliente->nombre_cliente = request()->input('nombreCliente');
+            $cliente->codigo_postal_cliente = request()->input('codigoPostal');
+            $cliente->tipo_cliente = request()->input('cmbTipoCliente');
+            $cliente->nro_telefono = request()->input('telefono');
 
-        $cliente->save();
+            $cliente->save();
+        }
     }
 }

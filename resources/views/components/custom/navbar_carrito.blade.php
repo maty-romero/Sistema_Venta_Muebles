@@ -63,47 +63,7 @@
                         </x-dropdown-link>
                     </form>
                     @else
-
-                    @component('components.custom.modal_login')
-                    @slot('textoBtn', 'Iniciar sesión')
-                    @slot('clasesBtn', "leading-5 px-1 py-2 text-gray-500 hover:text-gray-100 hover:bg-gray-800 focus:bg-gray-800 focus:outline-none pr-1 transition duration-150 ease-in-out")
-
-                    @slot('encabezado', 'Iniciar sesión')
-                    @slot('contenido')
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <div>
-                                <label class='block font-medium text-sm text-zinc-700'>Email</label>
-                                <input id='email' name='email' required class='block w-full mt-1 border-gray-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
-                            </div>
-                            <div class="mt-4">
-                                <label class='block font-medium text-sm text-zinc-700'>Contrase&ntilde;a</label>
-                                <input id='password' name='password' type='password' required class='block w-full mt-1 border-gray-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
-                            </div>
-                            <div class="flex items-center justify-end mt-4">
-                                <label for="remember_me" class="inline-flex items-center">
-                                    <input id="remember_me" type="checkbox" class="rounded border-gray-400 text-zinc-700 shadow-sm focus:ring-indigo-500" name="remember">
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Recordarme') }}</span>
-                                </label>
-                                <button type='submit' class='inline-flex ml-auto items-center px-6 py-2 bg-zinc-700 hover:bg-zinc-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'>Iniciar sesi&oacute;n</button>
-                            </div>
-                            <div class='flex pt-4 mt-4 border-t border-t-zinc-200'>
-                                @if (Route::has('password.request'))
-                                    <a class="underline mr-2 text-sm text-zinc-700 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                                        Olvidaste tu contrase&ntilde;a?
-                                    </a>
-                                @endif
-                                <p class='text-right ml-auto text-sm text-zinc-500 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'> 
-                                <a class="underline text-sm text-zinc-700 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
-                                    Registrarse
-                                </a>
-                                </p>
-                            </div>
-                        </form>
-                    @endslot
-                    @endcomponent
-
-                    
+                    <a href="{{route('login')}}" class="leading-5 px-1 py-2 text-gray-500 hover:text-gray-100 hover:bg-gray-800 focus:bg-gray-800 focus:outline-none pr-1 transition duration-150 ease-in-out"> Iniciar sesión</a>  
                     <a href="{{ route('register') }}" class="px-1 py-2 text-gray-500 hover:text-gray-100 hover:bg-gray-800 focus:bg-gray-800 focus:outline-none pr-1 transition duration-150 ease-in-out">Registrarse</a>
                     @endif
                     @endauth

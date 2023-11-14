@@ -17,14 +17,17 @@
 <div id="detalleVenta" class="container mx-auto p-6">
     <form action="{{ route('administrador_store_usuario') }}" method="POST">
         @csrf
-        <p class="font-poppins text-1g">Nombre Usuario</p>
-        <input id="txtNombreUsuario" name="nombreUsuario" type="text" class="rounded-md mb-5">
+        <p class="font-poppins text-1g">Nombre de usuario</p>
+        <input id="txtNombreUsuario" name="name" type="text" class="rounded-md mb-5">
 
         <p class="font-poppins text-1g">Email</p>
         <input id="txtEmail" name="email" type="email" class="rounded-md mb-5">
 
         <p class="font-poppins text-1g">Contraseña</p>
         <input id="txtContrasenia" name="password" type="password" class="rounded-md mb-5">
+
+        <p class="font-poppins text-1g">Confirmar contraseña</p>
+        <input id="txtContrasenia" name="password_confirmation" type="password" class="rounded-md mb-5">
 
         <p class="font-poppins text-1g">Rol de Usuario</p>
         <select id="idCmbRolUsuario" name="cmbRolUsuario" class="font-poppins text-1g rounded-md mb-5" onchange='formularioPorTipo()'>

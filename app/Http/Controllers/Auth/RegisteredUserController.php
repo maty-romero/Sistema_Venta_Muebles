@@ -41,14 +41,17 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'rol_usuario' => $request->cmbRolUsuario
         ]);
 
         Cliente::crearCliente($user->id);
 
         event(new Registered($user));
-
         Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+        if($request->input('cmbRolUsuario') == 'cliente'){
+            return redirect(RouteServiceProvider::HOME);
+        } else {
+            return redirect(RouteServiceProvider::HOMEADM);
+        }
     }
 }

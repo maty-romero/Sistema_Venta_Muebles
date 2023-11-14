@@ -22,7 +22,7 @@
     </x-custom.navbar_client>
 
     <header class='px-32 w-5/6 mt-10'>
-        <h1 class='text-5xl text-left'>Muebles &raquo; {{Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble)}}</h1>
+        <h1 class='text-6xl text-left'>Muebles &raquo; {{Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble)}}</h1>
     </header>
 
     <div class='px-32 mt-10 pb-10'>
