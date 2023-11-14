@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistroUsuarioRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,9 +28,73 @@ class UsuarioController extends Controller
         return view('administrador.usuarios.create');
     }
 
-    public function store(Request $request)
+    public function store(Request  $request)
     {
-        //
+        /*
+        $request->validate([
+            'nombreUsuario' => ['required'],
+            'email' => ['required', 'unique:users,email'],
+            'password' => ['required', 'min:8'],
+            'password_confirmation' => ['required', 'min:8', 'same:password'],
+            'cmbRolUsuario' => ['required'],
+        
+            // Reglas para cliente
+            'nombreCliente' => ['required_if:cmbRolUsuario,cliente'],
+            'cmbTipoCliente' => ['required_if:cmbRolUsuario,cliente'],
+            'dni_cuit' => ['required_if:cmbRolUsuario,cliente', 'min:8'],
+            'codigoPostal' => ['required_if:cmbRolUsuario,cliente'],
+            'telefono' => ['required_if:cmbRolUsuario,cliente'],
+        ], [
+            'nombreUsuario.required' => 'El nombre de usuario es obligatorio',
+            'email.required' => 'El campo de correo electrónico es obligatorio',
+            'email.unique' => 'El correo electrónico ya está en uso',
+            'password.required' => 'La contraseña es obligatoria',
+            'password.min' => 'La contraseña debe tener al menos :min caracteres',
+            'password_confirmation.required' => 'La confirmación de la contraseña es obligatoria',
+            'password_confirmation.min' => 'La confirmación de la contraseña debe tener al menos :min caracteres',
+            'password_confirmation.same' => 'La confirmación de la contraseña no coincide con la contraseña',
+            'cmbRolUsuario.required' => 'El campo de rol de usuario es obligatorio',
+        
+            // Mensajes para cliente
+            'nombreCliente.required_if' => 'El nombre del cliente es obligatorio para el rol de cliente',
+            'cmbTipoCliente.required_if' => 'El tipo de cliente es obligatorio para el rol de cliente',
+            'dni_cuit.required_if' => 'El DNI o CUIT es obligatorio para el rol de cliente',
+            'dni_cuit.min' => 'El DNI o CUIT debe tener al menos :min caracteres',
+            'codigoPostal.required_if' => 'El código postal es obligatorio para el rol de cliente',
+            'telefono.required_if' => 'El teléfono es obligatorio para el rol de cliente',
+        ]);
+        
+
+        
+        User::create([
+            'name' => $request->nombreUsuario,
+            'rol_usuario' => $request->cmbRolUsuario,
+            'email' => $request->email,
+            'password' => $request->password
+        ]);
+      
+        //User::create($request->validated());
+        
+
+        //$usuario->save();
+
+        if ($request->cmbRolUsuario === 'cliente') {
+            $cliente = new Cliente([
+                'nombre_cliente' => $request->nombreCliente,
+                'tipo_cliente' => $request->cmbTipoCliente,
+                'dni_cuit' => $request->dni_cuit,
+                'codigo_postal_cliente' => $request->codigoPostal,
+                'nro_telefono' => $request->telefono,
+            ]);
+    
+            $usuario->cliente()->save($cliente);
+        }
+
+        session()->flash('status','Usuario creado exitosamente');
+
+        return redirect()->route('usuarios/crear'); 
+        */
+        return $request; 
     }
 
     public function show()
