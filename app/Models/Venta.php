@@ -218,7 +218,7 @@ class Venta extends Model
                 $producto->id_venta = $venta->id;
                 $producto->id_producto = $item->elemento->id;
                 $producto->unidades_vendidas_prod = $item->unidades;
-                $producto->id_oferta = $item->elemento->oferta[0]->id;
+                $producto->id_oferta = isset($item->elemento->oferta[0]->id)? $item->elemento->oferta[0]->id : null;
                 $producto->precio_venta_prod = $item->elemento->getPrecioDeVenta();
                 $producto->save();
                 //Actualizar stock del producto
@@ -240,6 +240,7 @@ class Venta extends Model
 
     public static function realizarPago()
     {   //Simula la aceptación o no del pago
+        return true;
         return rand(0, 1);
     }
 }

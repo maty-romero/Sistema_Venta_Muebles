@@ -18,8 +18,7 @@
 
 
 <body class="antialiased bg-[#FFE794] bg-pattern-image ">
-
-    <x-custom.navbar_client></x-custom.navbar_client>
+    <x-custom.navbar_carrito></x-custom.navbar_carrito>
 
     <header class='px-32 ml-auto mr-auto lg:mt-10 mt-4'>
         <div class="grid grid-cols-2 divide-x ">

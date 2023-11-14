@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <td class="pr-16"><input id="txtNombre" name="nombre" type="text" class="rounded-md" value="{{ $cliente->nombre_cliente }}"></td>
-                        <td class="pr-16"><input id="txtPersoneria" name="tipoCliente" type="text" disabled class="rounded-md" value="{{ $cliente->tipo_cliente }}"></td>
+                        <td class="pr-16"><input id="txtPersoneria" name="tipoCliente" type="text" disabled class="rounded-md" value="{{ Str::ucfirst($cliente->tipo_cliente) }}"></td>
                         <td class="pr-16"><input id="txtDocumento" name="documento" type="text" class="rounded-md" value="{{ $cliente->dni_cuit }}"></td>
                     </tr>
                     <tr>

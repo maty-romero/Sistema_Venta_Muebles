@@ -10,7 +10,7 @@
 
 @section('contenido')
 <div id="detalleVenta" class="container mx-auto p-6">
-    <form action="{{ route('usuario.update', $usuario) }}" method="POST">
+    <form action="{{ route('administrador_update_usuarios', $usuario) }}" method="POST">
         @method('PUT')
         @csrf
         <p class="font-poppins text-1g">Nombre Usuario</p>

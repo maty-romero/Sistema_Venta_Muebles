@@ -18,21 +18,6 @@ class VentaController extends Controller
     {
         $ventas = Venta::with('cliente')->paginate(5);
         return view("administrador.ventas.index", compact('ventas'));
-
-        // Aquí puedes iterar sobre todas las ventas y crear un array de datos
-        $infoVentas = [];
-
-        foreach ($ventas as $venta) {
-            $infoVentas[] = [
-                'id' => $venta->id,
-                'fecha_venta' => $venta->fecha_venta,
-                'total_venta' => $venta->monto_final_venta,
-                'domicilio_venta' => $venta->domicilio_destino,
-                'nombre_cliente' => $venta->cliente->nombre_cliente,
-                'tipo_cliente' => $venta->cliente->tipo_cliente,
-            ];
-        }
-        return view("administrador.ventas.index", ['ventas' => $infoVentas]);
     }
 
     /**

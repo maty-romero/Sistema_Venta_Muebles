@@ -62,7 +62,11 @@ class Producto extends Model
     public function getPrecioDeVenta()
     {
         //Revisar si trae la oferta de mayor prioridad y qu esté activa
-        return $this->precio_producto*((100-$this->oferta[0]->porcentaje_descuento)/100);
+        if(isset($this->oferta[0])){
+            return $this->precio_producto*((100-$this->oferta[0]->porcentaje_descuento)/100);
+        } else {
+            return $this->precio_producto;
+        }
     }
 
     public function hayStockProducto($unidadesProd)
@@ -74,6 +78,17 @@ class Producto extends Model
     public function reducirStockProducto($unidadesProd)
     {
         DB::table('productos')->where('id', $this->id)->decrement('stock', $unidadesProd);
+    }
+
+    public static function getProductosDisponibles(){
+        $productos = Producto::all();
+        $disponibles = array();
+        foreach($productos as $prod){
+            if($prod->discontinuado == 0){
+                $disponibles[] = $prod;
+            }
+        }
+        return $disponibles;
     }
 
 }
