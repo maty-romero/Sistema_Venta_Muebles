@@ -2,7 +2,7 @@
 
 
 
-<h1 class="text-5xl pb-6 font-medium ">Productos</h1>
+<h1 class="text-6xl pb-6 font-medium ">Productos</h1>
 <div id="extraFields" class="flex justify-between align-middle gap-6   divide-x filter-container flex-row py-6 px-20 bg-white rounded-xl  ">
     Filtrando por:
 

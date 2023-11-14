@@ -20,7 +20,7 @@ class ProductoController extends Controller
 
     public function index()
     {
-        $productos = Producto::paginate(4);
+        $productos = Producto::where("discontinuado", 0)->where("stock", ">=", 1)->paginate(4);
         $combos = array_slice($this->combosActivos("", "", ""), 0, 4);
         return (view("cliente.welcome", compact("productos", "combos")));
     }
@@ -131,7 +131,7 @@ class ProductoController extends Controller
             $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $orden)->get();
             $resultados = array_merge($productos->all(), $combos);
             $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
-            $resultados = $this->paginate($resultados, 4, $request->input('page') === null ? 1 : $request->input('page'));
+
             // paginacion
         } else  if ($filtro === "productos") {
             // PRODUCTOS
@@ -141,9 +141,12 @@ class ProductoController extends Controller
             // COMBOS
             $resultados = $this->combosActivos($name);
             $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
-            $resultados = $this->paginate($resultados, 4, $request->input('page') === null ? 1 : $request->input('page'));
         }
+
+        $resultados = $this->paginate($resultados, 4, $request->input('page') === null ? 1 : $request->input('page'));
         $resultados->appends(["name" => $name, "tipoMueble" => $tipoMueble, "filtro" => $filtro, "ordenCriterio" => $ordenCriterio, "orden" => $orden]);
+
+        //dd(empty($resultados->items()));
 
         return view("cliente.productos.index", compact("name", "tipoMueble", "filtro", "ordenCriterio", "orden", "resultados"));
     }
@@ -156,14 +159,14 @@ class ProductoController extends Controller
         // SI HAY TERMINO DE BUSQUEDA 
         if (isset($searchTerm) && $searchTerm !== "") {
 
-            $combos = Oferta::where('ofertas.fecha_inicio_oferta', "<=", $today)->where('ofertas.fecha_fin_oferta', ">=", $today)->whereHas(
+            $combos = Oferta::where('ofertas.fecha_inicio_oferta', "<=", $today)->where('ofertas.fecha_fin_oferta', ">=", $today)->where("porcentaje_descuento", ">", 0)->whereHas(
                 "ofertaCombo",
                 function ($query) use ($searchTerm) {
                     $query->where('nombre_combo', 'like', '%' . "$searchTerm" . '%');
                 }
             )->get();
         } else {   // SI NO HAY TERMINO
-            $combos = Oferta::where('ofertas.fecha_inicio_oferta', "<=", $today)->where('ofertas.fecha_fin_oferta', ">=", $today)->whereHas(
+            $combos = Oferta::where('ofertas.fecha_inicio_oferta', "<=", $today)->where('ofertas.fecha_fin_oferta', ">=", $today)->where("porcentaje_descuento", ">", 0)->whereHas(
                 "ofertaCombo"
             )->get();
         }
