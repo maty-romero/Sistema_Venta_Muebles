@@ -17,26 +17,29 @@ use App\Rules\OfertaTipoValida;
 
 class OfertaController extends Controller
 {
-     
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
             $tipoOferta = $request->input('tipoOferta');
             $campoOrden = $request->input('campoOrden');
-            $direccionOrden = $request->input('direccionOrden'); 
-    
+            $direccionOrden = $request->input('direccionOrden');
+
             $ofertas = Oferta::with($tipoOferta)
                 ->orderBy($campoOrden, $direccionOrden)
                 ->get();
-    
+
             return response()->json(['ofertas' => $ofertas]);
         }
-    
-        // Sino hay solicitud AJAX  
-        return view('administrador.ofertas.index');
 
+        $ofertas = Oferta::with("producto")
+            ->orderBy("fecha_inicio_oferta", "asc")
+            ->get();
+
+        // Sino hay solicitud AJAX  
+        return view('administrador.ofertas.index', compact("ofertas"));
     }
-    
+
     public function create()
     {
         $productos = Producto::getProductosDisponibles();
@@ -45,21 +48,21 @@ class OfertaController extends Controller
     }
 
     public function store()
-    {   
-        $validator = Validator::make(request()->all(),[
+    {
+        $validator = Validator::make(request()->all(), [
             'tipoOferta' => [
-                'required', 
+                'required',
                 'in:unitaria,combo,tipo,monto'
             ],
             'fechaInicio' => [
-                'required', 
-                'after:'.date("m/d/".(date("Y")-1)), 
-                'before:'.request()->input('fechaFin')
+                'required',
+                'after:' . date("m/d/" . (date("Y") - 1)),
+                'before:' . request()->input('fechaFin')
             ],
             'fechaFin' => [
                 'required',
-                'after:'.date("m/d/Y"),
-                'after:'.request()->input('fechaInicio')
+                'after:' . date("m/d/Y"),
+                'after:' . request()->input('fechaInicio')
             ],
             'descuento' => [
                 'required',
@@ -99,8 +102,8 @@ class OfertaController extends Controller
                 'nullable',
             ],
         ]);
-        
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return back()->withErrors($validator);
         }
 
@@ -111,7 +114,7 @@ class OfertaController extends Controller
     public function show(string $id)
     {
         $combo = OfertaCombo::findOrFail($id);
-        if($combo->comboActivo()){
+        if ($combo->comboActivo()) {
             $enCarrito = Venta::enCarrito('Combo', $id);
             return view('cliente/combo/show', ['combo' => $combo, 'enCarrito' => $enCarrito]);
         }
@@ -128,7 +131,7 @@ class OfertaController extends Controller
     {
         //
     }
-    
+
     public function destroy(string $id)
     {
         //

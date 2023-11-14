@@ -12,23 +12,24 @@ Ofertas
 
 <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
 <div class="flex justify-between ml-4">
+    <div>
+        <select class="form-control mr-5 rounded-lg" id="tipo_oferta" name="tipoOferta">
+            <option value="producto">Unitarias</option>
+            <option value="ofertaCombo">Combo</option>
+            <option value="ofertaMonto">Monto</option>
+            <option value="ofertaMueble">Tipo Mueble</option>
+        </select>
+        <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="campoOrden">
+            <option value="fecha_inicio_oferta">Fecha Inicio Vigencia</option>
+            <option value="fecha_fin_oferta">Fecha Fin Vigencia</option>
+            <option value="porcentaje_descuento">Descuento</option>
+        </select>
+        <select class="form-control mr-5 rounded-lg" id="direccion_orden" name="direccionOrden">
+            <option value="asc">Ascendente</option>
+            <option value="desc">Descendente</option>
+        </select>
+    </div>
 
-    <select class="form-control mr-5 rounded-lg" id="tipo_oferta" name="tipoOferta">
-        <option value="producto">Unitarias</option>
-        <option value="ofertaCombo">Combo</option>
-        <option value="ofertaMonto">Monto</option>
-        <option value="ofertaMueble">Tipo Mueble</option>
-    </select>
-    <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="campoOrden">
-        <option value="fecha_inicio_oferta">Fecha Inicio Vigencia</option>
-        <option value="fecha_fin_oferta">Fecha Fin Vigencia</option>
-        <option value="porcentaje_descuento">Descuento</option>
-    </select>
-    <select class="form-control mr-5 rounded-lg" id="direccion_orden" name="direccionOrden">
-        <option value="asc">Ascendente</option>
-        <option value="desc">Descendente</option>
-    </select>
-    <x-custom.input-search />
 
 
     <a href="{{ route('crear_oferta') }}">
@@ -38,7 +39,46 @@ Ofertas
     </a>
 </div>
 
-<div id="contenedorTablaOfertas" class="w-full"></div>
+<div id="contenedorTablaOfertas" class="w-full">
+
+    <div class="w-full">
+        <x-custom.table
+            :columnas="['Nombre Oferta', 'Descuento', 'Inicio de Vigencia', 'Fin de Vigencia', 'Modificacion', '']">
+            @foreach ($ofertas as $oferta)
+            <tr>
+                <td
+                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                    {{$oferta->oferta_combo && count($oferta->oferta_combo) > 0 ? $oferta->oferta_combo[0]->nombre_combo
+                    :
+                    ''}}
+                </td>
+                <td
+                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                    {{$oferta->porcentaje_descuento}}%
+                </td>
+                <td
+                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                    {{$oferta->fecha_inicio_oferta}}
+                </td>
+                <td
+                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                    {{$oferta->fecha_fin_oferta}}
+                </td>
+                <td
+                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                    <a href="#">Modificar</a>
+                </td>
+                <td
+                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                    <a href="#">Eliminar</a>
+                </td>
+            </tr>
+            @endforeach
+        </x-custom.table>
+    </div>
+
+
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -63,6 +103,7 @@ Ofertas
             axios.get(url)
                 .then(response => {
                     const ofertas = response.data.ofertas;
+                    document.getElementById('contenedorTablaOfertas').innerHTML = "";
                     console.log(ofertas);
 
                     // Encabezados tabla
