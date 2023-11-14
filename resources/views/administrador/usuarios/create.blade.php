@@ -34,26 +34,26 @@
         </select>
     
         <div id="camposCliente">
-            <p class="font-poppins text-1g">Nombre cliente</p>
+            <p id="idPNombreCliente" class="font-poppins text-1g">Nombre cliente</p>
             <input id="txtNombreCliente" name="nombreCliente" type="text" class="rounded-md mb-5"> 
             
-            <p class="font-poppins text-1g">Tipo de cliente</p>
+            <p id="idPTipoCliente" class="font-poppins text-1g">Tipo de cliente</p>
             <select id="idCmbTipoCliente" name="cmbTipoCliente" class="font-poppins text-1g rounded-md mb-5">
                 <option value="fisico">Fisico</option>
                 <option value="juridico" selected>Juridico</option>
             </select>
 
-            <p class="font-poppins text-1g">DNI / CUIT</p>
+            <p id="idPDniCuit" class="font-poppins text-1g">DNI / CUIT</p>
             <input id="txtDniCuit" name="dni_cuit" type="number" class="rounded-md mb-5 ">
 
-            <p class="font-poppins text-1g">Codigo postal</p>
+            <p id="idPCodigoPostal" class="font-poppins text-1g">Codigo postal</p>
             <input id="txtCodigoPostal" name="codigoPostal" type="number" class="rounded-md mb-5">
 
-            <p class="font-poppins text-1g">N&uacute;mero de T&eacute;lefono</p>
+            <p id="idPTelefono" class="font-poppins text-1g">N&uacute;mero de T&eacute;lefono</p>
             <input id="txtTelefono" name="telefono" type="number" class="rounded-md mb-5">
         </div>
         <button type="submit" class="mt-7 bg-gray-800 text-white py-2 px-4 rounded-md text-base">
-            Confirmar
+            Registrar Usuario
         </button>
     </form>
     
