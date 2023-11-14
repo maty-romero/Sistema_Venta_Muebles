@@ -76,4 +76,15 @@ class Producto extends Model
         DB::table('productos')->where('id', $this->id)->decrement('stock', $unidadesProd);
     }
 
+    public static function getProductosDisponibles(){
+        $productos = Producto::all();
+        $disponibles = array();
+        foreach($productos as $prod){
+            if($prod->discontinuado == 0){
+                $disponibles[] = $prod;
+            }
+        }
+        return $disponibles;
+    }
+
 }

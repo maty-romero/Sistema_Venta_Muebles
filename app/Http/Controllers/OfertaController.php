@@ -39,7 +39,7 @@ class OfertaController extends Controller
     
     public function create()
     {
-        $productos = Producto::all();
+        $productos = Producto::getProductosDisponibles();
         $tiposProducto = TipoMueble::all();
         return view('administrador.ofertas.create', ['productos' => $productos, 'tiposProducto' => $tiposProducto]);
     }
