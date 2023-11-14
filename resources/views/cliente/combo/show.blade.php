@@ -22,7 +22,7 @@
     </x-custom.navbar_client>
 
     <header class='px-32 mr-auto mt-10'>
-        <h1 class='text-5xl text-left'>Combos</h1>
+        <h1 class='text-6xl text-left'>Combos</h1>
     </header>
 
     <div class='px-32 mt-10 pb-10'>
