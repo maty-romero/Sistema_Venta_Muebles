@@ -10,6 +10,7 @@
 </div>
 <h1 class="pl-32 text-6xl pb-6 font-medium">Combos</h1>
 <div class="grid grid-cols-4 px-32 gap-x-4">
+
     @foreach ( $combos as $combo )
 
     <x-custom.cardCombo :combo="$combo">

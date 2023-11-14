@@ -30,7 +30,7 @@ Usuarios
 
 
     <a href="{{ route('administrador_create_usuario') }}">
-        <button class="bg-gray-800 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
+        <button class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
             Crear Usuario
         </button>
     </a>

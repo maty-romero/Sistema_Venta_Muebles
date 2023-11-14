@@ -21,7 +21,7 @@
         </div>
         <div class="mb-2">
             <h4 class="block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                Domicilio env&iacute;o: 
+                Domicilio de env&iacute;o
             </h4>
             <p class="mb-2 block font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
                 {{ $domicilioEnvio }}

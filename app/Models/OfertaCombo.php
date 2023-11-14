@@ -14,6 +14,7 @@ class OfertaCombo extends Model
     protected $primaryKey = 'id_oferta_combo';
     protected $fillable = [
         "nombre_combo",
+        "imagenURL",
     ];
     protected $table = "oferta_combo"; //tabla a referenciar
 
@@ -64,6 +65,12 @@ class OfertaCombo extends Model
 
     public static function crearCombo($productos, $idOferta)
     {
+        $ofertaCombo = new OfertaCombo();
+        $ofertaCombo->id_oferta_combo = $idOferta;
+        $ofertaCombo->nombre_combo = request()->input('nombreCombo');
+        $ofertaCombo->imagenURL = request()->input('imgCombo');
+        $ofertaCombo->save();
+
         foreach($productos as $prod){
             $idProd = (int)explode(".", $prod)[0];
             $cant = (int)explode("x", $prod)[count(explode("x", $prod))-1];

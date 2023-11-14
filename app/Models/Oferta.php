@@ -59,6 +59,10 @@ class Oferta extends Model
         $oferta->porcentaje_descuento = request()->input('descuento');
         $oferta->save();
 
+        /*$request->validate([
+            'email' => ['required', 'email'],
+        ]);*/
+
         switch (request()->input('tipoOferta')) {
             case 'unitaria':
                 $productos = request()->input('productos');

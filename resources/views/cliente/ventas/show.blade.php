@@ -39,14 +39,14 @@
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($producto['precio_producto'])</td>
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                                 @if ($producto['porcentaje_descuento'] != null)
-                                    @money(($producto['porcentaje_descuento'] * $producto['precio_producto']) / 100) (%{{ $producto['porcentaje_descuento'] }})
+                                    @money(($producto['precio_venta'])) ({{ $producto['porcentaje_descuento'] }}%)
                                 @else
                                     -
                                 @endif
                             </td>
-                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($producto['precio_producto']*$producto['unidades_vendidas'])</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($producto['precio_venta']*$producto['unidades_vendidas'])</td>
                             @php
-                                $totalVenta += $producto['precio_producto']*$producto['unidades_vendidas']; 
+                                $totalVenta += $producto['precio_venta']*$producto['unidades_vendidas']; 
                             @endphp
                         </tr>
                     @endforeach
@@ -60,12 +60,12 @@
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($combo['precio_unitario'])</td>
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                                 @if ($combo['porcentaje_descuento'] != null)
-                                @money(($combo['porcentaje_descuento'] * $combo['precio_unitario']) / 100) (%{{ $combo['porcentaje_descuento'] }})
+                                @money(($combo['precio_combo_final'])) ({{ $combo['porcentaje_descuento'] }}%)
                                 @else
                                     -
                                 @endif
                             </td>
-                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($combo['precio_unitario']*$combo['unidades_vendidas'])</td>
+                            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($combo['precio_combo_final']*$combo['unidades_vendidas'])</td>
                         
                             @php
                                 $totalVenta += $combo['precio_unitario']*$combo['unidades_vendidas']; 
@@ -79,14 +79,14 @@
             <div class="bg-gray-600 container mx-auto rounded-lg p-6">
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Total</p>
-                    <p class="text-white font-poppins text-2xl"> @money($totalVenta)</p>
+                    <p class="text-white font-poppins text-2xl"> @money($datos['venta']['monto_final_venta'])</p>
                 </div>
                 <div class="flex justify-between">
-                    <p class="text-white font-poppins text-2xl">Fecha Facturaci&oacute;n</p>
+                    <p class="text-white font-poppins text-2xl">Fecha de facturaci&oacute;n</p>
                     <p class="text-white font-poppins text-2xl">{{ $datos['venta']['fecha_venta'] }}</p>
                 </div>
                 <div class="flex justify-between">
-                    <p class="text-white font-poppins text-2xl">Domicilio Facturaci&oacuten</p>
+                    <p class="text-white font-poppins text-2xl">Domicilio destino</p>
                     <p class="text-white font-poppins text-2xl">{{ $datos['venta']['domicilio_destino'] }}</p>
                 </div>
             </div>

@@ -47,14 +47,9 @@ class OfertaController extends Controller
 
     public function show(string $id)
     {
-        $combo = $this->searchComboById($id);
-
-
-        // $combo = OfertaCombo::findOrFail($id);
-        // $enCarrito = Venta::enCarrito('Combo', $id);
-
-
-        return view('cliente/combo/show', ['combo' => $combo[0], 'enCarrito' => false]);
+        $combo = OfertaCombo::findOrFail($id);
+        $enCarrito = Venta::enCarrito('Combo', $id);
+        return view('cliente/combo/show', ['combo' => $combo, 'enCarrito' => $enCarrito]);
     }
 
     public function edit(string $id)

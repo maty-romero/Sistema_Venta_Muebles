@@ -36,20 +36,18 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], fu
 
 Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
 
-// Route::get('/', function () {
-//     return view('cliente.welcome');
-// })->middleware(['auth', 'verified']);
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
+Route::middleware('soloCliente')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/perfilCliente', [UsuarioController::class, 'show'])->name('cliente_show');
+    Route::post('/perfilCliente/cambioContrasenia', [UsuarioController::class, 'update_psw'])->name('cliente_cambio_contrasenia');
+    Route::patch('/perfilCliente/cambiosPerfil', [UsuarioController::class, 'update'])->name('cliente_cambio_perfil');
+
+    //Rutas de ventas para cliente
+    Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
+    Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
 });
 
 //Rutas para ver productos y combos
@@ -62,22 +60,14 @@ Route::post('/carrito/{tipoItem}/{id}', [VentaController::class, 'updateCart'])-
 Route::patch('/carrito/{tipoItem}/{id}', [VentaController::class, 'editCart'])->name('carrito_editar');
 Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
 
-//Rutas de ventas para cliente
-Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
-Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
-
-Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');   
-Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
-
 //Rutas de administrativos
-Route::middleware('auth')->group(function () {
+Route::middleware('soloAdm')->group(function () {
     // Route::view('/admin', 'administrador.admin.index')->name('administrador_admin');
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
     Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
     
     Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
-    Route::view('/productos/crear', 'administrador.productos.create')->name('administrador_productos');
-    Route::view('/crearProducto', 'administrador.productos.create')->name('administrador_create_producto');
+    Route::view('/productos/crear', 'administrador.productos.create')->name('administrador_create_producto');
     Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
 
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
@@ -88,8 +78,6 @@ Route::middleware('auth')->group(function () {
     
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
-
-
 
 //Rutas reportes
 Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
