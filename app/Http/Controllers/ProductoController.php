@@ -66,7 +66,7 @@ class ProductoController extends Controller
     public function show(string $id)
     {
         $producto = Producto::findOrFail($id);
-        if($producto->discontinuado == 0 && $producto->stock > 0){
+        if ($producto->discontinuado == 0 && $producto->stock > 0) {
             $enCarrito = Venta::enCarrito('Producto', $id);
             return view('cliente.productos.show', ['producto' => $producto, 'enCarrito' => $enCarrito]);
         }
@@ -278,5 +278,20 @@ class ProductoController extends Controller
         $producto->precio_producto = $request->input('precio');
         $producto->update();
         return redirect()->route('administrador_edit_producto', $producto);
+    }
+
+    public function searchProducto(Request $request)
+    {
+        $name = $request->input("name");
+        $orden = $request->input("ordenamiento");
+        $direccion = $request->input("direccion_orden");
+        $input = $request->input();
+        $products =  Producto::where('nombre_producto', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+
+
+        $products->appends(["name" => $name, "ordenamiento" => $orden, "direccion_orden" => $direccion]);
+
+
+        return view("administrador.productos.index", compact('products', "input"));
     }
 }

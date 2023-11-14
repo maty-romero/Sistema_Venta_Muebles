@@ -21,9 +21,10 @@ use PhpParser\Node\Stmt\Return_;
 */
 
 Route::get('/', [ProductoController::class, 'index'])->name('home');
+//PRODUCTOS CLIENTE
 Route::get("/search", [ProductoController::class, 'search']);
-
-Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
+// BUSQUEDAS ADMIN
+Route::get("/searchProducto", [ProductoController::class, 'searchProducto']);
 Route::get("/searchUser", [UsuarioController::class, 'searchUser']);
 Route::get("/searchVenta", [VentaController::class, 'searchVenta']);
 
@@ -53,7 +54,7 @@ Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCa
 Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
 
-    Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
+    // Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
 
     Route::get('/usuarios/crear', [UsuarioController::class, 'create'])->name('administrador_create_usuario');
     Route::post('/usuarios/guardar', [RegisteredUserController::class, 'store'])->name('administrador_store_usuario');
