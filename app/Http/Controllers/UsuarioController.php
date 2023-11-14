@@ -30,7 +30,7 @@ class UsuarioController extends Controller
 
     public function store(Request  $request)
     {
-        /*
+
         $request->validate([
             'nombreUsuario' => ['required'],
             'email' => ['required', 'unique:users,email'],
@@ -41,7 +41,7 @@ class UsuarioController extends Controller
             // Reglas para cliente
             'nombreCliente' => ['required_if:cmbRolUsuario,cliente'],
             'cmbTipoCliente' => ['required_if:cmbRolUsuario,cliente'],
-            'dni_cuit' => ['required_if:cmbRolUsuario,cliente', 'min:8'],
+            'dni_cuit' => ['required_if:cmbRolUsuario,cliente|min:8'],
             'codigoPostal' => ['required_if:cmbRolUsuario,cliente'],
             'telefono' => ['required_if:cmbRolUsuario,cliente'],
         ], [
@@ -64,37 +64,20 @@ class UsuarioController extends Controller
             'telefono.required_if' => 'El teléfono es obligatorio para el rol de cliente',
         ]);
         
-
-        
-        User::create([
+        $usuario = User::create([
             'name' => $request->nombreUsuario,
             'rol_usuario' => $request->cmbRolUsuario,
             'email' => $request->email,
             'password' => $request->password
         ]);
-      
-        //User::create($request->validated());
-        
-
-        //$usuario->save();
 
         if ($request->cmbRolUsuario === 'cliente') {
-            $cliente = new Cliente([
-                'nombre_cliente' => $request->nombreCliente,
-                'tipo_cliente' => $request->cmbTipoCliente,
-                'dni_cuit' => $request->dni_cuit,
-                'codigo_postal_cliente' => $request->codigoPostal,
-                'nro_telefono' => $request->telefono,
-            ]);
-    
-            $usuario->cliente()->save($cliente);
+            Cliente::crearCliente($usuario->id);
         }
 
         session()->flash('status','Usuario creado exitosamente');
 
-        return redirect()->route('usuarios/crear'); 
-        */
-        return $request; 
+        return redirect()->route('administrador_create_usuario');  
     }
 
     public function show()

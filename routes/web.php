@@ -54,10 +54,9 @@ Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCa
 Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
 
-    // Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
-
+    //Route::post('/usuarios/guardar', [RegisteredUserController::class, 'store'])->name('administrador_store_usuario');
     Route::get('/usuarios/crear', [UsuarioController::class, 'create'])->name('administrador_create_usuario');
-    Route::post('/usuarios/guardar', [RegisteredUserController::class, 'store'])->name('administrador_store_usuario');
+    Route::post('/usuarios/guardar', [UsuarioController::class, 'store'])->name('administrador_store_usuario');
     Route::get('/usuarios/editar/{idUsr}', [UsuarioController::class, 'edit'])->name('administrador_edit_usuarios');
     Route::patch('/usuarios/{idUsr}', [UsuarioController::class, 'update'])->name('administrador_update_usuarios');
     Route::delete('/usuarios/{usuario}', [UsuarioController::class, 'destroy'])->name('administrador_delete_usuarios');
@@ -81,5 +80,8 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
     Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
 });
+
+Route::get('/usuarios/crear', [UsuarioController::class, 'create'])->name('administrador_create_usuario');
+Route::post('/usuarios/guardar', [UsuarioController::class, 'store'])->name('administrador_store_usuario');
 
 require __DIR__ . '/auth.php';
