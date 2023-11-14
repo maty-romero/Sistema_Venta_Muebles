@@ -4,13 +4,19 @@
     Crear usuario
 @endsection
 
+@section('scripts')
+    <script src="{{ asset('js/formularioCrearUsuario.js')}}"></script>
+@endsection
+
 @section('encabezado')
     Crear usuario
 @endsection
 
 @section('contenido')
+
 <div id="detalleVenta" class="container mx-auto p-6">
-    <form action="">
+    <form action="{{ route('administrador_store_usuario') }}" method="POST">
+        @csrf
         <p class="font-poppins text-1g">Nombre Usuario</p>
         <input id="txtNombreUsuario" name="nombreUsuario" type="text" class="rounded-md mb-5">
 
@@ -21,7 +27,7 @@
         <input id="txtContrasenia" name="password" type="password" class="rounded-md mb-5">
 
         <p class="font-poppins text-1g">Rol de Usuario</p>
-        <select id="idcCbRolUsuario" name="cmbRolUsuario" class="font-poppins text-1g rounded-md mb-5">
+        <select id="idCmbRolUsuario" name="cmbRolUsuario" class="font-poppins text-1g rounded-md mb-5" onchange='formularioPorTipo()'>
             <option value="cliente">Cliente</option>
             <option value="jefe_ventas" selected>Jefe de Ventas</option>
             <option value="gerente">Gerente</option>
@@ -44,12 +50,9 @@
             <input id="txtCodigoPostal" name="codigoPostal" type="number" class="rounded-md mb-5">
 
             <p class="font-poppins text-1g">N&uacute;mero de T&eacute;lefono</p>
-            <input id="txtCodigoPostal" name="codigoPostal" type="number" class="rounded-md mb-5">
+            <input id="txtTelefono" name="telefono" type="number" class="rounded-md mb-5">
         </div>
-
-
-        <br>
-        <button class="mt-7 bg-gray-800 text-white py-2 px-4 rounded-md text-base">
+        <button type="submit" class="mt-7 bg-gray-800 text-white py-2 px-4 rounded-md text-base">
             Confirmar
         </button>
     </form>
