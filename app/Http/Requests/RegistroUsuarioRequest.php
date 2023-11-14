@@ -8,12 +8,19 @@ class RegistroUsuarioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
         return [
@@ -26,7 +33,7 @@ class RegistroUsuarioRequest extends FormRequest
             // Reglas para cliente
             'nombreCliente' => ['required_if:cmbRolUsuario,cliente'],
             'cmbTipoCliente' => ['required_if:cmbRolUsuario,cliente'],
-            'dni_cuit' => ['required_if:cmbRolUsuario,cliente', 'min:8'],
+            'dni_cuit' => ['required_if:cmbRolUsuario,cliente|min:8|unique:clientes,dni_cuit'],
             'codigoPostal' => ['required_if:cmbRolUsuario,cliente'],
             'telefono' => ['required_if:cmbRolUsuario,cliente'],
         ];
@@ -50,6 +57,7 @@ class RegistroUsuarioRequest extends FormRequest
             'cmbTipoCliente.required_if' => 'El tipo de cliente es obligatorio para el rol de cliente',
             'dni_cuit.required_if' => 'El DNI o CUIT es obligatorio para el rol de cliente',
             'dni_cuit.min' => 'El DNI o CUIT debe tener al menos :min caracteres',
+            'dni_cuit.unique' => 'El DNI o CUIT ingresado ya está en uso',
             'codigoPostal.required_if' => 'El código postal es obligatorio para el rol de cliente',
             'telefono.required_if' => 'El teléfono es obligatorio para el rol de cliente',
         ];

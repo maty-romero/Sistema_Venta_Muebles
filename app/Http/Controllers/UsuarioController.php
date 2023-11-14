@@ -14,6 +14,7 @@ use App\Models\OfertaCombo;
 use App\Models\OfertaTipoMueble;
 use App\Models\Producto;
 use App\Models\ProductoVendido;
+use Symfony\Component\Console\Input\Input;
 
 class UsuarioController extends Controller
 {
@@ -28,57 +29,42 @@ class UsuarioController extends Controller
         return view('administrador.usuarios.create');
     }
 
-    public function store(Request  $request)
+    public function store(RegistroUsuarioRequest $request)
     {
+        try {
+            $validated = $request->validated(); 
+            if($validated){
 
-        $request->validate([
-            'nombreUsuario' => ['required'],
-            'email' => ['required', 'unique:users,email'],
-            'password' => ['required', 'min:8'],
-            'password_confirmation' => ['required', 'min:8', 'same:password'],
-            'cmbRolUsuario' => ['required'],
-        
-            // Reglas para cliente
-            'nombreCliente' => ['required_if:cmbRolUsuario,cliente'],
-            'cmbTipoCliente' => ['required_if:cmbRolUsuario,cliente'],
-            'dni_cuit' => ['required_if:cmbRolUsuario,cliente|min:8'],
-            'codigoPostal' => ['required_if:cmbRolUsuario,cliente'],
-            'telefono' => ['required_if:cmbRolUsuario,cliente'],
-        ], [
-            'nombreUsuario.required' => 'El nombre de usuario es obligatorio',
-            'email.required' => 'El campo de correo electrónico es obligatorio',
-            'email.unique' => 'El correo electrónico ya está en uso',
-            'password.required' => 'La contraseña es obligatoria',
-            'password.min' => 'La contraseña debe tener al menos :min caracteres',
-            'password_confirmation.required' => 'La confirmación de la contraseña es obligatoria',
-            'password_confirmation.min' => 'La confirmación de la contraseña debe tener al menos :min caracteres',
-            'password_confirmation.same' => 'La confirmación de la contraseña no coincide con la contraseña',
-            'cmbRolUsuario.required' => 'El campo de rol de usuario es obligatorio',
-        
-            // Mensajes para cliente
-            'nombreCliente.required_if' => 'El nombre del cliente es obligatorio para el rol de cliente',
-            'cmbTipoCliente.required_if' => 'El tipo de cliente es obligatorio para el rol de cliente',
-            'dni_cuit.required_if' => 'El DNI o CUIT es obligatorio para el rol de cliente',
-            'dni_cuit.min' => 'El DNI o CUIT debe tener al menos :min caracteres',
-            'codigoPostal.required_if' => 'El código postal es obligatorio para el rol de cliente',
-            'telefono.required_if' => 'El teléfono es obligatorio para el rol de cliente',
-        ]);
-        
-        $usuario = User::create([
-            'name' => $request->nombreUsuario,
-            'rol_usuario' => $request->cmbRolUsuario,
-            'email' => $request->email,
-            'password' => $request->password
-        ]);
+                if ($validated) {
+                    $usuario = User::create([
+                        'name' => $request->nombreUsuario,
+                        'rol_usuario' => $request->cmbRolUsuario,
+                        'email' => $request->email,
+                        'password' => $request->password
+                    ]);
+            
+                    if ($usuario) {
+                        if ($request->cmbRolUsuario === 'cliente') {
+                            Cliente::crearCliente($usuario->id);
+                            session()->flash('success', 'Usuario y cliente creados con éxito.');
+                        } else {
+                            session()->flash('success', 'Usuario creado con éxito.');
+                        }
+                    } else {
+                        session()->flash('error', 'Hubo un problema al crear el usuario.');
+                    }
+                }
+            }
+            
+                
+        } catch (\Exception $e) {
 
-        if ($request->cmbRolUsuario === 'cliente') {
-            Cliente::crearCliente($usuario->id);
+            //return redirect()->back()->with('error', 'Hubo un error inesperado')->withInput();
+            session()->flash('error', 'Hubo un error inesperado'. $e->getMessage());
         }
-
-        session()->flash('status','Usuario creado exitosamente');
-
-        return redirect()->route('administrador_create_usuario');  
-
+            
+        return redirect()->back();
+         
     }
 
     public function show()

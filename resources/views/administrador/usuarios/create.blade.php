@@ -14,14 +14,30 @@ Crear usuario
 
 @section('contenido')
 
-{{ session('status') }}
+@php
+    dump(session()->all());
+    dump($errors);     
+@endphp
+
+
+@if(session('success'))
+    <div class="bg-green-100 w-full border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="bg-red-100 w-full border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('error') }}</span>
+    </div>
+@endif
 
 
 <div id="contenedor" class="container ">
     <form action="{{ route('administrador_store_usuario') }}" method="POST">
         @csrf
         <p class="font-poppins text-1g">Nombre de usuario</p>
-        <input id="txtNombreUsuario" name="name" type="text" value="{{ old('nombreUsuario') }}" class="rounded-md mb-5">
+        <input id="txtNombreUsuario" name="nombreUsuario" type="text" value="{{ old('nombreUsuario') }}" class="rounded-md mb-5">
         @error('nombreUsuario')
         <br>
         <small style="color: red">{{ $message }}</small>
@@ -49,7 +65,7 @@ Crear usuario
         @enderror
 
         <p class="font-poppins text-1g">Rol de Usuario</p>
-        <select id="idCmbRolUsuario" name="cmbRolUsuario" class="font-poppins text-1g rounded-md mb-5" onchange='formularioPorTipo()'>
+        <select id="idCmbRolUsuario" name="cmbRolUsuario" value="{{ old('cmbRolUsuario') }}" class="font-poppins text-1g rounded-md mb-5" onchange='formularioPorTipo()'>
             <option value="cliente">Cliente</option>
             <option value="jefe_ventas" selected>Jefe de Ventas</option>
             <option value="gerente">Gerente</option>
