@@ -21,11 +21,11 @@
     <x-custom.navbar_client>
     </x-custom.navbar_client>
 
-    <header class='w-5/6 ml-auto mr-auto mt-10'>
+    <header class='px-32 w-5/6 mt-10'>
         <h1 class='text-5xl text-left'>Muebles &raquo; {{Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble)}}</h1>
     </header>
 
-    <div class='w-5/6 mx-auto mt-10 pb-10'>
+    <div class='px-32 mt-10 pb-10'>
         <x-custom.product_detail :producto='$producto' :enCarrito='$enCarrito'></x-custom.product_detail>
     </div>
 

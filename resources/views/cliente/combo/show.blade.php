@@ -21,11 +21,11 @@
     <x-custom.navbar_client>
     </x-custom.navbar_client>
 
-    <header class='w-5/6 ml-auto mr-auto mt-10'>
+    <header class='px-32 mr-auto mt-10'>
         <h1 class='text-5xl text-left'>Combos</h1>
     </header>
 
-    <div class='w-5/6 mx-auto mt-10 pb-10'>
+    <div class='px-32 mt-10 pb-10'>
         <x-custom.combo_detail :combo='$combo' :enCarrito='$enCarrito'></x-custom.combo_detail>
     </div>
 

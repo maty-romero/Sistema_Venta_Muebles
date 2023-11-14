@@ -24,8 +24,7 @@
         <h1 class="mb-2 block font-sans text-5xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Detalle Compra</h1><br>
         
         @php
-            dump($datos); 
-            $totalVenta = 0; 
+            //dump($datos);
         @endphp
         
         <div class="w-full">
@@ -45,9 +44,6 @@
                                 @endif
                             </td>
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($producto['precio_venta']*$producto['unidades_vendidas'])</td>
-                            @php
-                                $totalVenta += $producto['precio_venta']*$producto['unidades_vendidas']; 
-                            @endphp
                         </tr>
                     @endforeach
                 @endif
@@ -66,10 +62,6 @@
                                 @endif
                             </td>
                             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">@money($combo['precio_combo_final']*$combo['unidades_vendidas'])</td>
-                        
-                            @php
-                                $totalVenta += $combo['precio_unitario']*$combo['unidades_vendidas']; 
-                            @endphp
                         </tr>
                     @endforeach
                 @endif
@@ -77,6 +69,32 @@
             </x-custom.table>
 
             <div class="bg-gray-600 container mx-auto rounded-lg p-6">
+                
+                @if ($datos['venta']->ofertaMonto)
+                    @php
+                        $montoFinalVenta = floatval($datos['venta']['monto_final_venta']);
+                        $montoDesuentoLimite = floatval($datos['venta']->ofertaMonto->monto_limite_descuento); 
+                    @endphp
+
+                    @if ($montoFinalVenta >= $montoDesuentoLimite) 
+                    
+                        @php
+                            $porcentajeDescuento = floatval($datos['venta']->ofertaMonto->oferta->porcentaje_descuento);
+                            $descuentoMonto = ($porcentajeDescuento * $montoFinalVenta) / 100;
+                        @endphp
+
+                        <div class="flex justify-between">
+                            <p class="text-white font-poppins text-2xl">Total sin descuento monto:</p>
+                            <p class="text-white font-poppins text-2xl"> @money($montoFinalVenta + $descuentoMonto)</p>
+                        </div> 
+
+                        <div class="flex justify-between">
+                            <p class="text-white font-poppins text-2xl">Descuento de monto:</p>
+                            <p class="text-white font-poppins text-2xl"> @money($descuentoMonto)</p>
+                        </div> 
+                    @endif    
+                @endif
+                
                 <div class="flex justify-between">
                     <p class="text-white font-poppins text-2xl">Total</p>
                     <p class="text-white font-poppins text-2xl"> @money($datos['venta']['monto_final_venta'])</p>
