@@ -13,8 +13,10 @@
 @endsection
 
 @section('contenido')
+
 <div>
     <form method="POST" action='{{route("guardar_oferta")}}' class='pl-1 w-full'>
+        @dump($errors->all())
     <div class='flex float-left border-white border-r-2 pr-5 pt-4 mr-5'>
     @csrf
     <table class='w-[100px]'>
@@ -32,7 +34,7 @@
         <p class="font-poppins text-1g">Porcentaje de descuento</p>
         <div class="flex">
             <div class="relative w-[200px] mb-5 mr-1 ">
-                <input type='number' id='descuento' name='descuento' max='90' min='5' class="block p-2.5 w-full z-20 text-sm rounded-md border focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" required>
+                <input type='number' id='descuento' name='descuento' max='95' min='5' class="block p-2.5 w-full z-20 text-sm rounded-md border focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" required>
                 <div class="absolute mt-[2px] top-0 end-0 p-2.5 text-sm font-medium h-full rounded-e-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg> 
                 </div>
@@ -53,7 +55,7 @@
     </td></tr>
     <tr id='imgCombo' class='hidden' accept="image/png, image/jpeg"><td colspan="2" class='w-min'>
         <p class="font-poppins text-1g">Imagen</p>
-        <input name='imgCombo' id="imgCombo" type="file" class="mb-1 relative bg-white m-0 block w-full min-w-0 flex-auto rounded border border-solid border-gray-500 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-black transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-800 file:px-3 file:py-[0.32rem] file:text-white file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-600 focus:border-primary focus:shadow-te-primary focus:outline-none"/>
+        <input name='imagenCombo' id="imagenCombo" type="file" class="mb-1 relative bg-white m-0 block w-full min-w-0 flex-auto rounded border border-solid border-gray-500 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-black transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-800 file:px-3 file:py-[0.32rem] file:text-white file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-600 focus:border-primary focus:shadow-te-primary focus:outline-none"/>
         <p class="mb-5 font-poppins text-xs">Formato JPEG/PNG</p>
     </td></tr>
     <tr id='tipoProducto' class='hidden'><td>

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\hasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Validator;
 
 class Oferta extends Model
 {
@@ -58,10 +59,6 @@ class Oferta extends Model
         $oferta->fecha_fin_oferta = request()->input('fechaFin');
         $oferta->porcentaje_descuento = request()->input('descuento');
         $oferta->save();
-
-        /*$request->validate([
-            'email' => ['required', 'email'],
-        ]);*/
 
         switch (request()->input('tipoOferta')) {
             case 'unitaria':

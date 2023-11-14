@@ -7,8 +7,13 @@ use App\Models\Producto;
 use App\Models\Venta;
 use App\Models\Oferta;
 use App\Models\TipoMueble;
+use App\Rules\OfertaComboValida;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Rules\OfertaUnitariaValida;
+use App\Rules\OfertaMontoValida;
+use App\Rules\OfertaTipoValida;
 
 class OfertaController extends Controller
 {
@@ -39,8 +44,66 @@ class OfertaController extends Controller
         return view('administrador.ofertas.create', ['productos' => $productos, 'tiposProducto' => $tiposProducto]);
     }
 
-    public function store(Request $request)
-    {
+    public function store()
+    {   
+        $validator = Validator::make(request()->all(),[
+            'tipoOferta' => [
+                'required', 
+                'in:unitaria,combo,tipo,monto'
+            ],
+            'fechaInicio' => [
+                'required', 
+                'after:'.date("m/d/".(date("Y")-1)), 
+                'before:'.request()->input('fechaFin')
+            ],
+            'fechaFin' => [
+                'required',
+                'after:'.date("m/d/Y"),
+                'after:'.request()->input('fechaInicio')
+            ],
+            'descuento' => [
+                'required',
+                'numeric',
+                'max:95',
+                'min:5'
+            ],
+            'nombreCombo' => [
+                'required_if:tipoOferta,combo',
+                'max:30',
+                'nullable',
+                'min:3'
+            ],
+            'imagenCombo' => [
+                'required_if:tipoOferta,combo',
+                'nullable',
+                'image'
+            ],
+            'tipoMueble' => [
+                'required_if:tipoOferta,tipo',
+                'nullable',
+                'in:1,2',
+                new OfertaTipoValida
+            ],
+            'montoMin' => [
+                'required_if:tipoOferta,monto',
+                'nullable',
+                'numeric',
+                'min:1000',
+                new OfertaMontoValida
+            ],
+            'productos' => [
+                'required_if:tipoOferta,unitaria',
+                new OfertaUnitariaValida,
+                'required_if:tipoOferta,combo',
+                new OfertaComboValida,
+                'nullable',
+            ],
+        ]);
+        
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }
+
         Oferta::crearOferta();
         return to_route('administrador_ofertas');
     }
