@@ -90,7 +90,6 @@
 
         @if (count($ventas) > 0)
             @foreach ($ventas as $venta)
-            
                 @php
                     $imagenURL = $venta->producto->first()->imagenURL ?? $venta->ofertaCombo->first()->imagenURL;
                     $fechaVenta = date('d-m-Y H:m', strtotime($venta->fecha_venta))
@@ -104,8 +103,15 @@
                     :totalVenta="$venta->monto_final_venta"
                     :ventaId="$venta->id"
                 />
-            @endforeach    
+             @endforeach     
+        @else
+            <div class="container mx-auto flex flex-wrap mb-1 overflow-hidden bg-gray-200 shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
+                <p class='w-full py-20 font-bold text-2xl text-center'>No tiene compras realizadas</p>
+            </div>
+           
         @endif
+        
+        
               
     </div> 
     <br>   

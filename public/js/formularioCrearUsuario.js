@@ -2,9 +2,7 @@ window.onload = function() {
     ocultarTodo();
 }
 
-
 function formularioPorTipo() {
-    alert('Hola');
     var tipo = document.getElementById('idCmbRolUsuario').value;
 
     switch(tipo){
