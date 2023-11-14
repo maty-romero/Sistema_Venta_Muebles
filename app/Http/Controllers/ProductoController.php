@@ -20,7 +20,7 @@ class ProductoController extends Controller
 
     public function index()
     {
-        $productos = Producto::paginate(4);
+        $productos = Producto::where("discontinuado", 0)->where("stock", ">=", 1)->paginate(4);
         $combos = array_slice($this->combosActivos("", "", ""), 0, 4);
         return (view("cliente.welcome", compact("productos", "combos")));
     }
