@@ -19,7 +19,7 @@
       <p class="text-sm font-light text-white">Alto: {{$producto->alto}} cm</p>
       <p class="text-sm font-light text-white">Ancho: {{$producto->ancho}} cm</p>
       <div class="flex mt-auto justify-center">
-        <a href="{{route('producto.show',['idProd' => $producto->id])}}">
+        <a href="{{route('producto_show',['idProd' => $producto->id])}}">
           <button class="rounded-3xl bg-white text-[#5690FF] font-medium text-base px-10 py-3 ">Ver producto</button></a>
       </div>
     </div>
