@@ -3,7 +3,6 @@
 use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\Auth\RegisteredUserController;

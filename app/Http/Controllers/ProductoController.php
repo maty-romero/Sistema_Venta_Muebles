@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
@@ -278,6 +277,6 @@ class ProductoController extends Controller
         $producto->stock += $request->input('stock');
         $producto->precio_producto = $request->input('precio');
         $producto->update();
-        return 'Stock nuevo'; //redirect()->route('producto.index');
+        return redirect()->route('administrador_edit_producto', $producto);
     }
 }
