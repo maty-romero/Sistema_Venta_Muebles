@@ -35,6 +35,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], fu
 });
 
 Route::get("/searchProduct", [ProductoController::class, 'searchProduct']);
+Route::get("/searchUser", [UsuarioController::class, 'searchUser']);
+Route::get("/searchVenta", [VentaController::class, 'searchVenta']);
 
 Route::middleware('soloCliente')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -46,7 +48,7 @@ Route::middleware('soloCliente')->group(function () {
     Route::patch('/perfilCliente/cambiosPerfil', [UsuarioController::class, 'update'])->name('cliente_cambio_perfil');
 
     //Rutas de ventas para cliente
-    Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta'); 
+    Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta');
     Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
 });
 
@@ -64,8 +66,9 @@ Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCa
 Route::middleware('soloAdm')->group(function () {
     // Route::view('/admin', 'administrador.admin.index')->name('administrador_admin');
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
+
     Route::view('/crearUsuario', 'administrador.usuarios.create')->name('administrador_create_usuario');
-    
+
     Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
     Route::view('/productos/crear', 'administrador.productos.create')->name('administrador_create_producto');
     Route::view('/editarProducto', 'administrador.productos.edit')->name('administrador_edit_producto');
@@ -75,7 +78,7 @@ Route::middleware('soloAdm')->group(function () {
     Route::get('/ofertas', [OfertaController::class, 'index'])->name('administrador_ofertas');
     Route::get('/ofertas/crear', [OfertaController::class, 'create'])->name('crear_oferta');
     Route::post('/ofertas/guardar', [OfertaController::class, 'store'])->name('guardar_oferta');
-    
+
     Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
 });
 

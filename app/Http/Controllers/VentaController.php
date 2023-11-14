@@ -16,8 +16,8 @@ class VentaController extends Controller
 {
     public function index()
     {
-       $ventas = Venta::with('cliente')->paginate(5);
-       return view("administrador.ventas.index", compact('ventas'));
+        $ventas = Venta::with('cliente')->paginate(5);
+        return view("administrador.ventas.index", compact('ventas'));
 
         // Aquí puedes iterar sobre todas las ventas y crear un array de datos
         $infoVentas = [];
@@ -50,8 +50,8 @@ class VentaController extends Controller
     {
         $request = new Request();
         $request->setLaravelSession(session());
-        if(Venta::hayStockCarrito()){
-            if(Venta::realizarPago()){
+        if (Venta::hayStockCarrito()) {
+            if (Venta::realizarPago()) {
                 $idVenta = Venta::finalizarVenta($idCliente, request()->codPostal, request()->direccionDestino);
                 $request->session()->put('ofertaMonto', null);
                 //Debería devolver la vista del detalle de venta
@@ -63,7 +63,7 @@ class VentaController extends Controller
             $msj = 'Error al realizar la compra. Algunos de los productos de tu carrito no tienen stock suficiente.';
         }
         $ofertaMonto = $request->session()->get('ofertaMonto');
-        if(!isset($ofertaMonto)){
+        if (!isset($ofertaMonto)) {
             $ofertaMonto = null;
         }
         return view("cliente.ventas.carrito", ['msj' => $msj, 'subtotal' => Venta::calcularSubtotal(), 'carrito' => Venta::getCarrito(), 'ofertaMonto' => $ofertaMonto]);
@@ -75,7 +75,7 @@ class VentaController extends Controller
         $venta = Venta::with('ofertaMonto.oferta')->findOrFail($idVenta);
         //$venta = $venta->ofertaMonto->oferta; 
 
-        if(Auth::user()->cliente->id_usuario_cliente == $venta->id_usuario_cliente){
+        if (Auth::user()->cliente->id_usuario_cliente == $venta->id_usuario_cliente) {
             $datos = [];
             //formateo de la fecha venta
             $fechaNueva = date("d/m/Y", strtotime($venta->fecha_venta));
@@ -85,7 +85,7 @@ class VentaController extends Controller
             $datos['productos'] = VentaController::getProductosVendidos($venta);
             $datos['combos'] = VentaController::getCombosVendidos($venta);
 
-            return view('cliente.ventas.show', ['datos' => $datos]);    
+            return view('cliente.ventas.show', ['datos' => $datos]);
         }
 
         //No hay coincidencia 
@@ -134,9 +134,9 @@ class VentaController extends Controller
             $unidadesVendidasCombo = $combo->pivot->unidades_vendidas_combo;
             $precioCombo = $combo->pivot->precio_combo; //precio_venta_combo -> luego del descuento
 
-            $productos = $combo->oferta_combo_producto()->get(); 
-            
-            $precioUnitarioCombo = 0.0; 
+            $productos = $combo->oferta_combo_producto()->get();
+
+            $precioUnitarioCombo = 0.0;
 
             foreach ($productos as $producto) {
                 $cantidadProductoCombo = $producto->pivot->cantidad_producto_combo;
@@ -197,4 +197,34 @@ class VentaController extends Controller
         return to_route('carrito');
     }
 
+
+    public function searchVenta(Request $request)
+    {
+        $name = $request->input("name");
+        $orden = $request->input("ordenamiento");
+        $direccion =  $request->input("direccion_orden");
+
+        if ($orden === "nombre_cliente") {
+            $ventas  = Venta::whereHas(
+                "cliente",
+                function ($query) use ($name, $direccion) {
+                    $query->where('nombre_cliente', 'like', '%' . "$name" . '%')->orderBy("nombre_cliente", $direccion);
+                }
+            )->paginate(5);
+        } else {
+            $ventas  = Venta::whereHas(
+                "cliente",
+                function ($query) use ($name) {
+                    $query->where('nombre_cliente', 'like', '%' . "$name" . '%');
+                }
+            )->orderBy($orden, $direccion)->paginate(5);
+        }
+
+
+
+        $input = $request->input();
+        $ventas->appends(["ordenamiento" => $orden, "direccion_orden" => $direccion, "name" => $name]);
+
+        return view("administrador.ventas.index", compact('ventas', "input"));
+    }
 }

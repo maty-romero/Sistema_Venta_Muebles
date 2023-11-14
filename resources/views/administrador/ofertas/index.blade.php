@@ -1,50 +1,49 @@
 @extends('layouts.administrativo')
 
 @section('titulo')
-    Ofertas
+Ofertas
 @endsection
 
 @section('encabezado')
-    Ofertas
+Ofertas
 @endsection
 
 @section('contenido')
 
-    <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
-    <div class="flex justify-between ml-4">
-        <x-custom.filters>
-            <select class="form-control mr-5 rounded-lg" id="tipo_oferta" name="tipoOferta">
-                <option value="producto">Unitarias</option>
-                <option value="ofertaCombo">Combo</option>
-                <option value="ofertaMonto">Monto</option>
-                <option value="ofertaMueble">Tipo Mueble</option>
-            </select>
-            <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="campoOrden">
-                <option value="fecha_inicio_oferta">Fecha Inicio Vigencia</option>
-                <option value="fecha_fin_oferta">Fecha Fin Vigencia</option>
-                <option value="porcentaje_descuento">Descuento</option>
-            </select>
-            <select class="form-control mr-5 rounded-lg" id="direccion_orden" name="direccionOrden">
-                <option value="asc">Ascendente</option>
-                <option value="desc">Descendente</option>
-            </select>
-            <x-custom.input-search />
-        </x-custom.filters>
+<h3 class='text-3xl text-left ml-4'>Ordenar</h3>
+<div class="flex justify-between ml-4">
 
-        <a href="{{ route('crear_oferta') }}">
-            <button class="bg-gray-800 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
-                Crear Oferta
-            </button>
-        </a>
-    </div>
+    <select class="form-control mr-5 rounded-lg" id="tipo_oferta" name="tipoOferta">
+        <option value="producto">Unitarias</option>
+        <option value="ofertaCombo">Combo</option>
+        <option value="ofertaMonto">Monto</option>
+        <option value="ofertaMueble">Tipo Mueble</option>
+    </select>
+    <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="campoOrden">
+        <option value="fecha_inicio_oferta">Fecha Inicio Vigencia</option>
+        <option value="fecha_fin_oferta">Fecha Fin Vigencia</option>
+        <option value="porcentaje_descuento">Descuento</option>
+    </select>
+    <select class="form-control mr-5 rounded-lg" id="direccion_orden" name="direccionOrden">
+        <option value="asc">Ascendente</option>
+        <option value="desc">Descendente</option>
+    </select>
+    <x-custom.input-search />
 
-    <div id="contenedorTablaOfertas" class="w-full"></div>
 
-    
+    <a href="{{ route('crear_oferta') }}">
+        <button class="bg-gray-800 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
+            Crear Oferta
+        </button>
+    </a>
+</div>
+
+<div id="contenedorTablaOfertas" class="w-full"></div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-    
     var selectElements = document.querySelectorAll('select');
 
     selectElements.forEach(function(select) {
@@ -113,9 +112,9 @@
     });
 </script>
 
-    
-    
-    
-    
+
+
+
+
 
 @endsection

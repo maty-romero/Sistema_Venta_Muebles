@@ -39,11 +39,12 @@ class UsuarioController extends Controller
         return view('cliente.usuario.index', compact('cliente', 'ventas'));
     }
 
-    public function update_psw(Request $request){
+    public function update_psw(Request $request)
+    {
         $usuario = Auth::user();
         $nuevaContrasenia = $request->input('nuevaContrasenia');
         $usuario->update(['password' => $nuevaContrasenia]);
-        return redirect()->back()->with('success','');
+        return redirect()->back()->with('success', '');
     }
 
     public function edit(string $id)
@@ -57,13 +58,13 @@ class UsuarioController extends Controller
 
         $cliente = $usuario->cliente;
         $cliente->update([
-            'nombre_cliente' => $request->input('nombre'), 
+            'nombre_cliente' => $request->input('nombre'),
             'dni_cuit' => $request->input('documento'),
             'codigo_postal_cliente' => $request->input('codigoPostal'),
             'nro_telefono' => $request->input('telefono'),
         ]);
 
-        return redirect()->back()->with('success','');
+        return redirect()->back()->with('success', '');
     }
 
     /**
@@ -74,5 +75,17 @@ class UsuarioController extends Controller
         //$usuario->delete();
         return redirect()->route('usuarios.index');
     }
-    
+
+    public function searchUser(Request $request)
+    {
+
+        $name = $request->input("name");
+        $orden = $request->input("ordenamiento") === "nombre" ? "name" : "rol_usuario";
+        $direccion = $request->input("direccion_orden");
+        $usuarios =  User::where('name', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        $input = $request->input();
+        $usuarios->appends(["name" => $name, "orden" => $orden, "direccion_orden" => $direccion]);
+
+        return view("administrador.usuarios.index", compact('usuarios', "input"));
+    }
 }
