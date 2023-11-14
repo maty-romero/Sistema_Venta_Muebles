@@ -27,14 +27,14 @@ Productos
                 ?"selected":""}}>Descendente</option>
         </select>
         <input id="name" name="name" value="{{isset($input['name'])?$input['name']:''}}" class="py-1 pl-2 rounded-lg border-gray-200" placeholder="Buscar nombre">
-
-
-        <a href="{{ route('administrador_create_producto') }}">
-            <button class="bg-gray-800 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
-                Crear Producto
-            </button>
-        </a>
     </form>
+
+    <a href="{{ route('administrador_create_producto') }}">
+        <button class="bg-gray-800 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
+            Crear Producto
+        </button>
+    </a>
+
 </div>
 
 <div class="w-full">

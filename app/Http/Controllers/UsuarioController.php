@@ -78,6 +78,7 @@ class UsuarioController extends Controller
         session()->flash('status','Usuario creado exitosamente');
 
         return redirect()->route('administrador_create_usuario');  
+
     }
 
     public function show()
@@ -99,7 +100,7 @@ class UsuarioController extends Controller
     public function edit(string $idUsr)
     {
         $usuario = User::findOrFail($idUsr);
-        return view('administrador.usuarios.edit', compact('usuario')); 
+        return view('administrador.usuarios.edit', compact('usuario'));
     }
 
     public function update(Request $request)
