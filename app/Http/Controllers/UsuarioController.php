@@ -77,38 +77,6 @@ class UsuarioController extends Controller
          
     }
 
-
-    public function store_client(RegistroClienteRequest $request)
-    {
-        try {
-            $validated = $request->validated(); 
-            if($validated){
-
-                $usuario = User::create([
-                    'name' => $request->nombreUsuario,
-                    'rol_usuario' => "cliente",
-                    'email' => $request->email,
-                    'password' => $request->password
-                ]);
-            
-                if($usuario){
-                    Cliente::crearCliente($usuario->id);
-                    session()->flash('success', 'Usuario y cliente creados con éxito.');
-                }else{
-                    session()->flash('error', 'Hubo un problema en el registro.');    
-                }
-            }
-
-        }catch (\Exception $e) {
-
-            //return redirect()->back()->with('error', 'Hubo un error inesperado')->withInput();
-            session()->flash('error', 'Hubo un error inesperado'. $e->getMessage());
-        }
-            
-        return redirect()->back();
-         
-    }
-
     public function show()
     {
         $cliente = Auth::user()->cliente;
