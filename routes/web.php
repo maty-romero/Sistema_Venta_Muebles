@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ReporteController;
 use Illuminate\Support\Facades\Route;
 use PhpParser\Node\Stmt\Return_;
 
@@ -59,7 +60,7 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::get('/usuarios/crear', [UsuarioController::class, 'create'])->name('administrador_create_usuario');
     Route::post('/usuarios/guardar', [RegisteredUserController::class, 'store'])->name('administrador_store_usuario');
     Route::get('/usuarios/editar/{idUsr}', [UsuarioController::class, 'edit'])->name('administrador_edit_usuarios');
-    Route::patch('/usuarios/{idUsr}', [UsuarioController::class, 'update'])->name('administrador_update_usuarios');
+    Route::any('/usuarios/{idUsr}', [UsuarioController::class, 'update'])->name('administrador_update_usuarios');
     Route::delete('/usuarios/{usuario}', [UsuarioController::class, 'destroy'])->name('administrador_delete_usuarios');
 
     Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
@@ -67,7 +68,7 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::post('/productos/guardar', [ProductoController::class, 'store'])->name('administrador_store_producto');
     Route::get('/productos/editar/{producto}', [ProductoController::class, 'edit'])->name('administrador_edit_producto');
     Route::patch('/usuarios/{idProd}', [ProductoController::class, 'update'])->name('administrador_update_producto');
-    Route::put('/usuarios/{producto}', [ProductoController::class, 'updateStock'])->name('producto_updateStock');
+    // Route::put('/usuarios/{producto}', [ProductoController::class, 'updateStock'])->name('producto_updateStock');
     Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('administrador_delete_producto');
 
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');

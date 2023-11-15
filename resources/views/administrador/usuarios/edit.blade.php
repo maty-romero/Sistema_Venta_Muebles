@@ -1,17 +1,16 @@
 @extends('layouts.administrativo')
 
 @section('titulo')
-    Editar usuario
+Editar usuario
 @endsection
 
 @section('encabezado')
-    Crear usuario
+Crear usuario
 @endsection
 
 @section('contenido')
 <div id="detalleVenta" class="container mx-auto p-6">
-    <form action="{{ route('administrador_update_usuarios', $usuario) }}" method="POST">
-        @method('PUT')
+    <form action="{{route('administrador_update_usuarios', $usuario)}}" method="PATCH">
         @csrf
         <p class="font-poppins text-1g">Nombre Usuario</p>
         <input id="txtNombreUsuario" type="text" class="rounded-md mb-10" value="{{ $usuario->name }}" name="nombreUsuario">
@@ -26,13 +25,13 @@
             <option value="jefe_ventas">Jefe de Ventas</option>
             <option value="gerente">Gerente</option>
         </select>
-    
+
         <br>
         <button type="submit" class="mt-5 bg-gray-800 text-white py-2 px-4 rounded-md text-bash">
             Editar Usuario
         </button>
     </form>
-    
+
 
 </div>
 @endsection
