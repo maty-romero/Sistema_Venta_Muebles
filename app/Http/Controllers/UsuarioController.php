@@ -70,8 +70,9 @@ class UsuarioController extends Controller
     public function show()
     {
         $cliente = Auth::user()->cliente;
-        $ventas = $cliente->ventas()->orderBy('fecha_venta', 'asc')->get();
-        //$clienteLogeado = User::find($usuario->id)->with('cliente')->first(); 
+        $ventas = $cliente->ventas()
+            ->orderByRaw("DATE_FORMAT(fecha_venta, '%m/%e/%Y %H:%i') DESC")
+            ->get();
         return view('cliente.usuario.index', compact('cliente', 'ventas'));
     }
 

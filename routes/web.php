@@ -45,7 +45,6 @@ Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCa
 Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('administrador_usuarios');
 
-    //Route::post('/usuarios/guardar', [RegisteredUserController::class, 'store'])->name('administrador_store_usuario');
     Route::get('/usuarios/crear', [UsuarioController::class, 'create'])->name('administrador_create_usuario');
     Route::post('/usuarios/guardar', [UsuarioController::class, 'store'])->name('administrador_store_usuario');
     Route::get('/usuarios/editar/{idUsr}', [UsuarioController::class, 'edit'])->name('administrador_edit_usuarios');
