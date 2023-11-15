@@ -71,7 +71,4 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
 });
 
-Route::get('/usuarios/crear', [UsuarioController::class, 'create'])->name('administrador_create_usuario');
-Route::post('/usuarios/guardar', [UsuarioController::class, 'store'])->name('administrador_store_usuario');
-
 require __DIR__ . '/auth.php';

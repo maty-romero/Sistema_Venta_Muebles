@@ -160,7 +160,6 @@
                 @endslot
             @endcomponent
         </div>
-
     </div>
     
     <div id="comprasRecientes" class="container mx-auto mt-10 bg-white rounded-2xl p-6">
