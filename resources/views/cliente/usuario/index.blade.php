@@ -120,8 +120,6 @@
                 
                 </div>
                 
-                
-
             </div>
 
             <div class="relative flex flex-row">
@@ -187,6 +185,8 @@
                     :ventaId="$venta->id"
                 />
              @endforeach     
+
+             <div class="flex justify-center">{{$ventas->links()}}</div>
         @else
             <div class="container mx-auto flex flex-wrap mb-1 overflow-hidden bg-gray-200 shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
                 <p class='w-full py-20 font-bold text-2xl text-center'>No tiene compras realizadas</p>
