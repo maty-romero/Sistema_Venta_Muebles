@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PerfilClienteRequest;
 use App\Http\Requests\RegistroUsuarioRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -78,10 +79,21 @@ class UsuarioController extends Controller
 
     public function update_psw(Request $request)
     {
-        $usuario = Auth::user();
-        $nuevaContrasenia = $request->input('nuevaContrasenia');
-        $usuario->update(['password' => $nuevaContrasenia]);
-        return redirect()->back()->with('success', '');
+       try {
+            $request->validate([
+                'nuevaContrasenia' => 'required|min:8',
+                'password_confirmation' => 'required|min:8|same:nuevaContrasenia'
+            ]);
+
+            $usuario = Auth::user();
+            $nuevaContrasenia = $request->input('nuevaContrasenia');
+            $usuario->update(['password' => $nuevaContrasenia]);
+            return redirect()->back()->with('success_psw', 'Se ha actualizado su contraseña exitosamente');
+
+       } catch (\Exception $e) {
+            return redirect()->back()->with('error_psw', 'No se ha podido actualizar la contraseña: ' . $e->getMessage());  
+       }
+        
     }
 
     public function edit(string $idUsr)
@@ -90,8 +102,29 @@ class UsuarioController extends Controller
         return view('administrador.usuarios.edit', compact('usuario'));
     }
 
-    public function update(Request $request)
+    public function update(PerfilClienteRequest $request)
     {
+        try {
+            $validate = $request->validated();
+            if($validate){
+                $usuario = Auth::user();
+                $usuario->update(['email' => $request->input('email')]);
+
+                $cliente = $usuario->cliente;
+                $cliente->update([
+                    'nombre_cliente' => $request->input('nombre'),
+                    'dni_cuit' => $request->input('documento'),
+                    'codigo_postal_cliente' => $request->input('codigoPostal'),
+                    'nro_telefono' => $request->input('telefono'),
+                ]);
+                return redirect()->back()->with('success_datos', 'Se ha actualizado tu perfil exitosamente');
+            }
+            
+       } catch (\Exception $e) {
+            return redirect()->back()->with('error_datos', 'No se ha podido actualizar tu perfil: ' . $e->getMessage());  
+       }
+
+       /*
         $usuario =  Auth::user();
         $usuario->update(['email' => $request->input('email')]);
 
@@ -104,6 +137,7 @@ class UsuarioController extends Controller
         ]);
 
         return redirect()->back()->with('success', '');
+        */
     }
 
     /**
