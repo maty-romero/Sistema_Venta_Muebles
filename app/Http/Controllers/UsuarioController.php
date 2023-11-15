@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PerfilClienteRequest;
+use App\Http\Requests\RegistroClienteRequest;
 use App\Http\Requests\RegistroUsuarioRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -36,29 +37,69 @@ class UsuarioController extends Controller
             $validated = $request->validated(); 
             if($validated){
 
-                if ($validated) {
-                    $usuario = User::create([
-                        'name' => $request->nombreUsuario,
-                        'rol_usuario' => $request->cmbRolUsuario,
-                        'email' => $request->email,
-                        'password' => $request->password
-                    ]);
+                $usuario = User::create([
+                    'name' => $request->nombreUsuario,
+                    'rol_usuario' => $request->cmbRolUsuario,
+                    'email' => $request->email,
+                    'password' => $request->password
+                ]);
             
-                    if ($usuario) {
-                        if ($request->cmbRolUsuario === 'cliente') {
-                            Cliente::crearCliente($usuario->id);
-                            session()->flash('success', 'Usuario y cliente creados con éxito.');
-                        } else {
-                            session()->flash('success', 'Usuario creado con éxito.');
-                        }
+                if($usuario && ($request->cmbRolUsuario === 'cliente')){
+                    Cliente::crearCliente($usuario->id);
+                    session()->flash('success', 'Usuario y cliente creados con éxito.');
+                }else if($usuario && ($request->cmbRolUsuario != 'cliente')){
+                    session()->flash('success', 'Usuario creado con éxito.');
+                }else{
+                    session()->flash('error', 'Hubo un problema al crear el usuario.');
+                }
+
+                /*
+                if ($usuario ) {
+                    if ($request->cmbRolUsuario === 'cliente') {
+                        Cliente::crearCliente($usuario->id);
+                        session()->flash('success', 'Usuario y cliente creados con éxito.');
                     } else {
-                        session()->flash('error', 'Hubo un problema al crear el usuario.');
+                        session()->flash('success', 'Usuario creado con éxito.');
                     }
+                } else {
+                    session()->flash('error', 'Hubo un problema al crear el usuario.');
+                }
+                */
+            }
+
+        }catch (\Exception $e) {
+
+            //return redirect()->back()->with('error', 'Hubo un error inesperado')->withInput();
+            session()->flash('error', 'Hubo un error inesperado'. $e->getMessage());
+        }
+            
+        return redirect()->back();
+         
+    }
+
+
+    public function store_client(RegistroClienteRequest $request)
+    {
+        try {
+            $validated = $request->validated(); 
+            if($validated){
+
+                $usuario = User::create([
+                    'name' => $request->nombreUsuario,
+                    'rol_usuario' => "cliente",
+                    'email' => $request->email,
+                    'password' => $request->password
+                ]);
+            
+                if($usuario){
+                    Cliente::crearCliente($usuario->id);
+                    session()->flash('success', 'Usuario y cliente creados con éxito.');
+                }else{
+                    session()->flash('error', 'Hubo un problema en el registro.');    
                 }
             }
-            
-                
-        } catch (\Exception $e) {
+
+        }catch (\Exception $e) {
 
             //return redirect()->back()->with('error', 'Hubo un error inesperado')->withInput();
             session()->flash('error', 'Hubo un error inesperado'. $e->getMessage());

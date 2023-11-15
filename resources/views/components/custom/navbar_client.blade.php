@@ -94,7 +94,7 @@
                                     </a>
                                 @endif
                                 <p class='text-right ml-auto text-sm text-zinc-500 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'> 
-                                <a class="underline text-sm text-zinc-700 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
+                                <a class="underline text-sm text-zinc-700 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('cliente_create') }}">
                                     Registrarse
                                 </a>
                                 </p>
@@ -104,7 +104,7 @@
                     @endcomponent
 
                     
-                    <a href="{{ route('register') }}" class="px-1 py-2 text-gray-500 hover:text-gray-100 hover:bg-gray-800 focus:bg-gray-800 focus:outline-none pr-1 transition duration-150 ease-in-out">Registrarse</a>
+                    <a href="{{ route('cliente_create') }}" class="px-1 py-2 text-gray-500 hover:text-gray-100 hover:bg-gray-800 focus:bg-gray-800 focus:outline-none pr-1 transition duration-150 ease-in-out">Registrarse</a>
                     @endif
                     @endauth
                 </div>

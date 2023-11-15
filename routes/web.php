@@ -19,6 +19,9 @@ Route::get("/searchProducto", [ProductoController::class, 'searchProducto']);
 Route::get("/searchUser", [UsuarioController::class, 'searchUser']);
 Route::get("/searchVenta", [VentaController::class, 'searchVenta']);
 
+Route::view('/registrar/cliente', 'cliente.registro')->name('cliente_create');
+Route::post('/registrar/cliente/guardar', [UsuarioController::class, 'store'])->name('cliente_store');
+
 Route::middleware('soloCliente')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -33,7 +33,7 @@ class RegistroUsuarioRequest extends FormRequest
             // Reglas para cliente
             'nombreCliente' => ['required_if:cmbRolUsuario,cliente'],
             'cmbTipoCliente' => ['required_if:cmbRolUsuario,cliente'],
-            'dni_cuit' => ['required_if:cmbRolUsuario,cliente|min:8|unique:clientes,dni_cuit'],
+            'dni_cuit' => 'required_if:cmbRolUsuario,cliente|digits:8|unique:clientes,dni_cuit',
             'codigoPostal' => ['required_if:cmbRolUsuario,cliente'],
             'telefono' => ['required_if:cmbRolUsuario,cliente'],
         ];
@@ -42,10 +42,10 @@ class RegistroUsuarioRequest extends FormRequest
     public function messages()
     {
         return [
-            'nombreUsuario.required' => 'El nombre de usuario es obligatorio',
+            'nombreUsuario.required' => 'El campo de nombre de usuario es obligatorio',
             'email.required' => 'El campo de correo electrónico es obligatorio',
             'email.unique' => 'El correo electrónico ya está en uso',
-            'password.required' => 'La contraseña es obligatoria',
+            'password.required' => 'El campo de contraseña es obligatorio',
             'password.min' => 'La contraseña debe tener al menos :min caracteres',
             'password_confirmation.required' => 'La confirmación de la contraseña es obligatoria',
             'password_confirmation.min' => 'La confirmación de la contraseña debe tener al menos :min caracteres',
@@ -53,13 +53,14 @@ class RegistroUsuarioRequest extends FormRequest
             'cmbRolUsuario.required' => 'El campo de rol de usuario es obligatorio',
 
             // Mensajes para cliente
-            'nombreCliente.required_if' => 'El nombre del cliente es obligatorio para el rol de cliente',
-            'cmbTipoCliente.required_if' => 'El tipo de cliente es obligatorio para el rol de cliente',
-            'dni_cuit.required_if' => 'El DNI o CUIT es obligatorio para el rol de cliente',
-            'dni_cuit.min' => 'El DNI o CUIT debe tener al menos :min caracteres',
+            'nombreCliente.required_if' => 'El campo de nombre del cliente es obligatorio para el rol de cliente',
+            'cmbTipoCliente.required_if' => 'El campo de tipo de cliente es obligatorio para el rol de cliente',
+            'dni_cuit.required_if' => 'El campo de DNI o CUIT es obligatorio para el rol de cliente',
+            'dni_cuit.digits' => 'El DNI o CUIT debe tener exactamente :digits dígitos',
             'dni_cuit.unique' => 'El DNI o CUIT ingresado ya está en uso',
-            'codigoPostal.required_if' => 'El código postal es obligatorio para el rol de cliente',
-            'telefono.required_if' => 'El teléfono es obligatorio para el rol de cliente',
+            'codigoPostal.required_if' => 'El campo de código postal es obligatorio para el rol de cliente',
+            'telefono.required_if' => 'El campo de teléfono es obligatorio para el rol de cliente',
         ];
     }
+
 }
