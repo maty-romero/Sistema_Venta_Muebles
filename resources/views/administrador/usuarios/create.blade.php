@@ -15,8 +15,8 @@ Crear usuario
 @section('contenido')
 
 @php
-    dump(session()->all());
-    dump($errors);     
+    //dump(session()->all());
+    //dump($errors);     
 @endphp
 
 
