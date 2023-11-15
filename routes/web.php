@@ -57,9 +57,11 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
     Route::get('/productos/crear', [ProductoController::class, 'create'])->name('administrador_create_producto');
     Route::post('/productos/guardar', [ProductoController::class, 'store'])->name('administrador_store_producto');
-    Route::get('/productos/editar/{producto}', [ProductoController::class, 'edit'])->name('administrador_edit_producto');
-    Route::patch('/usuarios/{idProd}', [ProductoController::class, 'update'])->name('administrador_update_producto');
-    // Route::put('/usuarios/{producto}', [ProductoController::class, 'updateStock'])->name('producto_updateStock');
+
+    Route::get('/productos/editar/{producto}', [ProductoController::class, 'edit'])->name('administrador_edit_producto'); //ACA
+    Route::patch('/productos/cambioInfo/{idProducto}', [ProductoController::class, 'update'])->name('administrador_update_producto');
+
+    Route::post('/productos/actualizarStock/{idProducto}', [ProductoController::class, 'update_stock_producto'])->name('producto_updateStock');
     Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('administrador_delete_producto');
 
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');

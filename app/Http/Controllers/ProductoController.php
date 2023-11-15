@@ -43,8 +43,7 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-
-        $request->validate([
+        $validated = $request->validate([
             'nombre_producto' => 'required|unique:productos|max:100',
             'descripcion' => 'nullable|max:500',
             'discontinuado' => "boolean",
@@ -57,22 +56,43 @@ class ProductoController extends Controller
             'material' => "required",
         ]);
 
-        $producto = Producto::create([
-            'nombre_producto' => $request->input('nombre_producto'),
-            'descripcion' => $request->input('descripcion'),
-            'stock' => $request->input('stock'),
-            'precio_producto' => $request->input('precio_producto'),
-            'id_tipo_mueble' => $request->input('id_tipo_mueble'),
-            'largo' => $request->input('largo'),
-            'ancho' => $request->input('ancho'),
-            'alto' => $request->input('alto'),
-            'material' => $request->input('material'),
-        ]);
+        if ($validated) {
 
-        $producto->save();
+            $producto = Producto::create([
+                'nombre_producto' => $request->input('nombre_producto'),
+                'descripcion' => $request->input('descripcion'),
+                'stock' => $request->input('stock'),
+                'precio_producto' => $request->input('precio_producto'),
+                'id_tipo_mueble' => $request->input('id_tipo_mueble'),
+                'largo' => $request->input('largo'),
+                'ancho' => $request->input('ancho'),
+                'alto' => $request->input('alto'),
+                'material' => $request->input('material'),
+                'imagenURL' => ProductoController::getRandomUnsplashImageUrl()
+            ]);
+            $producto->save();
+            session()->flash('success', 'El producto ha sido creado exitosamente');
+        } else {
+            session()->flash('error', 'Ha ocurrido un error al crear el producto');
+        }
 
-        return redirect()->route('administrador_create_producto');
+              
+        return redirect()->back();
     }
+
+    private static function getRandomUnsplashImageUrl() {
+        $imageUrls = [
+            'https://images.unsplash.com/photo-1540574163026-643ea20ade25?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            'https://images.unsplash.com/photo-1549187774-b4e9b0445b41?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        ];
+    
+        // Seleccionar una URL al azar
+        $randomImageUrl = $imageUrls[array_rand($imageUrls)];
+    
+        return $randomImageUrl;
+    }
+
 
     /**
      * Display the specified resource.
@@ -99,19 +119,61 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Producto $producto)
+    public function update(Request $request, $idProducto)
     {
-        $producto->update([
-            'nombre_producto' => $request->input('nombreProducto'),
-            'descripcion' => $request->input('descripcion'),
-            'precio_producto' => $request->input('precio'),
-            'id_tipo_mueble' => $request->input('cmbTipoMueble'),
-            'largo' => $request->input('largo'),
-            'ancho' => $request->input('ancho'),
-            'alto' => $request->input('alto'),
-            'material' => $request->input('cmbMaterialMueble'),
+        $validated = $request->validate([
+            'nombreProducto' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'cmbTipoMueble' => 'required', 
+            'alto' => 'required|numeric|min:0',
+            'largo' => 'required|numeric|min:0',
+            'ancho' => 'required|numeric|min:0',
+            'cmbmaterialMueble' => 'required',
         ]);
-        return redirect()->route('administrador_create_producto');
+        
+
+        if ($validated) {
+
+            $producto = Producto::find($idProducto);
+
+            $producto->update([
+                'nombre_producto' => $request->input('nombreProducto'),
+                'descripcion' => $request->input('descripcion'),
+                'id_tipo_mueble' => $request->input('cmbTipoMueble'),
+                'largo' => $request->input('largo'),
+                'ancho' => $request->input('ancho'),
+                'alto' => $request->input('alto'),
+                'material' => $request->input('cmbMaterialMueble'),
+            ]);
+
+            $producto->save();
+            session()->flash('success_producto', 'El producto ha sido modificado exitosamente');
+        } else {
+            session()->flash('error_producto', 'Ha ocurrido un error al editar el producto');
+        }
+        return redirect()->back();
+    }
+
+    public function update_stock_producto(Request $request, $idProducto){
+        try {
+            $request->validate([
+                'stock' => 'required|min:1|numeric',
+                'precio' => 'required|numeric|min:0',
+            ]);
+            
+
+            $producto = Producto::find($idProducto);
+            $nuevoStock = $producto->stock + $request->input('stock');
+            $nuevoPrecio = $request->input('precio');
+            $producto->update([
+                'stock' => $nuevoStock,
+                'precio' => $nuevoPrecio
+            ]);
+            return redirect()->back()->with('success_stock_precio', 'Se ha actualizado stock y/o precio exitosamente');
+
+       } catch (\Exception $e) {
+            return redirect()->back()->with('error_stock_precio', 'No se ha podido actualizar stock y/o precio: ' . $e->getMessage());  
+       }
     }
 
     /**
