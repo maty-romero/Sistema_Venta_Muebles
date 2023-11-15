@@ -33,22 +33,24 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
+
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'rol_usuario' => $request->cmbRolUsuario
+            'rol_usuario' => isset($request->cmbRolUsuario) ? $request->cmbRolUsuario : "cliente"
         ]);
 
         Cliente::crearCliente($user->id);
 
         event(new Registered($user));
         Auth::login($user);
-        if($request->input('cmbRolUsuario') == 'cliente'){
+        if ($request->input('cmbRolUsuario') == 'cliente') {
             return redirect(RouteServiceProvider::HOME);
         } else {
             return redirect(RouteServiceProvider::HOMEADM);

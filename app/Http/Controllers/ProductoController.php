@@ -43,16 +43,30 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'nombre_producto' => 'required|unique:productos|max:100',
+            'descripcion' => 'nullable|max:500',
+            'discontinuado' => "boolean",
+            "stock" => "required",
+            "precio_producto" => "required",
+            "id_tipo_mueble" => "required",
+            'largo' => "required",
+            'ancho' => "required",
+            'alto' => "required",
+            'material' => "required",
+        ]);
+
         $producto = Producto::create([
-            'nombre_producto' => $request->input('nombreProducto'),
+            'nombre_producto' => $request->input('nombre_producto'),
             'descripcion' => $request->input('descripcion'),
-            'stock' => $request->input('stockInical'),
-            'precio_producto' => $request->input('precio'),
-            'id_tipo_mueble' => $request->input('cmbTipoMueble'),
+            'stock' => $request->input('stock'),
+            'precio_producto' => $request->input('precio_producto'),
+            'id_tipo_mueble' => $request->input('id_tipo_mueble'),
             'largo' => $request->input('largo'),
             'ancho' => $request->input('ancho'),
             'alto' => $request->input('alto'),
-            'material' => $request->input('cmbMaterialMueble'),
+            'material' => $request->input('material'),
         ]);
 
         $producto->save();
