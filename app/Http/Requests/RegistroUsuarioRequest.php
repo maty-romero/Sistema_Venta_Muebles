@@ -23,20 +23,23 @@ class RegistroUsuarioRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'nombreUsuario' => ['required'],
             'email' => ['required', 'unique:users,email'],
             'password' => ['required', 'min:8'],
             'password_confirmation' => ['required', 'min:8', 'same:password'],
             'cmbRolUsuario' => ['required'],
-
-            // Reglas para cliente
-            'nombreCliente' => ['required_if:cmbRolUsuario,cliente'],
-            'cmbTipoCliente' => ['required_if:cmbRolUsuario,cliente'],
-            'dni_cuit' => 'required_if:cmbRolUsuario,cliente|digits:8|unique:clientes,dni_cuit',
-            'codigoPostal' => ['required_if:cmbRolUsuario,cliente'],
-            'telefono' => ['required_if:cmbRolUsuario,cliente'],
         ];
+
+        if ($this->input('cmbRolUsuario') === 'cliente') {
+            $rules['dni_cuit'] = ['required', 'digits:8', 'unique:clientes,dni_cuit'];
+            $rules['nombreCliente'][] = 'required'; 
+            $rules['cmbTipoCliente'][] = 'required'; 
+            $rules['codigoPostal'][] = 'required'; 
+            $rules['telefono'][] = 'required'; 
+        }
+
+        return $rules;
     }
 
     public function messages()

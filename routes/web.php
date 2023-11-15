@@ -7,7 +7,6 @@ use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\ReporteController;
 use Illuminate\Support\Facades\Route;
 use PhpParser\Node\Stmt\Return_;
 

@@ -1,7 +1,3 @@
-window.onload = function() {
-    ocultarTodo();
-}
-
 function formularioPorTipo() {
     var tipo = document.getElementById('idCmbRolUsuario').value;
 
