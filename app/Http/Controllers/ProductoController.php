@@ -55,7 +55,11 @@ class ProductoController extends Controller
             'material' => $request->input('cmbMaterialMueble'),
         ]);
 
+        $fileImg = $_FILES["imagenProd"];
+        $producto->imagenURL = 'images/combos/'.basename($fileImg["name"]);
+
         $producto->save();
+        move_uploaded_file($fileImg["tmp_name"], public_path('imagenURL'));
 
         return redirect()->route('administrador_create_producto');
     }
