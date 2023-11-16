@@ -37,12 +37,14 @@ class OfertaComboValida implements ValidationRule
                 if(count($results) <= 0){
                     $comboSimilar = false;
                 }
+                if($comboSimilar){
+                    $fail = 'Ya existe un combo similar dentro del periodo indicado';
+                }
+                $fail = 'ProbandoCombo';
             }
         }
 
-        if($comboSimilar){
-            $fail = 'Ya existe un combo similar dentro del periodo indicado';
-        }
-        $fail = 'ProbandoCombo';
+        
+        
     }
 }
