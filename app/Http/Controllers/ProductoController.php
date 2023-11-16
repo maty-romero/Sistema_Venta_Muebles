@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductoRequest;
 use App\Models\Venta;
 use App\Models\Oferta;
 use App\Models\OfertaCombo;
@@ -41,20 +42,9 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductoRequest $request)
     {
-        $validated = $request->validate([
-            'nombre_producto' => 'required|unique:productos|max:100',
-            'descripcion' => 'nullable|max:500',
-            "stock" => "required|min:1",
-            "precio_producto" => "required|min:1",
-            "id_tipo_mueble" => "required",
-            'largo' => "required|min:1",
-            'ancho' => "required|min:1",
-            'alto' => "required|min:1",
-            'material' => "required",
-            'imagenProd' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
+        $validated = $request->validated();
 
         if ($validated) {
         $fileImg = $_FILES["imagenProd"];

@@ -49,7 +49,7 @@
             @enderror
 
             <p class="font-poppins text-1g">Precio</p>
-            <input id="txtPrecio" type="number" step="0.01" class="rounded-md mb-5" name="precio_producto">
+            <input id="txtPrecio" type="number" step="any" class="rounded-md mb-5" name="precio_producto">
             @error('precio_producto')
                 <br>
                 <small style="color: red">{{ $message }}</small>
@@ -69,21 +69,21 @@
 
             <p class="font-poppins text-1g">Medidas</p>
             <p class="font-poppins text-1g">Alto</p>
-            <input id="txtAlto" type="number" step="0.01" class="rounded-md mb-5" name="alto"> cm
+            <input id="txtAlto" type="number" step="any" class="rounded-md mb-5" name="alto"> cm
             @error('alto')
                 <br>
                 <small style="color: red">{{ $message }}</small>
             @enderror
 
             <p class="font-poppins text-1g">Largo</p>
-            <input id="txtLargo" type="number" step="0.01" class="rounded-md mb-5" name="largo"> cm
+            <input id="txtLargo" type="number" step="any" class="rounded-md mb-5" name="largo"> cm
             @error('largo')
                 <br>
                 <small style="color: red">{{ $message }}</small>
             @enderror
 
             <p class="font-poppins text-1g">Ancho</p>
-            <input id="txtAncho" type="number" step="0.01" class="rounded-md mb-5" name="ancho"> cm
+            <input id="txtAncho" type="number" step="any" class="rounded-md mb-5" name="ancho"> cm
             @error('ancho')
                 <br>
                 <small style="color: red">{{ $message }}</small>
