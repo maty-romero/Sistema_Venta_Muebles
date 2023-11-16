@@ -28,7 +28,7 @@
             @csrf
             <p class="font-poppins text-1g">Nombre del producto</p>
             <input id="txtNombreProducto" type="text" class="rounded-md mb-5" name="nombre_producto">
-            @error('nombreProducto')
+            @error('nombre_producto')
                 <br>
                 <small style="color: red">{{ $message }}</small>
             @enderror
