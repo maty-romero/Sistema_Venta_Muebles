@@ -15,8 +15,6 @@ Usuarios
 <div class="flex justify-between ml-4">
     <form id="searchForm" name="searchForm" method="GET" action="/searchUser">
 
-
-
         <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="ordenamiento">
             <option value="nombre" {{ isset($input['ordenamiento']) && $input['ordenamiento']==="nombre"
                 ?"selected":""}}>
@@ -60,9 +58,8 @@ Usuarios
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 @if ($usuario->rol_usuario == 'cliente')
-                {{ session(['idUsuario' => $usuario->id]) }}
 
-                <a href="{{ route('administrador_reportes') }}">Informe Compras</a>
+                <a href="{{ route('administrador_reportes_cliente', ['id' => 5]) }}">Informe Compras</a>
                 @endif
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">

@@ -17,15 +17,15 @@ Crear producto
 @endphp
 
 @if(session('success'))
-    <div class="bg-green-100 w-full border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-        <span class="block sm:inline">{{ session('success') }}</span>
-    </div>
+<div class="bg-green-100 w-full border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">{{ session('success') }}</span>
+</div>
 @endif
 
 @if(session('error'))
-    <div class="bg-red-100 w-full border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-        <span class="block sm:inline">{{ session('error') }}</span>
-    </div>
+<div class="bg-red-100 w-full border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">{{ session('error') }}</span>
+</div>
 @endif
 
 <form action="{{route('administrador_store_producto')}}" method="POST">
@@ -35,7 +35,7 @@ Crear producto
     @error('nombre_producto')
     <br>
     <small style="color: red">{{ $message }}</small>
-    
+
     @enderror
 
 
@@ -44,16 +44,16 @@ Crear producto
     @error('descripcion')
     <br>
     <small style="color: red">{{ $message }}</small>
-    
+
     @enderror
 
 
     <p class="font-poppins text-1g">Stock inicial</p>
-    <input id="txtStockInicial" type="number" class="rounded-md mb-5" name="stock">
+    <input id="txtStockInicial" min="1" value='1' type="number" class="rounded-md mb-5" name="stock">
     @error('stock')
     <br>
     <small style="color: red">{{ $message }}</small>
-    
+
     @enderror
 
     <p class="font-poppins text-1g">Precio</p>
@@ -61,7 +61,7 @@ Crear producto
     @error('precio_producto')
     <br>
     <small style="color: red">{{ $message }}</small>
-    
+
     @enderror
 
 
@@ -73,7 +73,7 @@ Crear producto
     @error('id_tipo_mueble')
     <br>
     <small style="color: red">{{ $message }}</small>
-    
+
     @enderror
 
 
@@ -83,7 +83,7 @@ Crear producto
     @error('alto')
     <br>
     <small style="color: red">{{ $message }}</small>
-    
+
     @enderror
 
     <p class="font-poppins text-1g">Largo</p>
@@ -91,7 +91,7 @@ Crear producto
     @error('largo')
     <br>
     <small style="color: red">{{ $message }}</small>
-   
+
     @enderror
 
     <p class="font-poppins text-1g">Ancho</p>
@@ -99,7 +99,7 @@ Crear producto
     @error('ancho')
     <br>
     <small style="color: red">{{ $message }}</small>
-   
+
     @enderror
 
     <br>
@@ -113,7 +113,7 @@ Crear producto
     @error('material')
     <br>
     <small style="color: red">{{ $message }}</small>
-    
+
     @enderror
 
     <br>

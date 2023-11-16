@@ -96,7 +96,7 @@ Editar producto
     @enderror
 
     <p class="font-poppins text-1g">Stock</p>
-    <input id="txtStockInicial" type="number" class="rounded-md " name="stock" value="{{ $producto->stock }}" disabled>
+    <input id="txtStockInicial" type="number" min="1" class="rounded-md " name="stock" value="{{ $producto->stock }}" disabled>
     @error('stock')
     <br><span style="color: red">{{ $message }}</span>
     @enderror
