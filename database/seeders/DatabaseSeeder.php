@@ -17,6 +17,8 @@ use App\Models\TipoMueble;
 use App\Models\Venta;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -45,5 +47,17 @@ class DatabaseSeeder extends Seeder
         DetalleCombo::factory(10)->create();
         ProductoOferta::factory(10)->create();
         ProductoVendido::factory(10)->create();
+
+        $usuarios = array(
+            array('name' => 'julio', 'email' => 'cliente@gmail.com', 'email_verified_at' => now(), 'rol_usuario' => "cliente", "password" => "123456789", 'remember_token' => Str::random(10)),
+            array('name' => 'pablo', 'email' => 'administrador@gmail.com', 'email_verified_at' => now(), 'rol_usuario' => "administrador", "password" => "123456789", 'remember_token' => Str::random(10)),
+            array('name' => 'marcos', 'email' => 'jefe_ventas@gmail.com', 'email_verified_at' => now(), 'rol_usuario' => "jefe_ventas", "password" => "123456789", 'remember_token' => Str::random(10)),
+            array('name' => 'sebastian', 'email' => 'gerente@gmail.com', 'email_verified_at' => now(), 'rol_usuario' => "gerente", "password" => "123456789", 'remember_token' => Str::random(10)),
+
+        );
+
+        foreach ($usuarios as $user) {
+            User::create($user);
+        }
     }
 }

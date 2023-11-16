@@ -8,10 +8,14 @@ Usuarios
 Usuarios
 @endsection
 
+@dump($errors->all())
+
 @section('contenido')
 <h3 class='text-3xl text-left ml-4'>Ordenar</h3>
 <div class="flex justify-between ml-4">
     <form id="searchForm" name="searchForm" method="GET" action="/searchUser">
+
+
 
         <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="ordenamiento">
             <option value="nombre" {{ isset($input['ordenamiento']) && $input['ordenamiento']==="nombre"

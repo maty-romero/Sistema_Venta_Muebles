@@ -66,7 +66,7 @@ Ofertas
                 </td>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                    <a href="#">Modificar</a>
+                    <a href="{{ route('administrador_edit_ofertas', $oferta) }}">Modificar</a>
                 </td>
                 <td
                     class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
