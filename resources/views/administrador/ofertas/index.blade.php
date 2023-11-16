@@ -31,11 +31,8 @@ Ofertas
     </div>
 
 
-
-    <a href="{{ route('crear_oferta') }}">
-        <button class="bg-gray-800 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
-            Crear Oferta
-        </button>
+    <a href="{{ route('crear_oferta') }}" class="bg-gray-800 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
+        Crear Oferta
     </a>
 </div>
 

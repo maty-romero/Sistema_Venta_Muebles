@@ -71,23 +71,8 @@ class ProductoController extends Controller
             session()->flash('error', 'Ha ocurrido un error al crear el producto');
         }
 
-              
         return redirect()->back();
     }
-
-    private static function getRandomUnsplashImageUrl() {
-        $imageUrls = [
-            'https://images.unsplash.com/photo-1540574163026-643ea20ade25?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            'https://images.unsplash.com/photo-1549187774-b4e9b0445b41?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        ];
-    
-        // Seleccionar una URL al azar
-        $randomImageUrl = $imageUrls[array_rand($imageUrls)];
-    
-        return $randomImageUrl;
-    }
-
 
     /**
      * Display the specified resource.
@@ -114,22 +99,18 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $idProducto)
+    public function update(ProductoRequest $request, $idProducto)
     {
-        $validated = $request->validate([
-            'nombreProducto' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'cmbTipoMueble' => 'required', 
-            'alto' => 'required|numeric|min:0',
-            'largo' => 'required|numeric|min:0',
-            'ancho' => 'required|numeric|min:0',
-            'cmbmaterialMueble' => 'required',
-        ]);
+        $validated = $request->validated();
         
-
         if ($validated) {
 
             $producto = Producto::find($idProducto);
+
+            $fileImg = $_FILES["imagenProd"];
+            $imagenURL = 'images/combos/'.basename($fileImg["name"]);
+
+            move_uploaded_file($fileImg["tmp_name"], public_path('imagenURL'));
 
             $producto->update([
                 'nombre_producto' => $request->input('nombreProducto'),
@@ -138,7 +119,8 @@ class ProductoController extends Controller
                 'largo' => $request->input('largo'),
                 'ancho' => $request->input('ancho'),
                 'alto' => $request->input('alto'),
-                'material' => $request->input('cmbMaterialMueble'),
+                'material' => $request->input('cmbmaterialMueble'),
+                'imagenURL' => $imagenURL
             ]);
 
             $producto->save();
