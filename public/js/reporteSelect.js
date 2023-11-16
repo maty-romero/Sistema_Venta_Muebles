@@ -1,7 +1,9 @@
 window.addEventListener("DOMContentLoaded", () => {
     const selector = document.getElementById("tipoReporte");
     const inputContainer = document.getElementById("input-container");
-
+    const fechaInicio = document.getElementById("fechaInicio");
+    const fechaFin = document.getElementById("fechaFin");
+    const error = document.getElementById("error-reporte");
     selector.addEventListener("change", () => {
         if (selector.value === "VC") {
             inputContainer.innerHTML = "";
@@ -32,30 +34,56 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // formReporte.addEventListener("submit", function (event) {
-    //     const fechaInicio = document.getElementById("fechaInicio");
-    //     const fechaFin = document.getElementById("fechaFin");
-    //     const idCliente = document.getElementById("idCliente");
-    //     event.preventDefault();
+    fechaInicio.addEventListener("change", function () {
+        if (fechaInicio.value !== "" && fechaFin.value !== "") {
+            if (fechaInicio.value >= fechaFin.value) {
+                error.innerHTML = "";
+                error.innerHTML = "El rango de fechas debe ser valido.";
+            } else {
+                error.innerHTML = "";
+            }
+        }
+    });
 
-    //     axios
-    //         .post("/reporteRedirect", {
-    //             fechaInicio: fechaInicio.value,
-    //             fechaFin: fechaFin.value,
-    //             idCliente: idCliente.value,
-    //             tipoReporte: selector.value,
-    //         })
-    //         .then(function (response) {
-    //             if (response.data["error"]) {
-    //                 const error = document.getElementById("error-reporte");
-    //                 error.innerHTML = response.data["error"];
-    //                 console.log("error");
-    //             } else {
-    //                 formReporte.submit();
-    //             }
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         });
-    // });
+    fechaFin.addEventListener("change", function () {
+        if (fechaInicio.value !== "" && fechaFin.value !== "") {
+            if (fechaInicio.value >= fechaFin.value) {
+                error.innerHTML = "";
+                error.innerHTML = "El rango de fechas debe ser valido.";
+            } else {
+                error.innerHTML = "";
+            }
+        }
+    });
+
+    formReporte.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (fechaInicio.value >= fechaFin.value) {
+            error.innerHTML = "El rango de fechas debe ser valido.";
+        } else {
+            error.innerHTML = "";
+            formReporte.submit();
+        }
+
+        // axios
+        //     .post("/reporteRedirect", {
+        //         fechaInicio: fechaInicio.value,
+        //         fechaFin: fechaFin.value,
+        //         idCliente: idCliente.value,
+        //         tipoReporte: selector.value,
+        //     })
+        //     .then(function (response) {
+        //         if (response.data["error"]) {
+        //             const error = document.getElementById("error-reporte");
+        //             error.innerHTML = response.data["error"];
+        //             console.log("error");
+        //         } else {
+        //             formReporte.submit();
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+    });
 });

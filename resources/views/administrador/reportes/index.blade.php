@@ -37,22 +37,22 @@ Reportes
 
         <div class="flex flex-col">
             <label for="idCliente">Identificador de cliente</label>
-            <select class="rounded-lg border-gray-600 mb-6" name="idCliente" id="idCliente" required>
+            <select class="rounded-lg border-gray-600" name="idCliente" id="idCliente" required>
                 @foreach ( $usuarios as $usuario)
                 <option value='{{$usuario->id}}' {{$id==$usuario->id?"selected":""}}>{{$usuario->name}}</option>
                 @endforeach
             </select>
 
         </div>
+
     </div>
-    <span id="error-reporte" style="color: red"></span>
+    <span id="error-reporte" class="text-red-500 mb-10"></span>
     <br>
-    <br>
-    <button class="rounded-lg bg-[#3E3E3E] text-white px-4 py-2" type="submit">Generar reporte</button>
+    <button class="rounded-lg bg-[#3E3E3E] text-white px-4 py-2 mt-4" type="submit">Generar reporte</button>
 </form>
 
 
 
-<script src="{{asset(" js/reporteSelect.js")}}"></script>
+<script src="{{asset("js/reporteSelect.js")}}"></script>
 
 @endsection
