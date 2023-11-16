@@ -47,9 +47,9 @@ class UsuarioController extends Controller
 
                 if ($usuario && ($request->cmbRolUsuario === 'cliente')) {
                     Cliente::crearCliente($usuario->id);
-                    session()->flash('success', 'Usuario y cliente creados con éxito.');
+                    session()->flash('success', 'Usuario registrado con éxito.');
                 } else if ($usuario && ($request->cmbRolUsuario != 'cliente')) {
-                    session()->flash('success', 'Usuario creado con éxito.');
+                    session()->flash('success', 'Usuario registrado con éxito.');
                 } else {
                     session()->flash('error', 'Hubo un problema al crear el usuario.');
                 }
@@ -94,7 +94,7 @@ class UsuarioController extends Controller
                 if ($usuario && ($request->cmbRolUsuario === 'cliente')) {
 
                     Cliente::actualizarCliente($usuario->id);
-                    session()->flash('success', 'Usuario y cliente actualizados con éxito.');
+                    session()->flash('success', 'Usuario actualizado con éxito.');
                 } else if ($usuario && ($request->cmbRolUsuario != 'cliente')) {
                     session()->flash('success', 'Usuario actualizado con éxito.');
                 } else {
