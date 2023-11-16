@@ -15,8 +15,8 @@
 @section('contenido')
 
 <div>
-    <form method="POST" action='{{route("guardar_oferta")}}' class='pl-1 w-full'>
-        {{-- @dump($errors->all()) --}}
+    <form method="POST" action='{{route("guardar_oferta")}}' enctype="multipart/form-data" class='pl-1 w-full'>
+        @dump($errors->all())
     <div class='flex float-left border-white border-r-2 pr-5 pt-4 mr-5'>
     @csrf
     <table class='w-[100px]'>

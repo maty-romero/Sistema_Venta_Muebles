@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class OfertaCombo extends Model
 {
@@ -69,7 +69,10 @@ class OfertaCombo extends Model
         $ofertaCombo = new OfertaCombo();
         $ofertaCombo->id_oferta_combo = $idOferta;
         $ofertaCombo->nombre_combo = request()->input('nombreCombo');
-        $ofertaCombo->imagenURL = request()->input('iamgenCombo');
+        $fileImg = $_FILES["imagenCombo"];
+        move_uploaded_file($fileImg["tmp_name"], public_path('images/combos/'.$idOferta.basename($fileImg["name"])));
+        $ofertaCombo->imagenURL = 'images/combos/'.$idOferta.basename($fileImg["name"]);
+        
         $ofertaCombo->save();
 
         foreach($productos as $prod){
