@@ -15,8 +15,8 @@ Editar usuario
 @section('contenido')
 
 @php
-    dump($usuario);
-    dump($cliente);
+    //dump($usuario);
+    //dump($cliente);
 @endphp
 
 <script>
