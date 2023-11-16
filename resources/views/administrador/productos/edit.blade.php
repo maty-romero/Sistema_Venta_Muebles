@@ -34,7 +34,7 @@ Editar producto
 @endif
 
 
-<form action="{{ route('administrador_update_producto', $producto) }}" method="POST">
+<form action="{{ route('administrador_update_producto', $producto) }}" enctype="multipart/form-data" method="POST">
     @method('PATCH')
     @csrf
 
@@ -89,7 +89,7 @@ Editar producto
         <option value="madera">Madera</option>
         <option value="acero">Acero</option>
         <option value="aluminio">Aluminio</option>
-        <option value="Plastico">Plastico</option>
+        <option value="plastico">Plastico</option>
     </select>
     @error('cmbmaterialMueble')
     <br><span style="color: red">{{ $message }}</span>
@@ -101,8 +101,15 @@ Editar producto
     <br><span style="color: red">{{ $message }}</span>
     @enderror
 
-    <br>
-    <button type="submit" class="mt-5 bg-gray-800 text-white py-2 px-4 rounded-md text-bash">
+    <p class="font-poppins text-1g mt-4">Imagen</p>
+    <input name='imagenProdEdit' id="imagenProdEdit" type="file" 
+            class="mb-1 relative bg-white block w-[350px] min-w-0 flex-auto rounded border border-solid border-gray-500 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-black transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-800 file:px-3 file:py-[0.32rem] file:text-white file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-600 focus:border-primary focus:shadow-te-primary focus:outline-none" />
+    <p class="mb-5 font-poppins text-xs">Formato JPEG/PNG</p>
+    @error('stock')
+    <br><span style="color: red">{{ $message }}</span>
+    @enderror
+
+    <button type="submit" class="mt-5 bg-gray-800 text-white py-2 px-4 hover:bg-gray-500 rounded-md text-bash">
         Confirmar cambios
     </button>
     <br><br>
@@ -113,8 +120,8 @@ Editar producto
     @component('components.custom.modal_login')
     @slot('textoBtn', 'Actualizar stock producto')
     @slot('clasesBtn',
-    'flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans
-    text-sm font-bold bg-gray-500 text-white hover:bg-gray-500 transition-all active:bg-gray-600 disabled:opacity-50
+    'flex select-none items-center gap-2 rounded-lg py-2 px-4 text-center align-middle font-sans
+    text-bash bg-gray-800 text-white hover:bg-gray-500 transition-all active:bg-gray-600 disabled:opacity-50
     disabled:shadow-none')
     @slot('encabezado', 'Ingrese los campos solicitados')
     @slot('contenido')

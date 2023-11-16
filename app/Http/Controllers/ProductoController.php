@@ -58,9 +58,8 @@ class ProductoController extends Controller
 
         if ($validated) {
         $fileImg = $_FILES["imagenProd"];
-        $imagenURL = 'images/combos/'.basename($fileImg["name"]);
-
-        move_uploaded_file($fileImg["tmp_name"], public_path('imagenURL'));
+        $imagenURL = 'images/productos/'.basename($fileImg["name"]);
+        move_uploaded_file($fileImg["tmp_name"], public_path($imagenURL));
 
             $producto = Producto::create([
                 'nombre_producto' => $request->input('nombre_producto'),
@@ -134,12 +133,20 @@ class ProductoController extends Controller
             'largo' => 'required|numeric|min:0',
             'ancho' => 'required|numeric|min:0',
             'cmbmaterialMueble' => 'required',
+            'imagenURL' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
         
 
         if ($validated) {
-
             $producto = Producto::find($idProducto);
+
+            if($_FILES["imagenProdEdit"]["name"] != null && $_FILES["imagenProdEdit"]["name"] != ''){
+                $fileImg = $_FILES["imagenProdEdit"];
+                $imagenURL = 'images/productos/'.basename($fileImg["name"]);
+                move_uploaded_file($fileImg["tmp_name"], public_path($imagenURL));
+            } else {
+                $imagenURL = $producto->imagenURL;
+            }
 
             $producto->update([
                 'nombre_producto' => $request->input('nombreProducto'),
@@ -149,9 +156,10 @@ class ProductoController extends Controller
                 'ancho' => $request->input('ancho'),
                 'alto' => $request->input('alto'),
                 'material' => $request->input('cmbMaterialMueble'),
+                'imagenURL' => $imagenURL
             ]);
 
-            $producto->save();
+            //$producto->save();
             session()->flash('success_producto', 'El producto ha sido modificado exitosamente');
         } else {
             session()->flash('error_producto', 'Ha ocurrido un error al editar el producto');
