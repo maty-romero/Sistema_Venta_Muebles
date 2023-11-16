@@ -64,6 +64,8 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::put('/usuarios/{producto}', [ProductoController::class, 'updateStock'])->name('producto_updateStock');
     Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('administrador_delete_producto');
 
+    Route::view('/prueba', 'prueba')->name('prueba');
+
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
 
     Route::get('/ofertas', [OfertaController::class, 'index'])->name('administrador_ofertas');

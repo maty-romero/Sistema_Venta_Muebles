@@ -2,7 +2,7 @@
 <section class="text-gray-700 body-font overflow-hidden bg-white shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
   <div class="container mx-auto flex flex-wrap">
     <div class="container mx-auto flex flex-wrap w-1/2">
-      <img alt="ecommerce" class="lg:w-3/4 mx-auto object-cover border-0 object-center rounded border border-gray-200" src="https://www.whitmorerarebooks.com/pictures/medium/2465.jpg">
+      <img alt="combo{{$combo->nombre_combo}}" class="lg:w-3/4 mx-auto object-cover border-0 object-center rounded border border-gray-200" src="{{ asset($combo->imagenURL) }}">
     </div>
     <div class="lg:w-1/2 w-full lg:px-10 lg:py-6 py-6 px-5 lg:mt-0 bg-[#5690FF]">
       <h1 class="text-gray-900 text-3xl title-font font-medium mb-4 text-white">{{$combo->nombre_combo}}</h1>

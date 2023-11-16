@@ -15,6 +15,8 @@ use App\Rules\OfertaUnitariaValida;
 use App\Rules\OfertaMontoValida;
 use App\Rules\OfertaTipoValida;
 
+use Illuminate\Support\Facades\Storage;
+
 class OfertaController extends Controller
 {
      
@@ -99,7 +101,7 @@ class OfertaController extends Controller
                 'nullable',
             ],
         ]);
-        
+
         if($validator->fails()){
             return back()->withErrors($validator);
         }
