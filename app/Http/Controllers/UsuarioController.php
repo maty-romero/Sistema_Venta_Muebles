@@ -23,7 +23,7 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = User::paginate(5);
+        $usuarios = User::where("rol_usuario", "!=", "administrador")->where("id", "!=", Auth::user()->id)->paginate(5);
         return view("administrador.usuarios.index", compact('usuarios'));
     }
 
@@ -35,8 +35,8 @@ class UsuarioController extends Controller
     public function store(RegistroUsuarioRequest $request)
     {
         try {
-            $validated = $request->validated(); 
-            if($validated){
+            $validated = $request->validated();
+            if ($validated) {
 
                 $usuario = User::create([
                     'name' => $request->nombreUsuario,
@@ -44,13 +44,13 @@ class UsuarioController extends Controller
                     'email' => $request->email,
                     'password' => $request->password
                 ]);
-            
-                if($usuario && ($request->cmbRolUsuario === 'cliente')){
+
+                if ($usuario && ($request->cmbRolUsuario === 'cliente')) {
                     Cliente::crearCliente($usuario->id);
                     session()->flash('success', 'Usuario y cliente creados con éxito.');
-                }else if($usuario && ($request->cmbRolUsuario != 'cliente')){
+                } else if ($usuario && ($request->cmbRolUsuario != 'cliente')) {
                     session()->flash('success', 'Usuario creado con éxito.');
-                }else{
+                } else {
                     session()->flash('error', 'Hubo un problema al crear el usuario.');
                 }
 
@@ -67,22 +67,20 @@ class UsuarioController extends Controller
                 }
                 */
             }
-
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
 
             //return redirect()->back()->with('error', 'Hubo un error inesperado')->withInput();
-            session()->flash('error', 'Hubo un error inesperado'. $e->getMessage());
+            session()->flash('error', 'Hubo un error inesperado' . $e->getMessage());
         }
-            
+
         return redirect()->back();
-         
     }
 
     public function update_user(UpdateUsuarioRequest $request, $idUsr)
     {
         try {
-            $validated = $request->validated(); 
-            if($validated){
+            $validated = $request->validated();
+            if ($validated) {
 
                 $usuario = User::findOrFail($idUsr);
                 $usuario->update([
@@ -92,24 +90,22 @@ class UsuarioController extends Controller
                     'password' => $request->password
                 ]);
                 //User::update();
-            
-                if($usuario && ($request->cmbRolUsuario === 'cliente')){
+
+                if ($usuario && ($request->cmbRolUsuario === 'cliente')) {
 
                     Cliente::actualizarCliente($usuario->id);
                     session()->flash('success', 'Usuario y cliente actualizados con éxito.');
-                }else if($usuario && ($request->cmbRolUsuario != 'cliente')){
+                } else if ($usuario && ($request->cmbRolUsuario != 'cliente')) {
                     session()->flash('success', 'Usuario actualizado con éxito.');
-                }else{
+                } else {
                     session()->flash('error', 'Hubo un problema al actualizar el usuario.');
                 }
             }
-
-        }catch (\Exception $e) {
-            session()->flash('error', 'Hubo un error inesperado'. $e->getMessage());
+        } catch (\Exception $e) {
+            session()->flash('error', 'Hubo un error inesperado' . $e->getMessage());
         }
-            
+
         return redirect()->back();
-         
     }
 
 
@@ -124,7 +120,7 @@ class UsuarioController extends Controller
 
     public function update_psw(Request $request)
     {
-       try {
+        try {
             $request->validate([
                 'nuevaContrasenia' => 'required|min:8',
                 'password_confirmation' => 'required|min:8|same:nuevaContrasenia'
@@ -134,11 +130,9 @@ class UsuarioController extends Controller
             $nuevaContrasenia = $request->input('nuevaContrasenia');
             $usuario->update(['password' => $nuevaContrasenia]);
             return redirect()->back()->with('success_psw', 'Se ha actualizado su contraseña exitosamente');
-
-       } catch (\Exception $e) {
-            return redirect()->back()->with('error_psw', 'No se ha podido actualizar la contraseña: ' . $e->getMessage());  
-       }
-        
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error_psw', 'No se ha podido actualizar la contraseña: ' . $e->getMessage());
+        }
     }
 
     public function edit($usuario)
@@ -152,7 +146,7 @@ class UsuarioController extends Controller
     {
         try {
             $validate = $request->validated();
-            if($validate){
+            if ($validate) {
                 $usuario = Auth::user();
                 $usuario->update(['email' => $request->input('email')]);
 
@@ -165,12 +159,11 @@ class UsuarioController extends Controller
                 ]);
                 return redirect()->back()->with('success_datos', 'Se ha actualizado tu perfil exitosamente');
             }
-            
-       } catch (\Exception $e) {
-            return redirect()->back()->with('error_datos', 'No se ha podido actualizar tu perfil: ' . $e->getMessage());  
-       }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error_datos', 'No se ha podido actualizar tu perfil: ' . $e->getMessage());
+        }
 
-       /*
+        /*
         $usuario =  Auth::user();
         $usuario->update(['email' => $request->input('email')]);
 
@@ -191,7 +184,8 @@ class UsuarioController extends Controller
      */
     public function destroy(User $usuario)
     {
-        //$usuario->delete();
+        $usuario->cliente->delete();
+        $usuario->delete();
         return redirect()->route('administrador_usuarios');
     }
 

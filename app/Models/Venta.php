@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 use stdClass;
 
 class Venta extends Model
 {
     use HasFactory;
+
     //campos solicitados al momento de enviar el request
     protected $fillable = [
         "fecha_venta",
@@ -22,6 +24,7 @@ class Venta extends Model
         "id_usuario_cliente",
         "id_oferta_monto"
     ];
+
     protected $table = "ventas"; //tabla a referenciar
 
     //Relaciones 
@@ -58,10 +61,10 @@ class Venta extends Model
     {
         $subtotal = 0;
         //Subtotal del carrito
-        if($carrito = Venta::getCarrito()){
-            foreach($carrito as $item) {
-                if($item->tipoItem == 'Producto'){
-                    $subtotal += $item->elemento->getPrecioDeVenta() * $item->unidades;  
+        if ($carrito = Venta::getCarrito()) {
+            foreach ($carrito as $item) {
+                if ($item->tipoItem == 'Producto') {
+                    $subtotal += $item->elemento->getPrecioDeVenta() * $item->unidades;
                 } else {
                     $subtotal += $item->elemento->getPrecioCombo() * $item->unidades;
                 }
@@ -71,9 +74,9 @@ class Venta extends Model
             $request = new Request();
             $request->setLaravelSession(session());
             $request->session()->put('ofertaMonto', $ofertaMonto);
-            if(isset($ofertaMonto)){
-                $descuento = $ofertaMonto->porcentaje_descuento;  
-            } 
+            if (isset($ofertaMonto)) {
+                $descuento = $ofertaMonto->porcentaje_descuento;
+            }
             $subtotal = $subtotal * (1 - $descuento / 100);
         }
         return $subtotal;
@@ -90,10 +93,10 @@ class Venta extends Model
     public static function enCarrito($tipoItem, $id)
     {
         // tipoItem = Producto o Combo
-        if($carrito = Venta::getCarrito()){
-            foreach($carrito as $item) {
-                if($tipoItem == $item->tipoItem){
-                    if (($tipoItem == 'Producto' && $item->elemento->id == $id) || ($tipoItem == 'Combo' && $item->elemento->id_oferta_combo == $id)){
+        if ($carrito = Venta::getCarrito()) {
+            foreach ($carrito as $item) {
+                if ($tipoItem == $item->tipoItem) {
+                    if (($tipoItem == 'Producto' && $item->elemento->id == $id) || ($tipoItem == 'Combo' && $item->elemento->id_oferta_combo == $id)) {
                         return true;
                     }
                 }
@@ -109,10 +112,10 @@ class Venta extends Model
         $carrito = $request->session()->get('carrito');
 
         $itemVenta = new stdClass();
-        if($tipoItem == 'Producto'){ 
+        if ($tipoItem == 'Producto') {
             $itemVenta->unidades = request()->input('unidadesProducto');
             $itemVenta->elemento = Producto::findOrFail($id);
-        }else if($tipoItem == 'Combo'){
+        } else if ($tipoItem == 'Combo') {
             $itemVenta->unidades = request()->input('unidadesCombo');
             $itemVenta->elemento = OfertaCombo::findOrFail($id);
         }
@@ -125,21 +128,21 @@ class Venta extends Model
     {
         $carrito = Venta::getCarrito();
         foreach ($carrito as $item) {
-            if($tipoItem == $item->tipoItem){
-                if ( ($tipoItem == 'Producto' && $item->elemento->id == $id) || ($tipoItem == 'Combo' && $item->elemento->id_oferta_combo == $id)) {
+            if ($tipoItem == $item->tipoItem) {
+                if (($tipoItem == 'Producto' && $item->elemento->id == $id) || ($tipoItem == 'Combo' && $item->elemento->id_oferta_combo == $id)) {
                     if ($operacion == '+') {
-                        if($item->tipoItem == 'Producto' && $item->elemento->hayStockProducto($item->unidades + 1)){
+                        if ($item->tipoItem == 'Producto' && $item->elemento->hayStockProducto($item->unidades + 1)) {
                             $item->unidades++;
-                        } else if($item->tipoItem == 'Combo' && $item->elemento->hayStockCombo($item->unidades + 1)){
+                        } else if ($item->tipoItem == 'Combo' && $item->elemento->hayStockCombo($item->unidades + 1)) {
                             $item->unidades++;
                         }
                     } else {
-                        if($item->unidades > 1) {
+                        if ($item->unidades > 1) {
                             $item->unidades--;
                         }
                     }
                 }
-            }   
+            }
         }
     }
 
@@ -152,14 +155,14 @@ class Venta extends Model
         $carrito2 = array();
 
         foreach ($carrito as $item) {
-            if($tipoItem != $item->tipoItem){
+            if ($tipoItem != $item->tipoItem) {
                 $carrito2[] = $item;
-            }else if($tipoItem == 'Producto'){
-                if($id != $item->elemento->id){
+            } else if ($tipoItem == 'Producto') {
+                if ($id != $item->elemento->id) {
                     $carrito2[] = $item;
                 }
             } else {
-                if($id != $item->elemento->id_oferta_combo){
+                if ($id != $item->elemento->id_oferta_combo) {
                     $carrito2[] = $item;
                 }
             }
@@ -170,13 +173,13 @@ class Venta extends Model
     public static function hayStockCarrito()
     {
         $carrito = Venta::getCarrito();
-        foreach($carrito as $item){
-            if($item->tipoItem == 'Producto'){
-                if(!$item->elemento->hayStockProducto($item->unidades)){
+        foreach ($carrito as $item) {
+            if ($item->tipoItem == 'Producto') {
+                if (!$item->elemento->hayStockProducto($item->unidades)) {
                     return false;
                 }
-            } else if($item->tipoItem == 'Combo'){
-                if(!$item->elemento->hayStockCombo($item->unidades)){
+            } else if ($item->tipoItem == 'Combo') {
+                if (!$item->elemento->hayStockCombo($item->unidades)) {
                     return false;
                 }
             }
@@ -199,12 +202,12 @@ class Venta extends Model
         $venta->codigo_postal_destino = $codPostal;
         $venta->domicilio_destino = $direccionDestino;
         $venta->id_usuario_cliente = $idCliente;
-        $venta->id_oferta_monto = (isset($ofertaMonto))? $ofertaMonto->id : null;
+        $venta->id_oferta_monto = (isset($ofertaMonto)) ? $ofertaMonto->id : null;
         $venta->save();
 
         //Guardar combos vendidos y productos vendidos
-        foreach($carrito as $item){
-            if($item->tipoItem == 'Combo'){
+        foreach ($carrito as $item) {
+            if ($item->tipoItem == 'Combo') {
                 $combo = new ComboVendido();
                 $combo->id_venta = $venta->id;
                 $combo->id_oferta_combo = $item->elemento->id_oferta_combo;
@@ -213,12 +216,12 @@ class Venta extends Model
                 $combo->save();
                 //Actualizar stock del combo
                 $item->elemento->reducirStockCombo($item->unidades);
-            } else if ($item->tipoItem == 'Producto'){
+            } else if ($item->tipoItem == 'Producto') {
                 $producto = new ProductoVendido();
                 $producto->id_venta = $venta->id;
                 $producto->id_producto = $item->elemento->id;
                 $producto->unidades_vendidas_prod = $item->unidades;
-                $producto->id_oferta = isset($item->elemento->oferta[0]->id)? $item->elemento->oferta[0]->id : null;
+                $producto->id_oferta = isset($item->elemento->oferta[0]->id) ? $item->elemento->oferta[0]->id : null;
                 $producto->precio_venta_prod = $item->elemento->getPrecioDeVenta();
                 $producto->save();
                 //Actualizar stock del producto
@@ -234,8 +237,8 @@ class Venta extends Model
         return $venta->id;
     }
 
-    private function actualizarStockVendido(){
-
+    private function actualizarStockVendido()
+    {
     }
 
     public static function realizarPago()

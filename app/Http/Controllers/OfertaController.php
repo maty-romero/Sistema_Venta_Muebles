@@ -121,15 +121,65 @@ class OfertaController extends Controller
         return to_route('home');
     }
 
-    public function edit(string $id)
+    public function edit(Oferta $oferta)
     {
-        //
+        return view('administrador.ofertas.edit', ['oferta' => $oferta]);
     }
     // 
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+
+        $inicio = $request->input("fecha_inicio_oferta");
+        $fin = $request->input("fecha_fin_oferta");
+
+
+        if ($inicio >= $fin) {
+            session()->flash('error_oferta', 'Debe haber al menos un periodo de un dia entre fecha de inicio y fin.');
+            return redirect()->back();
+        }
+
+        $oferta = Oferta::find($id);
+        $queryProducto = "";
+        foreach ($oferta->producto as $producto) {
+            $queryProducto .= "id_producto={$producto->id} OR ";
+        }
+        $queryProducto = substr($queryProducto, 0, -4);
+
+        $controlSuperposicion = DB::select("SELECT * FROM ofertas LEFT JOIN oferta_producto ON oferta_producto.id_oferta=ofertas.id  
+        WHERE ((ofertas.fecha_inicio_oferta  BETWEEN '$inicio' AND '$fin') 
+        OR (ofertas.fecha_fin_oferta BETWEEN '$inicio' AND '$fin')) 
+        AND ($queryProducto) AND ofertas.id != $producto->id");
+
+
+        if (count($controlSuperposicion) > 0) {
+            session()->flash('error_oferta', 'Existe un conflicto de fechas');
+            return redirect()->back();
+        }
+
+
+
+        $validated = $request->validate([
+            'fecha_inicio_oferta' => 'required',
+            'fecha_fin_oferta' => 'required',
+            'porcentaje_descuento' => 'required|between:1,99',
+        ]);
+
+
+        if ($validated) {
+
+            $oferta->update([
+                'fecha_inicio_oferta' => $request->input('fecha_inicio_oferta'),
+                'fecha_fin_oferta' => $request->input('fecha_fin_oferta'),
+                'porcentaje_descuento' => $request->input('porcentaje_descuento'),
+            ]);
+
+            $oferta->save();
+            session()->flash('success_oferta', 'El oferta ha sido modificado exitosamente');
+        } else {
+            session()->flash('error_oferta', 'Ha ocurrido un error al editar el oferta');
+        }
+        return redirect()->back();
     }
 
     public function destroy(string $id)

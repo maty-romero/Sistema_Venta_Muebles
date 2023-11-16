@@ -18,12 +18,12 @@ return new class extends Migration
             $table->integer('nro_pago');
             $table->string('codigo_postal_destino');
             $table->string('domicilio_destino');
-         //   $table->increments('nro_venta');
-         $table->timestamps();
-         $table->unsignedBigInteger('id_usuario_cliente'); 
-         $table->foreign('id_usuario_cliente')->references('id_usuario_cliente')->on('clientes');
-         $table->unsignedBigInteger('id_oferta_monto')->nullable()->default(null); 
-         $table->foreign('id_oferta_monto')->references('id_oferta_monto')->on('ofertas_montos');
+            //   $table->increments('nro_venta');
+            $table->timestamps();
+            $table->unsignedBigInteger('id_usuario_cliente');
+            $table->foreign('id_usuario_cliente')->references('id_usuario_cliente')->on('clientes');
+            $table->unsignedBigInteger('id_oferta_monto')->nullable()->default(null);
+            $table->foreign('id_oferta_monto')->references('id_oferta_monto')->on('ofertas_montos');
         });
     }
 

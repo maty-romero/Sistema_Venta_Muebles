@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cliente extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
     protected $primaryKey = "id_usuario_cliente";
     protected $fillable = ["nombre_cliente", "tipo_cliente", "dni_cuit", "codigo_postal_cliente", "nro_telefono"]; //campos solicitados al momento de enviar el request
     protected $table = "clientes"; //tabla a referenciar
@@ -31,7 +33,7 @@ class Cliente extends Model
 
     public static function crearCliente($idUsr)
     {
-        if(request()->input('cmbRolUsuario') == 'cliente'){
+        if (request()->input('cmbRolUsuario') == 'cliente') {
             $cliente = new Cliente();
             $cliente->id_usuario_cliente = $idUsr;
             $cliente->dni_cuit = request()->input('dni_cuit');
@@ -46,7 +48,7 @@ class Cliente extends Model
 
     public static function actualizarCliente($idUsuario)
     {
-        if(request()->input('cmbRolUsuario') == 'cliente'){
+        if (request()->input('cmbRolUsuario') == 'cliente') {
             $cliente = Cliente::where('id_usuario_cliente', $idUsuario)->first();
 
             // Verifica si el cliente existe
@@ -61,5 +63,4 @@ class Cliente extends Model
             }
         }
     }
-
 }
