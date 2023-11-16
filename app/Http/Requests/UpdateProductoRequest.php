@@ -22,14 +22,14 @@ class UpdateProductoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre_producto' => 'required|unique:productos|max:100',
+            'nombre_producto' => 'required|max:100',
             'descripcion' => 'nullable|max:500',
             'id_tipo_mueble' => 'required',
             'largo' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
             'ancho' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
             'alto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
             'cmbmaterialMueble' => 'required',
-            'imagenProd' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagenProd' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 
