@@ -50,8 +50,8 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
 
     Route::get('/usuarios/crear', [UsuarioController::class, 'create'])->name('administrador_create_usuario');
     Route::post('/usuarios/guardar', [UsuarioController::class, 'store'])->name('administrador_store_usuario');
-    Route::get('/usuarios/editar/{idUsr}', [UsuarioController::class, 'edit'])->name('administrador_edit_usuarios');
-    Route::any('/usuarios/{idUsr}', [UsuarioController::class, 'update'])->name('administrador_update_usuarios');
+    Route::get('/usuarios/editar/{usuario}', [UsuarioController::class, 'edit'])->name('administrador_edit_usuarios');
+    Route::patch('/usuarios/{idUsr}', [UsuarioController::class, 'update_user'])->name('administrador_update_usuarios');
     Route::delete('/usuarios/{usuario}', [UsuarioController::class, 'destroy'])->name('administrador_delete_usuarios');
 
     Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PerfilClienteRequest;
 use App\Http\Requests\RegistroClienteRequest;
 use App\Http\Requests\RegistroUsuarioRequest;
+use App\Http\Requests\UpdateUsuarioRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,6 +78,41 @@ class UsuarioController extends Controller
          
     }
 
+    public function update_user(UpdateUsuarioRequest $request, $idUsr)
+    {
+        try {
+            $validated = $request->validated(); 
+            if($validated){
+
+                $usuario = User::findOrFail($idUsr);
+                $usuario->update([
+                    'name' => $request->nombreUsuario,
+                    'rol_usuario' => $request->cmbRolUsuario,
+                    'email' => $request->email,
+                    'password' => $request->password
+                ]);
+                //User::update();
+            
+                if($usuario && ($request->cmbRolUsuario === 'cliente')){
+
+                    Cliente::actualizarCliente($usuario->id);
+                    session()->flash('success', 'Usuario y cliente actualizados con éxito.');
+                }else if($usuario && ($request->cmbRolUsuario != 'cliente')){
+                    session()->flash('success', 'Usuario actualizado con éxito.');
+                }else{
+                    session()->flash('error', 'Hubo un problema al actualizar el usuario.');
+                }
+            }
+
+        }catch (\Exception $e) {
+            session()->flash('error', 'Hubo un error inesperado'. $e->getMessage());
+        }
+            
+        return redirect()->back();
+         
+    }
+
+
     public function show()
     {
         $cliente = Auth::user()->cliente;
@@ -105,10 +141,11 @@ class UsuarioController extends Controller
         
     }
 
-    public function edit(string $idUsr)
+    public function edit($usuario)
     {
-        $usuario = User::findOrFail($idUsr);
-        return view('administrador.usuarios.edit', compact('usuario'));
+        $usuario = User::findOrFail($usuario);
+        $cliente = Cliente::where('id_usuario_cliente', $usuario->id)->first();
+        return view('administrador.usuarios.edit', compact('usuario', 'cliente'));
     }
 
     public function update(PerfilClienteRequest $request)

@@ -68,13 +68,16 @@ Crear usuario
         <small style="color: red">{{ $message }}</small>
         @enderror
 
-
         <p class="font-poppins text-1g">Rol de Usuario</p>
         <select id="idCmbRolUsuario" name="cmbRolUsuario" class="font-poppins text-1g rounded-md mb-5" onchange="formularioPorTipo()">
             <option value="cliente" {{ old('cmbRolUsuario') == 'cliente' ? 'selected' : '' }}>Cliente</option>
             <option value="jefe_ventas" {{ old('cmbRolUsuario') == 'jefe_ventas' ? 'selected' : '' }}>Jefe de Ventas</option>
             <option value="gerente" {{ old('cmbRolUsuario') == 'gerente' ? 'selected' : '' }}>Gerente</option>
         </select>
+        
+        
+        
+        
         @error('cmbRolUsuario')
         <br>
         <small style="color: red">{{ $message }}</small>

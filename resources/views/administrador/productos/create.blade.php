@@ -8,13 +8,11 @@ Crear Producto
 Crear producto
 @endsection
 
-
-
 @section('contenido')
 
 @php
-dump(session('status'));
-dump($errors);
+//dump(session('status'));
+//dump($errors);
 
 @endphp
 

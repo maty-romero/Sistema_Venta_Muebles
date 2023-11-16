@@ -43,4 +43,23 @@ class Cliente extends Model
             $cliente->save();
         }
     }
+
+    public static function actualizarCliente($idUsuario)
+    {
+        if(request()->input('cmbRolUsuario') == 'cliente'){
+            $cliente = Cliente::where('id_usuario_cliente', $idUsuario)->first();
+
+            // Verifica si el cliente existe
+            if ($cliente) {
+                $cliente->dni_cuit = request()->input('dni_cuit');
+                $cliente->nombre_cliente = request()->input('nombreCliente');
+                $cliente->codigo_postal_cliente = request()->input('codigoPostal');
+                $cliente->tipo_cliente = request()->input('cmbTipoCliente');
+                $cliente->nro_telefono = request()->input('telefono');
+
+                $cliente->save();
+            }
+        }
+    }
+
 }
