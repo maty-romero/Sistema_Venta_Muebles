@@ -46,21 +46,20 @@ class ProductoController extends Controller
         $validated = $request->validate([
             'nombre_producto' => 'required|unique:productos|max:100',
             'descripcion' => 'nullable|max:500',
-            'discontinuado' => "boolean",
-            "stock" => "required",
-            "precio_producto" => "required",
+            "stock" => "required|min:1",
+            "precio_producto" => "required|min:1",
             "id_tipo_mueble" => "required",
-            'largo' => "required",
-            'ancho' => "required",
-            'alto' => "required",
+            'largo' => "required|min:1",
+            'ancho' => "required|min:1",
+            'alto' => "required|min:1",
             'material' => "required",
+            'imagenProd' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         if ($validated) {
         $fileImg = $_FILES["imagenProd"];
-        $producto->imagenURL = 'images/combos/'.basename($fileImg["name"]);
+        $imagenURL = 'images/combos/'.basename($fileImg["name"]);
 
-        $producto->save();
         move_uploaded_file($fileImg["tmp_name"], public_path('imagenURL'));
 
             $producto = Producto::create([
@@ -73,9 +72,10 @@ class ProductoController extends Controller
                 'ancho' => $request->input('ancho'),
                 'alto' => $request->input('alto'),
                 'material' => $request->input('material'),
-                'imagenURL' => ProductoController::getRandomUnsplashImageUrl()
+                'imagenURL' => $imagenURL
             ]);
             $producto->save();
+
             session()->flash('success', 'El producto ha sido creado exitosamente');
         } else {
             session()->flash('error', 'Ha ocurrido un error al crear el producto');

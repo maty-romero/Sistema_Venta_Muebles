@@ -27,8 +27,8 @@
         <form action="{{ route('administrador_store_producto') }}" enctype="multipart/form-data" method="POST">
             @csrf
             <p class="font-poppins text-1g">Nombre del producto</p>
-            <input id="txtNombreProducto" type="text" class="rounded-md mb-5" name="nombreProducto">
-            @error('nombreProducto')
+            <input id="txtNombreProducto" type="text" class="rounded-md mb-5" name="nombre_producto">
+            @error('nombre_producto')
                 <br>
                 <small style="color: red">{{ $message }}</small>
             @enderror
