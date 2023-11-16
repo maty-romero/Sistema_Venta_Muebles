@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02a4f0c1d59bd8adf53714b6747f8a34",
+    "content-hash": "1566615bd38ed78695e2c2f8eb2d4354",
     "packages": [
         {
             "name": "brick/math",
@@ -560,6 +560,56 @@
                 }
             ],
             "time": "2023-11-05T17:24:54+00:00"
+        },
+        {
+            "name": "geekcom/phpjasper-laravel",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPJasper/phpjasper-laravel.git",
+                "reference": "f15078b15d1373636d324118396fa8b16163ad9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPJasper/phpjasper-laravel/zipball/f15078b15d1373636d324118396fa8b16163ad9d",
+                "reference": "f15078b15d1373636d324118396fa8b16163ad9d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.1",
+                "squizlabs/php_codesniffer": "^3.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPJasper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Rodrigues Lima",
+                    "email": "danielrodrigues-ti@hotmail.com",
+                    "role": "lead"
+                }
+            ],
+            "description": "A PHP report generator",
+            "keywords": [
+                "pdf",
+                "php-reports",
+                "reports"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPJasper/phpjasper-laravel/issues",
+                "source": "https://github.com/PHPJasper/phpjasper-laravel/tree/v1.1"
+            },
+            "time": "2018-03-05T16:16:36+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -8413,5 +8463,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
