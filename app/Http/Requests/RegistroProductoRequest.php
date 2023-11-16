@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductoRequest extends FormRequest
+class RegistroProductoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -69,5 +69,4 @@ class ProductoRequest extends FormRequest
             'imagenProd.max' => 'La imagen no puede ser más grande de :max kilobytes.',
         ];
     }
-
 }

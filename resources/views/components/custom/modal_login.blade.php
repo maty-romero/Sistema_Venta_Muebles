@@ -113,4 +113,7 @@
         modal.style.display = "none";
       }
     }
+
+  // Add this line to close the modal initially
+  modal.style.display = "none";
   </script>

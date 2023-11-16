@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductoRequest;
+use App\Http\Requests\RegistroProductoRequest;
+use App\Http\Requests\UpdateProductoRequest;
 use App\Models\Venta;
 use App\Models\Oferta;
 use App\Models\OfertaCombo;
@@ -42,7 +43,7 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductoRequest $request)
+    public function store(RegistroProductoRequest $request)
     {
         $validated = $request->validated();
 
@@ -99,7 +100,7 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductoRequest $request, $idProducto)
+    public function update(UpdateProductoRequest $request, $idProducto)
     {
         $validated = $request->validated();
         
@@ -113,7 +114,7 @@ class ProductoController extends Controller
             move_uploaded_file($fileImg["tmp_name"], public_path('imagenURL'));
 
             $producto->update([
-                'nombre_producto' => $request->input('nombreProducto'),
+                'nombre_producto' => $request->input('nombre_producto'),
                 'descripcion' => $request->input('descripcion'),
                 'id_tipo_mueble' => $request->input('cmbTipoMueble'),
                 'largo' => $request->input('largo'),
@@ -134,17 +135,17 @@ class ProductoController extends Controller
     public function update_stock_producto(Request $request, $idProducto){
         try {
             $request->validate([
-                'stock' => 'required|min:1|numeric',
-                'precio' => 'required|numeric|min:0',
+                'stock_producto' => 'required|min:1|numeric',
+                'precio_producto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1']
             ]);
             
 
             $producto = Producto::find($idProducto);
-            $nuevoStock = $producto->stock + $request->input('stock');
-            $nuevoPrecio = $request->input('precio');
+            $nuevoStock = $producto->stock + $request->input('stock_producto');
+            $nuevoPrecio = $request->input('precio_producto');
             $producto->update([
                 'stock' => $nuevoStock,
-                'precio' => $nuevoPrecio
+                'precio_producto' => $nuevoPrecio
             ]);
             return redirect()->back()->with('success_stock_precio', 'Se ha actualizado stock y/o precio exitosamente');
 

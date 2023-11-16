@@ -39,9 +39,9 @@
         @csrf
 
         <p class="font-poppins text-1g">Nombre del producto</p>
-        <input id="txtNombreProducto" type="text" class="rounded-md mb-5" name="nombreProducto"
+        <input id="txtNombreProducto" type="text" class="rounded-md mb-5" name="nombre_producto"
             value="{{ $producto->nombre_producto }}">
-        @error('nombreProducto')
+        @error('nombre_producto')
             <br><span style="color: red">{{ $message }}</span>
         @enderror
 
@@ -98,7 +98,7 @@
         @enderror
 
         <p class="font-poppins text-1g">Stock</p>
-        <input id="txtStockInicial" type="number" class="rounded-md " name="stock" value="{{ $producto->stock }}"
+        <input id="txtStockInicial" type="number" class="rounded-md " name="stockProducto" value="{{ $producto->stock }}"
             disabled>
         @error('stock')
             <br><span style="color: red">{{ $message }}</span>
@@ -132,16 +132,16 @@
                     <form id="idFrmPsw" method="POST" action='{{ route('producto_updateStock', $producto) }}'>
                         @csrf
                         <p class="font-poppins text-1g">Agregar stock</p>
-                        <input type="number" name="stock" value='1' min='1' id="" class="rounded-md mb-5">
+                        <input type="number" name="stock_producto" value='1' min='1' id="" class="rounded-md mb-5">
                         <p class="font-poppins text-1g">Actualizar Precio</p>
-                        <input type="number" name="precio" class="rounded-md mb-5" value="{{ $producto->precio_producto }}">
+                        <input type="number" name="precio_producto" class="rounded-md mb-5" step="any" value="{{ $producto->precio_producto }}">
                         <div class='mt-4 flex items-center justify-end'>
                             <button type='submit'
                                 class='py-3 px-6 rounded-lg text-center font-sans text-sm font-bold bg-green-500 text-white hover:bg-green-600 transition-all'>Confirmar</button>
                         </div>
                     </form>
                 @endslot
-            @endcomponent
+        @endcomponent
     </div>
 
 @endsection
