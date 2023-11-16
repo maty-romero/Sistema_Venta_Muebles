@@ -17,3 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+database/reportes/Productos_Mas_Vendidos.jasper
+composer.lock
+composer.json
