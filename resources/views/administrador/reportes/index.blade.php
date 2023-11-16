@@ -38,7 +38,7 @@
     </div>
     <div class="flex flex-col">
         <label for="idCliente">Identificador de cliente</label>
-        <input class="rounded-lg border-gray-600" type="text" name="idCliente" id="idCliente">   
+        <input class="rounded-lg border-gray-600" type="text" value="{{ session('idUsuario') }}" name="idCliente" id="idCliente">   
     </div>
 </div>
 

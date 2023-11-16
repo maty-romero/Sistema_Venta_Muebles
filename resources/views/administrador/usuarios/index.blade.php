@@ -56,7 +56,9 @@ Usuarios
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 @if ($usuario->rol_usuario == 'cliente')
-                <a href="">Informe Compras</a>
+                {{ session(['idUsuario' => $usuario->id]) }}
+
+                <a href="{{ route('administrador_reportes') }}">Informe Compras</a>
                 @endif
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
