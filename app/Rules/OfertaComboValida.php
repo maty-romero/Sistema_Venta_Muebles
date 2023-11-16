@@ -42,9 +42,9 @@ class OfertaComboValida implements ValidationRule
                 }
                 $fail = 'ProbandoCombo';
             }
+            if($comboSimilar){
+                $fail = 'Ya existe un combo similar dentro del periodo indicado';
+            }
         }
-
-        
-        
     }
 }

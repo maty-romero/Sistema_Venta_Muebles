@@ -57,6 +57,11 @@ class ProductoController extends Controller
         ]);
 
         if ($validated) {
+        $fileImg = $_FILES["imagenProd"];
+        $producto->imagenURL = 'images/combos/'.basename($fileImg["name"]);
+
+        $producto->save();
+        move_uploaded_file($fileImg["tmp_name"], public_path('imagenURL'));
 
             $producto = Producto::create([
                 'nombre_producto' => $request->input('nombre_producto'),
