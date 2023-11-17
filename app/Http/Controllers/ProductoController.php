@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistroProductoRequest;
+use App\Http\Requests\UpdateProductoRequest;
 use App\Models\Venta;
 use App\Models\Oferta;
 use App\Models\OfertaCombo;
@@ -41,6 +43,7 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    public function store(RegistroProductoRequest $request)
     {
         $validated = $request->validate([
             'nombre_producto' => 'required|unique:productos|max:100',
@@ -79,23 +82,8 @@ class ProductoController extends Controller
             session()->flash('error', 'Ha ocurrido un error al crear el producto');
         }
 
-              
         return redirect()->back();
     }
-
-    private static function getRandomUnsplashImageUrl() {
-        $imageUrls = [
-            'https://images.unsplash.com/photo-1540574163026-643ea20ade25?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            'https://images.unsplash.com/photo-1549187774-b4e9b0445b41?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        ];
-    
-        // Seleccionar una URL al azar
-        $randomImageUrl = $imageUrls[array_rand($imageUrls)];
-    
-        return $randomImageUrl;
-    }
-
 
     /**
      * Display the specified resource.
@@ -122,21 +110,10 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $idProducto)
+    public function update(UpdateProductoRequest $request, $idProducto)
     {
-        $validated = $request->validate([
-            'nombreProducto' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'cmbTipoMueble' => 'required', 
-            'alto' => 'required|numeric|min:0',
-            'largo' => 'required|numeric|min:0',
-            'ancho' => 'required|numeric|min:0',
-            'cmbmaterialMueble' => 'required',
-            'imagenURL' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'precioProducto' => 'required|numeric|min:1'
-        ]);
+        $validated = $request->validated();
         
-
         if ($validated) {
             $producto = Producto::find($idProducto);
 
@@ -149,13 +126,13 @@ class ProductoController extends Controller
             }
 
             $producto->update([
-                'nombre_producto' => $request->input('nombreProducto'),
+                'nombre_producto' => $request->input('nombre_producto'),
                 'descripcion' => $request->input('descripcion'),
                 'id_tipo_mueble' => $request->input('cmbTipoMueble'),
                 'largo' => $request->input('largo'),
                 'ancho' => $request->input('ancho'),
                 'alto' => $request->input('alto'),
-                'material' => $request->input('cmbMaterialMueble'),
+                'material' => $request->input('cmbmaterialMueble'),
                 'imagenURL' => $imagenURL
             ]);
 
@@ -170,14 +147,13 @@ class ProductoController extends Controller
     public function update_stock_producto(Request $request, $idProducto){
         try {
             $request->validate([
-                'stock' => 'required|min:1|numeric',
-                'precio' => 'required|numeric|min:1',
+                'stock_producto' => 'required|min:1|numeric',
+                'precio_producto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1']
             ]);
 
             $producto = Producto::find($idProducto);
-            $nuevoStock = $producto->stock + $request->input('stock');
-            $nuevoPrecio = $request->input('precio');
-
+            $nuevoStock = $producto->stock + $request->input('stock_producto');
+            $nuevoPrecio = $request->input('precio_producto');
             $producto->update([
                 'stock' => $nuevoStock,
                 'precio_producto' => $nuevoPrecio
