@@ -11,8 +11,8 @@ Usuarios
 @dump($errors->all())
 
 @section('contenido')
-<h3 class='text-3xl text-left ml-4'>Ordenar</h3>
-<div class="flex justify-between ml-4">
+<h3 class='text-3xl text-left ml-1'>Ordenar</h3>
+<div class="flex justify-between ml-1">
     <form id="searchForm" name="searchForm" method="GET" action="/searchUser">
 
         <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="ordenamiento">
@@ -36,7 +36,7 @@ Usuarios
     </form>
 
     <a href="{{ route('administrador_create_usuario') }}">
-        <button class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
+        <button class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1">
             Crear Usuario
         </button>
     </a>
@@ -59,16 +59,16 @@ Usuarios
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 @if ($usuario->rol_usuario == 'cliente')
 
-                <a href="{{ route('administrador_reportes_cliente', ['id' => 5]) }}">Informe Compras</a>
+                <a href="{{ route('administrador_reportes_cliente', ['id' => $usuario->id]) }}">Informe Compras</a>
                 @endif
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg hover:underline font-semibold text-gray-900">
                 <a href="{{ route('administrador_edit_usuarios', $usuario) }}">Editar</a>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                <form action="{{ route('administrador_delete_usuarios', $usuario) }}" method="POST">
+                <form action="{{ route('administrador_delete_usuarios', $usuario) }}" method="POST" class='mb-0'>
                     @csrf
                     @method('DELETE')
-                    <button type="submit">Eliminar</button>
+                    <button type="submit" class='hover:underline'>Eliminar</button>
                 </form>
         </tr>
         @endforeach

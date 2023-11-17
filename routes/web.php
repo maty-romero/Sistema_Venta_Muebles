@@ -29,20 +29,22 @@ Route::middleware('soloCliente')->group(function () {
     Route::get('/perfilCliente', [UsuarioController::class, 'show'])->name('cliente_show');
     Route::post('/perfilCliente/cambioContrasenia', [UsuarioController::class, 'update_psw'])->name('cliente_cambio_contrasenia');
     Route::patch('/perfilCliente/cambiosPerfil', [UsuarioController::class, 'update'])->name('cliente_cambio_perfil');
+    
     //Rutas de ventas para cliente  
     Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta');
     Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
 });
-
-//Rutas para ver productos y combos
-Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
-Route::get('/combo/{idCombo}', [OfertaController::class, 'show'])->name('combo_show');
 
 //Rutas del carrito
 Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
 Route::post('/carrito/{tipoItem}/{id}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
 Route::patch('/carrito/{tipoItem}/{id}', [VentaController::class, 'editCart'])->name('carrito_editar');
 Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
+
+
+//Rutas para ver productos y combos
+Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
+Route::get('/combo/{idCombo}', [OfertaController::class, 'show'])->name('combo_show');
 
 //Rutas de administrativos
 Route::middleware(['auth', 'soloAdm'])->group(function () {
@@ -55,6 +57,7 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::delete('/usuarios/{usuario}', [UsuarioController::class, 'destroy'])->name('administrador_delete_usuarios');
 
     Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
+    Route::get('/productos/{idProd}', [ProductoController::class, 'admShow'])->name('administrador_producto_show');
     Route::get('/productos/crear', [ProductoController::class, 'create'])->name('administrador_create_producto');
     Route::post('/productos/guardar', [ProductoController::class, 'store'])->name('administrador_store_producto');
 

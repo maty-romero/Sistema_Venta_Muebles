@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistroProductoRequest;
+use App\Http\Requests\UpdateProductoRequest;
 use App\Models\Venta;
 use App\Models\Oferta;
 use App\Models\OfertaCombo;
@@ -42,7 +44,7 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RegistroProductoRequest $request)
     {
         $validated = $request->validate([
             'nombre_producto' => 'required|unique:productos|max:100',
@@ -59,9 +61,8 @@ class ProductoController extends Controller
 
         if ($validated) {
             $fileImg = $_FILES["imagenProd"];
-            $imagenURL = 'images/combos/' . basename($fileImg["name"]);
-
-            move_uploaded_file($fileImg["tmp_name"], public_path('imagenURL'));
+            $imagenURL = 'images/productos/' . basename($fileImg["name"]);
+            move_uploaded_file($fileImg["tmp_name"], public_path($imagenURL));
 
             $producto = Producto::create([
                 'nombre_producto' => $request->input('nombre_producto'),
@@ -82,24 +83,8 @@ class ProductoController extends Controller
             session()->flash('error', 'Ha ocurrido un error al crear el producto');
         }
 
-
         return redirect()->back();
     }
-
-    private static function getRandomUnsplashImageUrl()
-    {
-        $imageUrls = [
-            'https://images.unsplash.com/photo-1540574163026-643ea20ade25?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            'https://images.unsplash.com/photo-1549187774-b4e9b0445b41?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        ];
-
-        // Seleccionar una URL al azar
-        $randomImageUrl = $imageUrls[array_rand($imageUrls)];
-
-        return $randomImageUrl;
-    }
-
 
     /**
      * Display the specified resource.
@@ -114,6 +99,12 @@ class ProductoController extends Controller
         return to_route('home');
     }
 
+    public function admShow(string $id)
+    {
+        $producto = Producto::findOrFail($id);
+        return view('administrador.productos.show', ['producto' => $producto]);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -126,34 +117,33 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $idProducto)
+    public function update(UpdateProductoRequest $request, $idProducto)
     {
-        $validated = $request->validate([
-            'nombreProducto' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'cmbTipoMueble' => 'required',
-            'alto' => 'required|numeric|min:0',
-            'largo' => 'required|numeric|min:0',
-            'ancho' => 'required|numeric|min:0',
-            'cmbmaterialMueble' => 'required',
-        ]);
-
+        $validated = $request->validated();
 
         if ($validated) {
-
             $producto = Producto::find($idProducto);
 
+            if ($_FILES["imagenProdEdit"]["name"] != null && $_FILES["imagenProdEdit"]["name"] != '') {
+                $fileImg = $_FILES["imagenProdEdit"];
+                $imagenURL = 'images/productos/' . basename($fileImg["name"]);
+                move_uploaded_file($fileImg["tmp_name"], public_path($imagenURL));
+            } else {
+                $imagenURL = $producto->imagenURL;
+            }
+
             $producto->update([
-                'nombre_producto' => $request->input('nombreProducto'),
+                'nombre_producto' => $request->input('nombre_producto'),
                 'descripcion' => $request->input('descripcion'),
                 'id_tipo_mueble' => $request->input('cmbTipoMueble'),
                 'largo' => $request->input('largo'),
                 'ancho' => $request->input('ancho'),
                 'alto' => $request->input('alto'),
-                'material' => $request->input('cmbMaterialMueble'),
+                'material' => $request->input('cmbmaterialMueble'),
+                'imagenURL' => $imagenURL
             ]);
 
-            $producto->save();
+            //$producto->save();
             session()->flash('success_producto', 'El producto ha sido modificado exitosamente');
         } else {
             session()->flash('error_producto', 'Ha ocurrido un error al editar el producto');
@@ -165,18 +155,20 @@ class ProductoController extends Controller
     {
         try {
             $request->validate([
-                'stock' => 'required|min:1|numeric',
-                'precio' => 'required|numeric|min:0',
+                'stock_producto' => 'required|min:1|numeric',
+                'precio_producto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1']
             ]);
 
 
             $producto = Producto::find($idProducto);
-            $nuevoStock = $producto->stock + $request->input('stock');
-            $nuevoPrecio = $request->input('precio');
+            $nuevoStock = $producto->stock + $request->input('stock_producto');
+            $nuevoPrecio = $request->input('precio_producto');
             $producto->update([
                 'stock' => $nuevoStock,
-                'precio' => $nuevoPrecio
+                'precio_producto' => $nuevoPrecio
             ]);
+
+
             return redirect()->back()->with('success_stock_precio', 'Se ha actualizado stock y/o precio exitosamente');
         } catch (\Exception $e) {
             return redirect()->back()->with('error_stock_precio', 'No se ha podido actualizar stock y/o precio: ' . $e->getMessage());

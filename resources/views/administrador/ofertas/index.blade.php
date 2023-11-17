@@ -10,8 +10,8 @@ Ofertas
 
 @section('contenido')
 
-<h3 class='text-3xl text-left ml-4'>Ordenar</h3>
-<div class="flex justify-between ml-4">
+<h3 class='text-3xl text-left ml-1'>Ordenar</h3>
+<div class="flex justify-between ml-1">
     <div>
         <select class="form-control mr-5 rounded-lg" id="tipo_oferta" name="tipoOferta">
             <option value="producto">Unitarias</option>
@@ -31,11 +31,8 @@ Ofertas
     </div>
 
 
-
-    <a href="{{ route('crear_oferta') }}">
-        <button class="bg-gray-800 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
-            Crear Oferta
-        </button>
+    <a href="{{ route('crear_oferta') }}" class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 mr-1 rounded-md text-base">
+        Crear Oferta
     </a>
 </div>
 
@@ -59,10 +56,10 @@ Ofertas
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                     {{$oferta->fecha_fin_oferta}}
                 </td>
-                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left  hover:underline text-lg font-semibold text-gray-900">
                     <a href="{{ route('administrador_edit_ofertas', $oferta) }}">Modificar</a>
                 </td>
-                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold hover:underline text-gray-900">
                     <a href="#">Eliminar</a>
                 </td>
             </tr>

@@ -69,6 +69,7 @@ class OfertaCombo extends Model
         $ofertaCombo = new OfertaCombo();
         $ofertaCombo->id_oferta_combo = $idOferta;
         $ofertaCombo->nombre_combo = request()->input('nombreCombo');
+        
         $fileImg = $_FILES["imagenCombo"];
         move_uploaded_file($fileImg["tmp_name"], public_path('images/combos/'.$idOferta.basename($fileImg["name"])));
         $ofertaCombo->imagenURL = 'images/combos/'.$idOferta.basename($fileImg["name"]);

@@ -10,8 +10,8 @@ Productos
 
 @section('contenido')
 
-<h3 class='text-3xl text-left ml-4'>Ordenar</h3>
-<div class="flex justify-between ml-4">
+<h3 class='text-3xl text-left ml-1'>Ordenar</h3>
+<div class="flex justify-between ml-1">
     <form id="searchForm" name="searchForm" method="GET" action="/searchProducto">
         <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="ordenamiento">
             <option value="precio_producto" {{ isset($input['ordenamiento']) && $input['ordenamiento']==="precio_producto"
@@ -30,7 +30,7 @@ Productos
     </form>
 
     <a href="{{ route('administrador_create_producto') }}">
-        <button class="bg-gray-800 text-white py-2 px-4 rounded-md text-base mt-4 mr-4">
+        <button class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1">
             Crear Producto
         </button>
     </a>
@@ -41,8 +41,10 @@ Productos
     <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion']">
         @foreach ($products as $producto)
         <tr>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900 hover:underline">
+                <a href='{{route('administrador_producto_show', $producto->id)}}'>
                 {{ $producto->nombre_producto }}
+                </a>
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 {{ Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble) }}
@@ -59,7 +61,7 @@ Productos
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 {{ $producto->stock }}
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left hover:underline text-lg font-semibold text-gray-900">
                 <a href="{{ route('administrador_edit_producto', $producto) }}">Editar</a>
                 
                 <form action="{{ route('administrador_delete_producto', $producto) }}" method="POST">
