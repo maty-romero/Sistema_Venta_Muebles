@@ -116,8 +116,4 @@ Crear producto
         Crear producto
     </button>
 </form>
-
-
-
-</form>
 @endsection

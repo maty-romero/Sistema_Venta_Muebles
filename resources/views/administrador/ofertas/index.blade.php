@@ -30,10 +30,11 @@ Ofertas
         </select>
     </div>
 
-
+    @if(Auth::user()->rol_usuario != 'gerente')
     <a href="{{ route('crear_oferta') }}" class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 mr-1 rounded-md text-base">
         Crear Oferta
     </a>
+    @endif
 </div>
 
 <div id="contenedorTablaOfertas" class="w-full">
@@ -56,12 +57,21 @@ Ofertas
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                     {{$oferta->fecha_fin_oferta}}
                 </td>
+                @if(Auth::user()->rol_usuario != 'gerente')
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left  hover:underline text-lg font-semibold text-gray-900">
                     <a href="{{ route('administrador_edit_ofertas', $oferta) }}">Modificar</a>
                 </td>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold hover:underline text-gray-900">
                     <a href="#">Eliminar</a>
                 </td>
+                @else 
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-500">
+                    <p href="{{ route('administrador_edit_ofertas', $oferta) }}">Modificar</p>
+                </td>
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-500">
+                    <p href="#">Eliminar</p>
+                </td>
+                @endif
             </tr>
             @endforeach
         </x-custom.table>
@@ -142,10 +152,4 @@ Ofertas
         });
     });
 </script>
-
-
-
-
-
-
 @endsection

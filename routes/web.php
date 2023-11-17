@@ -58,8 +58,8 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::delete('/usuarios/{usuario}', [UsuarioController::class, 'destroy'])->name('administrador_delete_usuarios');
 
     Route::get('/productos', [ProductoController::class, 'index_adm'])->name('administrador_productos');
-    Route::get('/productos/{idProd}', [ProductoController::class, 'admShow'])->name('administrador_producto_show');
     Route::get('/productos/crear', [ProductoController::class, 'create'])->name('administrador_create_producto');
+    Route::get('/productos/{idProd}', [ProductoController::class, 'admShow'])->name('administrador_producto_show');
     Route::post('/productos/guardar', [ProductoController::class, 'store'])->name('administrador_store_producto');
 
     Route::get('/productos/editar/{producto}', [ProductoController::class, 'edit'])->name('administrador_edit_producto'); //ACA

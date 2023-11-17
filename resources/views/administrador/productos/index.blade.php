@@ -29,10 +29,8 @@ Productos
         <input id="name" name="name" value="{{isset($input['name'])?$input['name']:''}}" class="py-1 pl-2 rounded-lg border-gray-200" placeholder="Buscar nombre">
     </form>
 
-    <a href="{{ route('administrador_create_producto') }}">
-        <button class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1">
+    <a href="{{ route('administrador_create_producto') }}" class='bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1'>
             Crear Producto
-        </button>
     </a>
 
 </div>
