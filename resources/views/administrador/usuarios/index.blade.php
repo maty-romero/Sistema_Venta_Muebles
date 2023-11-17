@@ -8,8 +8,6 @@ Usuarios
 Usuarios
 @endsection
 
-@dump($errors->all())
-
 @section('contenido')
 <h3 class='text-3xl text-left ml-1'>Ordenar</h3>
 <div class="flex justify-between ml-1">
