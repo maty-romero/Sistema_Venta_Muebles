@@ -16,7 +16,7 @@
 
 <div>
     <form method="POST" action='{{route("guardar_oferta")}}' enctype="multipart/form-data" class='pl-1 w-full'>
-        @dump($errors->all())
+        
     <div class='flex float-left border-white border-r-2 pr-5 pt-4 mr-5'>
     @csrf
     <table class='w-[100px]'>
@@ -125,9 +125,9 @@
                             </td>
                             <td class="px-2.5 py-2 bg-slate-50 font-bold text-center text-slate-700">
                                 <div class='w-24 h-content align-baseline mx-auto'>
-                                <button type='button' onclick='decrementar({{$p->id}})' class='rounded-l-full bg-gray-800 hover:bg-gray-600 h-8 w-6 m-0 bold text-2xl text-white'>-</button>
-                                <input id='{{$p->id}}' name='inp{{$p->id}}' type='number' min='0' value='0' class='inpCant w-8 h-8 align-top m-0 p-0 border-1 border-gray-800 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'>
-                                <button type='button' onclick='incrementar({{$p->id}})' class='rounded-r-full bg-gray-800 hover:bg-gray-600 h-8 w-6 bold text-2xl text-white'>+</button>
+                                <button type='button' onclick='decrementar({{$p->id}})' class='btnInc rounded-l-full bg-gray-800 hover:bg-gray-600 h-8 w-6 m-0 bold text-2xl text-white'>-</button>
+                                <input id='{{$p->id}}' name='inp{{$p->id}}' type='number' min='0' class='inpCant w-8 h-8 align-top m-0 p-0 border-1 border-gray-800 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'>
+                                <button type='button' onclick='incrementar({{$p->id}})' class='btnDrc rounded-r-full bg-gray-800 hover:bg-gray-600 h-8 w-6 bold text-2xl text-white'>+</button>
                                 </div>
                             </td>
                             <td class="pl-2.5 pr-5 py-2 bg-slate-50 font-bold text-left text-slate-700">
