@@ -34,7 +34,7 @@
     @endif
 
 
-    <form action="{{ route('administrador_update_producto', $producto) }}" method="POST">
+    <form action="{{ route('administrador_update_producto', $producto) }}" enctype="multipart/form-data" method="POST">
         @method('PATCH')
         @csrf
 

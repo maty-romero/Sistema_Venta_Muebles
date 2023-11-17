@@ -24,12 +24,12 @@ class UpdateProductoRequest extends FormRequest
         return [
             'nombre_producto' => 'required|max:100',
             'descripcion' => 'nullable|max:500',
-            'id_tipo_mueble' => 'required',
+            'cmbTipoMueble' => 'required',
             'largo' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
             'ancho' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
             'alto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
             'cmbmaterialMueble' => 'required',
-            'imagenProd' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagenProd' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 
@@ -37,7 +37,6 @@ class UpdateProductoRequest extends FormRequest
     {
         return [
             'nombre_producto.required' => 'El nombre del producto es obligatorio.',
-            'nombre_producto.unique' => 'El nombre del producto ya está en uso.',
             'nombre_producto.max' => 'El nombre del producto no puede tener más de :max caracteres.',
             'descripcion.max' => 'La descripción no puede tener más de :max caracteres.',
             'id_tipo_mueble.required' => 'El tipo de mueble es obligatorio.',
@@ -53,12 +52,13 @@ class UpdateProductoRequest extends FormRequest
             'alto.numeric' => 'La altura debe ser numérica.',
             'alto.regex' => 'La altura debe tener hasta dos decimales.',
             'alto.min' => 'La altura debe ser al menos :min.',
-            'material.required' => 'El material es obligatorio.',
+            'cmbmaterialMueble.required' => 'El material es obligatorio.',
             'imagenProd.required' => 'La imagen del producto es obligatoria.',
             'imagenProd.image' => 'El archivo debe ser una imagen.',
             'imagenProd.mimes' => 'La imagen debe tener uno de los siguientes formatos: jpeg, png, jpg, gif.',
             'imagenProd.max' => 'La imagen no puede ser más grande de :max kilobytes.',
         ];
     }
+
 
 }
