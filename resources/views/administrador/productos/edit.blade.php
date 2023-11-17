@@ -59,7 +59,7 @@
         @enderror
 
         <p class="font-poppins text-1g">Tipo de Mueble</p>
-        <select name="cmbTipoMueble" class="font-poppins text-1g rounded-md mb-5" value="{{ $producto->id_tipo_mueble }}">
+        <select name="cmbTipoMueble" class="font-poppins text-1g w-[190px] rounded-md mb-5" value="{{ $producto->id_tipo_mueble }}">
             <option value="1">Exterior</option>
             <option value="2">Interior</option>
         </select>
@@ -87,7 +87,7 @@
         @enderror
 
         <p>Material</p>
-        <select name="cmbmaterialMueble" class="font-poppins text-1g rounded-md mb-5" value="{{ $producto->material }}">
+        <select name="cmbmaterialMueble" class="font-poppins w-[190px] text-1g rounded-md mb-5" value="{{ $producto->material }}">
             <option value="madera">Madera</option>
             <option value="acero">Acero</option>
             <option value="aluminio">Aluminio</option>
@@ -104,16 +104,16 @@
             <br><span style="color: red">{{ $message }}</span>
         @enderror
         
-        <p class="font-poppins text-1g">Imagen</p>
+        <p class="font-poppins text-1g mt-4">Imagen</p>
         <input name='imagenProd' id="imagenProd" type="file"
             class="mb-1 relative bg-white m-0 block w-[350px] min-w-0 flex-auto rounded border border-solid border-gray-500 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-black transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-800 file:px-3 file:py-[0.32rem] file:text-white file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-600 focus:border-primary focus:shadow-te-primary focus:outline-none" />
-        <p class="mb-5 font-poppins text-xs">Formato JPEG/PNG</p>
+        <p class="mb-1 font-poppins text-xs">Formato JPEG/PNG</p>
         @error('imagenProd')
             <small style="color: red">{{ $message }}</small>
         @enderror
 
         <br>
-        <button type="submit" class="mt-5 bg-gray-800 text-white py-2 px-4 rounded-md text-bash">
+        <button type="submit" class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-bash">
             Confirmar cambios
         </button>
         <br><br>
@@ -122,10 +122,10 @@
     
     <div class="relative flex flex-row">
         @component('components.custom.modal_login')
-            @slot('textoBtn', 'Actualizar stock producto')
+            @slot('textoBtn', 'Agregar stock')
             @slot('clasesBtn',
-                'flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans
-                text-sm font-bold bg-gray-500 text-white hover:bg-gray-500 transition-all active:bg-gray-600 disabled:opacity-50
+                'flex select-none items-center gap-2 rounded-lg py-2 px-6 text-center align-middle
+                bg-gray-800 text-white hover:bg-gray-600 transition-all active:bg-gray-600 disabled:opacity-50
                 disabled:shadow-none')
                 @slot('encabezado', 'Ingrese los campos solicitados')
                 @slot('contenido')

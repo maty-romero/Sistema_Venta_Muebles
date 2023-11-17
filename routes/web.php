@@ -33,13 +33,14 @@ Route::middleware('soloCliente')->group(function () {
     //Rutas de ventas para cliente  
     Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta');
     Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
-
-    //Rutas del carrito
-    Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
-    Route::post('/carrito/{tipoItem}/{id}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
-    Route::patch('/carrito/{tipoItem}/{id}', [VentaController::class, 'editCart'])->name('carrito_editar');
-    Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
 });
+
+//Rutas del carrito
+Route::get('/carrito', [VentaController::class, 'cart'])->name('carrito');
+Route::post('/carrito/{tipoItem}/{id}', [VentaController::class, 'updateCart'])->name('carrito_agregar')->middleware('web');
+Route::patch('/carrito/{tipoItem}/{id}', [VentaController::class, 'editCart'])->name('carrito_editar');
+Route::delete('/carrito/{tipoItem}/{id}', [VentaController::class, 'removeFromCart'])->name('carrito_eliminar')->middleware('web');
+
 
 //Rutas para ver productos y combos
 Route::get('/producto/{idProd}', [ProductoController::class, 'show'])->name('producto_show');
