@@ -6,6 +6,7 @@ use App\Models\Venta;
 use App\Models\Oferta;
 use App\Models\OfertaCombo;
 use App\Models\Producto;
+use App\View\Components\saleItem;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -57,10 +58,10 @@ class ProductoController extends Controller
         ]);
 
         if ($validated) {
-        $fileImg = $_FILES["imagenProd"];
-        $imagenURL = 'images/combos/'.basename($fileImg["name"]);
+            $fileImg = $_FILES["imagenProd"];
+            $imagenURL = 'images/combos/' . basename($fileImg["name"]);
 
-        move_uploaded_file($fileImg["tmp_name"], public_path('imagenURL'));
+            move_uploaded_file($fileImg["tmp_name"], public_path('imagenURL'));
 
             $producto = Producto::create([
                 'nombre_producto' => $request->input('nombre_producto'),
@@ -81,20 +82,21 @@ class ProductoController extends Controller
             session()->flash('error', 'Ha ocurrido un error al crear el producto');
         }
 
-              
+
         return redirect()->back();
     }
 
-    private static function getRandomUnsplashImageUrl() {
+    private static function getRandomUnsplashImageUrl()
+    {
         $imageUrls = [
             'https://images.unsplash.com/photo-1540574163026-643ea20ade25?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
             'https://images.unsplash.com/photo-1549187774-b4e9b0445b41?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
             'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         ];
-    
+
         // Seleccionar una URL al azar
         $randomImageUrl = $imageUrls[array_rand($imageUrls)];
-    
+
         return $randomImageUrl;
     }
 
@@ -129,13 +131,13 @@ class ProductoController extends Controller
         $validated = $request->validate([
             'nombreProducto' => 'required|string|max:255',
             'descripcion' => 'required|string',
-            'cmbTipoMueble' => 'required', 
+            'cmbTipoMueble' => 'required',
             'alto' => 'required|numeric|min:0',
             'largo' => 'required|numeric|min:0',
             'ancho' => 'required|numeric|min:0',
             'cmbmaterialMueble' => 'required',
         ]);
-        
+
 
         if ($validated) {
 
@@ -159,13 +161,14 @@ class ProductoController extends Controller
         return redirect()->back();
     }
 
-    public function update_stock_producto(Request $request, $idProducto){
+    public function update_stock_producto(Request $request, $idProducto)
+    {
         try {
             $request->validate([
                 'stock' => 'required|min:1|numeric',
                 'precio' => 'required|numeric|min:0',
             ]);
-            
+
 
             $producto = Producto::find($idProducto);
             $nuevoStock = $producto->stock + $request->input('stock');
@@ -175,10 +178,9 @@ class ProductoController extends Controller
                 'precio' => $nuevoPrecio
             ]);
             return redirect()->back()->with('success_stock_precio', 'Se ha actualizado stock y/o precio exitosamente');
-
-       } catch (\Exception $e) {
-            return redirect()->back()->with('error_stock_precio', 'No se ha podido actualizar stock y/o precio: ' . $e->getMessage());  
-       }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error_stock_precio', 'No se ha podido actualizar stock y/o precio: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -211,6 +213,7 @@ class ProductoController extends Controller
             $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $orden)->get();
             $resultados = array_merge($productos->all(), $combos);
             $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
+
 
             // paginacion
         } else  if ($filtro === "productos") {
