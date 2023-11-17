@@ -29,7 +29,7 @@ class UpdateProductoRequest extends FormRequest
             'ancho' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
             'alto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
             'cmbmaterialMueble' => 'required',
-            'imagenProd' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagenProdEdit' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 
