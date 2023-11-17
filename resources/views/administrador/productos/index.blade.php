@@ -41,8 +41,10 @@ Productos
     <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion']">
         @foreach ($products as $producto)
         <tr>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900 hover:underline">
+                <a href='{{route('administrador_producto_show', $producto->id)}}'>
                 {{ $producto->nombre_producto }}
+                </a>
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 {{ Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble) }}

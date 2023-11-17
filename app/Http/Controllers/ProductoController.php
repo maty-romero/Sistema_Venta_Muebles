@@ -98,6 +98,12 @@ class ProductoController extends Controller
         return to_route('home');
     }
 
+    public function admShow(string $id)
+    {
+        $producto = Producto::findOrFail($id);
+        return view('administrador.productos.show', ['producto' => $producto]);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
