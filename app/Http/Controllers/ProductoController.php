@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductoRequest;
 use App\Models\Venta;
 use App\Models\Oferta;
 use App\Models\OfertaCombo;
@@ -42,9 +41,19 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductoRequest $request)
     {
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'nombre_producto' => 'required|unique:productos|max:100',
+            'descripcion' => 'nullable|max:500',
+            "stock" => "required|min:1",
+            "precio_producto" => "required|min:1",
+            "id_tipo_mueble" => "required",
+            'largo' => "required|min:1",
+            'ancho' => "required|min:1",
+            'alto' => "required|min:1",
+            'material' => "required",
+            'imagenProd' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
 
         if ($validated) {
         $fileImg = $_FILES["imagenProd"];
@@ -123,7 +132,8 @@ class ProductoController extends Controller
             'largo' => 'required|numeric|min:0',
             'ancho' => 'required|numeric|min:0',
             'cmbmaterialMueble' => 'required',
-            'imagenURL' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'imagenURL' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'precioProducto' => 'required|numeric|min:1'
         ]);
         
 
@@ -161,17 +171,19 @@ class ProductoController extends Controller
         try {
             $request->validate([
                 'stock' => 'required|min:1|numeric',
-                'precio' => 'required|numeric|min:0',
+                'precio' => 'required|numeric|min:1',
             ]);
-            
 
             $producto = Producto::find($idProducto);
             $nuevoStock = $producto->stock + $request->input('stock');
             $nuevoPrecio = $request->input('precio');
+
             $producto->update([
                 'stock' => $nuevoStock,
-                'precio' => $nuevoPrecio
+                'precio_producto' => $nuevoPrecio
             ]);
+
+            
             return redirect()->back()->with('success_stock_precio', 'Se ha actualizado stock y/o precio exitosamente');
 
        } catch (\Exception $e) {

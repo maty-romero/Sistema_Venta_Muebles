@@ -128,9 +128,9 @@ Editar producto
     <form id="idFrmPsw" method="POST" action='{{ route('producto_updateStock', $producto) }}'>
         @csrf
         <p class="font-poppins text-1g">Agregar stock</p>
-        <input type="number" name="stock" value='1' min='1' id="" class="rounded-md mb-5">
+        <input type="number" name="stock" value='1' min='1' id="stock" class="rounded-md mb-5">
         <p class="font-poppins text-1g">Actualizar Precio</p>
-        <input type="number" name="precio" class="rounded-md mb-5" value="{{ $producto->precio_producto }}">
+        <input type="number" id='precio' name="precio" step="0.01" class="rounded-md mb-5" value="{{ $producto->precio_producto }}">
         <div class='mt-4 flex items-center justify-end'>
             <button type='submit' class='py-3 px-6 rounded-lg text-center font-sans text-sm font-bold bg-green-500 text-white hover:bg-green-600 transition-all'>Confirmar</button>
         </div>
