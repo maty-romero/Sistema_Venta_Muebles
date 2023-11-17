@@ -124,7 +124,7 @@ class ProductoController extends Controller
         if ($validated) {
             $producto = Producto::find($idProducto);
 
-            if ($_FILES["imagenProdEdit"]["name"] != null && $_FILES["imagenProdEdit"]["name"] != '') {
+            if (isset($_FILES["imagenProdEdit"]) && $_FILES["imagenProdEdit"]["name"] != null && $_FILES["imagenProdEdit"]["name"] != '') {
                 $fileImg = $_FILES["imagenProdEdit"];
                 $imagenURL = 'images/productos/' . basename($fileImg["name"]);
                 move_uploaded_file($fileImg["tmp_name"], public_path($imagenURL));
@@ -290,7 +290,8 @@ class ProductoController extends Controller
                     "infoContenidoCombo" => $tempProductoArray,
                     "nombreCombo" => $comboInfo->nombre_combo,
                     "descuentoCombo" => $combo->porcentaje_descuento,
-                    "precioTotal" => $precioTotal
+                    "precioTotal" => $precioTotal,
+                    "imagenURL" => $comboInfo->imagenURL
                 ];
 
                 array_push($arrayProductosCombos, $comboCompleto);

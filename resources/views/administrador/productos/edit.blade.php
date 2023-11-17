@@ -85,7 +85,8 @@ Editar producto
     @enderror
 
     <p>Material</p>
-    <select name="cmbmaterialMueble" class="font-poppins w-[190px] text-1g rounded-md mb-5" value="{{ $producto->material }}">
+    <select name="cmbmaterialMueble" class="font-poppins w-[190px] text-1g rounded-md mb-5">
+        <option value="{{ $producto->material }}">{{Str::ucfirst($producto->material)}}</option>
         <option value="madera">Madera</option>
         <option value="acero">Acero</option>
         <option value="aluminio">Aluminio</option>

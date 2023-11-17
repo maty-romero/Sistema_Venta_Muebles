@@ -9,6 +9,7 @@ function formularioPorTipo() {
             document.getElementById('seleccionProds').style.display = "block";
             document.getElementById('encTabla').style.display = "block";
             document.getElementById('tablaProds').style.display = "block";
+            setTabla('unitaria');
             break;
         case 'tipo':
             document.getElementById('nombreCombo').style.display = "none";
@@ -27,6 +28,7 @@ function formularioPorTipo() {
             document.getElementById('seleccionProds').style.display = "block";
             document.getElementById('encTabla').style.display = "block";
             document.getElementById('tablaProds').style.display = "block";
+            setTabla('combo');
             break;
         case 'monto':
             document.getElementById('nombreCombo').style.display = "none";
@@ -101,7 +103,7 @@ function limpiarLista(){
         btns[i].disabled = false;
         btns[i].innerHTML = 'Agregar';
         btns[i].style.backgroundColor = '#1f2937';
-        document.getElementsByClassName('inpCant')[i].value = 0;
+        document.getElementsByClassName('inpCant')[i].value = 1;
     };
 }
 
@@ -113,4 +115,20 @@ function eliminarProducto(id){
     btnAgregar.disabled = false;
     btnAgregar.innerHTML = 'Agregar';
     btnAgregar.style.backgroundColor = '#1f2937';
+}
+
+function setTabla(tipo){
+    var btnsInc = document.getElementsByClassName('btnInc');
+    var btnsDrc = document.getElementsByClassName('btnDrc');
+    if(tipo == 'unitaria'){
+        for(var i = 0; i < btnsInc.length; i++){
+            btnsInc[i].disabled = true;
+            btnsDrc[i].disabled = true;
+        }
+    } else {
+        for(var i = 0; i < btnsInc.length; i++){
+            btnsInc[i].disabled = false;
+            btnsDrc[i].disabled = false;
+        }
+    }
 }
