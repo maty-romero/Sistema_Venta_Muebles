@@ -1,8 +1,6 @@
 window.addEventListener("DOMContentLoaded", () => {
     const selector = document.getElementById("tipoReporte");
     const inputContainer = document.getElementById("input-container");
-    const fechaInicio = document.getElementById("fechaInicio");
-    const fechaFin = document.getElementById("fechaFin");
     const error = document.getElementById("error-reporte");
     selector.addEventListener("change", () => {
         if (selector.value === "VC") {
@@ -35,7 +33,9 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     fechaInicio.addEventListener("change", function () {
-        if (fechaInicio.value !== "" && fechaFin.value !== "") {
+        const fechaInicio = document.getElementById("fechaInicio");
+        const fechaFin = document.getElementById("fechaFin");
+        if (fechaInicio.value != "" && fechaFin.value != "") {
             if (fechaInicio.value >= fechaFin.value) {
                 error.innerHTML = "";
                 error.innerHTML = "El rango de fechas debe ser valido.";
@@ -46,7 +46,9 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     fechaFin.addEventListener("change", function () {
-        if (fechaInicio.value !== "" && fechaFin.value !== "") {
+        const fechaInicio = document.getElementById("fechaInicio");
+        const fechaFin = document.getElementById("fechaFin");
+        if (fechaInicio.value != "" && fechaFin.value != "") {
             if (fechaInicio.value >= fechaFin.value) {
                 error.innerHTML = "";
                 error.innerHTML = "El rango de fechas debe ser valido.";
@@ -58,7 +60,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
     formReporte.addEventListener("submit", function (event) {
         event.preventDefault();
-
+        const fechaInicio = document.getElementById("fechaInicio");
+        const fechaFin = document.getElementById("fechaFin");
         if (fechaInicio.value >= fechaFin.value) {
             error.innerHTML = "El rango de fechas debe ser valido.";
         } else {

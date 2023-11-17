@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Productos_Mas_Vendidos" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="e9bb1a27-f975-4aa4-98f9-75524c5daafa">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="220"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="769"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="Fecha_inicio" class="java.lang.String"/>
+	<parameter name="Fecha_fin" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT COUNT(*) AS numero_ventas,ofertas.fecha_inicio_oferta,ofertas.fecha_fin_oferta,producto_venta.id_oferta AS numero_oferta,ofertas.porcentaje_descuento
+FROM producto_venta
+LEFT JOIN ventas ON producto_venta.id_venta = ventas.id
+LEFT JOIN ofertas ON producto_venta.id_oferta = ofertas.id
+WHERE ventas.fecha_venta BETWEEN $P{Fecha_inicio} AND  $P{Fecha_fin} 
+GROUP BY producto_venta.id_oferta
+ORDER BY  numero_ventas DESC]]>
+	</queryString>
+	<field name="numero_ventas" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="numero_ventas"/>
+		<property name="com.jaspersoft.studio.field.label" value="numero_ventas"/>
+	</field>
+	<field name="fecha_inicio_oferta" class="java.util.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_inicio_oferta"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_inicio_oferta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ofertas"/>
+	</field>
+	<field name="fecha_fin_oferta" class="java.util.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_fin_oferta"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_fin_oferta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ofertas"/>
+	</field>
+	<field name="numero_oferta" class="java.math.BigInteger">
+		<property name="com.jaspersoft.studio.field.name" value="id_oferta"/>
+		<property name="com.jaspersoft.studio.field.label" value="numero_oferta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="producto_venta"/>
+	</field>
+	<field name="porcentaje_descuento" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="porcentaje_descuento"/>
+		<property name="com.jaspersoft.studio.field.label" value="porcentaje_descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ofertas"/>
+	</field>
+	<background>
+		<band height="822" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="800" width="105" height="22" forecolor="#666666" backcolor="#666666" uuid="58048a65-569d-454e-b6dd-f3bb46c94ee3"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="0" y="2" width="104" height="20" forecolor="#000000" uuid="e06a687c-0f3f-4451-a45e-f88c505ba589"/>
+					<box leftPadding="4" rightPadding="4"/>
+					<textElement textAlignment="Center">
+						<font size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</background>
+	<title>
+		<band height="110" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="3" width="553" height="57" backcolor="#030303" uuid="a2f4b05f-40e9-40f1-a673-f127cd9a5359"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="Title" x="0" y="3" width="553" height="57" forecolor="#FFFFFF" uuid="524767a9-e7e5-4041-9b08-5a7210b38e22"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="40" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ofertas más vendidas]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="60" width="555" height="50" forecolor="#666666" uuid="53ec4907-b6bc-42ad-89f7-35c3e75a011d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="26"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Desde el " + $P{Fecha_inicio}  + " al " + $P{Fecha_fin}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="5" width="554" height="20" backcolor="#666666" uuid="eb0fefed-b830-492b-a0c9-ec23411537a7"/>
+				<staticText>
+					<reportElement x="2" y="0" width="82" height="20" forecolor="#FFFFFF" uuid="6e3da373-2140-4707-b420-1ded022e6cb1"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Nro Ventas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="0" width="94" height="20" forecolor="#FFFFFF" uuid="78b29863-daf3-4535-9a42-b5f4f2b63dd7"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Fecha inicio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="300" y="0" width="120" height="20" forecolor="#FFFFFF" uuid="11a179d0-6090-465d-93d4-30083a60404f"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Fecha fin de oferta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="420" y="0" width="132" height="20" forecolor="#FFFFFF" uuid="354fced8-8c04-4494-a240-bfcdfe4e4873"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Número oferta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="182" y="0" width="118" height="20" forecolor="#FFFFFF" uuid="3222ad5a-ceeb-4d25-9c4e-bb0461ec17eb"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Fecha inicio de oferta]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="554" height="18" uuid="5d75be3e-ea39-4b96-baf8-b49497315044">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textField>
+					<reportElement x="2" y="0" width="82" height="14" uuid="c5b3d235-314d-4558-b892-e5b484a2a255">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="68094530-13a2-481e-8530-19482a559f92"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{numero_ventas}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="300" y="0" width="120" height="14" uuid="6f10bd5a-01cf-4554-9356-8aa6aa187484">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{fecha_fin_oferta}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="420" y="0" width="132" height="14" uuid="3da4470b-8c6f-4cae-9e78-438961b6e588">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="09a8289f-6ae9-4ffb-8377-1496eb53e026"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{numero_oferta}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="15" width="553" height="1" forecolor="#ABABAB" uuid="1bb74eb1-929c-4f5c-9a33-270080ac19d6">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+				<textField>
+					<reportElement x="182" y="0" width="118" height="14" uuid="6f52576d-fb67-4b83-9d33-49975fdd5c31">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{fecha_inicio_oferta}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="85" y="0" width="94" height="14" uuid="1e2d1d4b-5e32-49ec-bcc2-4a464a675019">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{porcentaje_descuento}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="100" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
