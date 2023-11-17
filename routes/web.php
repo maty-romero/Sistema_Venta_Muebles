@@ -76,7 +76,8 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::patch('/ofertas/{ofertas}', [OfertaController::class, 'update'])->name('administrador_update_ofertas');
 
     //Rutas reportes
-    Route::view('/reportes', 'administrador.reportes.index')->name('administrador_reportes');
+    Route::get('/reportes',  [ReporteController::class, "index"])->name('administrador_reportes');
+    Route::get('/reportes/{id}',  [ReporteController::class, "index"])->name('administrador_reportes_cliente');
     Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
 });
 

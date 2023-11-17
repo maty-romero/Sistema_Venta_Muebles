@@ -59,5 +59,14 @@ class DatabaseSeeder extends Seeder
         foreach ($usuarios as $user) {
             User::create($user);
         }
+
+        Cliente::create([
+            'nombre_cliente' => 'sebastian',
+            'tipo_cliente' => 'juridico',
+            'dni_cuit' => "386689961",
+            'codigo_postal_cliente' => "515342141409",
+            "nro_telefono" => "212314211251",
+            'id_usuario_cliente' => "11"
+        ]);
     }
 }

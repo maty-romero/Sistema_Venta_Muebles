@@ -6,6 +6,7 @@
         </div>
         <img class="h-60 w-full object-cover object-center  rounded-xl" src="{{asset($combo['imagenURL'])}}" alt="Combo Image" />
         <div class="flex-col items-center mt-6">
+            <p class="mt-1 text-sm font-medium text-gray-400 capitalize">Combo</p>
             <p class="text-base font-medium text-black dark:text-gray-300 capitalize">{{$combo["nombreCombo"]}}</p>
             <p class=" text-xs font-semibold text-[#5690FF] line-through">${{$combo["precioTotal"]}}</p>
             <p class=" text-base font-semibold text-[#5690FF] ">

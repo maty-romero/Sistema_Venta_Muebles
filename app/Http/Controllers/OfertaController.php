@@ -105,7 +105,7 @@ class OfertaController extends Controller
             ],
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return back()->withErrors($validator);
         }
 
@@ -143,16 +143,20 @@ class OfertaController extends Controller
 
         $oferta = Oferta::find($id);
         $queryProducto = "";
-        foreach ($oferta->producto as $producto) {
+        foreach ($oferta->producto as $producto) {   // TODOS LOS PRODUCTOS QUE POSEEN LA OFERTA A EDITAR
             $queryProducto .= "id_producto={$producto->id} OR ";
         }
         $queryProducto = substr($queryProducto, 0, -4);
+
+        // SELECCIONO TODAS LAS OFERTAS QUE TENGAN LOS PRODUCTOS ALCANZADOS POR LA OFERTA Y SE ENCUENTREN CON FECHA SUPERPUESTA
 
         $controlSuperposicion = DB::select("SELECT * FROM ofertas LEFT JOIN oferta_producto ON oferta_producto.id_oferta=ofertas.id  
         WHERE ((ofertas.fecha_inicio_oferta  BETWEEN '$inicio' AND '$fin') 
         OR (ofertas.fecha_fin_oferta BETWEEN '$inicio' AND '$fin')) 
         AND ($queryProducto) AND ofertas.id != $producto->id");
 
+
+        // SI HAY COINCIDENCIAS NOTIFICO
 
         if (count($controlSuperposicion) > 0) {
             session()->flash('error_oferta', 'Existe un conflicto de fechas');

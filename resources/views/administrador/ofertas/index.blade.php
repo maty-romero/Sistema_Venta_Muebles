@@ -39,34 +39,27 @@ Ofertas
 <div id="contenedorTablaOfertas" class="w-full">
 
     <div class="w-full">
-        <x-custom.table
-            :columnas="['Nombre Oferta', 'Descuento', 'Inicio de Vigencia', 'Fin de Vigencia', 'Modificacion', '']">
+        <x-custom.table :columnas="['Nombre Oferta', 'Descuento', 'Inicio de Vigencia', 'Fin de Vigencia', 'Modificacion', '']">
             @foreach ($ofertas as $oferta)
             <tr>
-                <td
-                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                     {{$oferta->oferta_combo && count($oferta->oferta_combo) > 0 ? $oferta->oferta_combo[0]->nombre_combo
                     :
                     ''}}
                 </td>
-                <td
-                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                     {{$oferta->porcentaje_descuento}}%
                 </td>
-                <td
-                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                     {{$oferta->fecha_inicio_oferta}}
                 </td>
-                <td
-                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                     {{$oferta->fecha_fin_oferta}}
                 </td>
-                <td
-                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left  hover:underline text-lg font-semibold text-gray-900">
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left  hover:underline text-lg font-semibold text-gray-900">
                     <a href="{{ route('administrador_edit_ofertas', $oferta) }}">Modificar</a>
                 </td>
-                <td
-                    class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold hover:underline text-gray-900">
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold hover:underline text-gray-900">
                     <a href="#">Eliminar</a>
                 </td>
             </tr>

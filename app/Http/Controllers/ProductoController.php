@@ -8,6 +8,7 @@ use App\Models\Venta;
 use App\Models\Oferta;
 use App\Models\OfertaCombo;
 use App\Models\Producto;
+use App\View\Components\saleItem;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -59,9 +60,9 @@ class ProductoController extends Controller
         ]);
 
         if ($validated) {
-        $fileImg = $_FILES["imagenProd"];
-        $imagenURL = 'images/productos/'.basename($fileImg["name"]);
-        move_uploaded_file($fileImg["tmp_name"], public_path($imagenURL));
+            $fileImg = $_FILES["imagenProd"];
+            $imagenURL = 'images/productos/' . basename($fileImg["name"]);
+            move_uploaded_file($fileImg["tmp_name"], public_path($imagenURL));
 
             $producto = Producto::create([
                 'nombre_producto' => $request->input('nombre_producto'),
@@ -119,13 +120,13 @@ class ProductoController extends Controller
     public function update(UpdateProductoRequest $request, $idProducto)
     {
         $validated = $request->validated();
-        
+
         if ($validated) {
             $producto = Producto::find($idProducto);
 
-            if($_FILES["imagenProdEdit"]["name"] != null && $_FILES["imagenProdEdit"]["name"] != ''){
+            if ($_FILES["imagenProdEdit"]["name"] != null && $_FILES["imagenProdEdit"]["name"] != '') {
                 $fileImg = $_FILES["imagenProdEdit"];
-                $imagenURL = 'images/productos/'.basename($fileImg["name"]);
+                $imagenURL = 'images/productos/' . basename($fileImg["name"]);
                 move_uploaded_file($fileImg["tmp_name"], public_path($imagenURL));
             } else {
                 $imagenURL = $producto->imagenURL;
@@ -150,12 +151,14 @@ class ProductoController extends Controller
         return redirect()->back();
     }
 
-    public function update_stock_producto(Request $request, $idProducto){
+    public function update_stock_producto(Request $request, $idProducto)
+    {
         try {
             $request->validate([
                 'stock_producto' => 'required|min:1|numeric',
                 'precio_producto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1']
             ]);
+
 
             $producto = Producto::find($idProducto);
             $nuevoStock = $producto->stock + $request->input('stock_producto');
@@ -165,12 +168,11 @@ class ProductoController extends Controller
                 'precio_producto' => $nuevoPrecio
             ]);
 
-            
-            return redirect()->back()->with('success_stock_precio', 'Se ha actualizado stock y/o precio exitosamente');
 
-       } catch (\Exception $e) {
-            return redirect()->back()->with('error_stock_precio', 'No se ha podido actualizar stock y/o precio: ' . $e->getMessage());  
-       }
+            return redirect()->back()->with('success_stock_precio', 'Se ha actualizado stock y/o precio exitosamente');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error_stock_precio', 'No se ha podido actualizar stock y/o precio: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -203,6 +205,7 @@ class ProductoController extends Controller
             $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $orden)->get();
             $resultados = array_merge($productos->all(), $combos);
             $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
+
 
             // paginacion
         } else  if ($filtro === "productos") {
