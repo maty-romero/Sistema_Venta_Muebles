@@ -287,7 +287,8 @@ class ProductoController extends Controller
                     "infoContenidoCombo" => $tempProductoArray,
                     "nombreCombo" => $comboInfo->nombre_combo,
                     "descuentoCombo" => $combo->porcentaje_descuento,
-                    "precioTotal" => $precioTotal
+                    "precioTotal" => $precioTotal,
+                    "imagenURL" => $comboInfo->imagenURL
                 ];
 
                 array_push($arrayProductosCombos, $comboCompleto);
