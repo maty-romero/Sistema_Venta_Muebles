@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TotalVentaSubReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c09e5bbb-472f-4620-b02b-d48ca95cfecf">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
+	<parameter name="NroVenta" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT ventas.id AS monto_final_venta,nro_pago,monto_limite_descuento,porcentaje_descuento AS monto_descuento from ventas 
+LEFT JOIN ofertas_montos ON ventas.id_oferta_monto = ofertas_montos.id_oferta_monto
+LEFT JOIN ofertas ON ofertas_montos.id_oferta_monto = ofertas.id
+where ventas.id = $P{NroVenta}]]>
+	</queryString>
+	<field name="monto_final_venta" class="java.math.BigInteger">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto_final_venta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
+	</field>
+	<field name="nro_pago" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="nro_pago"/>
+		<property name="com.jaspersoft.studio.field.label" value="nro_pago"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
+	</field>
+	<field name="monto_limite_descuento" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="monto_limite_descuento"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto_limite_descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ofertas_montos"/>
+	</field>
+	<field name="monto_descuento" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="porcentaje_descuento"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto_descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ofertas"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageFooter>
+		<band height="83" splitType="Stretch">
+			<rectangle>
+				<reportElement x="241" y="-10" width="280" height="91" uuid="30900599-4059-49a5-a7a1-e54ecc40637a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="241" y="50" width="280" height="31" forecolor="#000000" backcolor="#030303" uuid="2908b671-902d-4a65-8965-9138fbeb064c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="241" y="50" width="80" height="30" forecolor="#FFFFFF" uuid="d9dd7346-c34f-44b4-91b2-27c2a6ec42eb"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="401" y="-10" width="120" height="20" uuid="a233f750-3dca-412b-96d6-022b6ca2791b"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["#"+$F{nro_pago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="10" width="120" height="20" uuid="08322710-d15a-4cbc-a7e1-5a0a14b404b7"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[("$"+$F{monto_limite_descuento})=="$"?"NO APLICA":"$"+$F{monto_limite_descuento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="50" width="200" height="30" forecolor="#FFFFFF" uuid="cd5bc1dd-b288-478b-936e-c326297d66d4"/>
+				<textElement textAlignment="Right">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["$"+$F{monto_final_venta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="301" y="-10" width="100" height="20" uuid="cffae6b5-4818-45e1-bcce-e44d7c33800f"/>
+				<text><![CDATA[Nro. de pago:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="10" width="100" height="20" uuid="b9594ce8-ed3b-4e9b-80fe-fc30e60f0d28"/>
+				<text><![CDATA[Descuento por monto]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="401" y="30" width="120" height="20" uuid="f7d52609-b20b-4773-b261-3564e5cd69f4"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[("%"+$F{monto_descuento})=="%"?"NO APLICA":"%"+$F{monto_descuento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="301" y="30" width="100" height="20" uuid="d85010fc-130f-4bee-8edf-219dc5fdedc4"/>
+				<text><![CDATA[Porcentaje por monto]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

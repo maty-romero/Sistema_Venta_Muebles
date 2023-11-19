@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Cliente;
+use App\Models\Venta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use PHPJasper\PHPJasper;
 use Illuminate\Support\Facades\DB;
 use function PHPUnit\Framework\isEmpty;
@@ -23,7 +24,7 @@ class ReporteController extends Controller
     }
 
 
-    public function ReporteRedirect(Request $request)
+    public function reporteRedirect(Request $request)
     {
 
 
@@ -149,6 +150,74 @@ class ReporteController extends Controller
         //     return response(["error" => "No hay resultados para generar el reporte seleccionado."]);
         // }
     }
+
+
+    public function comprobante(string $comprobante)
+    {
+
+
+        $ventaCheck = Venta::where("id", $comprobante)->where("id_usuario_cliente", Auth::user()->cliente->id_usuario_cliente)->get();
+
+
+        if (count($ventaCheck) === 0) {
+            return abort(404);
+        }
+
+        $jasper = new PHPJasper();
+
+
+        $input = base_path() . '\database\reportes\VentaTotalSubReport.jrxml';
+
+        $jasper->compile($input)->execute();
+
+        $input = base_path() . '\database\reportes\InfoVentaSubReport.jrxml';
+
+        $jasper->compile($input)->execute();
+
+
+        $path_subreport = base_path() . '//database//reportes/';
+
+        $input = base_path() . '\database\reportes\FacturaCliente.jrxml';
+
+        $output = base_path() . '\database\reportes\output\FacturaCliente';
+
+
+
+
+        $options = [
+            'format' => ['pdf'],
+            'locale' => 'en',
+            'params' => [
+                'NroVenta' => $comprobante,
+                "SubReportPath" => $path_subreport
+            ],
+            'db_connection' => [
+                //datos conexión base
+                'driver' => 'mysql',
+                'host' => '127.0.0.1',
+                'port' => '3306',
+                'database' => 'muebleApp',
+                'username' => 'root',
+
+            ],
+        ];
+
+
+
+
+
+        $jasper->compile($input)->execute();
+
+
+
+
+        $jasper->process($input, $output, $options)->execute();
+
+        $pathToFile = base_path() . '\database\reportes\output\FacturaCliente.pdf';
+
+        return response()->file($pathToFile);
+    }
+
 
 
     public function ReporteProductosMasVendidos(Request $request)

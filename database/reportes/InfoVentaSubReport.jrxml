@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InfoVentaSubReport" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#EEEFF0"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#CACED0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#D8D8D8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="tableDataset" uuid="f13e6d36-5148-4ecc-bbe3-3035def80980">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="NroVenta" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT ventas.id AS nro_venta,nombre_cliente,tipo_cliente,dni_cuit,fecha_venta,monto_final_venta,nro_pago,codigo_postal_destino,domicilio_destino,monto_limite_descuento,porcentaje_descuento AS monto_descuento from ventas 
+LEFT JOIN clientes ON ventas.id_usuario_cliente = clientes.id_usuario_cliente
+LEFT JOIN ofertas_montos ON ventas.id_oferta_monto = ofertas_montos.id_oferta_monto
+LEFT JOIN ofertas ON ofertas_montos.id_oferta_monto = ofertas.id
+where ventas.id = $P{NroVenta}]]>
+	</queryString>
+	<field name="nro_venta" class="java.math.BigInteger">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="nro_venta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
+	</field>
+	<field name="nombre_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+	</field>
+	<field name="tipo_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+	</field>
+	<field name="dni_cuit" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="dni_cuit"/>
+		<property name="com.jaspersoft.studio.field.label" value="dni_cuit"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+	</field>
+	<field name="fecha_venta" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_venta"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_venta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
+	</field>
+	<field name="monto_final_venta" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="monto_final_venta"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto_final_venta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
+	</field>
+	<field name="nro_pago" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="nro_pago"/>
+		<property name="com.jaspersoft.studio.field.label" value="nro_pago"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
+	</field>
+	<field name="codigo_postal_destino" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="codigo_postal_destino"/>
+		<property name="com.jaspersoft.studio.field.label" value="codigo_postal_destino"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
+	</field>
+	<field name="domicilio_destino" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="domicilio_destino"/>
+		<property name="com.jaspersoft.studio.field.label" value="domicilio_destino"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
+	</field>
+	<field name="monto_limite_descuento" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="monto_limite_descuento"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto_limite_descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ofertas_montos"/>
+	</field>
+	<field name="monto_descuento" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="porcentaje_descuento"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto_descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ofertas"/>
+	</field>
+	<title>
+		<band height="199" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="90" width="180" height="25" uuid="57aed2b1-4f4e-40a3-a6ad-54dae8dd4c5a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="115" width="65" height="15" uuid="33274f5d-5b7e-4be2-a2ff-65d452a618ed"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="80" width="556" height="1" uuid="806ce5df-1219-4876-ae0c-ca7405b1f246">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="360" y="90" width="196" height="25" uuid="139ebe8d-25b0-411e-986c-270015400874">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entregado en]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="10" width="90" height="20" uuid="0f86baff-6386-4f3f-b3fe-2388707babe8"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[FECHA DE VENTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="30" width="90" height="20" uuid="0b3f9342-da78-4cfa-9fc5-2301c4749678"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[NRO. DE VENTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="0" width="210" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Muebles patagonia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="55" width="205" height="15" uuid="b8cc42fd-b569-497d-834d-7e854040ad18"/>
+				<text><![CDATA[Phone number, web address, ecc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="25" width="205" height="15" uuid="c226e44d-3bb5-4145-b0b3-903bf1d79fde"/>
+				<text><![CDATA[Street address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="40" width="205" height="15" uuid="b96f7183-44f8-43ad-ba60-43d8fbf50b6e"/>
+				<text><![CDATA[City, street, ZIP code]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="470" y="30" width="86" height="20" uuid="51799dd5-8218-48c9-b281-13167822ff0e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["#"+$F{nro_venta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="10" width="86" height="20" uuid="754a561a-56de-454a-a72a-804b58ff8afe"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_venta}.substring(8,10)+"-"+$F{fecha_venta}.substring(5,7)+"-"+$F{fecha_venta}.substring(0,4)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="115" width="115" height="15" uuid="89944875-85a0-4162-8b1c-6346c3500ea2"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="115" width="126" height="15" uuid="d3f817d2-af70-4a71-b6ee-0c2faa0151b2"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{domicilio_destino}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="130" width="126" height="15" uuid="03076dab-1de9-4690-b3e5-36da75258419"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{codigo_postal_destino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="360" y="115" width="70" height="15" uuid="1be65c8a-06c4-4b39-afa8-bbffe799099f"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="130" width="70" height="15" uuid="0f93419c-4091-4b5b-a934-1a2e92162ae5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Codigo postal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="130" width="65" height="15" uuid="bc391697-4cbc-429d-a995-9b6bdb3abf51"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Personería:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="65" y="130" width="115" height="15" uuid="044fd9ca-9d7d-48e1-b526-6647d13ff19d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo_cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="145" width="65" height="15" uuid="ea68ee0d-f125-4e3f-9186-f8f233ac215e"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI/CUIT:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="65" y="145" width="115" height="15" uuid="f44af770-42be-4cb9-a069-f00246fce1ee"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dni_cuit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

@@ -21,7 +21,7 @@ Route::get("/searchVenta", [VentaController::class, 'searchVenta']);
 
 Route::view('/registrar/cliente', 'cliente.registro')->name('cliente_create');
 Route::post('/registrar/cliente/guardar', [UsuarioController::class, 'store'])->name('cliente_store');
-Route::view('/usuario/login', 'cliente.login')->name('cliente_login'); 
+Route::view('/usuario/login', 'cliente.login')->name('cliente_login');
 
 Route::middleware('soloCliente')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,10 +30,13 @@ Route::middleware('soloCliente')->group(function () {
     Route::get('/perfilCliente', [UsuarioController::class, 'show'])->name('cliente_show');
     Route::post('/perfilCliente/cambioContrasenia', [UsuarioController::class, 'update_psw'])->name('cliente_cambio_contrasenia');
     Route::patch('/perfilCliente/cambiosPerfil', [UsuarioController::class, 'update'])->name('cliente_cambio_perfil');
-    
+
     //Rutas de ventas para cliente  
     Route::get('/detalleVenta/{idVenta}', [VentaController::class, 'show'])->name('cliente_show_venta');
     Route::post('/venta/registrar/{idCliente}', [VentaController::class, 'store'])->name('registrar_venta');
+
+    //Reporte Venta
+    Route::get('/reportes/comprobanteVenta/{nroComprobante}',  [ReporteController::class, "comprobante"])->name('cliente_comprobante_compra');
 });
 
 //Rutas del carrito
@@ -68,7 +71,7 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('administrador_delete_producto');
 
     Route::get('/productos/{idProd}', [ProductoController::class, 'admShow'])->name('administrador_producto_show');
-    
+
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
 
     Route::get('/ofertas', [OfertaController::class, 'index'])->name('administrador_ofertas');
@@ -80,7 +83,9 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     //Rutas reportes
     Route::get('/reportes',  [ReporteController::class, "index"])->name('administrador_reportes');
     Route::get('/reportes/{id}',  [ReporteController::class, "index"])->name('administrador_reportes_cliente');
-    Route::post("/reporteRedirect", [ReporteController::class, "ReporteRedirect"])->name("reporteRedirect");
+
+    Route::post("/reporteRedirect", [ReporteController::class, "reporteRedirect"])->name("reporteRedirect");
 });
 
 require __DIR__ . '/auth.php';
+// cliente_comprobante_compra
