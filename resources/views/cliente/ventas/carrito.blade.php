@@ -72,11 +72,10 @@
                         </div>
                 
                         <hr class="my-2">
-                
+                        {{-- Totales --}}
                         @if (isset($ofertaMonto->porcentaje_descuento))
                             @php
                                 $descuentoMonto = ($subtotal * $ofertaMonto->porcentaje_descuento) / 100;
-                                $totalFinal = $subtotal - $descuentoMonto; // Final de la compra
                                 $subTotalSinDescuento = $subtotal + $descuentoMonto; // Antes del descuento
                             @endphp
                 
@@ -87,7 +86,7 @@
                                 <span class="text-base">Descuento monto: -@money($descuentoMonto) ({{ $ofertaMonto->porcentaje_descuento }})%</span>
                             </div>
                             <div class="flex justify-between mb-2">
-                                <span class="font-semibold text-base">Total @money($totalFinal)</span>
+                                <span class="font-semibold text-base">Total @money($subtotal)</span>
                             </div>
                         @else
                             <div class="flex justify-between mb-2">
