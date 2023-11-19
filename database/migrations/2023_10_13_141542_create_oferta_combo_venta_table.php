@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('id_venta')->references('id')->on('ventas');
             $table->unsignedBigInteger('id_oferta_combo');
             $table->foreign('id_oferta_combo')->references('id_oferta_combo')->on('oferta_combo');
+            $table->softDeletes();
         });
     }
 
