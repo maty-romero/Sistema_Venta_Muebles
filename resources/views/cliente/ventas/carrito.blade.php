@@ -113,7 +113,6 @@
                                                 <option></option>
                                                 <option>Tarjeta de crédito</option>
                                                 <option>Tarjeta de débito</option>
-                                                <option>Mercado Pago</option>
                                             </select>
                                         </div>
                                         <div class='mt-4'>
@@ -121,11 +120,58 @@
                                             <input id='nroTarjeta' type='number' name='nroTarjeta' required
                                                 class='block w-full mt-1 border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
                                         </div>
+                                        <div class='mt-4'>
+                                        <label class='block font-medium text-base text-zinc-700'>Fecha de Caducidad</label>
+                                            <table>
+                                                <tr>
+                                                <td><label class='block font-medium text-base text-zinc-700'>Mes</label></td>
+                                                <td><label class='block font-medium text-base text-zinc-700'>Año</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><select id='mes' name='mes' required
+                                                class='block w-full mt-1 border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                                <option>11</option>
+                                                <option>12</option>
+                                            </select></td>
+                                            <td><select id='ano' name='ano' required
+                                                class='block w-full mt-1 border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm '>
+                                                <option>2023</option>
+                                                <option>2024</option>
+                                                <option>2025</option>
+                                                <option>2026</option>
+                                                <option>2027</option>
+                                                <option>2028</option>
+                                                <option>2029</option>
+                                            </select></td>
+                                                </tr>
+                                                <td>
+                                                <div class='mt-4 flex items-center justify-end'>
+                                        <span class="text-base">Total a pagar: @money($subtotal)</span>
+                                                </td>
+                                            </table><br>
+                                        
+                                        
+                                            
+                                            
+                                            
+                                        </div>
+                                        
                                         <!-- Datos del envío -->
                                         <input type="hidden" name="codPostalHidden" id="codPostalHidden" value="">
                                         <input type="hidden" name="direccionDestinoHidden" id="direccionDestinoHidden" value="">
                 
-                                        <div class='mt-4 flex items-center justify-end'>
+                                        
+
                                             <button type='submit'
                                                 class='inline-flex items-center px-4 py-2 bg-zinc-700 hover:bg-zinc-500 border border-transparent rounded-md font-semibold text-base text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'>Realizar
                                                 pago</button>
