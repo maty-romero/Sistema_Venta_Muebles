@@ -41,42 +41,43 @@ Productos
 </div>
 
 <div class="w-full">
-    <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion']">
+    <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion', '']">
         @foreach ($products as $producto)
 
 
         <tr>
-            <td
-                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900 hover:underline">
-                <a href='{{route(' administrador_producto_show', $producto->id)}}'>
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
+                <a href='{{ route('administrador_producto_show', $producto->id) }}'>
                     {{ $producto->nombre_producto }}
                 </a>
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 {{ Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble) }}
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 @if ($producto->discontinuado)
-                Si
+                    Si
                 @else
-                No
+                    No
                 @endif
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                @money($producto->precio_producto)</td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+                @money($producto->precio_producto)
+            </td>
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 {{ $producto->stock }}
             </td>
-            <td
-                class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left hover:underline text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center hover:underline text-lg font-semibold text-gray-900">
                 <a href="{{ route('administrador_edit_producto', $producto) }}">Editar</a>
-
+            </td>
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center hover:underline text-lg font-semibold text-gray-900">
                 <form action="{{ route('administrador_delete_producto', $producto) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit">Eliminar</button>
                 </form>
             </td>
+            
         </tr>
         @endforeach
     </x-custom.table>
