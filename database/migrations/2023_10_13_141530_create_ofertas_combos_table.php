@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('id_oferta_combo');
             $table->foreign('id_oferta_combo')->references('id')->on('ofertas');
+            $table->softDeletes();
         });
     }
 

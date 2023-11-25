@@ -1,6 +1,6 @@
 <!-- component -->
 <div class='my-2'>
-  <div class="container mx-auto flex flex-wrap overflow-hidden h-[150px] bg-white shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
+  <div class="container mx-auto flex flex-wrap overflow-hidden bg-white shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
     <div class="container mx-auto flex flex-wrap w-1/4">
       <img alt="ItemCarrito" class="w-3/4 mx-auto object-cover border-0 object-center border border-gray-200" src="{{ asset($item->elemento->imagenURL) }}">
     </div>

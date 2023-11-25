@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('nombre_tipo_mueble', ['exterior', 'interior']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

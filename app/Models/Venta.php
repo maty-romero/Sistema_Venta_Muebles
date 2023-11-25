@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 use stdClass;
 
 class Venta extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     //campos solicitados al momento de enviar el request
     protected $fillable = [
@@ -243,7 +243,7 @@ class Venta extends Model
 
     public static function realizarPago()
     {   //Simula la aceptación o no del pago
-        return true;
+        //return true;
         return rand(0, 1);
     }
 }

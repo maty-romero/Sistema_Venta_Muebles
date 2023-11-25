@@ -33,11 +33,13 @@ class VentaController extends Controller
      */
     public function store(Request $request, $idCliente)
     {
+        //dd($request);
+        
         $request = new Request();
         $request->setLaravelSession(session());
         if (Venta::hayStockCarrito()) {
             if (Venta::realizarPago()) {
-                $idVenta = Venta::finalizarVenta($idCliente, request()->codPostal, request()->direccionDestino);
+                $idVenta = Venta::finalizarVenta($idCliente, request()->codPostalHidden, request()->direccionDestinoHidden);
                 $request->session()->put('ofertaMonto', null);
                 //Debería devolver la vista del detalle de venta
                 return to_route('cliente_show_venta', $idVenta);
@@ -52,6 +54,7 @@ class VentaController extends Controller
             $ofertaMonto = null;
         }
         return view("cliente.ventas.carrito", ['msj' => $msj, 'subtotal' => Venta::calcularSubtotal(), 'carrito' => Venta::getCarrito(), 'ofertaMonto' => $ofertaMonto]);
+        /**/
     }
 
     public function show(string $idVenta)

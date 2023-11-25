@@ -17,6 +17,7 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('id_oferta_monto'); 
             $table->foreign('id_oferta_monto')->references('id')->on('ofertas');
+            $table->softDeletes();
         });
     }
 

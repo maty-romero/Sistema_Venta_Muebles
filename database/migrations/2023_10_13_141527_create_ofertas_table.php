@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('fecha_fin_oferta');
             $table->integer('porcentaje_descuento');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

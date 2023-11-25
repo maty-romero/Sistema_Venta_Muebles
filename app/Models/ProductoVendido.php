@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductoVendido extends Model
 {
 
     // TABLA RELACION CON AGREGACION
 
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     //campos solicitados al momento de enviar el request
     protected $fillable = [
         "unidades_vendidas_prod",
