@@ -19,6 +19,10 @@
 
 <body class="antialiased bg-[#FFE794] bg-pattern-image ">
     <x-custom.navbar_carrito></x-custom.navbar_carrito>
+    
+    @php
+        dump($errors);
+    @endphp
 
     <div class="min-h-screen py-8">
         <div class="container mx-auto px-4">
@@ -27,10 +31,10 @@
                 <div class="md:w-3/4">
                     <div class="bg-white rounded-lg shadow-md p-6 mb-4">
                         <!-- Contenido del carrito (puedes personalizar según tus necesidades) -->
-                        @if (isset($msj))
+                        @if (session('msj'))
                             <div class="bg-red-100 w-full border border-red-400 text-red-700 px-4 py-3 rounded relative"
                                 role="alert">
-                                <span class="block sm:inline">{{ $msj }}</span>
+                                <span class="block sm:inline">{{ session('msj') }}</span>
                             </div>
                         @endif
 
@@ -59,16 +63,29 @@
                                 <input id='codPostal' type='number' name='codPostal'
                                     value='{{ Auth::user()->cliente->codigo_postal_cliente }}' required
                                     class='w-full border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                                @error('codPostalHidden')
+                                    <br>
+                                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                @enderror
+
                             @else
-                                <input id='codPostal' type='number' name='codPostal' required
+                                <input id='codPostal' type='number' name='codPostal' value="{{old('codPostal')}}" required
                                     class='w-full border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                                @error('codPostalHidden')
+                                    <br>
+                                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                @enderror
                             @endif
                         </div>
 
                         <div>
                             <label class='block font-medium text-base text-zinc-700'>Domicilio de destino</label>
-                            <input id='direccionDestino' type='text' maxlength='100' name='direccionDestino' required
+                            <input id='direccionDestino' value="{{ old('direccionDestino') }}" type='text' maxlength='100' name='direccionDestino' required
                                 class='w-full border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                            @error('direccionDestinoHidden')
+                                <br>
+                                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <hr class="my-2">
@@ -84,7 +101,7 @@
                                 <span class="text-base">Subtotal: @money($subtotal)</span>
                             </div>
                             <div class="flex justify-between mb-2">
-                                <span class="text-base">Descuento monto: -@money($descuentoMonto)
+                                <span class="text-base">Descuento monto: - @money($descuentoMonto)
                                     ({{ $ofertaMonto->porcentaje_descuento }})%</span>
                             </div>
                             <div class="flex justify-between mb-2">

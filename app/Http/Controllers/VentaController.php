@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class VentaController extends Controller
 {
@@ -34,27 +35,53 @@ class VentaController extends Controller
     public function store(Request $request, $idCliente)
     {
         //dd($request);
-        
-        $request = new Request();
-        $request->setLaravelSession(session());
-        if (Venta::hayStockCarrito()) {
-            if (Venta::realizarPago()) {
-                $idVenta = Venta::finalizarVenta($idCliente, request()->codPostalHidden, request()->direccionDestinoHidden);
-                $request->session()->put('ofertaMonto', null);
-                //Debería devolver la vista del detalle de venta
-                return to_route('cliente_show_venta', $idVenta);
+        try{
+            $validator = Validator::make($request->all(), [
+                'codPostalHidden' => 'required|numeric',
+                'direccionDestinoHidden' => 'required'
+            ], [
+                'codPostalHidden.required' => 'El campo Código Postal es obligatorio.',
+                'codPostalHidden.numeric' => 'El campo Código Postal debe ser un valor numérico.',
+                'direccionDestinoHidden.required' => 'El campo Domicilio de Destino es obligatorio.'
+            ]);
+    
+            $validator->validate();
+
+            $request = new Request();
+            $request->setLaravelSession(session());
+            if (Venta::hayStockCarrito()) {
+                if (Venta::realizarPago()) {
+                    $idVenta = Venta::finalizarVenta($idCliente, request()->codPostalHidden, request()->direccionDestinoHidden);
+                    $request->session()->put('ofertaMonto', null);
+                    //Debería devolver la vista del detalle de venta
+                    return to_route('cliente_show_venta', $idVenta);
+                } else {
+                    $msj = 'Error al procesar el pago. Intente de nuevo.';
+                }
             } else {
-                $msj = 'Error al procesar el pago. Intente de nuevo.';
+                $msj = 'Error al realizar la compra. Algunos de los productos de tu carrito no tienen stock suficiente.';
             }
-        } else {
-            $msj = 'Error al realizar la compra. Algunos de los productos de tu carrito no tienen stock suficiente.';
+            $ofertaMonto = $request->session()->get('ofertaMonto');
+            if (!isset($ofertaMonto)) {
+                $ofertaMonto = null;
+            }
+            session()->flash('msj', $msj);
+            return view("cliente.ventas.carrito", ['msj' => $msj, 'subtotal' => Venta::calcularSubtotal(), 'carrito' => Venta::getCarrito(), 'ofertaMonto' => $ofertaMonto]);
+
+        } catch (ValidationException $e) {
+            $ofertaMonto = $request->session()->get('ofertaMonto');
+            if (!isset($ofertaMonto)) {
+                $ofertaMonto = null;
+            }
+            $msj = 'Error al realizar la compra. La información de envío está incompleta.';
+            session()->flash('msj', $msj); 
+            return redirect()->route('carrito', [
+                'subtotal' => Venta::calcularSubtotal(),
+                'carrito' => Venta::getCarrito(),
+                'ofertaMonto' => $ofertaMonto,
+            ])->withErrors($e->validator->errors())->withInput();
         }
-        $ofertaMonto = $request->session()->get('ofertaMonto');
-        if (!isset($ofertaMonto)) {
-            $ofertaMonto = null;
-        }
-        return view("cliente.ventas.carrito", ['msj' => $msj, 'subtotal' => Venta::calcularSubtotal(), 'carrito' => Venta::getCarrito(), 'ofertaMonto' => $ofertaMonto]);
-        /**/
+        
     }
 
     public function show(string $idVenta)
