@@ -5,13 +5,13 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
 	<parameter name="NroVenta" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT ventas.id AS monto_final_venta,nro_pago,monto_limite_descuento,porcentaje_descuento AS monto_descuento from ventas 
+		<![CDATA[SELECT ventas.monto_final_venta AS monto_final_venta,nro_pago,monto_limite_descuento,porcentaje_descuento AS monto_descuento from ventas 
 LEFT JOIN ofertas_montos ON ventas.id_oferta_monto = ofertas_montos.id_oferta_monto
 LEFT JOIN ofertas ON ofertas_montos.id_oferta_monto = ofertas.id
 where ventas.id = $P{NroVenta}]]>
 	</queryString>
-	<field name="monto_final_venta" class="java.math.BigInteger">
-		<property name="com.jaspersoft.studio.field.name" value="id"/>
+	<field name="monto_final_venta" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="monto_final_venta"/>
 		<property name="com.jaspersoft.studio.field.label" value="monto_final_venta"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
 	</field>

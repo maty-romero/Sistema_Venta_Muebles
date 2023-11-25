@@ -100,6 +100,19 @@ class Producto extends Model
             ->where('fecha_fin_oferta', '>=', $today);
     }
 
+    public function ofertaTipoValida()
+    {
+        $today = date("Y-m-d");
+        $oferta = Oferta::leftJoin('ofertas_tipos_muebles', 'ofertas.id', '=', 'ofertas_tipos_muebles.id_oferta_tipo')
+            ->where('ofertas_tipos_muebles.id_tipo_mueble', '=', $this->id_tipo_mueble)
+            ->whereDate('ofertas.fecha_inicio_oferta', '<=', $today)
+            ->whereDate('ofertas.fecha_fin_oferta', '>=', $today)
+            ->get();
+
+        return $oferta;
+    }
+
+
     public function tieneOfertaCombo(): bool
     {
         return $this->ofertaCombo()->exists();
