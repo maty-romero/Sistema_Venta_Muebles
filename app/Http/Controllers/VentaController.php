@@ -53,8 +53,8 @@ class VentaController extends Controller
                 if (Venta::realizarPago()) {
                     $idVenta = Venta::finalizarVenta($idCliente, request()->codPostalHidden, request()->direccionDestinoHidden);
                     $request->session()->put('ofertaMonto', null);
-                    //Debería devolver la vista del detalle de venta
-                    return to_route('cliente_show_venta', $idVenta);
+                    //Retorna el comprobante en pdf de la venta 
+                    return to_route('cliente_comprobante_compra', ['nroComprobante' => $idVenta]);
                 } else {
                     $msj = 'Error al procesar el pago. Intente de nuevo.';
                 }
