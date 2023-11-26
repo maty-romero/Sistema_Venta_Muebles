@@ -79,6 +79,7 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::post('/ofertas/guardar', [OfertaController::class, 'store'])->name('guardar_oferta');
     Route::get('/ofertas/editar/{oferta}', [OfertaController::class, 'edit'])->name('administrador_edit_ofertas');
     Route::patch('/ofertas/{ofertas}', [OfertaController::class, 'update'])->name('administrador_update_ofertas');
+    Route::delete('/ofertas/eliminar/{oferta}', [OfertaController::class, 'destroy'])->name('administrador_delete_ofertas');
 
     //Rutas reportes
     Route::get('/reportes',  [ReporteController::class, "index"])->name('administrador_reportes');
