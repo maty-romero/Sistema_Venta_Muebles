@@ -160,7 +160,7 @@ class OfertaController extends Controller
         $controlSuperposicion = DB::select("SELECT * FROM ofertas LEFT JOIN oferta_producto ON oferta_producto.id_oferta=ofertas.id  
         WHERE ((ofertas.fecha_inicio_oferta  BETWEEN '$inicio' AND '$fin') 
         OR (ofertas.fecha_fin_oferta BETWEEN '$inicio' AND '$fin')) 
-        AND ($queryProducto) AND ofertas.id != $producto->id");
+        AND ($queryProducto) AND ofertas.id != $producto->id  AND (ofertas.deleted_at IS NULL AND oferta_producto.deleted_at IS NULL)");
 
 
         // SI HAY COINCIDENCIAS NOTIFICO
@@ -217,12 +217,12 @@ class OfertaController extends Controller
 
         $arrayCHECKTEMP = [];
 
-        $idProductos = DB::select("select id_producto from oferta_combo_producto where id_oferta_combo = '$combo->id'");
+        $idProductos = DB::select("select id_producto from oferta_combo_producto where id_oferta_combo = '$combo->id' and deleted_at IS NULL)");
 
         // ID´S PRODUCTOS DEL COMBO (CON COMPROBACION STOCK/DISCONTINUO)
         $idProductosCheck = DB::select("    
         SELECT id,cantidad_producto_combo FROM productos LEFT JOIN oferta_combo_producto ON productos.id = oferta_combo_producto.id_producto
-        WHERE (discontinuado=0 AND stock>=oferta_combo_producto.cantidad_producto_combo) AND (id_oferta_combo = '$combo->id')
+        WHERE (discontinuado=0 AND stock>=oferta_combo_producto.cantidad_producto_combo) AND (id_oferta_combo = '$combo->id') AND (productos.deleted_at IS NULL AND oferta_combo_producto.deleted_at IS NULL)
         ");
 
         // obtencion de combos con productos y stock validos

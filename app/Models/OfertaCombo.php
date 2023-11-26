@@ -47,7 +47,7 @@ class OfertaCombo extends Model
     {
         $arrayCombos = [];
         $productosCombos = [];
-        $idOfertaCombo = DB::select("SELECT id_oferta_combo FROM oferta_combo_producto  GROUP BY oferta_combo_producto.id_oferta_combo");
+        $idOfertaCombo = DB::select("SELECT id_oferta_combo FROM oferta_combo_producto WHERE deleted_at IS NULL GROUP BY oferta_combo_producto.id_oferta_combo ");
 
         foreach ($idOfertaCombo as $ofertaCombo) {
 
@@ -70,16 +70,16 @@ class OfertaCombo extends Model
         $ofertaCombo = new OfertaCombo();
         $ofertaCombo->id_oferta_combo = $idOferta;
         $ofertaCombo->nombre_combo = request()->input('nombreCombo');
-        
+
         $fileImg = $_FILES["imagenCombo"];
-        move_uploaded_file($fileImg["tmp_name"], public_path('images/combos/'.$idOferta.basename($fileImg["name"])));
-        $ofertaCombo->imagenURL = 'images/combos/'.$idOferta.basename($fileImg["name"]);
-        
+        move_uploaded_file($fileImg["tmp_name"], public_path('images/combos/' . $idOferta . basename($fileImg["name"])));
+        $ofertaCombo->imagenURL = 'images/combos/' . $idOferta . basename($fileImg["name"]);
+
         $ofertaCombo->save();
 
-        foreach($productos as $prod){
+        foreach ($productos as $prod) {
             $idProd = (int)explode(".", $prod)[0];
-            $cant = (int)explode("x", $prod)[count(explode("x", $prod))-1];
+            $cant = (int)explode("x", $prod)[count(explode("x", $prod)) - 1];
             $detalleCombo = new DetalleCombo();
             $detalleCombo->id_producto = $idProd;
             $detalleCombo->id_oferta_combo = $idOferta;
@@ -91,7 +91,7 @@ class OfertaCombo extends Model
     public function getPrecioComboSinDescuento()
     {
         $sum = 0;
-        foreach($this->oferta_combo_producto as $prod){
+        foreach ($this->oferta_combo_producto as $prod) {
             $sum += $prod->precio_producto * $prod->pivot->cantidad_producto_combo;
         }
         return $sum;
@@ -99,14 +99,14 @@ class OfertaCombo extends Model
 
     public function getPrecioCombo()
     {
-        return $this->getPrecioComboSinDescuento() * (1 - $this->oferta->porcentaje_descuento/100);
+        return $this->getPrecioComboSinDescuento() * (1 - $this->oferta->porcentaje_descuento / 100);
     }
 
     public function hayStockCombo($unidadesCombo)
     {
-        foreach($this->oferta_combo_producto as $prod){
+        foreach ($this->oferta_combo_producto as $prod) {
             $totalUnidades = $unidadesCombo * $prod->pivot->cantidad_producto_combo;
-            if(!$prod->hayStockProducto($totalUnidades)){
+            if (!$prod->hayStockProducto($totalUnidades)) {
                 return false;
             }
         }
@@ -115,26 +115,28 @@ class OfertaCombo extends Model
 
     public function reducirStockCombo($unidadesCombo)
     {
-        foreach($this->oferta_combo_producto as $comboProd){
+        foreach ($this->oferta_combo_producto as $comboProd) {
             $totalUnidades = $unidadesCombo * $comboProd->pivot->cantidad_producto_combo;
             $comboProd->reducirStockProducto($totalUnidades);
         }
     }
 
-    public function unidadesMaximas(){
+    public function unidadesMaximas()
+    {
         $maximoTotal = 100000;
-        foreach($this->oferta_combo_producto as $prod){
+        foreach ($this->oferta_combo_producto as $prod) {
             $maximoItem = $prod->stock / $prod->pivot->cantidad_producto_combo;
-            if(!isset($maximoTotal) || $maximoTotal > $maximoItem){
+            if (!isset($maximoTotal) || $maximoTotal > $maximoItem) {
                 $maximoTotal = $maximoItem;
             }
         }
         return (int)$maximoTotal;
     }
 
-    public function comboActivo(){
-        foreach($this->oferta_combo_producto as $prod){
-            if($prod->discontinuado == 1 || $prod->stock <= 0){
+    public function comboActivo()
+    {
+        foreach ($this->oferta_combo_producto as $prod) {
+            if ($prod->discontinuado == 1 || $prod->stock <= 0) {
                 return false;
             }
         }
