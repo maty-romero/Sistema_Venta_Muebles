@@ -8,6 +8,8 @@ use App\Models\Venta;
 use App\Models\Oferta;
 use App\Models\OfertaCombo;
 use App\Models\Producto;
+use App\Models\OfertaComboProducto;
+use App\Models\ProductoOferta;
 use App\View\Components\saleItem;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -180,8 +182,21 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
+        $productoComboRelaciones =  OfertaComboProducto::where('id_producto', $producto->id)->get();
+        $productoOfertaRelaciones = ProductoOferta::where('id_producto', $producto->id)->get();
+
+        foreach ($productoOfertaRelaciones as $ofertaProducto) {
+            ProductoOferta::where("id_oferta", $ofertaProducto->id_oferta)->delete();
+        }
+
+        foreach ($productoComboRelaciones as $ofertaCombo) {
+            OfertaComboProducto::where("id_oferta_combo", $ofertaCombo->id_oferta_combo)->delete();
+        }
+
+
+
         $producto->delete();
-        return redirect()->route('administrador_create_producto');
+        return redirect()->route('administrador_productos');
     }
 
     public function search(Request $request)
@@ -257,12 +272,12 @@ class ProductoController extends Controller
             // CHECK PRODUCTOS CON STOCK Y NO DISCONTINUADOS
 
             // ID´S PRODUCTOS DEL COMBO (SIN COMPROBAR)
-            $idProductos = DB::select("select id_producto from oferta_combo_producto where id_oferta_combo = '$combo->id'");
+            $idProductos = DB::select("select id_producto from oferta_combo_producto where id_oferta_combo = '$combo->id' and deleted_at IS NULL");
 
             // ID´S PRODUCTOS DEL COMBO (CON COMPROBACION STOCK/DISCONTINUO)
             $idProductosCheck = DB::select("    
             SELECT id,cantidad_producto_combo FROM productos LEFT JOIN oferta_combo_producto ON productos.id = oferta_combo_producto.id_producto
-            WHERE (discontinuado=0 AND stock>=oferta_combo_producto.cantidad_producto_combo) AND (id_oferta_combo = '$combo->id')
+            WHERE (discontinuado=0 AND stock>=oferta_combo_producto.cantidad_producto_combo) AND (id_oferta_combo = '$combo->id')  AND (oferta_combo_producto.deleted_at IS NULL AND productos.deleted_at IS NULL)
             ");
 
             // obtencion de combos con productos y stock validos

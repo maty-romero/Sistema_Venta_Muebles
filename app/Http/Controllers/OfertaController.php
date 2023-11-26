@@ -6,6 +6,8 @@ use App\Models\OfertaCombo;
 use App\Models\Producto;
 use App\Models\Venta;
 use App\Models\Oferta;
+use App\Models\OfertaTipoMueble;
+use App\Models\ProductoOferta;
 use App\Models\TipoMueble;
 use App\Rules\OfertaComboValida;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +16,7 @@ use Illuminate\Http\Request;
 use App\Rules\OfertaUnitariaValida;
 use App\Rules\OfertaMontoValida;
 use App\Rules\OfertaTipoValida;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class OfertaController extends Controller
@@ -31,12 +33,17 @@ class OfertaController extends Controller
                 ->orderBy($campoOrden, $direccionOrden)
                 ->get();
 
-            return response()->json(['ofertas' => $ofertas]);
+            $rol = Auth::user()->rol_usuario; // necesario para el renderizado dinamico
+
+
+            return response()->json(['ofertas' => $ofertas, "rol" => $rol]);
         }
 
         $ofertas = Oferta::with("producto")
             ->orderBy("fecha_inicio_oferta", "asc")
             ->get();
+
+
 
         // Sino hay solicitud AJAX  
         return view('administrador.ofertas.index', compact("ofertas"));
@@ -153,7 +160,7 @@ class OfertaController extends Controller
         $controlSuperposicion = DB::select("SELECT * FROM ofertas LEFT JOIN oferta_producto ON oferta_producto.id_oferta=ofertas.id  
         WHERE ((ofertas.fecha_inicio_oferta  BETWEEN '$inicio' AND '$fin') 
         OR (ofertas.fecha_fin_oferta BETWEEN '$inicio' AND '$fin')) 
-        AND ($queryProducto) AND ofertas.id != $producto->id");
+        AND ($queryProducto) AND ofertas.id != $producto->id  AND (ofertas.deleted_at IS NULL AND oferta_producto.deleted_at IS NULL)");
 
 
         // SI HAY COINCIDENCIAS NOTIFICO
@@ -181,16 +188,21 @@ class OfertaController extends Controller
             ]);
 
             $oferta->save();
-            session()->flash('success_oferta', 'El oferta ha sido modificado exitosamente');
+            session()->flash('success_oferta', 'La oferta ha sido modificado exitosamente');
         } else {
             session()->flash('error_oferta', 'Ha ocurrido un error al editar el oferta');
         }
         return redirect()->back();
     }
 
-    public function destroy(string $id)
+    public function destroy(string $oferta)
     {
-        //
+        ProductoOferta::where('id_oferta', $oferta)->delete();
+        OfertaCombo::where('id_oferta_combo', $oferta)->delete();
+        OfertaTipoMueble::where('id_tipo_mueble', $oferta)->delete();
+        Oferta::find($oferta)->delete();
+        //session()->flash('success_oferta', 'La ferta ha sido eliminada exitosamente');
+        return redirect()->back();
     }
 
     public function searchComboById(string $id)
@@ -205,12 +217,12 @@ class OfertaController extends Controller
 
         $arrayCHECKTEMP = [];
 
-        $idProductos = DB::select("select id_producto from oferta_combo_producto where id_oferta_combo = '$combo->id'");
+        $idProductos = DB::select("select id_producto from oferta_combo_producto where id_oferta_combo = '$combo->id' and deleted_at IS NULL)");
 
         // ID´S PRODUCTOS DEL COMBO (CON COMPROBACION STOCK/DISCONTINUO)
         $idProductosCheck = DB::select("    
         SELECT id,cantidad_producto_combo FROM productos LEFT JOIN oferta_combo_producto ON productos.id = oferta_combo_producto.id_producto
-        WHERE (discontinuado=0 AND stock>=oferta_combo_producto.cantidad_producto_combo) AND (id_oferta_combo = '$combo->id')
+        WHERE (discontinuado=0 AND stock>=oferta_combo_producto.cantidad_producto_combo) AND (id_oferta_combo = '$combo->id') AND (productos.deleted_at IS NULL AND oferta_combo_producto.deleted_at IS NULL)
         ");
 
         // obtencion de combos con productos y stock validos

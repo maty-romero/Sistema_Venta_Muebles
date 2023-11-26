@@ -54,7 +54,7 @@ class Venta extends Model
 
     public function cliente(): BelongsTo
     {
-        return $this->belongsTo(Cliente::class, 'id_usuario_cliente');
+        return $this->belongsTo(Cliente::class, 'id_usuario_cliente')->withTrashed();
     }
 
     public static function calcularSubtotal()
