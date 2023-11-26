@@ -37,7 +37,7 @@ $producto->ofertaValida[0]->porcentaje_descuento>0)
     </div>
   </div>
 </div>
-@elseif(isset($producto->ofertaTipoValida()[0]))
+@elseif(isset($producto->ofertaTipoValida()[0]) && $producto->ofertaTipoValida()[0]->porcentaje_descuento>0)
 <div
   class="mx-auto mb-11 w-auto  h-96 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md min-w-[200px]">
   <div class="p-4 relative h-full">
