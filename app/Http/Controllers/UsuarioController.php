@@ -23,7 +23,7 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = User::where("rol_usuario", "!=", "administrador")->where("id", "!=", Auth::user()->id)->paginate(5);
+        $usuarios = User::where("rol_usuario", "!=", "administrador")->where("id", "!=", Auth::user()->id)->withTrashed()->paginate(5);
         return view("administrador.usuarios.index", compact('usuarios'));
     }
 

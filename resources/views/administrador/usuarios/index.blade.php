@@ -66,6 +66,9 @@ Usuarios
                         <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
                     </svg></a>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                @if($usuario->deleted_at)
+                Eliminado
+                @else
                 <form action="{{ route('administrador_delete_usuarios', $usuario) }}" method="POST" class='mb-0'>
                     @csrf
                     @method('DELETE')
@@ -74,6 +77,8 @@ Usuarios
                         </svg>
                     </button>
                 </form>
+                @endif
+
         </tr>
         @endforeach
 
@@ -82,4 +87,6 @@ Usuarios
 <div class="flex justify-center">{{ $usuarios->links() }}</div>
 
 <script src="{{asset('js/selectUsuarioHandler.js')}}"></script>
+
+<!--Post::withTrashed()->find($post_id)->restore();-->
 @endsection
