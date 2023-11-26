@@ -171,12 +171,10 @@
         @if (count($ventas) > 0)
             @foreach ($ventas as $venta)
                 @php
-                    $imagenURL = $venta->producto->first()->imagenURL ?? $venta->ofertaCombo->first()->imagenURL;
                     $fechaVenta = date('d-m-Y H:m', strtotime($venta->fecha_venta))
                 @endphp
 
                 <x-custom.sale-item  
-                    :imagenURL="$imagenURL"
                     :nroPago="$venta->nro_pago"
                     :domicilioEnvio="$venta->domicilio_destino"
                     :fechaVenta="$fechaVenta"
