@@ -64,7 +64,7 @@ class Producto extends Model
         //Revisar si trae la oferta de mayor prioridad y qu esté activa
         if (isset($this->oferta[0])) {
             return $this->precio_producto * ((100 - $this->oferta[0]->porcentaje_descuento) / 100);
-        } else if ($this->ofertaTipoValida()) {
+        } else if (isset($this->ofertaTipoValida()[0])) {
             return $this->precio_producto * ((100 - $this->ofertaTipoValida()[0]->porcentaje_descuento) / 100);
         } else {
             return $this->precio_producto;
