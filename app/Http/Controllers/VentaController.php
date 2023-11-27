@@ -54,7 +54,9 @@ class VentaController extends Controller
                     $idVenta = Venta::finalizarVenta($idCliente, request()->codPostalHidden, request()->direccionDestinoHidden);
                     $request->session()->put('ofertaMonto', null);
                     //Retorna el comprobante en pdf de la venta 
-                    return to_route('cliente_comprobante_compra', ['nroComprobante' => $idVenta]);
+                    session()->flash('success', 'Su compra se ha realizada con éxito.');
+                    session()->flash('nroComprobante', $idVenta);
+                    return to_route('home'); 
                 } else {
                     $msj = 'Error al procesar el pago. Intente de nuevo.';
                 }
