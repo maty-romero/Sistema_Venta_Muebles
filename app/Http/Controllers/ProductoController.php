@@ -11,6 +11,7 @@ use App\Models\Producto;
 use App\Models\OfertaComboProducto;
 use App\Models\ProductoOferta;
 use App\View\Components\saleItem;
+use Demo\Product;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -31,7 +32,7 @@ class ProductoController extends Controller
 
     public function index_adm()
     {
-        $products = Producto::with('tipo_mueble')->paginate(5);
+        $products = Producto::with('tipo_mueble')->withTrashed()->paginate(5);
         return (view("administrador.productos.index", compact('products')));
     }
 
@@ -193,11 +194,29 @@ class ProductoController extends Controller
             OfertaComboProducto::where("id_oferta_combo", $ofertaCombo->id_oferta_combo)->delete();
         }
 
-
-
         $producto->delete();
         return redirect()->route('administrador_productos');
     }
+
+    public function restore($id)
+    {
+        $producto = Producto::withTrashed()->find($id);
+        $productoComboRelaciones =  OfertaComboProducto::withTrashed()->where('id_producto', $id)->get();
+        $productoOfertaRelaciones = ProductoOferta::withTrashed()->where('id_producto', $id)->get();
+
+        foreach ($productoOfertaRelaciones as $ofertaProducto) {
+            ProductoOferta::withTrashed()->where("id_oferta", $ofertaProducto->id_oferta)->restore();
+        }
+
+        foreach ($productoComboRelaciones as $ofertaCombo) {
+            OfertaComboProducto::withTrashed()->where("id_oferta_combo", $ofertaCombo->id_oferta_combo)->restore();
+        }
+
+        $producto->restore();
+        return redirect()->route('administrador_productos');
+    }
+
+
 
     public function search(Request $request)
     {
@@ -377,12 +396,20 @@ class ProductoController extends Controller
         $name = $request->input("name");
         $orden = $request->input("ordenamiento");
         $direccion = $request->input("direccion_orden");
+        $filtro = $request->input("filtro");
         $input = $request->input();
-        $products =  Producto::where('nombre_producto', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+
+        if ($filtro == "eliminados") {
+            $products =  Producto::onlyTrashed()->where('nombre_producto', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        } else if ($filtro == "activos") {
+            $products =  Producto::where('nombre_producto', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        } else {
+            $products =  Producto::withTrashed()->where('nombre_producto', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        }
 
 
-        $products->appends(["name" => $name, "ordenamiento" => $orden, "direccion_orden" => $direccion]);
 
+        $products->appends(["name" => $name, "ordenamiento" => $orden, "direccion_orden" => $direccion, "filtro" => $filtro]);
 
         return view("administrador.productos.index", compact('products', "input"));
     }

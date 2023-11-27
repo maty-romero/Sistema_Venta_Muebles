@@ -29,6 +29,14 @@ Productos
             <option value="desc" {{ isset($input['direccion_orden']) && $input['direccion_orden']==="desc"
                 ?"selected":""}}>Descendente</option>
         </select>
+        <select class="form-control mr-5 rounded-lg" id="filtro" name="filtro">
+            <option value="todos" {{ isset($input['filtro']) && $input['filtro']==="todos"
+                ?"selected":""}}>Todos</option>
+            <option value="activos" {{ isset($input['filtro']) && $input['filtro']==="activos"
+                ?"selected":""}}>Activos</option>
+            <option value="eliminados" {{ isset($input['filtro']) && $input['filtro']==="eliminados"
+                ?"selected":""}}>Eliminados</option>
+        </select>
         <input id="name" name="name" value="{{isset($input['name'])?$input['name']:''}}" class="py-1 pl-2 rounded-lg border-gray-200" placeholder="Buscar nombre">
     </form>
 
@@ -74,6 +82,18 @@ Productos
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left  hover:underline text-lg font-semibold text-gray-900">
 
+                @if($producto->deleted_at)
+                <form action="{{route('administrador_restore_producto', $producto->id) }}" method="POST" class='mb-0 '>
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class='hover:underline'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                    </button>
+
+                </form>
+                @else
                 <form action="{{route('administrador_delete_producto', $producto)}}" method="POST">
                     @csrf
                     @method('DELETE')
@@ -82,6 +102,7 @@ Productos
                         </svg>
                     </button>
                 </form>
+                @endif
             </td>
 
         </tr>

@@ -40,6 +40,9 @@ Ofertas
 <div id="contenedorTablaOfertas" class="w-full">
 
     <div class="w-full">
+
+        @if (isset($ofertas[0]))
+
         <x-custom.table :columnas="['Nombre Oferta', 'Descuento', 'Inicio de Vigencia', 'Fin de Vigencia', 'Modificacion', '']">
             @foreach ($ofertas as $oferta)
             <tr>
@@ -85,12 +88,21 @@ Ofertas
             </tr>
             @endforeach
         </x-custom.table>
+        @else
+
+
+        <h3 class='text-xl text-left ml-1 mt-4'> No hay ofertas creadas.</h3>
+
+        @endif
+
     </div>
 
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
 
 <script>
     var selectElements = document.querySelectorAll('select');
@@ -111,6 +123,9 @@ Ofertas
 
             axios.get(url)
                 .then(response => {
+
+
+
                     const ofertas = response.data.ofertas;
                     const rol = response.data.rol;
                     document.getElementById('contenedorTablaOfertas').innerHTML = "";
@@ -119,10 +134,6 @@ Ofertas
 
                     // Encabezados tabla
                     let tablaHTML;
-
-
-
-
                     // cuerpo de tabla
                     tablaHTML = `
                          <div class="w-full">
@@ -147,7 +158,7 @@ Ofertas
                                 </td>
                            
                                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left  hover:underline text-lg font-semibold text-gray-900">
-                    <a href="{{ route('administrador_edit_ofertas', $oferta) }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <a href="{{ route('administrador_edit_ofertas', isset($oferta) ? $oferta : '') }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                             <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
                             <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
                         </svg></a>
@@ -184,11 +195,12 @@ Ofertas
                                     ${oferta.fecha_fin_oferta}
                                 </td>
                                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left  hover:underline text-lg font-semibold text-gray-900">
-                    <a href="{{ route('administrador_edit_ofertas', $oferta) }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <a href="{{ route('administrador_edit_ofertas', isset($oferta) ? $oferta : '') }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                             <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
                             <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
                         </svg></a>
                 </td>
+                
                                 <td></td>
                             </tr>
                         `;
@@ -212,4 +224,6 @@ Ofertas
         });
     });
 </script>
+
+
 @endsection

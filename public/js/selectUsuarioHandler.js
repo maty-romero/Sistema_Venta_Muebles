@@ -2,9 +2,11 @@ window.addEventListener("DOMContentLoaded", () => {
     const searchForm = document.getElementById("searchForm");
     const ordenamiento = document.getElementById("ordenamiento");
     const direccionOrden = document.getElementById("direccion_orden");
+    const filtro = document.getElementById("filtro");
 
     ordenamiento.addEventListener("change", handleSelectChange);
     direccionOrden.addEventListener("change", handleSelectChange);
+    filtro.addEventListener("change", handleSelectChange);
 
     searchForm.addEventListener("onSubmit", function (event) {
         event.preventDefault();

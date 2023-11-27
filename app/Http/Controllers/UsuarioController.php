@@ -189,15 +189,36 @@ class UsuarioController extends Controller
         return redirect()->route('administrador_usuarios');
     }
 
+    public function restore($id)
+    {
+
+        $usuario = User::withTrashed()->find($id);
+        $cliente = Cliente::withTrashed()->find($id);
+        $usuario->restore();
+        $cliente->restore();
+        return redirect()->route('administrador_usuarios');
+    }
+
+
     public function searchUser(Request $request)
     {
 
         $name = $request->input("name");
         $orden = $request->input("ordenamiento") === "nombre" ? "name" : "rol_usuario";
         $direccion = $request->input("direccion_orden");
-        $usuarios =  User::where('name', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        $filtro = $request->input("filtro");
+
+
+        if ($filtro == "eliminados") {
+            $usuarios =  User::onlyTrashed()->where('name', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        } else if ($filtro == "activos") {
+            $usuarios =  User::where('name', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        } else {
+            $usuarios =  User::withTrashed()->where('name', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        }
+
         $input = $request->input();
-        $usuarios->appends(["name" => $name, "orden" => $orden, "direccion_orden" => $direccion]);
+        $usuarios->appends(["name" => $name, "orden" => $orden, "direccion_orden" => $direccion, "filtro" => $filtro]);
 
         return view("administrador.usuarios.index", compact('usuarios', "input"));
     }
