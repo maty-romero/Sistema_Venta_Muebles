@@ -19,10 +19,6 @@
 
 <body class="antialiased bg-[#FFE794] bg-pattern-image ">
     <x-custom.navbar_carrito></x-custom.navbar_carrito>
-    
-    @php
-        dump($errors);
-    @endphp
 
     <div class="min-h-screen py-8">
         <div class="container mx-auto px-4">
@@ -80,7 +76,7 @@
 
                         <div>
                             <label class='block font-medium text-base text-zinc-700'>Domicilio de destino</label>
-                            <input id='direccionDestino' value="{{ old('direccionDestino') }}" type='text' maxlength='100' name='direccionDestino' required
+                            <input id='direccionDestino' type='text' maxlength='100' name='direccionDestino' value="{{ old('direccionDestino') }}" required
                                 class='w-full border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
                             @error('direccionDestinoHidden')
                                 <br>
