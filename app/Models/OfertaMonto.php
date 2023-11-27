@@ -43,7 +43,7 @@ class OfertaMonto extends Model
     {
         $idOferta = DB::table('ofertas_montos')->select('id_oferta_monto')->where('monto_limite_descuento', '<=', $monto)->orderBy('monto_limite_descuento', 'desc')->first();
         if(isset($idOferta) && !is_null($idOferta)){
-            $oferta = Oferta::findOrFail($idOferta->id_oferta_monto);
+            $oferta = Oferta::find($idOferta->id_oferta_monto);
             return $oferta;
         }
         return null;
