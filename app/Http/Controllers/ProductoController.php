@@ -104,7 +104,27 @@ class ProductoController extends Controller
     public function admShow(string $id)
     {
         $producto = Producto::findOrFail($id);
-        return view('administrador.productos.show', ['producto' => $producto]);
+
+        //ofertas asociadas al producto 
+        $ofertasUnitarias = Producto::query()
+            ->with(['oferta' => function ($query){
+                $query->select('id', 'fecha_fin_oferta', 'porcentaje_descuento'); // FK de la relacion
+            }])
+            ->get();
+
+        // Arreglar query 
+        $ofertasCombo = Producto::query()
+            ->with(['oferta_combo_producto' => function ($query){
+                $query->select('id_oferta_combo', 'nombre_combo', 'oferta:fecha_fin_oferta', 'oferta:porcentaje_descuento'); // FK de la relacion
+            }])
+            ->get();
+
+        return view('administrador.productos.show', 
+        [
+            'producto' => $producto,
+            'ofertasUnitarias' => $ofertasUnitarias,
+            'ofertasCombos' => $ofertasCombo
+        ]);
     }
 
 
