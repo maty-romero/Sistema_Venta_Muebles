@@ -235,9 +235,6 @@ class ProductoController extends Controller
         }
 
         return redirect()->back();
-        
-        //return redirect()->back(); 
-        //return redirect()->route('administrador_productos');
     }
 
     public function search(Request $request)
