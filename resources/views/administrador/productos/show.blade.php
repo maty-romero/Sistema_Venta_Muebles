@@ -67,25 +67,26 @@ Productos
       @endif
       <br>
 
-      @php
-        echo $ofertasCombo[0]; 
-      @endphp
+      
 
       <h4 class='text-3xl text-left ml-1'>Ofertas combo del producto:</h4>
-      @if (!empty($ofertasCombo))
+      @if (!empty($ofertasCombos))
       
         <x-custom.table :columnas="['#', 'Nombre combo', 'Fecha fin oferta', 'Descuento']">
-          @foreach ($ofertasCombo as $result)
+          @foreach ($ofertasCombos as $result)
               <tr>
                   <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
                     {{$loop->iteration}}
                   </td>
                   <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
-                      {{ $result['oferta'][0]['fecha_fin_oferta'] }}
+                      {{ $result->nombre_combo }}
                   </td>
                   <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
-                      {{ $result['oferta'][0]['porcentaje_descuento'] }}%
+                      {{ $result->fecha_fin_oferta }}
                   </td>
+                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
+                    {{ $result->porcentaje_descuento }}%
+                </td>
               </tr>
           @endforeach
 
