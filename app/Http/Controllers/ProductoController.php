@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProductoController extends Controller
 {
@@ -105,7 +107,6 @@ class ProductoController extends Controller
     {
         $producto = Producto::findOrFail($id);
 
-
         $ofertasUnitarias = [];
         //ofertas asociadas al producto 
         $ofertasUnitarias = Producto::query()
@@ -115,13 +116,6 @@ class ProductoController extends Controller
             ->get();
 
         // Arreglar query 
-        /*
-        $ofertasCombo = Producto::query()
-            ->with(['oferta_combo_producto' => function ($query){
-                $query->select('oferta_combo_productos.id_oferta_combo', 'nombre_combo', 'oferta:fecha_fin_oferta', 'oferta:porcentaje_descuento');
-            }])
-            ->get();
-        */
         $ofertasCombo = [];
 
         $ofertasCombo = DB::select("
@@ -220,21 +214,30 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        $productoComboRelaciones =  OfertaComboProducto::where('id_producto', $producto->id)->get();
-        $productoOfertaRelaciones = ProductoOferta::where('id_producto', $producto->id)->get();
+        if(Auth::user()->rol_usuario == 'administrador'){
 
-        foreach ($productoOfertaRelaciones as $ofertaProducto) {
-            ProductoOferta::where("id_oferta", $ofertaProducto->id_oferta)->delete();
+            $productoComboRelaciones =  OfertaComboProducto::where('id_producto', $producto->id)->get();
+            $productoOfertaRelaciones = ProductoOferta::where('id_producto', $producto->id)->get();
+
+            foreach ($productoOfertaRelaciones as $ofertaProducto) {
+                ProductoOferta::where("id_oferta", $ofertaProducto->id_oferta)->delete();
+            }
+
+            foreach ($productoComboRelaciones as $ofertaCombo) {
+                OfertaComboProducto::where("id_oferta_combo", $ofertaCombo->id_oferta_combo)->delete();
+            }
+            $producto->delete();
+
+            session()->flash('success', 'El producto ha sido eliminado exitosamente');
+        }else{
+
+            session()->flash('error', 'Solo los usuarios administradores pueden eliminar productos');
         }
 
-        foreach ($productoComboRelaciones as $ofertaCombo) {
-            OfertaComboProducto::where("id_oferta_combo", $ofertaCombo->id_oferta_combo)->delete();
-        }
-
-
-
-        $producto->delete();
-        return redirect()->route('administrador_productos');
+        return redirect()->back();
+        
+        //return redirect()->back(); 
+        //return redirect()->route('administrador_productos');
     }
 
     public function search(Request $request)
