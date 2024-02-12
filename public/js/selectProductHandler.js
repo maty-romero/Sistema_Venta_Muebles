@@ -2,9 +2,11 @@ window.addEventListener("DOMContentLoaded", () => {
     const searchForm = document.getElementById("searchForm");
     const ordenamiento = document.getElementById("ordenamiento");
     const direccionOrden = document.getElementById("direccion_orden");
+    const discontinuado = document.getElementById("discontinuado");
 
     ordenamiento.addEventListener("change", handleSelectChange);
     direccionOrden.addEventListener("change", handleSelectChange);
+    discontinuado.addEventListener("change", handleSelectChange);
 
     searchForm.addEventListener("onSubmit", function (event) {
         event.preventDefault();
@@ -19,6 +21,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     function handleSelectChange() {
+        console.log("Cambio!");
         searchForm.submit();
     }
 });

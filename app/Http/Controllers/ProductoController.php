@@ -239,13 +239,13 @@ class ProductoController extends Controller
 
     public function search(Request $request)
     {
-
         // FALTAN VALIDACIONES
         $name =  $request->input('name');
         $tipoMueble =  $request->input('tipoMueble') !== null ? $request->input('tipoMueble') :  1;
         $filtro =  $request->input('filtro') !== null ? $request->input('filtro') :  "todo";
         $ordenCriterio = $request->input("ordenCriterio")  === "nombre_producto" ? "nombre_producto" : "precio_producto";
         $orden =  $request->input('orden') !== null ? $request->input('orden') :  "asc";
+
         $matchInput = ['id_tipo_mueble' => $tipoMueble, "discontinuado" => 0];
 
         // SE NECESITA USAR DB EN ESTE CASO PORQUE ARMO DOS ESTRUCTURAS PRODUCTOS Y COMBOS
@@ -416,9 +416,18 @@ class ProductoController extends Controller
         $orden = $request->input("ordenamiento");
         $direccion = $request->input("direccion_orden");
         $input = $request->input();
-        $products =  Producto::where('nombre_producto', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        
+        $discontinuadoValor = 0;
+        if ($request->has('discontinuado')) {
+            $discontinuadoValor = $request->input('discontinuado');
+        }
 
+        $products = Producto::where('nombre_producto', 'like', '%' . $name . '%')
+            ->where('discontinuado', $discontinuadoValor)
+            ->orderBy($orden, $direccion)
+            ->paginate(5);
 
+    
         $products->appends(["name" => $name, "ordenamiento" => $orden, "direccion_orden" => $direccion]);
 
 
