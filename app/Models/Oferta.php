@@ -80,4 +80,19 @@ class Oferta extends Model
                 break;
         };
     }
+
+    public static function validarOfertaUnitaria(){
+        
+    }
+
+    public function tipoOferta(){
+        if(OfertaTipoMueble::find($this->id)){
+            return 'Por tipo '.TipoMueble::find(OfertaTipoMueble::find($this->id)->id_tipo_mueble)->nombre_tipo_mueble;
+        } else if(OfertaCombo::find($this->id)){
+            return 'Combo '.OfertaCombo::find($this->id)->nombre_combo;
+        } else if(OfertaMonto::find($this->id)){
+            return 'Por monto';
+        }
+        return 'Unitaria '.Producto::find(ProductoOferta::where('id_oferta', $this->id)->first()->id_producto)->nombre_producto;
+    }
 }

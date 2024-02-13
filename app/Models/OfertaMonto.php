@@ -48,4 +48,8 @@ class OfertaMonto extends Model
         }
         return null;
     }
+
+    public static function validarOfertaMonto(){
+
+    }
 }

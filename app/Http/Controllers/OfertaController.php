@@ -6,6 +6,7 @@ use App\Models\OfertaCombo;
 use App\Models\Producto;
 use App\Models\Venta;
 use App\Models\Oferta;
+use App\Models\OfertaMonto;
 use App\Models\OfertaTipoMueble;
 use App\Models\ProductoOferta;
 use App\Models\TipoMueble;
@@ -57,12 +58,12 @@ class OfertaController extends Controller
     }
 
     public function store()
-    {
+    { 
         $validator = Validator::make(request()->all(), [
-            'tipoOferta' => [
+            /*'tipoOferta' => [
                 'required',
                 'in:unitaria,combo,tipo,monto'
-            ],
+            ],*/
             'fechaInicio' => [
                 'required',
                 'after:' . date("m/d/" . (date("Y") - 1)),
@@ -111,9 +112,34 @@ class OfertaController extends Controller
                 'nullable',
             ],
         ]);
-
         if ($validator->fails()) {
             return back()->withErrors($validator);
+        }
+
+        $validado = false;
+        switch(request()->input('tipoOferta')){
+            case 'unitaria':
+                $validado = Oferta::validarOfertaUnitaria();
+                session()->flash('errorValid', 'El producto seleccionado y las fechas ingresadas generan conflicto con otra oferta similar');
+                break;
+
+            case 'combo':
+                $validado = OfertaCombo::validarCombo();
+                session()->flash('errorValid', 'Los productos y las fechas ingresadas generan conflicto con otra oferta similar');
+                break;
+
+            case 'tipo':
+                $validado = OfertaTipoMueble::validarOfertaTipo();
+                session()->flash('errorValid', 'Las fechas ingresadas generan conflicto con otra oferta del mismo tipo.');
+                break;
+
+            case 'monto':
+                $validado = OfertaMonto::validarOfertaMonto();
+                session()->flash('errorValid', 'El monto y las fechas ingresadas generan conflicto con otra oferta similar');
+                break;
+        } 
+        if(!$validado){
+            return redirect()->back();
         }
 
         Oferta::crearOferta();

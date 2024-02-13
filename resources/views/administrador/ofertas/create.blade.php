@@ -35,7 +35,7 @@ Crear oferta
                         <p class="font-poppins text-1g">Porcentaje de descuento</p>
                         <div class="flex">
                             <div class="relative w-[200px] mb-5 mr-1 ">
-                                <input type='number' id='descuento' name='descuento' max='95' min='5' class="block p-2.5 w-full z-20 text-sm rounded-md border focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" required>
+                                <input type='number' id='descuento' name='descuento' value="{{ old('descuento') }}" max='95' min='5' class="block p-2.5 w-full z-20 text-sm rounded-md border focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" required>
                                 <div class="absolute mt-[2px] top-0 end-0 p-2.5 text-sm font-medium h-full rounded-e-md">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <line x1="19" y1="5" x2="5" y2="19"></line>
@@ -50,13 +50,20 @@ Crear oferta
                 <tr class='block'>
                     <td>
                         <p class="font-poppins text-1g">Fecha de inicio</p>
-                        <input id="fechaInicio" name='fechaInicio' type="date" min="{{date('Y-m-d')}}" required class="w-[200px] rounded-md mb-5 mr-6">
+                        <input id="fechaInicio" name='fechaInicio' value="{{ old('fechaInicio') }}" type="date" min="{{date('Y-m-d')}}" required class="w-[200px] rounded-md mb-5 mr-6">
                     </td>
                     <td>
                         <p class="font-poppins text-1g">Fecha de fin</p>
-                        <input id="fechaFin" name='fechaFin' type="date" min="{{date('Y-m-d')}}" required class="w-[200px] rounded-md mb-5">
+                        <input id="fechaFin" name='fechaFin' type="date" value="{{ old('fechaFin') }}" min="{{date('Y-m-d')}}" required class="w-[200px] rounded-md mb-5">
                     </td>
                 </tr>
+                @if (session('errorValid'))
+                <tr>
+                    <td colspan="2">
+                        <span class="block mb-5 text-sm text-red-600">{{ session('errorValid') }}</span>
+                    </td>
+                </tr>
+                @endif
                 <tr id='nombreCombo' class='hidden'>
                     <td class='w-min'>
                         <p class="font-poppins text-1g">Nombre del combo</p>

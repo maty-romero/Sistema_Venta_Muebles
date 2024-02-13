@@ -142,4 +142,8 @@ class OfertaCombo extends Model
         }
         return true;
     }
+
+    public static function validarCombo(){
+
+    }
 }
