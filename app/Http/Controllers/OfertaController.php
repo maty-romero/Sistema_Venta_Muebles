@@ -120,7 +120,7 @@ class OfertaController extends Controller
         switch(request()->input('tipoOferta')){
             case 'unitaria':
                 $validado = Oferta::validarOfertaUnitaria();
-                session()->flash('errorValid', 'El producto seleccionado y las fechas ingresadas generan conflicto con otra oferta similar');
+                session()->flash('errorValid', 'Uno de los productos seleccionados y las fechas ingresadas generan conflicto con otra oferta similar');
                 break;
 
             case 'combo':

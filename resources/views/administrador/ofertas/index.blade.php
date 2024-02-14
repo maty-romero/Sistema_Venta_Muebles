@@ -48,7 +48,8 @@ Ofertas
                     :
                     ''}}
 
-                {{$oferta->tipoOferta()}}
+                {{$oferta->getTipoOferta()}}
+                
                 </td>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                     {{$oferta->porcentaje_descuento}}%
