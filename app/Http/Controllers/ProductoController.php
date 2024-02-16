@@ -33,9 +33,16 @@ class ProductoController extends Controller
 
     public function index_adm()
     {
-        $products = Producto::with('tipo_mueble')->paginate(5);
-        return (view("administrador.productos.index", compact('products')));
+        $products = DB::table('productos as p')
+        ->select("p.id", "p.nombre_producto", "tp.nombre_tipo_mueble","p.discontinuado", "p.precio_producto", "p.stock")
+        ->join('tipos_muebles as tp', 'tp.id', '=', 'p.id_tipo_mueble')
+        ->where("p.discontinuado", "=", 0)
+        ->paginate(5);
+        
+        //dd($products[0]->id);
+        return view("administrador.productos.index", compact('products'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -103,9 +110,9 @@ class ProductoController extends Controller
         return to_route('home');
     }
 
-    public function admShow(string $id)
+    public function admShow(string $idProd)
     {
-        $producto = Producto::findOrFail($id);
+        $producto = Producto::findOrFail($idProd);
 
         $ofertasUnitarias = [];
         //ofertas asociadas al producto 
@@ -115,7 +122,6 @@ class ProductoController extends Controller
             }])
             ->get();
 
-        // Arreglar query 
         $ofertasCombo = [];
 
         $ofertasCombo = DB::select("
@@ -125,7 +131,7 @@ class ProductoController extends Controller
             INNER JOIN oferta_combo oc ON oc.id_oferta_combo = ocp.id_oferta_combo
             INNER JOIN ofertas o ON o.id = oc.id_oferta_combo 
             WHERE p.id = ?
-        ", [$id]);
+        ", [$idProd]);
 
         //dd($ofertasCombo);
 
@@ -212,9 +218,11 @@ class ProductoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Producto $producto)
+    public function destroy(string $idProducto)
     {
-        if(Auth::user()->rol_usuario == 'administrador'){
+        $producto = Producto::findOrFail($idProducto);
+        
+        if (Auth::user()->rol_usuario == 'administrador') {
 
             $productoComboRelaciones =  OfertaComboProducto::where('id_producto', $producto->id)->get();
             $productoOfertaRelaciones = ProductoOferta::where('id_producto', $producto->id)->get();
@@ -229,7 +237,7 @@ class ProductoController extends Controller
             $producto->delete();
 
             session()->flash('success', 'El producto ha sido eliminado exitosamente');
-        }else{
+        } else {
 
             session()->flash('error', 'Solo los usuarios administradores pueden eliminar productos');
         }
@@ -415,21 +423,22 @@ class ProductoController extends Controller
         $name = $request->input("name");
         $orden = $request->input("ordenamiento");
         $direccion = $request->input("direccion_orden");
-        $input = $request->input();
-        
-        $discontinuadoValor = 0;
-        if ($request->has('discontinuado')) {
-            $discontinuadoValor = $request->input('discontinuado');
-        }
+        $input = $request->input(); // opciones seleccionadas 
 
-        $products = Producto::where('nombre_producto', 'like', '%' . $name . '%')
+        $discontinuadoValor = $request->input('discontinuado', 0); // Valor predeterminado es null
+
+        $products = Producto::with('tipo_mueble')
+            ->where('nombre_producto', 'like', '%' . $name . '%')
             ->where('discontinuado', $discontinuadoValor)
             ->orderBy($orden, $direccion)
             ->paginate(5);
 
-    
-        $products->appends(["name" => $name, "ordenamiento" => $orden, "direccion_orden" => $direccion]);
-
+        $products->appends([
+            "name" => $name,
+            "ordenamiento" => $orden,
+            "direccion_orden" => $direccion,
+            "discontinuado" => $discontinuadoValor
+        ]);
 
         return view("administrador.productos.index", compact('products', "input"));
     }

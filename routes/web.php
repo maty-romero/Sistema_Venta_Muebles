@@ -68,7 +68,7 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::patch('/productos/cambioInfo/{idProducto}', [ProductoController::class, 'update'])->name('administrador_update_producto');
 
     Route::post('/productos/actualizarStock/{idProducto}', [ProductoController::class, 'update_stock_producto'])->name('producto_updateStock');
-    Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('administrador_delete_producto');
+    Route::delete('/productos/eliminar/{idProducto}', [ProductoController::class, 'destroy'])->name('administrador_delete_producto');
 
     Route::get('/productos/{idProd}', [ProductoController::class, 'admShow'])->name('administrador_producto_show');
 

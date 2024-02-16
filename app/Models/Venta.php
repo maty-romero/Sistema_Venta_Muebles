@@ -73,13 +73,13 @@ class Venta extends Model
             $request = new Request();
             $request->setLaravelSession(session());
             $request->session()->put('ofertaMonto', $ofertaMonto);
-            /*
+            
             $descuento = 0;
             if (isset($ofertaMonto)) {
                 $descuento = $ofertaMonto->porcentaje_descuento;
             }
             $subtotal = $subtotal * (1 - $descuento / 100);
-            */
+            
         }
         return $subtotal;
     }

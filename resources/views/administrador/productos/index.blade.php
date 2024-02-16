@@ -10,6 +10,7 @@ Productos
 
 @section('contenido')
 
+<script src="{{asset('js/selectProductHandler.js')}}"></script>
 
 @if (session('success'))
       <div class="bg-green-100 w-full border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
@@ -24,6 +25,7 @@ Productos
       @endif
 
 <h3 class='text-3xl text-left ml-1'>Ordenar</h3>
+
 <div class="flex justify-between ml-1">
     <form id="searchForm" name="searchForm" method="GET" action="/searchProducto">
         <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="ordenamiento">
@@ -41,12 +43,13 @@ Productos
         </select>
         <input id="name" name="name" value="{{isset($input['name'])?$input['name']:''}}" class="py-1 pl-2 rounded-lg mr-5 border-gray-200" placeholder="Buscar nombre">
     
+         
         @if (Auth::user()->rol_usuario == 'administrador')
             <select class="form-control mr-5 rounded-lg" id="discontinuado" name="discontinuado">
-                <option value="1" {{ isset($input['discontinuado']) && $input['discontinuado']=== "1"
-                ?"selected":""}}>Discontinuado</option>
-                <option value="0" {{ isset($input['discontinuado']) && $input['discontinuado']=== "0"
+                <option value="0" {{ isset($input['discontinuado']) && $input['discontinuado'] == "0"
                 ?"selected":""}}>Vigente</option>
+                <option value="1" {{ isset($input['discontinuado']) && $input['discontinuado'] == "1"
+                ?"selected":""}}>Discontinuado</option>
             </select>    
         @endif
         
@@ -61,7 +64,7 @@ Productos
 <div class="w-full">
     <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion', '']">
         @foreach ($products as $producto)
-
+        
         <tr>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900 hover:underline">
                 <a href='{{route('administrador_producto_show', $producto->id)}}'>
@@ -69,7 +72,7 @@ Productos
                 </a>
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
-                {{ Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble) }}
+                {{ Str::ucfirst($producto->nombre_tipo_mueble) }}
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 @if ($producto->discontinuado)
@@ -85,7 +88,7 @@ Productos
                 {{ $producto->stock }}
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left hover:underline text-lg font-semibold text-gray-900">
-                <a href="{{ route('administrador_edit_producto', $producto) }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <a href="{{ route('administrador_edit_producto', $producto->id) }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
                         <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
                     </svg>
@@ -93,7 +96,7 @@ Productos
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left  hover:underline text-lg font-semibold text-gray-900">
 
-                <form action="{{route('administrador_delete_producto', $producto)}}" method="POST">
+                <form action="{{route('administrador_delete_producto', $producto->id)}}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -107,7 +110,7 @@ Productos
         @endforeach
     </x-custom.table>
 </div>
+{{----}}
 <div class="flex justify-center">{{ $products->links() }}</div>
 
-<script src="{{asset('js/selectProductHandler.js')}}"></script>
 @endsection
