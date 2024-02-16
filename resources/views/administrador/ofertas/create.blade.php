@@ -102,12 +102,7 @@ Crear oferta
                         </div>
                     </td>
                 </tr>
-                <tr id='seleccionProds' class='hidden'>
-                    <td>
-                        <p class="font-poppins text-1g">Selecci&oacute;n de productos</p>
-                        <input type='text' id="buscarProductos" name="buscarProductos" placeholder='Buscar producto' class="w-[200px] resize-none rounded-md mb-5 mr-1 placeholder-gray-400">
-                    </td>
-                </tr>
+                
                 <tr id='encTabla' class='hidden'>
                     <td>
                         Tabla de productos
