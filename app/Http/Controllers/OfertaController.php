@@ -125,7 +125,7 @@ class OfertaController extends Controller
 
             case 'combo':
                 $validado = OfertaCombo::validarCombo();
-                session()->flash('errorValid', 'Los productos y las fechas ingresadas generan conflicto con otra oferta similar');
+                session()->flash('errorValid', 'Los productos y las fechas ingresadas generan conflicto con otro combo similar');
                 break;
 
             case 'tipo':
