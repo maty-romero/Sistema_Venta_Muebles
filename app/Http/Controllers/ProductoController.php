@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProductoController extends Controller
 {
@@ -105,26 +107,36 @@ class ProductoController extends Controller
     {
         $producto = Producto::findOrFail($id);
 
+        $ofertasUnitarias = [];
         //ofertas asociadas al producto 
         $ofertasUnitarias = Producto::query()
-            ->with(['oferta' => function ($query){
+            ->with(['oferta' => function ($query) {
                 $query->select('id', 'fecha_fin_oferta', 'porcentaje_descuento'); // FK de la relacion
             }])
             ->get();
 
         // Arreglar query 
-        $ofertasCombo = Producto::query()
-            ->with(['oferta_combo_producto' => function ($query){
-                $query->select('id_oferta_combo', 'nombre_combo', 'oferta:fecha_fin_oferta', 'oferta:porcentaje_descuento'); // FK de la relacion
-            }])
-            ->get();
+        $ofertasCombo = [];
 
-        return view('administrador.productos.show', 
-        [
-            'producto' => $producto,
-            'ofertasUnitarias' => $ofertasUnitarias,
-            'ofertasCombos' => $ofertasCombo
-        ]);
+        $ofertasCombo = DB::select("
+            SELECT oc.id_oferta_combo, oc.nombre_combo, o.fecha_fin_oferta, o.porcentaje_descuento 
+            FROM productos p 
+            INNER JOIN oferta_combo_producto ocp ON ocp.id_producto = p.id
+            INNER JOIN oferta_combo oc ON oc.id_oferta_combo = ocp.id_oferta_combo
+            INNER JOIN ofertas o ON o.id = oc.id_oferta_combo 
+            WHERE p.id = ?
+        ", [$id]);
+
+        //dd($ofertasCombo);
+
+        return view(
+            'administrador.productos.show',
+            [
+                'producto' => $producto,
+                'ofertasUnitarias' => $ofertasUnitarias,
+                'ofertasCombos' => $ofertasCombo
+            ]
+        );
     }
 
 
@@ -202,32 +214,38 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        $productoComboRelaciones =  OfertaComboProducto::where('id_producto', $producto->id)->get();
-        $productoOfertaRelaciones = ProductoOferta::where('id_producto', $producto->id)->get();
+        if(Auth::user()->rol_usuario == 'administrador'){
 
-        foreach ($productoOfertaRelaciones as $ofertaProducto) {
-            ProductoOferta::where("id_oferta", $ofertaProducto->id_oferta)->delete();
+            $productoComboRelaciones =  OfertaComboProducto::where('id_producto', $producto->id)->get();
+            $productoOfertaRelaciones = ProductoOferta::where('id_producto', $producto->id)->get();
+
+            foreach ($productoOfertaRelaciones as $ofertaProducto) {
+                ProductoOferta::where("id_oferta", $ofertaProducto->id_oferta)->delete();
+            }
+
+            foreach ($productoComboRelaciones as $ofertaCombo) {
+                OfertaComboProducto::where("id_oferta_combo", $ofertaCombo->id_oferta_combo)->delete();
+            }
+            $producto->delete();
+
+            session()->flash('success', 'El producto ha sido eliminado exitosamente');
+        }else{
+
+            session()->flash('error', 'Solo los usuarios administradores pueden eliminar productos');
         }
 
-        foreach ($productoComboRelaciones as $ofertaCombo) {
-            OfertaComboProducto::where("id_oferta_combo", $ofertaCombo->id_oferta_combo)->delete();
-        }
-
-
-
-        $producto->delete();
-        return redirect()->route('administrador_productos');
+        return redirect()->back();
     }
 
     public function search(Request $request)
     {
-
         // FALTAN VALIDACIONES
         $name =  $request->input('name');
         $tipoMueble =  $request->input('tipoMueble') !== null ? $request->input('tipoMueble') :  1;
         $filtro =  $request->input('filtro') !== null ? $request->input('filtro') :  "todo";
         $ordenCriterio = $request->input("ordenCriterio")  === "nombre_producto" ? "nombre_producto" : "precio_producto";
         $orden =  $request->input('orden') !== null ? $request->input('orden') :  "asc";
+
         $matchInput = ['id_tipo_mueble' => $tipoMueble, "discontinuado" => 0];
 
         // SE NECESITA USAR DB EN ESTE CASO PORQUE ARMO DOS ESTRUCTURAS PRODUCTOS Y COMBOS
@@ -398,9 +416,18 @@ class ProductoController extends Controller
         $orden = $request->input("ordenamiento");
         $direccion = $request->input("direccion_orden");
         $input = $request->input();
-        $products =  Producto::where('nombre_producto', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        
+        $discontinuadoValor = 0;
+        if ($request->has('discontinuado')) {
+            $discontinuadoValor = $request->input('discontinuado');
+        }
 
+        $products = Producto::where('nombre_producto', 'like', '%' . $name . '%')
+            ->where('discontinuado', $discontinuadoValor)
+            ->orderBy($orden, $direccion)
+            ->paginate(5);
 
+    
         $products->appends(["name" => $name, "ordenamiento" => $orden, "direccion_orden" => $direccion]);
 
 

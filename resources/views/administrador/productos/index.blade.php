@@ -11,7 +11,17 @@ Productos
 @section('contenido')
 
 
-
+@if (session('success'))
+      <div class="bg-green-100 w-full border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+          <span class="block sm:inline">{{ session('success') }}</span>
+      </div>
+      @endif
+      
+      @if (session('error'))
+      <div class="bg-red-100 w-full border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <span class="block sm:inline">{{ session('error') }}</span>
+      </div>
+      @endif
 
 <h3 class='text-3xl text-left ml-1'>Ordenar</h3>
 <div class="flex justify-between ml-1">
@@ -29,7 +39,17 @@ Productos
             <option value="desc" {{ isset($input['direccion_orden']) && $input['direccion_orden']==="desc"
                 ?"selected":""}}>Descendente</option>
         </select>
-        <input id="name" name="name" value="{{isset($input['name'])?$input['name']:''}}" class="py-1 pl-2 rounded-lg border-gray-200" placeholder="Buscar nombre">
+        <input id="name" name="name" value="{{isset($input['name'])?$input['name']:''}}" class="py-1 pl-2 rounded-lg mr-5 border-gray-200" placeholder="Buscar nombre">
+    
+        @if (Auth::user()->rol_usuario == 'administrador')
+            <select class="form-control mr-5 rounded-lg" id="discontinuado" name="discontinuado">
+                <option value="1" {{ isset($input['discontinuado']) && $input['discontinuado']=== "1"
+                ?"selected":""}}>Discontinuado</option>
+                <option value="0" {{ isset($input['discontinuado']) && $input['discontinuado']=== "0"
+                ?"selected":""}}>Vigente</option>
+            </select>    
+        @endif
+        
     </form>
 
     <a href="{{ route('administrador_create_producto') }}" class='bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1'>
@@ -41,7 +61,6 @@ Productos
 <div class="w-full">
     <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion', '']">
         @foreach ($products as $producto)
-
 
         <tr>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900 hover:underline">
@@ -89,5 +108,6 @@ Productos
     </x-custom.table>
 </div>
 <div class="flex justify-center">{{ $products->links() }}</div>
+
 <script src="{{asset('js/selectProductHandler.js')}}"></script>
 @endsection

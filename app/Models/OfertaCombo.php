@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Storage;
 class OfertaCombo extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $table = "oferta_combo"; //tabla a referenciar
     protected $primaryKey = 'id_oferta_combo';
     protected $fillable = [
         "nombre_combo",
         "imagenURL",
     ];
-    protected $table = "oferta_combo"; //tabla a referenciar
+    
 
 
     // M:1 ofertaCombo-oferta
