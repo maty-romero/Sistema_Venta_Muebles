@@ -116,7 +116,8 @@ class Oferta extends Model
             return 'Combo '.OfertaCombo::find($this->id)->nombre_combo;
         } else if(OfertaMonto::find($this->id)){
             return 'Por monto';
+        } else if(ProductoOferta::where('id_oferta', $this->id)->first()){
+            return 'Unitaria '.Producto::find(ProductoOferta::where('id_oferta', $this->id)->first()->id_producto)->nombre_producto;
         }
-        return 'Unitaria '.Producto::find(ProductoOferta::where('id_oferta', $this->id)->first()->id_producto)->nombre_producto;
     }
 }

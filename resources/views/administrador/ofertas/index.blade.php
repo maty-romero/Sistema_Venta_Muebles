@@ -14,6 +14,7 @@ Ofertas
 <div class="flex justify-between ml-1">
     <div>
         <select class="form-control mr-5 rounded-lg" id="tipo_oferta" name="tipoOferta">
+            <option></option>
             <option value="producto">Unitarias</option>
             <option value="ofertaCombo">Combo</option>
             <option value="ofertaMonto">Monto</option>
@@ -38,15 +39,11 @@ Ofertas
 </div>
 
 <div id="contenedorTablaOfertas" class="w-full">
-
     <div class="w-full">
         <x-custom.table :columnas="['Oferta', 'Descuento', 'Inicio de Vigencia', 'Fin de Vigencia', 'Modificacion']">
             @foreach ($ofertas as $oferta)
             <tr>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                    {{$oferta->oferta_combo && count($oferta->oferta_combo) > 0 ? $oferta->oferta_combo[0]->nombre_combo
-                    :
-                    ''}}
 
                 {{$oferta->getTipoOferta()}}
                 
@@ -95,8 +92,6 @@ Ofertas
             @endforeach
         </x-custom.table>
     </div>
-
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -123,19 +118,13 @@ Ofertas
                     const ofertas = response.data.ofertas;
                     const rol = response.data.rol;
                     document.getElementById('contenedorTablaOfertas').innerHTML = "";
-                    //  console.log(ofertas);
-
-
                     // Encabezados tabla
                     let tablaHTML;
-
-
-
 
                     // cuerpo de tabla
                     tablaHTML = `
                          <div class="w-full">
-                                        <x-custom.table :columnas="['Nombre Oferta', 'Descuento', 'Inicio de Vigencia', 'Fin de Vigencia', 'Modificacion','']">`;
+                                        <x-custom.table :columnas="['Oferta', 'Descuento', 'Inicio de Vigencia', 'Fin de Vigencia', 'Modificacion']">`;
 
                     if (rol == "administrador") {
 
@@ -143,7 +132,7 @@ Ofertas
                             tablaHTML += `
                             <tr>
                                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                                    ${oferta.oferta_combo && oferta.oferta_combo.length > 0 ? oferta.oferta_combo[0].nombre_combo : ''}
+                                    ${oferta.tipo}
                                 </td>
                                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                                     ${oferta.porcentaje_descuento}%

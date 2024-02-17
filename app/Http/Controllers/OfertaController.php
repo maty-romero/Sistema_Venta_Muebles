@@ -25,26 +25,54 @@ class OfertaController extends Controller
 
     public function index(Request $request)
     {
+        /*$ofertas = Oferta::with("producto")
+            ->orderBy("fecha_inicio_oferta", "asc")
+            ->get();*/
+
+        $ofertas = Oferta::query()->orderBy('fecha_inicio_oferta', 'asc')->get();
+        
         if ($request->ajax()) {
             $tipoOferta = $request->input('tipoOferta');
+
             $campoOrden = $request->input('campoOrden');
             $direccionOrden = $request->input('direccionOrden');
 
-            $ofertas = Oferta::with($tipoOferta)
-                ->orderBy($campoOrden, $direccionOrden)
-                ->get();
+            switch ($tipoOferta) {
+                case 'ofertaCombo':
+                    $ofertas = Oferta::query()->join('oferta_combo', 'ofertas.id', '=', 'oferta_combo.id_oferta_combo')
+                    ->orderBy($campoOrden, $direccionOrden)
+                    ->get();
+                break;
+                case 'producto':
+                    $ofertas = Oferta::query()->join('oferta_producto', 'ofertas.id', '=', 'oferta_producto.id_oferta')
+                    ->orderBy($campoOrden, $direccionOrden)
+                    ->get();
+                break;
+                case 'ofertaMonto':
+                    $ofertas = Oferta::query()->join('ofertas_montos', 'ofertas.id', '=', 'ofertas_montos.id_oferta_monto')
+                    ->orderBy($campoOrden, $direccionOrden)
+                    ->get();
+                break;
+                case 'ofertaMueble':
+                    $ofertas = Oferta::query()->join('ofertas_tipos_muebles', 'ofertas.id', '=', 'ofertas_tipos_muebles.id_oferta_tipo')
+                    ->orderBy($campoOrden, $direccionOrden)
+                    ->get();
+                break;
+                case '':
+                $ofertas = Oferta::query()
+                    ->orderBy($campoOrden, $direccionOrden)
+                    ->get();
+                break;
+            }
 
             $rol = Auth::user()->rol_usuario; // necesario para el renderizado dinamico
-
+            
+            foreach($ofertas as $of){
+                $of->tipo = $of->getTipoOferta();
+            }
 
             return response()->json(['ofertas' => $ofertas, "rol" => $rol]);
         }
-
-        $ofertas = Oferta::with("producto")
-            ->orderBy("fecha_inicio_oferta", "asc")
-            ->get();
-
-
 
         // Sino hay solicitud AJAX  
         return view('administrador.ofertas.index', compact("ofertas"));
