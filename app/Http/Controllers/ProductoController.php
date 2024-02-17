@@ -114,18 +114,21 @@ class ProductoController extends Controller
     {
         $producto = Producto::findOrFail($idProd);
 
-        $ofertasUnitarias = [];
+        
         //ofertas asociadas al producto 
-        $ofertasUnitarias = Producto::query()
-            ->with(['oferta' => function ($query) {
-                $query->select('id', 'fecha_fin_oferta', 'porcentaje_descuento'); // FK de la relacion
-            }])
-            ->get();
+        $ofertasUnitarias = []; 
+        
+        $ofertasUnitarias = DB::table('ofertas as o')
+        ->select('o.id', 'o.fecha_inicio_oferta','o.fecha_fin_oferta', 'o.porcentaje_descuento')
+        ->join("oferta_producto as op", "op.id_oferta", "=", "o.id")
+        ->where("op.id_producto", "=", $idProd)
+        ->get(); 
+
 
         $ofertasCombo = [];
 
         $ofertasCombo = DB::select("
-            SELECT oc.id_oferta_combo, oc.nombre_combo, o.fecha_fin_oferta, o.porcentaje_descuento 
+            SELECT oc.id_oferta_combo, oc.nombre_combo, o.fecha_inicio_oferta, o.fecha_fin_oferta, o.porcentaje_descuento 
             FROM productos p 
             INNER JOIN oferta_combo_producto ocp ON ocp.id_producto = p.id
             INNER JOIN oferta_combo oc ON oc.id_oferta_combo = ocp.id_oferta_combo
