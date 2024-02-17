@@ -427,9 +427,11 @@ class ProductoController extends Controller
 
         $discontinuadoValor = $request->input('discontinuado', 0); // Valor predeterminado es null
 
-        $products = Producto::with('tipo_mueble')
+        $products = DB::table('productos as p')
+            ->select("p.id", "p.nombre_producto", "tp.nombre_tipo_mueble","p.discontinuado", "p.precio_producto", "p.stock")
+            ->join('tipos_muebles as tp', 'tp.id', '=', 'p.id_tipo_mueble')
+            ->where("p.discontinuado", "=", $discontinuadoValor)
             ->where('nombre_producto', 'like', '%' . $name . '%')
-            ->where('discontinuado', $discontinuadoValor)
             ->orderBy($orden, $direccion)
             ->paginate(5);
 
