@@ -23,7 +23,14 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = User::where("rol_usuario", "!=", "administrador")->where("id", "!=", Auth::user()->id)->withTrashed()->paginate(5);
+        if(Auth::user()->rol_usuario != "administrador")
+        {
+            // jefe de ventas o gerente 
+            $usuarios = User::where("rol_usuario", "=", "cliente")->where("id", "!=", Auth::user()->id)->withTrashed()->paginate(5);
+        }else{
+            $usuarios = User::where("rol_usuario", "!=", "administrador")->where("id", "!=", Auth::user()->id)->withTrashed()->paginate(5);
+
+        }
         return view("administrador.usuarios.index", compact('usuarios'));
     }
 
