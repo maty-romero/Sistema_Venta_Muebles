@@ -140,7 +140,7 @@ Crear oferta
                                             <td class="pl-5 pr-2.5 py-2 bg-slate-50 font-bold text-left text-slate-700">
                                                 {{$p->nombre_producto}}
                                             </td>
-                                            <td class="px-2.5 py-2 bg-slate-50 font-bold text-center text-slate-700">
+                                            <td class="px-2.5 py-2 bg-slate-50 font-bold text-right text-slate-700">
                                                 @money($p->precio_producto)
                                             </td>
                                             <td class="px-2.5 py-2 bg-slate-50 font-bold text-center text-slate-700">

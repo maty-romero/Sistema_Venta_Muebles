@@ -185,7 +185,13 @@ class ProductoController extends Controller
         return redirect()->back();
     }
 
-    public function update_stock_producto(Request $request, $idProducto)
+    public function add_stock_producto(Request $request)
+    {
+        $productos = Producto::all();
+        return view('administrador.productos.stock', ['productos' => $productos]);
+    }
+
+    public function update_stock_producto(Request $request)
     {
         try {
             $request->validate([
@@ -193,8 +199,7 @@ class ProductoController extends Controller
                 'precio_producto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1']
             ]);
 
-
-            $producto = Producto::find($idProducto);
+            $producto = Producto::find(2); //ACA
             $nuevoStock = $producto->stock + $request->input('stock_producto');
             $nuevoPrecio = $request->input('precio_producto');
             $producto->update([

@@ -53,13 +53,16 @@ Productos
     </form>
 
     <a href="{{ route('administrador_create_producto') }}" class='bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1'>
+        Ingresar Stock
+    </a>
+    <a href="{{ route('administrador_create_producto') }}" class='bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1'>
         Crear Producto
     </a>
 
 </div>
 
 <div class="w-full">
-    <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion', '']">
+    <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion']">
         @foreach ($products as $producto)
 
         <tr>
@@ -78,22 +81,20 @@ Productos
                 No
                 @endif
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-right text-lg font-semibold text-gray-900">
                 @money($producto->precio_producto)
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 {{ $producto->stock }}
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left hover:underline text-lg font-semibold text-gray-900">
-                <a href="{{ route('administrador_edit_producto', $producto) }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <div class='grid grid-cols-2'>
+                <a href="{{ route('administrador_edit_producto', $producto) }}" class='mr-2 ml-auto'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
                         <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
                     </svg>
                 </a>
-            </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left  hover:underline text-lg font-semibold text-gray-900">
-
-                <form action="{{route('administrador_delete_producto', $producto)}}" method="POST">
+                <form action="{{route('administrador_delete_producto', $producto)}}" method="POST" class='ml-2 mr-auto'>
                     @csrf
                     @method('DELETE')
                     <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -101,6 +102,7 @@ Productos
                         </svg>
                     </button>
                 </form>
+                </div>
             </td>
 
         </tr>
