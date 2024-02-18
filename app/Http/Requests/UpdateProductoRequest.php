@@ -30,6 +30,7 @@ class UpdateProductoRequest extends FormRequest
             'alto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
             'cmbmaterialMueble' => 'required',
             'imagenProdEdit' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'precioProducto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1']
         ];
     }
 
@@ -38,6 +39,10 @@ class UpdateProductoRequest extends FormRequest
         return [
             'nombre_producto.required' => 'El nombre del producto es obligatorio.',
             'nombre_producto.max' => 'El nombre del producto no puede tener más de :max caracteres.',
+            'precioProducto.required' => 'El precio del producto es obligatorio.',
+            'precioProducto.numeric' => 'El precio debe ser numérico.',
+            'precioProducto.regex' => 'El precio debe tener hasta dos decimales.',
+            'precioProducto.min' => 'El precio debe ser al menos :min.',
             'descripcion.max' => 'La descripción no puede tener más de :max caracteres.',
             'id_tipo_mueble.required' => 'El tipo de mueble es obligatorio.',
             'largo.required' => 'El largo es obligatorio.',

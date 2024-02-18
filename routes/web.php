@@ -64,11 +64,11 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::get('/productos/crear', [ProductoController::class, 'create'])->name('administrador_create_producto');
     Route::post('/productos/guardar', [ProductoController::class, 'store'])->name('administrador_store_producto');
 
-    Route::get('/productos/editar/{producto}', [ProductoController::class, 'edit'])->name('administrador_edit_producto'); //ACA
+    Route::get('/productos/editar/{producto}', [ProductoController::class, 'edit'])->name('administrador_edit_producto');
     Route::patch('/productos/cambioInfo/{idProducto}', [ProductoController::class, 'update'])->name('administrador_update_producto');
 
     Route::get('/productos/stock', [ProductoController::class, 'add_stock_producto'])->name('producto_addStock');
-    Route::post('/productos/actualizarStock', [ProductoController::class, 'update_stock_producto'])->name('producto_updateStock');
+    Route::patch('/productos/stock/actualizar', [ProductoController::class, 'update_stock_producto'])->name('producto_updateStock');
     
     Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('administrador_delete_producto');
 

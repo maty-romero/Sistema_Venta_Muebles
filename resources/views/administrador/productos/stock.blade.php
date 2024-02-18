@@ -70,8 +70,10 @@ Ingresar stock
     </div>
 
     <div class='flex flex-col max-w-[300px]'>
-    <input type='text' id='busqueda' placeholder="Buscar producto" onchange="buscar()" class='ml-1 mt-4 w-[250px] rounded-md mr-1 border-gray-600'>
+    <input type='text' id='busqueda' placeholder="Buscar producto" oninput="buscar()" class='ml-1 mt-4 w-[250px] rounded-md mr-1 border-gray-600'>
     <form method="POST" action='{{route("producto_updateStock")}}' enctype="multipart/form-data" class='pl-1'>
+        @csrf
+        @method('PATCH')
         <ul id='lista' class="py-4">
             <li id='itemVacio'><input type="text" readonly class="elementoLista w-[250px] rounded-md mr-1 border-gray-600">
                 <button type='button' disabled class='btnLista bg-gray-600 hover:bg-gray-600 text-white h-8 w-8 rounded-md'>X</button>

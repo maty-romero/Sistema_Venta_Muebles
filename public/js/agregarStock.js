@@ -20,7 +20,6 @@ function buscar() {
             filas[i].style.display = "";
         }
     }
-
 }
 
 function agregarProd(id, nombreProd){

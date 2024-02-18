@@ -168,13 +168,14 @@ class ProductoController extends Controller
 
             $producto->update([
                 'nombre_producto' => $request->input('nombre_producto'),
+                'precio_producto' => $request->input('precioProducto'),
                 'descripcion' => $request->input('descripcion'),
                 'id_tipo_mueble' => $request->input('cmbTipoMueble'),
                 'largo' => $request->input('largo'),
                 'ancho' => $request->input('ancho'),
                 'alto' => $request->input('alto'),
                 'material' => $request->input('cmbmaterialMueble'),
-                'imagenURL' => $imagenURL
+                'imagenURL' => $imagenURL,
             ]);
 
             //$producto->save();
@@ -193,25 +194,30 @@ class ProductoController extends Controller
 
     public function update_stock_producto(Request $request)
     {
-        try {
-            $request->validate([
-                'stock_producto' => 'required|min:1|numeric',
-                'precio_producto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1']
-            ]);
+            $productos = request()->input('productos');
+            foreach ($productos as $input) {
+                $id = (int)explode(".", $input)[0];
+                $producto = Producto::find($id);
+                
+                $nuevoStock = trim(explode("-", $input)[1]);
+                $nuevoStock = (int)str_replace(" unids.", "", $nuevoStock);
+                $nuevoStock = $nuevoStock + $producto->stock;
+                
+                if(count(explode("-", $input)) >= 3){
+                    $nuevoPrecio = trim(explode("-", $input)[2]);
+                    $nuevoPrecio = (float)str_replace("$", "", $nuevoPrecio);
 
-            $producto = Producto::find(2); //ACA
-            $nuevoStock = $producto->stock + $request->input('stock_producto');
-            $nuevoPrecio = $request->input('precio_producto');
-            $producto->update([
-                'stock' => $nuevoStock,
-                'precio_producto' => $nuevoPrecio
-            ]);
-
-
-            return redirect()->back()->with('success_stock_precio', 'Se ha actualizado stock y/o precio exitosamente');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error_stock_precio', 'No se ha podido actualizar stock y/o precio: ' . $e->getMessage());
-        }
+                    $producto->update([
+                        'stock' => $nuevoStock,
+                        'precio_producto' => $nuevoPrecio
+                    ]);
+                } else {
+                    $producto->update([
+                        'stock' => $nuevoStock
+                    ]);
+                }
+            }
+        return redirect()->back();
     }
 
     /**

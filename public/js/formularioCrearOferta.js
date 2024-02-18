@@ -6,7 +6,7 @@ function formularioPorTipo() {
             document.getElementById('imgCombo').style.display = "none";
             document.getElementById('tipoProducto').style.display = "none";
             document.getElementById('montoMinimo').style.display = "none";
-            //document.getElementById('seleccionProds').style.display = "block";
+            document.getElementById('seleccionProds').style.display = "block";
             document.getElementById('encTabla').style.display = "block";
             document.getElementById('tablaProds').style.display = "block";
             setTabla('unitaria');
@@ -16,7 +16,7 @@ function formularioPorTipo() {
             document.getElementById('imgCombo').style.display = "none";
             document.getElementById('tipoProducto').style.display = "block";
             document.getElementById('montoMinimo').style.display = "none";
-            //document.getElementById('seleccionProds').style.display = "none";
+            document.getElementById('seleccionProds').style.display = "none";
             document.getElementById('encTabla').style.display = "none";
             document.getElementById('tablaProds').style.display = "none";
             break;
@@ -25,7 +25,7 @@ function formularioPorTipo() {
             document.getElementById('imgCombo').style.display = "block";
             document.getElementById('tipoProducto').style.display = "none";
             document.getElementById('montoMinimo').style.display = "none";
-            //document.getElementById('seleccionProds').style.display = "block";
+            document.getElementById('seleccionProds').style.display = "block";
             document.getElementById('encTabla').style.display = "block";
             document.getElementById('tablaProds').style.display = "block";
             setTabla('combo');
@@ -35,7 +35,7 @@ function formularioPorTipo() {
             document.getElementById('imgCombo').style.display = "none";
             document.getElementById('tipoProducto').style.display = "none";
             document.getElementById('montoMinimo').style.display = "block";
-            //document.getElementById('seleccionProds').style.display = "none";
+            document.getElementById('seleccionProds').style.display = "none";
             document.getElementById('encTabla').style.display = "none";
             document.getElementById('tablaProds').style.display = "none";
             break;
@@ -129,6 +129,28 @@ function setTabla(tipo){
         for(var i = 0; i < btnsInc.length; i++){
             btnsInc[i].disabled = false;
             btnsDrc[i].disabled = false;
+        }
+    }
+}
+
+function buscar() {
+    var inputBusq = document.getElementById('buscarProductos').value;
+    inputBusq = inputBusq.toLowerCase();
+    var filas = document.getElementsByClassName('filas');
+
+    if(inputBusq != ''){
+        var nombre = '';
+        for (var i = 0; i < filas.length; i++) {
+            nombre = filas[i].id.toLowerCase();
+            if(nombre.includes(inputBusq)){
+                filas[i].style.display = "";
+            } else {
+                filas[i].style.display = "none";
+            }
+        }
+    } else {
+        for (var i = 0; i < filas.length; i++) {
+            filas[i].style.display = "";
         }
     }
 }

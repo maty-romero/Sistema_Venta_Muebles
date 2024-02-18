@@ -52,7 +52,7 @@ Productos
         
     </form>
 
-    <a href="{{ route('administrador_create_producto') }}" class='bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1'>
+    <a href="{{ route('producto_addStock') }}" class='bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1'>
         Ingresar Stock
     </a>
     <a href="{{ route('administrador_create_producto') }}" class='bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1'>

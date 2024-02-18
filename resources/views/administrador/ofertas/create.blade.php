@@ -103,6 +103,13 @@ Crear oferta
                     </td>
                 </tr>
                 
+                <tr id='seleccionProds' class='hidden'>
+                    <td>
+                        <p class="font-poppins text-1g">Selecci&oacute;n de productos</p>
+                        <input oninput='buscar()' type='text' id="buscarProductos" name="buscarProductos" placeholder='Buscar producto' class="w-[200px] resize-none rounded-md mb-5 mr-1 placeholder-gray-400">
+                    </td>
+                </tr>
+                
                 <tr id='encTabla' class='hidden'>
                     <td>
                         Tabla de productos
@@ -136,7 +143,7 @@ Crear oferta
                                             </tr>
                                         </thead>
                                         @foreach($productos as $p)
-                                        <tr>
+                                        <tr class='filas' id='{{$p->nombre_producto}}'>
                                             <td class="pl-5 pr-2.5 py-2 bg-slate-50 font-bold text-left text-slate-700">
                                                 {{$p->nombre_producto}}
                                             </td>
