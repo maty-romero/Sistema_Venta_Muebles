@@ -44,7 +44,7 @@ Productos
 
     <div class="w-full">
       <h4 class='text-3xl text-left ml-1'>Ofertas unitarias del producto:</h4>
-      @if (!empty($ofertasUnitarias))
+      @if (count($ofertasUnitarias) != 0)
         
         <x-custom.table :columnas="['#', 'Id Oferta', 'Fecha inicio oferta','Fecha fin oferta', 'Descuento']">
           @foreach ($ofertasUnitarias as $result)
@@ -75,7 +75,7 @@ Productos
       <br>
 
       <h4 class='text-3xl text-left ml-1'>Ofertas combo del producto:</h4>
-      @if (!empty($ofertasCombos))
+      @if (count($ofertasCombos) != 0)
       
         <x-custom.table :columnas="['#', 'Id oferta combo', 'Nombre combo', 'Fecha inicio oferta', 'Fecha fin oferta', 'Descuento']">
           @foreach ($ofertasCombos as $result)
@@ -106,8 +106,6 @@ Productos
         <h6 class='text-3xl text-left ml-1'>No hay ofertas asociadas:</h6> 
       @endif
 
-{{--
-      --}}
     </div>
 
 @endsection

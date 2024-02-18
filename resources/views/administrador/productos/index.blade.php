@@ -68,7 +68,7 @@
     </div>
 
     @php
-        dump($products);
+        //dump($products);
     @endphp
 
     <div class="w-full">
