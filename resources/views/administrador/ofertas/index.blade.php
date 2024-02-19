@@ -10,7 +10,7 @@ Ofertas
 
 @section('contenido')
 
-<h3 class='text-3xl text-left ml-1'>Ordenar</h3>
+<h3 class='text-3xl text-left mb-1 ml-1'>Ordenar</h3>
 <div class="flex justify-between ml-1">
     <div>
         <select class="form-control mr-5 rounded-lg" id="tipo_oferta" name="tipoOferta">
@@ -21,8 +21,8 @@ Ofertas
             <option value="ofertaMueble">Tipo Mueble</option>
         </select>
         <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="campoOrden">
-            <option value="fecha_inicio_oferta">Fecha Inicio Vigencia</option>
-            <option value="fecha_fin_oferta">Fecha Fin Vigencia</option>
+            <option value="fecha_inicio_oferta">Fecha de inicio</option>
+            <option value="fecha_fin_oferta">Fecha de fin</option>
             <option value="porcentaje_descuento">Descuento</option>
         </select>
         <select class="form-control mr-5 rounded-lg" id="direccion_orden" name="direccionOrden">
@@ -40,7 +40,7 @@ Ofertas
 
 <div id="contenedorTablaOfertas" class="w-full">
     <div class="w-full">
-        <x-custom.table :columnas="['Oferta', 'Descuento', 'Inicio de Vigencia', 'Fin de Vigencia', 'Modificacion']">
+        <x-custom.table :columnas="['Oferta', 'Descuento', 'Fecha de inicio', 'Fecha de fin', 'Modificacion']">
             @foreach ($ofertas as $oferta)
             <tr>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
@@ -121,7 +121,7 @@ Ofertas
                     // cuerpo de tabla
                     tablaHTML = `
                          <div class="w-full">
-                                        <x-custom.table :columnas="['Oferta', 'Descuento', 'Inicio de Vigencia', 'Fin de Vigencia', 'Modificacion']">`;
+                                        <x-custom.table :columnas="['Oferta', 'Descuento', 'Fecha de inicio', 'Fecha de fin', 'Modificacion']">`;
 
                     if (rol == "administrador") {
 

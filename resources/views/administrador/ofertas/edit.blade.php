@@ -24,7 +24,7 @@ Editar Oferta
 <br>
 @endif
 
-<form action="{{ route('administrador_update_ofertas', $oferta) }}" method="POST">
+<form action="{{ route('administrador_update_ofertas', $oferta) }}" method="POST" class='ml-1'>
     @method('PATCH')
     @csrf
 
@@ -44,7 +44,7 @@ Editar Oferta
 
     <p class="font-poppins text-1g">Descuento</p>
     <input id="porcentaje_descuento" type="number" class="rounded-md mb-5" min="1" max="99" name="porcentaje_descuento"
-        value="{{ $oferta->porcentaje_descuento }}">
+        value="{{ $oferta->porcentaje_descuento }}"> %
     @error('porcentaje_descuento')
     <br><span style="color: red">{{ $message }}</span>
     @enderror

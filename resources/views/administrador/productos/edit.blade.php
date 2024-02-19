@@ -49,7 +49,6 @@ Editar producto
 
     <td>
         <p class="font-poppins text-1g">Precio</p>
-
         <div class="relative w-[190px] mr-5">
             <div class="absolute mt-[2px] top-0 start-0 p-2.5 text-sm font-medium h-full rounded-s-md">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -129,8 +128,7 @@ Editar producto
         @error('ancho')
         <br><span style="color: red">{{ $message }}</span>
         @enderror
-    </td>
-    </tr>
+    </td></tr>
 
     <tr><td colspan="3">
         <p class="font-poppins text-1g">Imagen</p>

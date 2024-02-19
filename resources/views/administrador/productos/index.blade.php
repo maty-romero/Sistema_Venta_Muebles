@@ -8,6 +8,10 @@
     Productos
 @endsection
 
+@section('scripts')
+<script src="{{ asset('js/indexAdmBuscarProd.js')}}"></script>
+@endsection
+
 @section('contenido')
     <script src="{{ asset('js/selectProductHandler.js') }}"></script>
 
@@ -23,7 +27,7 @@
         </div>
     @endif
 
-    <h3 class='text-3xl text-left ml-1'>Ordenar</h3>
+    <h3 class='text-3xl text-left ml-1 mb-2'>Ordenar</h3>
 
     <div class="flex justify-between ml-1">
         <form id="searchForm" name="searchForm" method="GET" action="/searchProducto">
@@ -43,8 +47,8 @@
                     {{ isset($input['direccion_orden']) && $input['direccion_orden'] === 'desc' ? 'selected' : '' }}>
                     Descendente</option>
             </select>
-            <input id="name" name="name" value="{{ isset($input['name']) ? $input['name'] : '' }}"
-                class="py-1 pl-2 rounded-lg mr-5 border-gray-200" placeholder="Buscar nombre">
+            <input id="name" name="name" oninput="buscar()" value="{{ isset($input['name']) ? $input['name'] : '' }}"
+                class="py-2 pl-2 rounded-lg mr-5" placeholder="Buscar producto">
 
 
             @if (Auth::user()->rol_usuario == 'administrador')
@@ -72,8 +76,7 @@
 <div class="w-full">
     <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion']">
         @foreach ($products as $producto)
-
-        <tr>
+        <tr class='filas' id='{{$producto->nombre_producto}}'>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900 hover:underline">
                 <a href='{{route('administrador_producto_show', $producto->id)}}'>
                     {{ $producto->nombre_producto }}
@@ -112,8 +115,7 @@
                 </form>
                 </div>
             </td>
-
-                </tr>
+            </tr>
             @endforeach
         </x-custom.table>
     </div>

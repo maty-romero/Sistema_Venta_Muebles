@@ -10,7 +10,6 @@ use App\Models\OfertaCombo;
 use App\Models\Producto;
 use App\Models\OfertaComboProducto;
 use App\Models\ProductoOferta;
-use App\View\Components\saleItem;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -23,7 +22,7 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
-
+    
     public function index()
     {
         $productos = Producto::where("discontinuado", 0)->where("stock", ">=", 1)->paginate(4);
@@ -33,11 +32,13 @@ class ProductoController extends Controller
 
     public function index_adm()
     {
-        $products = DB::table('productos as p')
+        /*$products = DB::table('productos as p')
         ->select("p.id", "p.nombre_producto", "tp.nombre_tipo_mueble","p.discontinuado", "p.precio_producto", "p.stock")
         ->join('tipos_muebles as tp', 'tp.id', '=', 'p.id_tipo_mueble')
         ->where("p.discontinuado", "=", 0)
-        ->paginate(5);
+        ->paginate(5);*/
+        $products = Producto::with('tipo_mueble')->paginate(5); 
+        return (view("administrador.productos.index", compact('products')));
         
         //dd($products[0]->id);
         return view("administrador.productos.index", compact('products'));
@@ -116,16 +117,18 @@ class ProductoController extends Controller
 
         
         //ofertas asociadas al producto 
-        $ofertasUnitarias = []; 
-        
+
         $ofertasUnitarias = DB::table('ofertas as o')
         ->select('o.id', 'o.fecha_inicio_oferta','o.fecha_fin_oferta', 'o.porcentaje_descuento')
         ->join("oferta_producto as op", "op.id_oferta", "=", "o.id")
         ->where("op.id_producto", "=", $idProd)
         ->get(); 
 
-
-        $ofertasCombo = [];
+        $ofertasTipo = DB::table('ofertas as o')
+        ->select('o.id', 'o.fecha_inicio_oferta','o.fecha_fin_oferta', 'o.porcentaje_descuento')
+        ->join("ofertas_tipos_muebles as ot", "ot.id_oferta_tipo", "=", "o.id")
+        ->where("ot.id_tipo_mueble", "=", $producto->tipo_mueble->id)
+        ->get(); 
 
         $ofertasCombo = DB::select("
             SELECT oc.id_oferta_combo, oc.nombre_combo, o.fecha_inicio_oferta, o.fecha_fin_oferta, o.porcentaje_descuento 
@@ -143,7 +146,8 @@ class ProductoController extends Controller
             [
                 'producto' => $producto,
                 'ofertasUnitarias' => $ofertasUnitarias,
-                'ofertasCombos' => $ofertasCombo
+                'ofertasCombos' => $ofertasCombo,
+                'ofertasTipo' => $ofertasTipo
             ]
         );
     }
@@ -434,27 +438,16 @@ class ProductoController extends Controller
 
     public function searchProducto(Request $request)
     {
-        $name = $request->input("name");
         $orden = $request->input("ordenamiento");
         $direccion = $request->input("direccion_orden");
         $input = $request->input(); // opciones seleccionadas 
 
         $discontinuadoValor = $request->input('discontinuado', 0); // Valor predeterminado es null
 
-        $products = DB::table('productos as p')
-            ->select("p.id", "p.nombre_producto", "tp.nombre_tipo_mueble","p.discontinuado", "p.precio_producto", "p.stock")
-            ->join('tipos_muebles as tp', 'tp.id', '=', 'p.id_tipo_mueble')
-            ->where("p.discontinuado", "=", $discontinuadoValor)
-            ->where('nombre_producto', 'like', '%' . $name . '%')
+        $products = Producto::query()
+            ->where("productos.discontinuado", "=", $discontinuadoValor)
             ->orderBy($orden, $direccion)
             ->paginate(5);
-
-        $products->appends([
-            "name" => $name,
-            "ordenamiento" => $orden,
-            "direccion_orden" => $direccion,
-            "discontinuado" => $discontinuadoValor
-        ]);
 
         return view("administrador.productos.index", compact('products', "input"));
     }

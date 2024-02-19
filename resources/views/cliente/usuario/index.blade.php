@@ -23,7 +23,7 @@
     <br><br>
 
     <div id="infoCliente" class="container mx-auto bg-white rounded-2xl p-6">
-        <h3 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Perfil del cliente</h3>
+        <h3 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Mi perfil</h3>
         
         @if (session('success_psw'))
             <div class="bg-green-100 w-full border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">

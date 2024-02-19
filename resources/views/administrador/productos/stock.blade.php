@@ -44,7 +44,7 @@ Ingresar stock
             <td class="px-2.5 py-2 bg-slate-50 font-bold text-center text-slate-700">
                 <p>{{$p->id}}</p>
             </td>
-            <td class="pl-5 pr-2.5 py-2 bg-slate-50 font-bold text-left text-slate-700">
+            <td class="pl-5 pr-2.5 py-2 bg-slate-50 font-bold text-left text-slate-700 max-w-[150px]">
                 {{$p->nombre_producto}}
             </td>
             <td class="px-2.5 py-2 bg-slate-50 font-bold text-center text-slate-700">

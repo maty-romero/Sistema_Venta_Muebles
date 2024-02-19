@@ -46,22 +46,19 @@ Productos
       <h4 class='text-3xl text-left ml-1'>Ofertas unitarias del producto:</h4>
       @if (!empty($ofertasUnitarias))
         
-        <x-custom.table :columnas="['#', 'Id Oferta', 'Fecha inicio oferta','Fecha fin oferta', 'Descuento']">
+        <x-custom.table :columnas="['Id Oferta', 'Fecha inicio oferta','Fecha fin oferta', 'Descuento']">
           @foreach ($ofertasUnitarias as $result)
               <tr>
-                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
-                      {{$loop->iteration}}
-                  </td>
-                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
+                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                     {{ $result->id }}
-                </td>
-                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
+                  </td>
+                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                       {{ date('d/m/Y', strtotime($result->fecha_inicio_oferta)) }}
                   </td>
-                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
+                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                       {{ date('d/m/Y', strtotime($result->fecha_fin_oferta)) }}
                   </td>
-                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
+                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                       {{ $result->porcentaje_descuento }}%
                   </td>
               </tr>
@@ -74,28 +71,25 @@ Productos
       @endif
       <br>
 
-      <h4 class='text-3xl text-left ml-1'>Ofertas combo del producto:</h4>
+      <h4 class='text-3xl text-left ml-1'>Combos del producto:</h4>
       @if (!empty($ofertasCombos))
       
-        <x-custom.table :columnas="['#', 'Id oferta combo', 'Nombre combo', 'Fecha inicio oferta', 'Fecha fin oferta', 'Descuento']">
+        <x-custom.table :columnas="['Id Combo', 'Nombre combo', 'Fecha inicio oferta', 'Fecha fin oferta', 'Descuento']">
           @foreach ($ofertasCombos as $result)
               <tr>
-                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
-                    {{$loop->iteration}}
-                  </td>
-                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
+                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                     {{ $result->id_oferta_combo }}
                   </td>
                   <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
                       {{ $result->nombre_combo }}
                   </td>
-                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
+                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                     {{ date('d/m/Y', strtotime($result->fecha_inicio_oferta)) }}
                   </td>
-                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
+                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                       {{ date('d/m/Y', strtotime($result->fecha_fin_oferta)) }}
                   </td>
-                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900 hover:underline">
+                  <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                     {{ $result->porcentaje_descuento }}%
                 </td>
               </tr>
@@ -105,6 +99,35 @@ Productos
       @else
         <h6 class='text-3xl text-left ml-1'>No hay ofertas asociadas:</h6> 
       @endif
+
+      <div class="w-full">
+        <h4 class='text-3xl text-left ml-1'>Ofertas de muebles de {{Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble)}}:</h4>
+        @if (!empty($ofertasTipo))
+          
+          <x-custom.table :columnas="['Id Oferta', 'Fecha inicio oferta','Fecha fin oferta', 'Descuento']">
+            @foreach ($ofertasTipo as $result)
+                <tr>
+                    <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+                      {{ $result->id }}
+                    </td>
+                    <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+                        {{ date('d/m/Y', strtotime($result->fecha_inicio_oferta)) }}
+                    </td>
+                    <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+                        {{ date('d/m/Y', strtotime($result->fecha_fin_oferta)) }}
+                    </td>
+                    <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+                        {{ $result->porcentaje_descuento }}%
+                    </td>
+                </tr>
+            @endforeach
+  
+          </x-custom.table>
+          
+        @else
+          <h6 class='text-3xl text-left ml-1'>No hay ofertas asociadas:</h6> 
+        @endif
+        <br>
 
 {{--
       --}}
