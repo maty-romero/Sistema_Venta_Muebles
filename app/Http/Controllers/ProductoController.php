@@ -37,6 +37,7 @@ class ProductoController extends Controller
         ->select("p.id", "p.nombre_producto", "tp.nombre_tipo_mueble","p.discontinuado", "p.precio_producto", "p.stock")
         ->join('tipos_muebles as tp', 'tp.id', '=', 'p.id_tipo_mueble')
         ->where("p.discontinuado", "=", 0)
+        ->where("p.deleted_at", "=", null)
         ->paginate(5);
         
         //dd($products[0]->id);
@@ -435,6 +436,7 @@ class ProductoController extends Controller
             ->join('tipos_muebles as tp', 'tp.id', '=', 'p.id_tipo_mueble')
             ->where("p.discontinuado", "=", $discontinuadoValor)
             ->where('nombre_producto', 'like', '%' . $name . '%')
+            ->where("p.deleted_at", "=", null)
             ->orderBy($orden, $direccion)
             ->paginate(5);
 
