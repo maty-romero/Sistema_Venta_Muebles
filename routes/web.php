@@ -70,7 +70,7 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::get('/productos/stock', [ProductoController::class, 'add_stock_producto'])->name('producto_addStock');
     Route::patch('/productos/stock/actualizar', [ProductoController::class, 'update_stock_producto'])->name('producto_updateStock');
     
-    Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('administrador_delete_producto');
+    Route::delete('/productos/eliminar/{idProducto}', [ProductoController::class, 'destroy'])->name('administrador_delete_producto');
 
     Route::get('/productos/{idProd}', [ProductoController::class, 'admShow'])->name('administrador_producto_show');
 

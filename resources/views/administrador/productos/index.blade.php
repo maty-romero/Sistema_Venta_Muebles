@@ -1,56 +1,64 @@
 @extends('layouts.administrativo')
 
 @section('titulo')
-Productos
+    Productos
 @endsection
 
 @section('encabezado')
-Productos
+    Productos
 @endsection
 
 @section('contenido')
+    <script src="{{ asset('js/selectProductHandler.js') }}"></script>
+
+    @if (session('success'))
+        <div class="bg-green-100 w-full border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline">{{ session('success') }}</span>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="bg-red-100 w-full border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline">{{ session('error') }}</span>
+        </div>
+    @endif
+
+    <h3 class='text-3xl text-left ml-1'>Ordenar</h3>
+
+    <div class="flex justify-between ml-1">
+        <form id="searchForm" name="searchForm" method="GET" action="/searchProducto">
+            <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="ordenamiento">
+                <option value="precio_producto"
+                    {{ isset($input['ordenamiento']) && $input['ordenamiento'] === 'precio_producto' ? 'selected' : '' }}>
+                    Precio</option>
+                <option value="nombre_producto"
+                    {{ isset($input['ordenamiento']) && $input['ordenamiento'] === 'nombre_producto' ? 'selected' : '' }}>
+                    Nombre</option>
+            </select>
+            <select class="form-control mr-5 rounded-lg" id="direccion_orden" name="direccion_orden">
+                <option value="asc"
+                    {{ isset($input['direccion_orden']) && $input['direccion_orden'] === 'asc' ? 'selected' : '' }}>
+                    Ascendente</option>
+                <option value="desc"
+                    {{ isset($input['direccion_orden']) && $input['direccion_orden'] === 'desc' ? 'selected' : '' }}>
+                    Descendente</option>
+            </select>
+            <input id="name" name="name" value="{{ isset($input['name']) ? $input['name'] : '' }}"
+                class="py-1 pl-2 rounded-lg mr-5 border-gray-200" placeholder="Buscar nombre">
 
 
-@if (session('success'))
-      <div class="bg-green-100 w-full border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-          <span class="block sm:inline">{{ session('success') }}</span>
-      </div>
-      @endif
-      
-      @if (session('error'))
-      <div class="bg-red-100 w-full border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-          <span class="block sm:inline">{{ session('error') }}</span>
-      </div>
-      @endif
+            @if (Auth::user()->rol_usuario == 'administrador')
+                <select class="form-control mr-5 rounded-lg" id="discontinuado" name="discontinuado">
+                    <option value="0"
+                        {{ isset($input['discontinuado']) && $input['discontinuado'] == '0' ? 'selected' : '' }}>
+                        Vigente</option>
+                    <option value="1"
+                        {{ isset($input['discontinuado']) && $input['discontinuado'] == '1' ? 'selected' : '' }}>
+                        Discontinuado</option>
+                </select>
+            @endif
 
-<h3 class='text-3xl text-left ml-1'>Ordenar</h3>
-<div class="flex justify-between ml-1">
-    <form id="searchForm" name="searchForm" method="GET" action="/searchProducto">
-        <select class="form-control mr-5 rounded-lg" id="ordenamiento" name="ordenamiento">
-            <option value="precio_producto" {{ isset($input['ordenamiento']) &&
-                $input['ordenamiento']==="precio_producto" ?"selected":""}}>
-                Precio</option>
-            <option value="nombre_producto" {{ isset($input['ordenamiento']) &&
-                $input['ordenamiento']==="nombre_producto" ?"selected":""}}>Nombre</option>
-        </select>
-        <select class="form-control mr-5 rounded-lg" id="direccion_orden" name="direccion_orden">
-            <option value="asc" {{ isset($input['direccion_orden']) && $input['direccion_orden']==="asc"
-                ?"selected":""}}>Ascendente</option>
-            <option value="desc" {{ isset($input['direccion_orden']) && $input['direccion_orden']==="desc"
-                ?"selected":""}}>Descendente</option>
-        </select>
-        <input id="name" name="name" value="{{isset($input['name'])?$input['name']:''}}" class="py-1 pl-2 rounded-lg mr-5 border-gray-200" placeholder="Buscar nombre">
-    
-        @if (Auth::user()->rol_usuario == 'administrador')
-            <select class="form-control mr-5 rounded-lg" id="discontinuado" name="discontinuado">
-                <option value="1" {{ isset($input['discontinuado']) && $input['discontinuado']=== "1"
-                ?"selected":""}}>Discontinuado</option>
-                <option value="0" {{ isset($input['discontinuado']) && $input['discontinuado']=== "0"
-                ?"selected":""}}>Vigente</option>
-            </select>    
-        @endif
-        
-    </form>
+        </form>
 
     <a href="{{ route('producto_addStock') }}" class='bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-base mr-1'>
         Ingresar Stock
@@ -59,7 +67,7 @@ Productos
         Crear Producto
     </a>
 
-</div>
+    </div>
 
 <div class="w-full">
     <x-custom.table :columnas="['Nombre', 'Tipo', 'Discontinuado', 'Precio', 'Stock', 'Modificacion']">
@@ -94,7 +102,7 @@ Productos
                         <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
                     </svg>
                 </a>
-                <form action="{{route('administrador_delete_producto', $producto)}}" method="POST" class='ml-2 mr-auto'>
+                <form action="{{route('administrador_delete_producto', $producto->id)}}" method="POST" class='ml-2 mr-auto'>
                     @csrf
                     @method('DELETE')
                     <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -105,11 +113,10 @@ Productos
                 </div>
             </td>
 
-        </tr>
-        @endforeach
-    </x-custom.table>
-</div>
-<div class="flex justify-center">{{ $products->links() }}</div>
-
-<script src="{{asset('js/selectProductHandler.js')}}"></script>
+                </tr>
+            @endforeach
+        </x-custom.table>
+    </div>
+    {{-- --}}
+    <div class="flex justify-center">{{ $products->links() }}</div>
 @endsection
