@@ -225,20 +225,60 @@ class OfertaController extends Controller
                 $validado = true;
             }
         } else if(OfertaCombo::find($id)){
-            $validado = OfertaCombo::validarCombo();
+            $combo = OfertaCombo::find($id);
+
+            //Adecuar
+            $comboSimilar = true;
+            foreach ($combo->oferta_combo_producto as $prod) {
+                $idProd = $prod->id_producto;
+                $cant = $prod->cantidad_producto_combo;
+
+                $results = DB::select(
+                    "SELECT o.id, o.fecha_inicio_oferta, o.fecha_fin_oferta
+                    FROM `ofertas` AS o
+                    INNER JOIN `oferta_combo_producto` AS cp ON o.id = cp.id_oferta_combo
+                    WHERE cp.id_producto = '$idProd' AND cp.cantidad_producto_combo = '$cant'
+                    AND o.id <> '$id'
+                    AND  (o.deleted_at IS NULL and cp.deleted_at IS NULL)
+                    AND (('$inicio' BETWEEN o.fecha_inicio_oferta AND o.fecha_fin_oferta) 
+                    OR ('$fin' BETWEEN o.fecha_inicio_oferta AND o.fecha_fin_oferta)
+                    OR (o.fecha_inicio_oferta BETWEEN '$inicio' AND '$fin')
+                    OR (o.fecha_fin_oferta BETWEEN '$inicio' AND '$fin'))"
+                );
+                if (count($results) <= 0) {
+                    $comboSimilar = false;
+                }
+            }
+            if ($comboSimilar) {
+                $validado = false;
+            }else{
+                $validado = true;
+            }
         } else if(OfertaMonto::find($id)){
-            
-    /*
+            $monto = OfertaMonto::find($id)->monto_limite_descuento;
+
+            $results = DB::select(
+            "SELECT o.id
+            FROM `ofertas_montos` AS om
+            INNER JOIN `ofertas` AS o ON o.id = om.id_oferta_monto
+            WHERE om.monto_limite_descuento = '$monto'
+            AND o.id <> '$id'
+            AND (o.deleted_at IS NULL and om.deleted_at IS NULL)
+                AND (('$inicio' BETWEEN o.fecha_inicio_oferta AND o.fecha_fin_oferta) 
+                OR ('$fin' BETWEEN o.fecha_inicio_oferta AND o.fecha_fin_oferta)
+                OR (o.fecha_inicio_oferta BETWEEN '$inicio' AND '$fin')
+                OR (o.fecha_fin_oferta BETWEEN '$inicio' AND '$fin'))"
+                );
             if (count($results) > 0) {
                 $validado = false;
             } else {
                 $validado = true;
-            }*/
+            }
         }else if(OfertaTipoMueble::find($id)){
             $idTipo = OfertaTipoMueble::find($id)->id_tipo_mueble; 
 
             $results = DB::select(
-                "SELECT o.id, o.fecha_inicio_oferta, o.fecha_fin_oferta, ot.id_tipo_mueble
+            "SELECT o.id, o.fecha_inicio_oferta, o.fecha_fin_oferta, ot.id_tipo_mueble
             FROM `ofertas_tipos_muebles` AS ot
             INNER JOIN `ofertas` AS o ON o.id = ot.id_oferta_tipo
             WHERE ot.id_tipo_mueble = '$idTipo'
