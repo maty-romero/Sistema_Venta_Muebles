@@ -192,7 +192,6 @@ class OfertaController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $inicio = $request->input("fecha_inicio_oferta");
         $fin = $request->input("fecha_fin_oferta");
         if ($inicio >= $fin) {
