@@ -227,9 +227,34 @@ class OfertaController extends Controller
         } else if(OfertaCombo::find($id)){
             $validado = OfertaCombo::validarCombo();
         } else if(OfertaMonto::find($id)){
-            $validado = OfertaTipoMueble::validarOfertaTipo();
+            
+    /*
+            if (count($results) > 0) {
+                $validado = false;
+            } else {
+                $validado = true;
+            }*/
         }else if(OfertaTipoMueble::find($id)){
-            $validado = OfertaMonto::validarOfertaMonto();
+            $idTipo = OfertaTipoMueble::find($id)->id_tipo_mueble; 
+
+            $results = DB::select(
+                "SELECT o.id, o.fecha_inicio_oferta, o.fecha_fin_oferta, ot.id_tipo_mueble
+            FROM `ofertas_tipos_muebles` AS ot
+            INNER JOIN `ofertas` AS o ON o.id = ot.id_oferta_tipo
+            WHERE ot.id_tipo_mueble = '$idTipo'
+            AND o.id <> '$id'
+            AND (ot.deleted_at IS NULL and o.deleted_at IS NULL)
+                AND (('$inicio' BETWEEN o.fecha_inicio_oferta AND o.fecha_fin_oferta) 
+                OR ('$fin' BETWEEN o.fecha_inicio_oferta AND o.fecha_fin_oferta)
+                OR (o.fecha_inicio_oferta BETWEEN '$inicio' AND '$fin')
+                OR (o.fecha_fin_oferta BETWEEN '$inicio' AND '$fin'))"
+            );
+    
+            if (count($results) > 0) {
+                $validado = false;
+            } else {
+                $validado = true;
+            }
         }
 
         // SI HAY COINCIDENCIAS NOTIFICO
