@@ -37,7 +37,8 @@ class ProductoController extends Controller
         ->join('tipos_muebles as tp', 'tp.id', '=', 'p.id_tipo_mueble')
         ->where("p.discontinuado", "=", 0)
         ->paginate(5);*/
-        $products = Producto::with('tipo_mueble')->paginate(5); 
+
+        $products = Producto::with('tipo_mueble')->whereNull("deleted_at")->paginate(5); 
         return (view("administrador.productos.index", compact('products')));
         
         //dd($products[0]->id);
@@ -448,6 +449,7 @@ class ProductoController extends Controller
 
         $products = Producto::query()
             ->where("productos.discontinuado", "=", $discontinuadoValor)
+            ->whereNull("deleted_at")
             ->orderBy($orden, $direccion)
             ->paginate(5);
 

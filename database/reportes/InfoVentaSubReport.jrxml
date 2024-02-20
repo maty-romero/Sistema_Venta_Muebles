@@ -61,10 +61,10 @@
 	<parameter name="NroVenta" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT ventas.id AS nro_venta,nombre_cliente,tipo_cliente,dni_cuit,fecha_venta,monto_final_venta,nro_pago,codigo_postal_destino,domicilio_destino,monto_limite_descuento,porcentaje_descuento AS monto_descuento from ventas 
-LEFT JOIN clientes ON ventas.id_usuario_cliente = clientes.id_usuario_cliente
-LEFT JOIN ofertas_montos ON ventas.id_oferta_monto = ofertas_montos.id_oferta_monto
-LEFT JOIN ofertas ON ofertas_montos.id_oferta_monto = ofertas.id
-where ventas.id = $P{NroVenta}]]>
+		LEFT JOIN clientes ON ventas.id_usuario_cliente = clientes.id_usuario_cliente
+		LEFT JOIN ofertas_montos ON ventas.id_oferta_monto = ofertas_montos.id_oferta_monto
+		LEFT JOIN ofertas ON ofertas_montos.id_oferta_monto = ofertas.id
+		where ventas.id = $P{NroVenta}]]>
 	</queryString>
 	<field name="nro_venta" class="java.math.BigInteger">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>

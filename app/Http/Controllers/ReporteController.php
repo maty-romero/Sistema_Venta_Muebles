@@ -27,11 +27,11 @@ class ReporteController extends Controller
     public function reporteRedirect(Request $request)
     {
 
-
+        
         $checkResultados = "";
-        $fechaInicio = $request->input('fechaInicio');
-        $fechaFin = $request->input('fechaFin');
-
+        $fechaInicio = date('d/m/Y', strtotime($request->fechaInicio));
+        $fechaFin = date('d/m/Y', strtotime($request->fechaFin));
+        //dd("Fecha Inicio: " .$fechaInicio."\nFechaFin: " .$fechaFin);
 
 
         // if ($request->input("idCliente")) {

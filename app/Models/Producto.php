@@ -80,6 +80,16 @@ class Producto extends Model
     public function reducirStockProducto($unidadesProd)
     {
         DB::table('productos')->where('id', $this->id)->decrement('stock', $unidadesProd);
+        $producto = DB::table('productos')->where('id', $this->id)->first(); 
+        
+        if($producto->stock <= 0)
+        {
+            // Discontinuar y eliminar ofertas asociadas al producto
+            DB::table('productos')->where('id', $this->id)->update(['discontinuado' => 1]);
+            DB::table('oferta_producto')->where('id_producto', $this->id)->delete();
+            DB::table('oferta_combo_producto')->where('id_producto', $this->id)->delete();
+        }
+        
     }
 
     public static function getProductosDisponibles()
@@ -119,4 +129,6 @@ class Producto extends Model
     {
         return $this->ofertaCombo()->exists();
     }
+
+     
 }
