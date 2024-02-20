@@ -13,7 +13,7 @@ Reportes
 
 
 
-<form id="formReporte" method="post" action="{{route('reporteRedirect')}}" target="_blank">
+<form id="formReporte" method="post" action="{{route('reporteRedirect')}}" target="_blank" class='ml-1'>
     @csrf
     <h1 class=" text-2xl pb-2 font-medium">Tipo de reporte</h1>
 
@@ -38,8 +38,10 @@ Reportes
         <div class="flex flex-col">
             <label for="idCliente">Identificador de cliente</label>
             <select class="rounded-lg border-gray-600" name="idCliente" id="idCliente" required>
-                @foreach ( $usuarios as $usuario)
-                <option value='{{$usuario->id}}' {{$id==$usuario->id?"selected":""}}>{{$usuario->name}}</option>
+                @foreach ($usuarios as $usuario)
+                @if($usuario->rol_usuario == 'cliente')
+                    <option value='{{$usuario->id}}' {{$id==$usuario->id?"selected":""}}>{{$usuario->name}}</option>
+                @endif
                 @endforeach
             </select>
 

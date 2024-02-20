@@ -96,7 +96,7 @@ Productos
 
         </x-custom.table>
       @else
-        <h6 class='text-3xl text-left ml-1'>No hay ofertas asociadas:</h6> 
+        <h6 class='text-3xl text-left ml-1 mb-8'>No hay ofertas asociadas:</h6> 
       @endif
 
       <div class="w-full">

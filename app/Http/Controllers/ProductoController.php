@@ -250,10 +250,13 @@ class ProductoController extends Controller
 
             foreach ($productoOfertaRelaciones as $ofertaProducto) {
                 ProductoOferta::where("id_oferta", $ofertaProducto->id_oferta)->delete();
+                Oferta::find($ofertaProducto->id_oferta)->delete();
             }
 
             foreach ($productoComboRelaciones as $ofertaCombo) {
                 OfertaComboProducto::where("id_oferta_combo", $ofertaCombo->id_oferta_combo)->delete();
+                Oferta::find($ofertaCombo->id_oferta_combo)->delete();
+                OfertaCombo::find($ofertaCombo->id_oferta_combo)->delete();
             }
             $producto->delete();
 

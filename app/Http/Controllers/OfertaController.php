@@ -165,6 +165,9 @@ class OfertaController extends Controller
                 $validado = OfertaMonto::validarOfertaMonto();
                 session()->flash('errorValid', 'El monto y las fechas ingresadas generan conflicto con otra oferta similar');
                 break;
+            default:
+                session()->flash('errorValid', 'Error inesperado');
+                break;
         } 
         if(!$validado){
             return redirect()->back();
