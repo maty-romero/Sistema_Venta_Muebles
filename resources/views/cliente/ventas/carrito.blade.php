@@ -42,7 +42,7 @@
                             <div
                                 class="container mx-auto flex flex-wrap mb-1 overflow-hidden bg-[#5690FF] shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
                                 <p class='w-full py-20 text-white font-bold text-2xl text-center'>
-                                    El carrito de compras est&aacute;vac&iacute;o
+                                    El carrito de compras est&aacute; vac&iacute;o
                                 </p>
                             </div>
                         @endif
@@ -97,7 +97,7 @@
                                 <span class="text-base">Subtotal: @money($subtotal)</span>
                             </div>
                             <div class="flex justify-between mb-2">
-                                <span class="text-base">Descuento monto: - @money($descuentoMonto)
+                                <span class="text-base">Descuento monto: @money($descuentoMonto)
                                     ({{ $ofertaMonto->porcentaje_descuento }})%</span>
                             </div>
                             <div class="flex justify-between mb-2">
