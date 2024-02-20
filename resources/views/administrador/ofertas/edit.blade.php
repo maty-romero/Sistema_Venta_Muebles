@@ -25,8 +25,8 @@ Editar Oferta
 @endif
 
 <form action="{{ route('administrador_update_ofertas', $oferta) }}" method="POST" class='ml-1'>
-    @method('PATCH')
     @csrf
+    @method('PATCH')
 
     <p class="font-poppins text-1g">Fecha inicio</p>
     <input id="fecha_inicio_oferta" type="date" class="rounded-md mb-5" name="fecha_inicio_oferta"

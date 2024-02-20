@@ -24,7 +24,7 @@ Productos
                     @endif  
                 </div>
                 <div class='w-fit'>
-                  <p class="font-medium text-2xl text-gray-900 text-white mr-3">Precio de venta: @money($producto->getPrecioDeVenta())</p>
+                  <p class="font-medium text-2xl text-gray-900 text-white mr-3">Precio de venta actual: @money($producto->getPrecioDeVenta())</p>
                   @if($producto->getPrecioDeVenta() != $producto->precio_producto)
                     <p class="font-medium text-2xl text-gray-900 text-white">Precio base: @money($producto->precio_producto)</p>
                   @endif

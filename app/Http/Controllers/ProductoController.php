@@ -122,12 +122,14 @@ class ProductoController extends Controller
         ->select('o.id', 'o.fecha_inicio_oferta','o.fecha_fin_oferta', 'o.porcentaje_descuento')
         ->join("oferta_producto as op", "op.id_oferta", "=", "o.id")
         ->where("op.id_producto", "=", $idProd)
+        ->whereNull('o.deleted_at')
         ->get(); 
 
         $ofertasTipo = DB::table('ofertas as o')
         ->select('o.id', 'o.fecha_inicio_oferta','o.fecha_fin_oferta', 'o.porcentaje_descuento')
         ->join("ofertas_tipos_muebles as ot", "ot.id_oferta_tipo", "=", "o.id")
         ->where("ot.id_tipo_mueble", "=", $producto->tipo_mueble->id)
+        ->whereNull('o.deleted_at')
         ->get(); 
 
         $ofertasCombo = DB::select("
@@ -136,7 +138,7 @@ class ProductoController extends Controller
             INNER JOIN oferta_combo_producto ocp ON ocp.id_producto = p.id
             INNER JOIN oferta_combo oc ON oc.id_oferta_combo = ocp.id_oferta_combo
             INNER JOIN ofertas o ON o.id = oc.id_oferta_combo 
-            WHERE p.id = ?
+            WHERE p.id = ? AND oc.deleted_at IS NULL AND o.deleted_at IS NULL
         ", [$idProd]);
 
         //dd($ofertasCombo);

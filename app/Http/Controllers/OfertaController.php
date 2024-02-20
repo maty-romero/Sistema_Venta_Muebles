@@ -195,36 +195,48 @@ class OfertaController extends Controller
 
         $inicio = $request->input("fecha_inicio_oferta");
         $fin = $request->input("fecha_fin_oferta");
-
-
         if ($inicio >= $fin) {
             session()->flash('error_oferta', 'Debe haber al menos un periodo de un dia entre fecha de inicio y fin.');
             return redirect()->back();
         }
 
         $oferta = Oferta::find($id);
-        $queryProducto = "";
-        foreach ($oferta->producto as $producto) {   // TODOS LOS PRODUCTOS QUE POSEEN LA OFERTA A EDITAR
-            $queryProducto .= "id_producto={$producto->id} OR ";
+        $validado = false;
+        if(ProductoOferta::where('id_oferta', $id)->first()){
+            $prodId = ProductoOferta::where('id_oferta', $id)->first()->id_producto;
+
+            $results = DB::select(
+                "SELECT p.id, o.id 
+                FROM `productos` AS p 
+                INNER JOIN `oferta_producto` AS op ON p.id = op.id_producto
+                INNER JOIN `ofertas` AS o ON o.id = op.id_oferta
+                WHERE p.id = '$prodId' 
+                AND o.id <> '$id'
+                AND (p.deleted_at IS NULL and op.deleted_at IS NULL and o.deleted_at IS NULL)
+                    AND (('$inicio' BETWEEN o.fecha_inicio_oferta AND o.fecha_fin_oferta) 
+                    OR ('$fin' BETWEEN o.fecha_inicio_oferta AND o.fecha_fin_oferta)
+                    OR (o.fecha_inicio_oferta BETWEEN '$inicio' AND '$fin')
+                    OR (o.fecha_fin_oferta BETWEEN '$inicio' AND '$fin'))"
+            );
+
+            if (count($results) > 0) {
+                $validado = false;
+            } else {
+                $validado = true;
+            }
+        } else if(OfertaCombo::find($id)){
+            $validado = OfertaCombo::validarCombo();
+        } else if(OfertaMonto::find($id)){
+            $validado = OfertaTipoMueble::validarOfertaTipo();
+        }else if(OfertaTipoMueble::find($id)){
+            $validado = OfertaMonto::validarOfertaMonto();
         }
-        $queryProducto = substr($queryProducto, 0, -4);
-
-        // SELECCIONO TODAS LAS OFERTAS QUE TENGAN LOS PRODUCTOS ALCANZADOS POR LA OFERTA Y SE ENCUENTREN CON FECHA SUPERPUESTA
-
-        $controlSuperposicion = DB::select("SELECT * FROM ofertas LEFT JOIN oferta_producto ON oferta_producto.id_oferta=ofertas.id  
-        WHERE ((ofertas.fecha_inicio_oferta  BETWEEN '$inicio' AND '$fin') 
-        OR (ofertas.fecha_fin_oferta BETWEEN '$inicio' AND '$fin')) 
-        AND ($queryProducto) AND ofertas.id != $producto->id  AND (ofertas.deleted_at IS NULL AND oferta_producto.deleted_at IS NULL)");
-
 
         // SI HAY COINCIDENCIAS NOTIFICO
-
-        if (count($controlSuperposicion) > 0) {
+        if (!$validado) {
             session()->flash('error_oferta', 'Existe un conflicto de fechas');
             return redirect()->back();
         }
-
-
 
         $validated = $request->validate([
             'fecha_inicio_oferta' => 'required',
@@ -232,16 +244,13 @@ class OfertaController extends Controller
             'porcentaje_descuento' => 'required|between:1,99',
         ]);
 
-
         if ($validated) {
-
             $oferta->update([
                 'fecha_inicio_oferta' => $request->input('fecha_inicio_oferta'),
                 'fecha_fin_oferta' => $request->input('fecha_fin_oferta'),
                 'porcentaje_descuento' => $request->input('porcentaje_descuento'),
             ]);
-
-            $oferta->save();
+            //$oferta->save();
             session()->flash('success_oferta', 'La oferta ha sido modificado exitosamente');
         } else {
             session()->flash('error_oferta', 'Ha ocurrido un error al editar el oferta');
