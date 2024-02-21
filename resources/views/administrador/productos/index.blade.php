@@ -51,14 +51,16 @@
                 class="py-2 pl-2 rounded-lg mr-5" placeholder="Buscar producto">
 
 
-            @if (Auth::user()->rol_usuario == 'administrador')
+            @if (Auth::user()->rol_usuario == 'administrador' || Auth::user()->rol_usuario == 'jefe_ventas')
                 <select class="form-control mr-5 rounded-lg" id="discontinuado" name="discontinuado">
                     <option value="0"
                         {{ isset($input['discontinuado']) && $input['discontinuado'] == '0' ? 'selected' : '' }}>
-                        Vigente</option>
+                        Vigente
+                    </option>
                     <option value="1"
                         {{ isset($input['discontinuado']) && $input['discontinuado'] == '1' ? 'selected' : '' }}>
-                        Discontinuado</option>
+                        Discontinuado
+                    </option>
                 </select>
             @endif
 

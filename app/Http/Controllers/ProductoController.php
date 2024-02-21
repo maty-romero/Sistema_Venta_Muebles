@@ -10,7 +10,6 @@ use App\Models\OfertaCombo;
 use App\Models\Producto;
 use App\Models\OfertaComboProducto;
 use App\Models\ProductoOferta;
-use App\View\Components\saleItem;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -23,7 +22,7 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
-
+    
     public function index()
     {
         $productos = Producto::where("stock", ">=", 1)->paginate(4);
@@ -33,11 +32,11 @@ class ProductoController extends Controller
 
     public function index_adm()
     {
-        $products = DB::table('productos as p')
+        /*$products = DB::table('productos as p')
         ->select("p.id", "p.nombre_producto", "tp.nombre_tipo_mueble","p.discontinuado", "p.precio_producto", "p.stock")
         ->join('tipos_muebles as tp', 'tp.id', '=', 'p.id_tipo_mueble')
         ->where("p.discontinuado", "=", 0)
-        ->paginate(5);
+        ->paginate(5);*/
 
         $products = Producto::with('tipo_mueble')->whereNull("deleted_at")->paginate(5); 
         return (view("administrador.productos.index", compact('products')));
@@ -60,20 +59,19 @@ class ProductoController extends Controller
      */
     public function store(RegistroProductoRequest $request)
     {
-        
         $validated = $request->validate([
-            'nombre_producto' => 'required|unique:productos|max:50',
-            'descripcion' => 'required|max:1000',
-            'stock' => 'required|integer|min:1',
-            'precio_producto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
-            'id_tipo_mueble' => 'required',
-            'largo' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
-            'ancho' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
-            'alto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
-            'material' => 'required',
+            'nombre_producto' => 'required|unique:productos|max:100',
+            'descripcion' => 'nullable|max:500',
+            "stock" => "required|min:1",
+            "precio_producto" => "required|min:1",
+            "id_tipo_mueble" => "required",
+            'largo' => "required|min:1",
+            'ancho' => "required|min:1",
+            'alto' => "required|min:1",
+            'material' => "required",
             'imagenProd' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-        
+
         if ($validated) {
             $fileImg = $_FILES["imagenProd"];
             $imagenURL = 'images/productos/' . basename($fileImg["name"]);
@@ -120,8 +118,7 @@ class ProductoController extends Controller
 
         
         //ofertas asociadas al producto 
-        $ofertasUnitarias = []; 
-        
+
         $ofertasUnitarias = DB::table('ofertas as o')
         ->select('o.id', 'o.fecha_inicio_oferta','o.fecha_fin_oferta', 'o.porcentaje_descuento')
         ->join("oferta_producto as op", "op.id_oferta", "=", "o.id")
@@ -152,7 +149,8 @@ class ProductoController extends Controller
             [
                 'producto' => $producto,
                 'ofertasUnitarias' => $ofertasUnitarias,
-                'ofertasCombos' => $ofertasCombo
+                'ofertasCombos' => $ofertasCombo,
+                'ofertasTipo' => $ofertasTipo
             ]
         );
     }
@@ -186,6 +184,7 @@ class ProductoController extends Controller
 
             $producto->update([
                 'nombre_producto' => $request->input('nombre_producto'),
+                'precio_producto' => $request->input('precioProducto'),
                 'descripcion' => $request->input('descripcion'),
                 'id_tipo_mueble' => $request->input('cmbTipoMueble'),
                 'largo' => $request->input('largo'),
@@ -204,26 +203,38 @@ class ProductoController extends Controller
         return redirect()->back();
     }
 
-    public function update_stock_producto(Request $request, $idProducto)
+    public function add_stock_producto(Request $request)
     {
         $productos = Producto::where("discontinuado", "=", 0)->get();
         return view('administrador.productos.stock', ['productos' => $productos]);
     }
 
+    public function update_stock_producto(Request $request)
+    {
+            $productos = request()->input('productos');
+            foreach ($productos as $input) {
+                $id = (int)explode(".", $input)[0];
+                $producto = Producto::find($id);
+                
+                $nuevoStock = trim(explode("-", $input)[1]);
+                $nuevoStock = (int)str_replace(" unids.", "", $nuevoStock);
+                $nuevoStock = $nuevoStock + $producto->stock;
+                
+                if(count(explode("-", $input)) >= 3){
+                    $nuevoPrecio = trim(explode("-", $input)[2]);
+                    $nuevoPrecio = (float)str_replace("$", "", $nuevoPrecio);
 
-            $producto = Producto::find($idProducto);
-            $nuevoStock = $producto->stock + $request->input('stock_producto');
-            $nuevoPrecio = $request->input('precio_producto');
-            $producto->update([
-                'stock' => $nuevoStock,
-                'precio_producto' => $nuevoPrecio
-            ]);
-
-
-            return redirect()->back()->with('success_stock_precio', 'Se ha actualizado stock y/o precio exitosamente');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error_stock_precio', 'No se ha podido actualizar stock y/o precio: ' . $e->getMessage());
-        }
+                    $producto->update([
+                        'stock' => $nuevoStock,
+                        'precio_producto' => $nuevoPrecio
+                    ]);
+                } else {
+                    $producto->update([
+                        'stock' => $nuevoStock
+                    ]);
+                }
+            }
+        return redirect()->back();
     }
 
     /**
@@ -439,7 +450,6 @@ class ProductoController extends Controller
 
     public function searchProducto(Request $request)
     {
-        $name = $request->input("name");
         $orden = $request->input("ordenamiento");
         $direccion = $request->input("direccion_orden");
         $input = $request->input(); // opciones seleccionadas 
@@ -451,13 +461,6 @@ class ProductoController extends Controller
             ->whereNull("deleted_at")
             ->orderBy($orden, $direccion)
             ->paginate(5);
-
-        $products->appends([
-            "name" => $name,
-            "ordenamiento" => $orden,
-            "direccion_orden" => $direccion,
-            "discontinuado" => $discontinuadoValor
-        ]);
 
         return view("administrador.productos.index", compact('products', "input"));
     }
