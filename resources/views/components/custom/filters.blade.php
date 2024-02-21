@@ -1,14 +1,16 @@
-@props(["tipoMueble","filtro","ordenCriterio","orden"])
+@props(["name", "tipoMueble","filtro","ordenCriterio","orden"])
 
-
-
-<h1 class="text-6xl pb-6 font-medium ">Productos</h1>
+@if($name != '')
+<h1 class="text-5xl py-4 font-medium ">Resultados de búsqueda para "{{$name}}"</h1>
+@else 
+<h1 class="text-5xl py-4 font-medium ">Buscar productos</h1>
+@endif
 <div id="extraFields" class="flex justify-between align-middle gap-6 divide-x filter-container flex-row py-6 px-4 bg-white rounded-xl  ">
     Filtrando por:
-
     <div class="flex flex-row align-middle justify-center">
-        <p class="pl-4"> Tipo producto:</p>
+        <p class="pl-4">Tipo producto:</p>
         <select name="tipoMuebleFilter" id="tipoMuebleFilter" class="filter-no-style text-[#848484]">
+            <option value="0" {{isset($tipoMueble) && $tipoMueble==="0" ?"selected":""}}>Todos</option>
             <option value="1" {{isset($tipoMueble) && $tipoMueble==="1" ?"selected":""}}>Exterior</option>
             <option value="2" {{isset($tipoMueble) && $tipoMueble==="2" ?"selected":""}}>Interior</option>
         </select>
@@ -17,7 +19,7 @@
     <div class="flex flex-row align-middle justify-center">
         <p class="pl-4 pr-1 my-auto">Mostrando:</p>
         <select name="filtroFilter" id="filtroFilter" class="filter-no-style text-[#848484]">
-            <option value="todo" {{ isset($filtro) && $filtro==="todo" ?"selected":""}}>Todo</option>
+            <option value="todo" {{ isset($filtro) && $filtro==="todo" ?"selected":""}}>Todos</option>
             <option value="productos" {{ isset($filtro) && $filtro==="productos" ?"selected":""}}>Productos</option>
             <option value="combos" {{ isset($filtro) && $filtro==="combos" ?"selected":""}}>Combos</option>
         </select>

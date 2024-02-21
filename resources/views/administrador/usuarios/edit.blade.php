@@ -37,7 +37,7 @@ Editar usuario
 @endif
 
 
-<div id="contenedor" class="container ">
+<div id="contenedor" class="container ml-1">
     <form action="{{ route('administrador_update_usuarios', $usuario->id) }}" method="POST">
         @method('PATCH')
         @csrf
@@ -117,7 +117,7 @@ Editar usuario
             @enderror
 
             <p id="idPTelefono" class="font-poppins text-1g">N&uacute;mero de T&eacute;lefono</p>
-            <input id="txtTelefono" name="telefono" value="{{ $cliente->nro_telefono }}" type="number" class="rounded-md mb-2">
+            <input id="txtTelefono" name="telefono" value="{{ $cliente->nro_telefono }}" type="number" class="rounded-md">
             @error('telefono')
             <br>
             <small style="color: red">{{ $message }}</small>
@@ -126,8 +126,8 @@ Editar usuario
 
         @endif
 
-        
-        <button type="submit" class="mt-7 bg-gray-800 text-white py-2 px-4 rounded-md text-base">
+        <br>
+        <button type="submit" class="mt-4 bg-gray-800 text-white py-2 px-4 rounded-md text-base hover:bg-gray-600">
             Confirmar Cambios
         </button>
     </form>

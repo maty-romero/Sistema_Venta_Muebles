@@ -40,13 +40,14 @@ Ofertas
 
 <div id="contenedorTablaOfertas" class="w-full">
     <div class="w-full">
+        @if(Auth::user()->rol_usuario != 'gerente')
         <x-custom.table :columnas="['Oferta', 'Descuento', 'Fecha de inicio', 'Fecha de fin', 'Modificacion']">
             @foreach ($ofertas as $oferta)
             <tr>
-                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-
-                {{$oferta->getTipoOferta()}}
-                
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900 hover:underline">
+                    <a href='{{route('administrador_ofertas_show', $oferta->id)}}'>
+                    {{$oferta->getTipoOferta()}}
+                    </a>
                 </td>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                     {{$oferta->porcentaje_descuento}}%
@@ -57,8 +58,7 @@ Ofertas
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                     {{$oferta->fecha_fin_oferta}}
                 </td>
-                @if(Auth::user()->rol_usuario != 'gerente')
-                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center  hover:underline text-lg font-semibold text-gray-900">
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center hover:underline text-lg font-semibold text-gray-900">
                     <div class='grid grid-cols-2'>
                         <a href="{{ route('administrador_edit_ofertas', $oferta) }}" class='mr-2 ml-auto'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                                 <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
@@ -75,19 +75,31 @@ Ofertas
                         </form>
                     </div>
                 </td>
-
-                @else
-                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-500">
-                    <a href="{{ route('administrador_edit_ofertas', $oferta) }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
-                        <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
-                    </svg></a>
-                </td>
-
-                @endif
             </tr>
             @endforeach
         </x-custom.table>
+        @else 
+        <x-custom.table :columnas="['Oferta', 'Descuento', 'Fecha de inicio', 'Fecha de fin']">
+            @foreach ($ofertas as $oferta)
+            <tr>
+                <td class="px-5 py-3 hover:underline border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                    <a href='{{route('administrador_ofertas_show', $oferta->id)}}'>
+                        {{$oferta->getTipoOferta()}}
+                    </a>
+                </td>
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+                    {{$oferta->porcentaje_descuento}}%
+                </td>
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+                    {{$oferta->fecha_inicio_oferta}}
+                </td>
+                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+                    {{$oferta->fecha_fin_oferta}}
+                </td>
+            </tr>
+            @endforeach
+        </x-custom.table>
+        @endif
     </div>
 </div>
 
@@ -119,17 +131,17 @@ Ofertas
                     let tablaHTML;
 
                     // cuerpo de tabla
-                    tablaHTML = `
-                         <div class="w-full">
-                                        <x-custom.table :columnas="['Oferta', 'Descuento', 'Fecha de inicio', 'Fecha de fin', 'Modificacion']">`;
-
-                    if (rol == "administrador") {
+                    tablaHTML = `<div class="w-full"><x-custom.table :columnas="['Oferta', 'Descuento', 'Fecha de inicio', 'Fecha de fin', 'Modificacion']">`;
+                
+                    if (rol != "gerente") {
 
                         ofertas.forEach(oferta => {
                             tablaHTML += `
                             <tr>
-                                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                                    ${oferta.tipo}
+                                <td class="hover:underline px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                                    <a href='/ofertas/${oferta.id}'>
+                                        ${oferta.tipo}
+                                    </a>
                                 </td>
                                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                                     ${oferta.porcentaje_descuento}%
@@ -163,12 +175,14 @@ Ofertas
                         `;
                         });
                     } else {
-
+                        
                         ofertas.forEach(oferta => {
                             tablaHTML += `
                             <tr>
-                                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                                    ${oferta.oferta_combo && oferta.oferta_combo.length > 0 ? oferta.oferta_combo[0].nombre_combo : ''}
+                                <td class="hover:underline px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+                                    <a href='/ofertas/${oferta.id}'>
+                                        ${oferta.tipo}
+                                    </a>
                                 </td>
                                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                                     ${oferta.porcentaje_descuento}%
@@ -179,13 +193,6 @@ Ofertas
                                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                                     ${oferta.fecha_fin_oferta}
                                 </td>
-                                <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left  hover:underline text-lg font-semibold text-gray-900">
-                    <a href='/ofertas/editar/${oferta.id}'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
-                            <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
-                        </svg></a>
-                </td>
-                                <td></td>
                             </tr>
                         `;
                         });

@@ -139,6 +139,18 @@ Editar producto
         @enderror
     </td></tr>
 
+    <tr><td colspan="3">
+        <p class="font-poppins text-1g">Discontinuar producto</p>
+        @if($producto->discontinuado == '0')
+        <select name="discontinuar" class="font-poppins text-1g w-[190px] rounded-md mb-5">
+            <option></option>
+            <option value="1">Discontinuar</option>
+        </select>
+        @else
+        <input type="text" readonly disabled class="rounded-md mb-5 mr-5 w-[200px] " value="Producto discontinuado">
+        @endif
+    </td></tr>
+
     <tr><td>
         <button type="submit" class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-bash">
             Confirmar cambios

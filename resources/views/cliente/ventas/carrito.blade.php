@@ -20,9 +20,9 @@
 <body class="antialiased bg-[#FFE794] bg-pattern-image ">
     <x-custom.navbar_carrito></x-custom.navbar_carrito>
 
-    <div class="min-h-screen py-8">
+    <div class="min-h-screen pb-8 pt-4">
         <div class="container mx-auto px-4">
-            <h1 class="text-2xl font-semibold mb-4">Carrito de compras</h1>
+            <h1 class="text-4xl font-semibold mb-4">Carrito de compras</h1>
             <div class="flex flex-col md:flex-row gap-4">
                 <div class="md:w-3/4">
                     <div class="bg-white rounded-lg shadow-md p-6 mb-4">
