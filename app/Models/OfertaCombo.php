@@ -145,7 +145,7 @@ class OfertaCombo extends Model
     }
 
     public static function validarCombo(){
-
+        
         $fechaInicio = request()->input('fechaInicio');
         $fechaFin = request()->input('fechaFin');
         $productos = request()->input('productos');
@@ -160,7 +160,6 @@ class OfertaCombo extends Model
                 FROM `ofertas` AS o
                 INNER JOIN `oferta_combo_producto` AS cp ON o.id = cp.id_oferta_combo
                 WHERE cp.id_producto = '$idProd' AND cp.cantidad_producto_combo = '$cant' 
-                AND  (o.deleted_at IS NULL and cp.deleted_at IS NULL)
                 AND (('$fechaInicio' BETWEEN o.fecha_inicio_oferta AND o.fecha_fin_oferta) 
                 OR ('$fechaFin' BETWEEN o.fecha_inicio_oferta AND o.fecha_fin_oferta)
                 OR (o.fecha_inicio_oferta BETWEEN '$fechaInicio' AND '$fechaFin')

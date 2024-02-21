@@ -37,8 +37,10 @@ class ProductoController extends Controller
         ->select("p.id", "p.nombre_producto", "tp.nombre_tipo_mueble","p.discontinuado", "p.precio_producto", "p.stock")
         ->join('tipos_muebles as tp', 'tp.id', '=', 'p.id_tipo_mueble')
         ->where("p.discontinuado", "=", 0)
-        ->where("p.deleted_at", "=", null)
         ->paginate(5);
+
+        $products = Producto::with('tipo_mueble')->whereNull("deleted_at")->paginate(5); 
+        return (view("administrador.productos.index", compact('products')));
         
         //dd($products[0]->id);
         return view("administrador.productos.index", compact('products'));
@@ -123,10 +125,15 @@ class ProductoController extends Controller
         ->select('o.id', 'o.fecha_inicio_oferta','o.fecha_fin_oferta', 'o.porcentaje_descuento')
         ->join("oferta_producto as op", "op.id_oferta", "=", "o.id")
         ->where("op.id_producto", "=", $idProd)
+        ->whereNull('o.deleted_at')
         ->get(); 
 
-
-        $ofertasCombo = [];
+        $ofertasTipo = DB::table('ofertas as o')
+        ->select('o.id', 'o.fecha_inicio_oferta','o.fecha_fin_oferta', 'o.porcentaje_descuento')
+        ->join("ofertas_tipos_muebles as ot", "ot.id_oferta_tipo", "=", "o.id")
+        ->where("ot.id_tipo_mueble", "=", $producto->tipo_mueble->id)
+        ->whereNull('o.deleted_at')
+        ->get(); 
 
         $ofertasCombo = DB::select("
             SELECT oc.id_oferta_combo, oc.nombre_combo, o.fecha_inicio_oferta, o.fecha_fin_oferta, o.porcentaje_descuento 
@@ -134,7 +141,7 @@ class ProductoController extends Controller
             INNER JOIN oferta_combo_producto ocp ON ocp.id_producto = p.id
             INNER JOIN oferta_combo oc ON oc.id_oferta_combo = ocp.id_oferta_combo
             INNER JOIN ofertas o ON o.id = oc.id_oferta_combo 
-            WHERE p.id = ?
+            WHERE p.id = ? AND oc.deleted_at IS NULL AND o.deleted_at IS NULL
         ", [$idProd]);
 
         //dd($ofertasCombo);
@@ -233,10 +240,13 @@ class ProductoController extends Controller
 
             foreach ($productoOfertaRelaciones as $ofertaProducto) {
                 ProductoOferta::where("id_oferta", $ofertaProducto->id_oferta)->delete();
+                Oferta::find($ofertaProducto->id_oferta)->delete();
             }
 
             foreach ($productoComboRelaciones as $ofertaCombo) {
                 OfertaComboProducto::where("id_oferta_combo", $ofertaCombo->id_oferta_combo)->delete();
+                Oferta::find($ofertaCombo->id_oferta_combo)->delete();
+                OfertaCombo::find($ofertaCombo->id_oferta_combo)->delete();
             }
             $producto->delete();
 
@@ -431,12 +441,9 @@ class ProductoController extends Controller
 
         $discontinuadoValor = $request->input('discontinuado', 0); // Valor predeterminado es null
 
-        $products = DB::table('productos as p')
-            ->select("p.id", "p.nombre_producto", "tp.nombre_tipo_mueble","p.discontinuado", "p.precio_producto", "p.stock")
-            ->join('tipos_muebles as tp', 'tp.id', '=', 'p.id_tipo_mueble')
-            ->where("p.discontinuado", "=", $discontinuadoValor)
-            ->where('nombre_producto', 'like', '%' . $name . '%')
-            ->where("p.deleted_at", "=", null)
+        $products = Producto::query()
+            ->where("productos.discontinuado", "=", $discontinuadoValor)
+            ->whereNull("deleted_at")
             ->orderBy($orden, $direccion)
             ->paginate(5);
 
