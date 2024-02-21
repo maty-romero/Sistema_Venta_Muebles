@@ -76,7 +76,7 @@ class ReporteController extends Controller
                     'driver' => 'mysql',
                     'host' => '127.0.0.1',
                     'port' => '3306',
-                    'database' => 'laravel',
+                    'database' => 'muebleApp',
                     'username' => 'root',
 
                 ],
@@ -102,7 +102,7 @@ class ReporteController extends Controller
                     'driver' => 'mysql',
                     'host' => '127.0.0.1',
                     'port' => '3306',
-                    'database' => 'laravel',
+                    'database' => 'muebleApp',
                     'username' => 'root',
 
                 ],
@@ -128,7 +128,7 @@ class ReporteController extends Controller
                     'driver' => 'mysql',
                     'host' => '127.0.0.1',
                     'port' => '3306',
-                    'database' => 'laravel',
+                    'database' => 'muebleApp',
                     'username' => 'root',
 
                 ],
@@ -196,7 +196,7 @@ class ReporteController extends Controller
                 'driver' => 'mysql',
                 'host' => '127.0.0.1',
                 'port' => '3306',
-                'database' => 'laravel',
+                'database' => 'muebleApp',
                 'username' => 'root',
 
             ],
@@ -276,7 +276,7 @@ class ReporteController extends Controller
                 'driver' => 'mysql',
                 'host' => '127.0.0.1',
                 'port' => '3306',
-                'database' => 'laravel',
+                'database' => 'muebleApp',
                 'username' => 'root',
 
             ],
@@ -325,7 +325,7 @@ class ReporteController extends Controller
                 'driver' => 'mysql',
                 'host' => '127.0.0.1',
                 'port' => '3306',
-                'database' => 'laravel',
+                'database' => 'muebleApp',
                 'username' => 'root',
 
             ],
