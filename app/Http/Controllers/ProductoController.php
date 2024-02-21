@@ -26,7 +26,7 @@ class ProductoController extends Controller
 
     public function index()
     {
-        $productos = Producto::where("discontinuado", 0)->where("stock", ">=", 1)->paginate(4);
+        $productos = Producto::where("stock", ">=", 1)->paginate(4);
         $combos = array_slice($this->combosActivos("", "", ""), 0, 4);
         return (view("cliente.welcome", compact("productos", "combos")));
     }
@@ -192,7 +192,8 @@ class ProductoController extends Controller
                 'ancho' => $request->input('ancho'),
                 'alto' => $request->input('alto'),
                 'material' => $request->input('cmbmaterialMueble'),
-                'imagenURL' => $imagenURL
+                'imagenURL' => $imagenURL,
+                'discontinuado' => $request->input('discontinuar')
             ]);
 
             //$producto->save();
@@ -205,11 +206,9 @@ class ProductoController extends Controller
 
     public function update_stock_producto(Request $request, $idProducto)
     {
-        try {
-            $request->validate([
-                'stock_producto' => 'required|min:1|numeric',
-                'precio_producto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1']
-            ]);
+        $productos = Producto::where("discontinuado", "=", 0)->get();
+        return view('administrador.productos.stock', ['productos' => $productos]);
+    }
 
 
             $producto = Producto::find($idProducto);
@@ -264,7 +263,7 @@ class ProductoController extends Controller
     {
         // FALTAN VALIDACIONES
         $name =  $request->input('name');
-        $tipoMueble =  $request->input('tipoMueble') !== null ? $request->input('tipoMueble') :  1;
+        $tipoMueble =  $request->input('tipoMueble');
         $filtro =  $request->input('filtro') !== null ? $request->input('filtro') :  "todo";
         $ordenCriterio = $request->input("ordenCriterio")  === "nombre_producto" ? "nombre_producto" : "precio_producto";
         $orden =  $request->input('orden') !== null ? $request->input('orden') :  "asc";
@@ -278,7 +277,11 @@ class ProductoController extends Controller
 
             // PRODUCTOS Y COMBOS 
             $combos = $this->combosActivos($name);
-            $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $orden)->get();
+            if($tipoMueble != 0){
+                $productos = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $orden)->get();
+            } else {
+                $productos = Producto::where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $orden)->get();
+            }
             $resultados = array_merge($productos->all(), $combos);
             $resultados = $this->sortArray($resultados, $ordenCriterio, $orden);
 
@@ -286,7 +289,11 @@ class ProductoController extends Controller
             // paginacion
         } else  if ($filtro === "productos") {
             // PRODUCTOS
-            $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio,  $orden)->get();
+            if($tipoMueble != 0){
+                $resultados = Producto::where($matchInput)->where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $orden)->get();
+            } else {
+                $resultados = Producto::where('nombre_producto', 'like', '%' .   $name  . '%')->where("stock", ">=", 1)->orderBy($ordenCriterio, $orden)->get();
+            }
             $resultados = $resultados->all();
         } else {
             // COMBOS
@@ -366,16 +373,13 @@ class ProductoController extends Controller
                     "infoContenidoCombo" => $tempProductoArray,
                     "nombreCombo" => $comboInfo->nombre_combo,
                     "descuentoCombo" => $combo->porcentaje_descuento,
-                    "precioTotal" => $precioTotal,
+                    "precioTotal" => $comboInfo->getPrecioCombo(),
                     "imagenURL" => $comboInfo->imagenURL
                 ];
 
                 array_push($arrayProductosCombos, $comboCompleto);
             }
         }
-
-
-
         return ($arrayProductosCombos);
     }
 

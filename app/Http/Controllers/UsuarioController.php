@@ -26,10 +26,9 @@ class UsuarioController extends Controller
         if(Auth::user()->rol_usuario != "administrador")
         {
             // jefe de ventas o gerente 
-            $usuarios = User::where("rol_usuario", "=", "cliente")->where("id", "!=", Auth::user()->id)->withTrashed()->paginate(5);
+            $usuarios = User::where("rol_usuario", "=", "cliente")->paginate(5);
         }else{
-            $usuarios = User::where("rol_usuario", "!=", "administrador")->where("id", "!=", Auth::user()->id)->withTrashed()->paginate(5);
-
+            $usuarios = User::whereNotNull("id")->withTrashed()->paginate(5);
         }
         return view("administrador.usuarios.index", compact('usuarios'));
     }
@@ -169,21 +168,6 @@ class UsuarioController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error_datos', 'No se ha podido actualizar tu perfil: ' . $e->getMessage());
         }
-
-        /*
-        $usuario =  Auth::user();
-        $usuario->update(['email' => $request->input('email')]);
-
-        $cliente = $usuario->cliente;
-        $cliente->update([
-            'nombre_cliente' => $request->input('nombre'),
-            'dni_cuit' => $request->input('documento'),
-            'codigo_postal_cliente' => $request->input('codigoPostal'),
-            'nro_telefono' => $request->input('telefono'),
-        ]);
-
-        return redirect()->back()->with('success', '');
-        */
     }
 
     /**
@@ -191,18 +175,23 @@ class UsuarioController extends Controller
      */
     public function destroy(User $usuario)
     {
-        $usuario->cliente->delete();
+        if($usuario->cliente){
+            $usuario->cliente->delete();
+        }
         $usuario->delete();
         return redirect()->route('administrador_usuarios');
     }
 
     public function searchUser(Request $request)
     {
-
         $name = $request->input("name");
         $orden = $request->input("ordenamiento") === "nombre" ? "name" : "rol_usuario";
         $direccion = $request->input("direccion_orden");
-        $usuarios =  User::where('name', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->paginate(5);
+        if(Auth::user()->rol_usuario == 'administrador'){
+            $usuarios =  User::where('name', 'like', '%' .   $name  . '%')->orderBy($orden, $direccion)->withTrashed()->paginate(5);
+        } else {
+            $usuarios =  User::where('name', 'like', '%' .   $name  . '%')->where("rol_usuario", "=", "cliente")->orderBy($orden, $direccion)->paginate(5);
+        }
         $input = $request->input();
         $usuarios->appends(["name" => $name, "orden" => $orden, "direccion_orden" => $direccion]);
 

@@ -77,6 +77,7 @@ Route::middleware(['auth', 'soloAdm'])->group(function () {
     Route::get('/ventas', [VentaController::class, 'index'])->name('administrador_ventas');
 
     Route::get('/ofertas', [OfertaController::class, 'index'])->name('administrador_ofertas');
+    Route::get('/ofertas/ver/{oferta}', [OfertaController::class, 'admshow'])->name('administrador_ofertas_show');
     Route::get('/ofertas/crear', [OfertaController::class, 'create'])->name('crear_oferta');
     Route::post('/ofertas/guardar', [OfertaController::class, 'store'])->name('guardar_oferta');
     Route::get('/ofertas/editar/{oferta}', [OfertaController::class, 'edit'])->name('administrador_edit_ofertas');

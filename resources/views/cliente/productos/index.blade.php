@@ -3,12 +3,14 @@
 
 
 <div class="px-32 pb-12">
-  <x-custom.filters :tipoMueble="$tipoMueble" :filtro="$filtro" :ordenCriterio="$ordenCriterio" :orden="$orden">
+  <x-custom.filters :name="$name" :tipoMueble="$tipoMueble" :filtro="$filtro" :ordenCriterio="$ordenCriterio" :orden="$orden">
   </x-custom.filters>
 </div>
 @if (empty($resultados->items()))
 <div class="px-32 pb-12">
-  <p class="text-xl font-medium"> No se encontraron resultados.</p>
+  <div class="container w-3/4 mt-2 mx-auto mb-1 bg-[#5690FF] shadow-[0_2px_4px_-0px_rgba(0,0,0,0.25)]">
+    <p class='w-full py-20 text-white font-bold text-2xl text-center'>No se encontraron resultados</p>
+</div>
 </div>
 @else
 <div id="containerResultados" class=" grid grid-cols-4 px-32 pb-10 gap-x-4 ">

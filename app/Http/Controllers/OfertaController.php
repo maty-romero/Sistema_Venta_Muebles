@@ -187,6 +187,20 @@ class OfertaController extends Controller
         return to_route('home');
     }
 
+    public function admshow(string $id)
+    {
+        $oferta = Oferta::find($id);
+        $tipoOferta = 'Unitaria';
+        if(OfertaTipoMueble::find($id)){
+            $tipoOferta = 'Tipo';    
+        } else if(OfertaCombo::find($id)){
+            $tipoOferta = 'Combo'; 
+        } else if(OfertaMonto::find($id)){
+            $tipoOferta = 'Monto'; 
+        } 
+        return view('administrador/ofertas/show', ['oferta' => $oferta, 'tipoOferta' => $tipoOferta]);
+    }
+
     public function edit(Oferta $oferta)
     {
         return view('administrador.ofertas.edit', ['oferta' => $oferta]);

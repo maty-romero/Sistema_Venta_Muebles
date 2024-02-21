@@ -9,7 +9,7 @@ Usuarios
 @endsection
 
 @section('contenido')
-<h3 class='text-3xl text-left ml-1'>Ordenar</h3>
+<h3 class='text-3xl text-left ml-1 mb-1'>Ordenar</h3>
 <div class="flex justify-between ml-1">
     <form id="searchForm" name="searchForm" method="GET" action="/searchUser">
 
@@ -29,7 +29,7 @@ Usuarios
                 ?"selected":""}}>Descendente
             </option>
         </select>
-        <input id="name" name="name" value="{{isset($input['name'])?$input['name']:''}}" class="py-1 pl-2 rounded-lg border-gray-200" placeholder="Buscar nombre">
+        <input id="name" name="name" value="{{isset($input['name'])?$input['name']:''}}" class="py-2 pl-2 rounded-lg mr-5" placeholder="Buscar usuario">
 
     </form>
 
@@ -42,29 +42,38 @@ Usuarios
 </div>
 
 <div class="w-full">
+
     <x-custom.table :columnas="['Nombre', 'Rol', 'Fecha Creacion', '', '', '']">
         @foreach ($usuarios as $usuario)
         <tr>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 {{ $usuario->name }}
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+                @if($usuario->rol_usuario != 'jefe_ventas')
                 {{ Str::ucfirst($usuario->rol_usuario) }}
+                @else
+                Jefe de Ventas
+                @endif
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
+            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 {{ date('d-m-Y', strtotime($usuario->created_at)) }}
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 @if ($usuario->rol_usuario == 'cliente')
-
                 <a href="{{ route('administrador_reportes_cliente', ['id' => $usuario->id]) }}">Informe Compras</a>
                 @endif
             </td>
+            @if(Auth::user()->rol_usuario == 'administrador')
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg hover:underline font-semibold text-gray-900">
+            @else
+            <td colspan='2' class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg hover:underline font-semibold text-gray-900">
+            @endif
                 <a href="{{ route('administrador_edit_usuarios', $usuario) }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
                         <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
                     </svg></a>
+            @if(Auth::user()->rol_usuario == 'administrador')
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 @if($usuario->deleted_at)
                 Eliminado
@@ -78,7 +87,7 @@ Usuarios
                     </button>
                 </form>
                 @endif
-
+            @endif
         </tr>
         @endforeach
 
