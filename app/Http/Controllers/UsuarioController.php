@@ -59,19 +59,6 @@ class UsuarioController extends Controller
                 } else {
                     session()->flash('error', 'Hubo un problema al crear el usuario.');
                 }
-
-                /*
-                if ($usuario ) {
-                    if ($request->cmbRolUsuario === 'cliente') {
-                        Cliente::crearCliente($usuario->id);
-                        session()->flash('success', 'Usuario y cliente creados con éxito.');
-                    } else {
-                        session()->flash('success', 'Usuario creado con éxito.');
-                    }
-                } else {
-                    session()->flash('error', 'Hubo un problema al crear el usuario.');
-                }
-                */
             }
         } catch (\Exception $e) {
 
