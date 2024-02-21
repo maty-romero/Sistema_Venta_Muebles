@@ -88,31 +88,35 @@
                         {{-- Totales --}}
                         @if (isset($ofertaMonto->porcentaje_descuento))
                             @php
-                                //Total sin descuento monto --> $subtotal
-                                $descuentoMonto = ($subtotal * $ofertaMonto->porcentaje_descuento) / 100;
-                                $totalFinal = $subtotal * (1 - $ofertaMonto->porcentaje_descuento / 100);
+                                //Total sin descuento por monto
+                                $descuentoMonto = ($subtotal / (1 - $ofertaMonto->porcentaje_descuento / 100)) - $subtotal;
+                                $subtotalSinDesc = $subtotal / (1 - $ofertaMonto->porcentaje_descuento / 100);
                             @endphp
 
-                            <div class="flex justify-between mb-2">
-                                <span class="text-base">Subtotal: @money($subtotal)</span>
+                            <div class="flex justify-between mb-2 grid grid-cols-2">
+                                <span class="text-base">Subtotal</span>
+                                <span class='text-right'>@money($subtotalSinDesc)</span>
                             </div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-base">Descuento monto: @money($descuentoMonto)
-                                    ({{ $ofertaMonto->porcentaje_descuento }})%</span>
+                            <div class="flex justify-between mb-2 grid grid-cols-2">
+                                <span class="text-base">Descuento por<br>monto ({{ $ofertaMonto->porcentaje_descuento }}%)</span>
+                                <span class='text-right'>@money($descuentoMonto)</span>
                             </div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-semibold text-base">Total @money($totalFinal)</span>
+                            <hr class="my-2">
+                            <div class="flex justify-between mb-2 grid grid-cols-2">
+                                <span class="font-bold text-base w-full">Total</span>
+                                <span class='text-right'>@money($subtotal)</span>
                             </div>
                         @else
-                            <div class="flex justify-between mb-2">
-                                <span class="text-base">Total @money($subtotal)</span>
+                            <div class="flex justify-between mb-2 grid grid-cols-2">
+                                <span class="text-base font-bold">Total</span>
+                                <span class="text-right">@money($subtotal)</span>
                             </div>
                         @endif
 
                         {{-- Boton finalizar compra con verificación de logeo --}}
                         @component('components.custom.modal_login')
                             @slot('textoBtn', 'Finalizar compra')
-                            @slot('clasesBtn', 'bg-zinc-700 hover:bg-zinc-500 text-white font-bold py-4 px-12 mt-2 mx-auto
+                            @slot('clasesBtn', 'bg-zinc-700 hover:bg-zinc-500 text-white font-bold py-4 px-12 mt-2 mx-auto w-full
                                 text-xl rounded-md')
 
                                 @if (Auth::user())

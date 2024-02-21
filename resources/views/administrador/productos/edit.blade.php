@@ -142,10 +142,11 @@ Editar producto
     <tr><td colspan="3">
         <p class="font-poppins text-1g">Discontinuar producto</p>
         @if($producto->discontinuado == '0')
-        <select name="discontinuar" class="font-poppins text-1g w-[190px] rounded-md mb-5">
-            <option></option>
+        <select name="discontinuar" class="font-poppins text-1g w-[190px] rounded-md">
+            <option value='0'></option>
             <option value="1">Discontinuar</option>
         </select>
+        <p class='mb-5 text-xs mt-1'>No puede revertirse</p>
         @else
         <input type="text" readonly disabled class="rounded-md mb-5 mr-5 w-[200px] " value="Producto discontinuado">
         @endif

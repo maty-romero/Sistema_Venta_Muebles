@@ -81,6 +81,7 @@ class Venta extends Model
             $subtotal = $subtotal * (1 - $descuento / 100);
             
         }
+        //Tiene todas las ofertas aplicadas
         return $subtotal;
     }
 

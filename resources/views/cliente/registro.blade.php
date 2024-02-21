@@ -78,6 +78,8 @@
                     <br>
                     <small style="color: red">{{ $message }}</small>
                     @enderror
+
+                    <p class="font-poppins text-xs">Todos los campos son obligatorios</p>
                 </div>
 
                 <!-- Columna 2 -->
@@ -112,14 +114,10 @@
                     <br>
                     <small style="color: red">{{ $message }}</small>
                     @enderror
-
-                    <br>
-
-                </div>
-                <div></div>
-                <div class="ml-auto"> <button type="submit" class="mt-6 bg-gray-800 text-white py-2 px-6 rounded-md text-base">
+                    <button type="submit" class="mt-6 bg-gray-800 hover:bg-gray-600 text-white py-2 px-6 rounded-md text-base">
                         Registrarse
-                    </button></div>
+                    </button>
+                </div>
             </form>
         </div>
     </div>
