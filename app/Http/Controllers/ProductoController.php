@@ -60,19 +60,20 @@ class ProductoController extends Controller
      */
     public function store(RegistroProductoRequest $request)
     {
+        
         $validated = $request->validate([
-            'nombre_producto' => 'required|unique:productos|max:100',
-            'descripcion' => 'nullable|max:500',
-            "stock" => "required|min:1",
-            "precio_producto" => "required|min:1",
-            "id_tipo_mueble" => "required",
-            'largo' => "required|min:1",
-            'ancho' => "required|min:1",
-            'alto' => "required|min:1",
-            'material' => "required",
+            'nombre_producto' => 'required|unique:productos|max:50',
+            'descripcion' => 'required|max:1000',
+            'stock' => 'required|integer|min:1',
+            'precio_producto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
+            'id_tipo_mueble' => 'required',
+            'largo' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
+            'ancho' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
+            'alto' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:1'],
+            'material' => 'required',
             'imagenProd' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-
+        
         if ($validated) {
             $fileImg = $_FILES["imagenProd"];
             $imagenURL = 'images/productos/' . basename($fileImg["name"]);
