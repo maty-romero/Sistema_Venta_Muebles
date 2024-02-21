@@ -139,7 +139,7 @@ Ofertas
                             tablaHTML += `
                             <tr>
                                 <td class="hover:underline px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                                    <a href='/ofertas/${oferta.id}'>
+                                    <a href='/ofertas/ver/${oferta.id}'>
                                         ${oferta.tipo}
                                     </a>
                                 </td>
@@ -180,7 +180,7 @@ Ofertas
                             tablaHTML += `
                             <tr>
                                 <td class="hover:underline px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                                    <a href='/ofertas/${oferta.id}'>
+                                    <a href='/ofertas/ver/${oferta.id}'>
                                         ${oferta.tipo}
                                     </a>
                                 </td>
