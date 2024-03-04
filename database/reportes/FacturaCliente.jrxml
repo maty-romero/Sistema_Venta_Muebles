@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FacturaCliente" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
@@ -61,18 +61,20 @@
 	<parameter name="NroVenta" class="java.lang.String"/>
 	<parameter name="SubReportPath" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT nombre_producto AS nombre_item,unidades_vendidas_prod AS unidades,precio_venta_prod AS precio_unitario,id_producto AS nro_producto,   unidades_vendidas_prod * precio_venta_prod AS total
-	FROM  producto_venta 
-	LEFT JOIN productos ON productos.id = producto_venta.id_producto
-	WHERE producto_venta.id_venta=$P{NroVenta} 
-	
-	
-	UNION 
-	
-	SELECT nombre_combo AS nombre_item,unidades_vendidas_combo AS unidades ,precio_combo AS precio_unitario,oferta_combo_venta.id_oferta_combo AS nro_producto,unidades_vendidas_combo * precio_combo AS total
-	FROM oferta_combo_venta 
-	LEFT JOIN oferta_combo ON oferta_combo.id_oferta_combo=oferta_combo_venta.id_oferta_combo
-	WHERE oferta_combo_venta.id_venta=$P{NroVenta}]]>
+	<![CDATA[
+		SELECT nombre_producto AS nombre_item,unidades_vendidas_prod AS unidades,precio_venta_prod AS precio_unitario,id_producto AS nro_producto,   unidades_vendidas_prod * precio_venta_prod AS total
+		FROM  producto_venta 
+		LEFT JOIN productos ON productos.id = producto_venta.id_producto
+		WHERE producto_venta.id_venta=$P{NroVenta} 
+		
+		
+		UNION 
+		
+		SELECT nombre_combo AS nombre_item,unidades_vendidas_combo AS unidades ,precio_combo AS precio_unitario,oferta_combo_venta.id_oferta_combo AS nro_producto,unidades_vendidas_combo * precio_combo AS total
+		FROM oferta_combo_venta 
+		LEFT JOIN oferta_combo ON oferta_combo.id_oferta_combo=oferta_combo_venta.id_oferta_combo
+		WHERE oferta_combo_venta.id_venta=$P{NroVenta}
+	]]>
 	</queryString>
 	<field name="nombre_item" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nombre_item"/>
@@ -112,39 +114,39 @@
 				<reportElement x="-9" y="0" width="566" height="20" forecolor="#FFFFFF" backcolor="#8C8C8C" uuid="b4042163-034a-4277-8ab9-fdec2ce66b77"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="46" y="0" width="230" height="20" forecolor="#FFFFFF" uuid="c81e45b8-526b-4f5f-b2c5-5e97e01922b5"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Descripción]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="477" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="65ca9509-3b75-4cf6-9585-e1361deac69d"/>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Importe total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-5" y="0" width="50" height="20" forecolor="#FFFFFF" uuid="577f9fb4-e4a0-408f-b279-a25ed8bd8795"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Cant.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="377" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="2ef7fa0c-91bc-487e-8a27-8ecfa60ae184"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="309" y="0" width="110" height="20" forecolor="#FFFFFF" uuid="2ef7fa0c-91bc-487e-8a27-8ecfa60ae184"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Precio Unitario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="276" y="0" width="101" height="20" forecolor="#FFFFFF" uuid="c03d95a3-1b84-4652-becd-96a0405795a7"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="-9" y="0" width="101" height="20" forecolor="#FFFFFF" uuid="c03d95a3-1b84-4652-becd-96a0405795a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="0" width="218" height="20" forecolor="#FFFFFF" uuid="c81e45b8-526b-4f5f-b2c5-5e97e01922b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="0" width="56" height="20" forecolor="#FFFFFF" uuid="577f9fb4-e4a0-408f-b279-a25ed8bd8795"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cant.]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -155,28 +157,33 @@
 			</rectangle>
 			<textField>
 				<reportElement x="476" y="0" width="80" height="18" uuid="0107b80a-b317-43de-aa55-fecb429b0dd9"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["$"+$F{total}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="275" y="0" width="100" height="18" uuid="47172317-330f-4360-8056-c6f55575f5f1"/>
+				<reportElement x="-9" y="0" width="100" height="18" uuid="47172317-330f-4360-8056-c6f55575f5f1"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{nro_producto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="-6" y="0" width="50" height="18" uuid="2dd4f844-8791-4be2-89d4-e66a1d752619"/>
-				<textFieldExpression><![CDATA[$F{unidades}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="376" y="0" width="99" height="18" uuid="e5d84d61-ff88-4ef0-9aa9-46e100b6c87f"/>
+				<reportElement x="309" y="-1" width="111" height="18" uuid="e5d84d61-ff88-4ef0-9aa9-46e100b6c87f"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["$"+$F{precio_unitario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="45" y="0" width="230" height="18" uuid="f9c63e35-f216-43b8-903c-f93653f2433e"/>
+				<reportElement x="91" y="-1" width="218" height="18" uuid="f9c63e35-f216-43b8-903c-f93653f2433e"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{nombre_item}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="0" width="56" height="18" uuid="2dd4f844-8791-4be2-89d4-e66a1d752619"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{unidades}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<lastPageFooter>
-		<band height="131">
+		<band height="300">
 			<subreport>
 				<reportElement x="-8" y="0" width="563" height="131" uuid="c5f81231-e10a-4631-80c9-a8326e79600d"/>
 				<subreportParameter name="NroVenta">

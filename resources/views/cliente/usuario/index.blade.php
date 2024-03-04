@@ -171,7 +171,7 @@
         @if (count($ventas) > 0)
             @foreach ($ventas as $venta)
                 @php
-                    $fechaVenta = date('d-m-Y H:m', strtotime($venta->fecha_venta))
+                    $fechaVenta = date('d-m-Y', strtotime($venta->fecha_venta))
                 @endphp
 
                 <x-custom.sale-item  

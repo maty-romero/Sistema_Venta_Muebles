@@ -1,87 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TotalVentaSubReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c09e5bbb-472f-4620-b02b-d48ca95cfecf">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
 	<parameter name="NroVenta" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT ventas.monto_final_venta AS monto_final_venta,nro_pago,monto_limite_descuento,porcentaje_descuento AS monto_descuento from ventas 
-LEFT JOIN ofertas_montos ON ventas.id_oferta_monto = ofertas_montos.id_oferta_monto
-LEFT JOIN ofertas ON ofertas_montos.id_oferta_monto = ofertas.id
-where ventas.id = $P{NroVenta}]]>
+		<![CDATA[SELECT 
+                v.monto_final_venta AS monto_final_venta, 
+                v.nro_pago, 
+                o.porcentaje_descuento AS porcentaje_descuento,
+                subquery.total_sin_descuento as total_sin_descuento,
+                (subquery.total_sin_descuento - v.monto_final_venta) AS monto_descuento
+            FROM ventas v 
+            LEFT JOIN ofertas_montos ofm ON v.id_oferta_monto = ofm.id_oferta_monto
+            LEFT JOIN ofertas o ON ofm.id_oferta_monto = o.id,
+            (
+                SELECT 
+                    COALESCE(SUM(total), 0) AS total_sin_descuento
+                FROM (
+                    SELECT 
+                        SUM(producto_venta.unidades_vendidas_prod * producto_venta.precio_venta_prod) AS total
+                    FROM 
+                        producto_venta 
+                    LEFT JOIN 
+                        productos ON productos.id = producto_venta.id_producto
+                    WHERE 
+                        producto_venta.id_venta = $P{NroVenta}
+                    
+                    UNION ALL
+                    
+                    SELECT 
+                        SUM(oferta_combo_venta.unidades_vendidas_combo * oferta_combo_venta.precio_combo) AS total
+                    FROM 
+                        oferta_combo_venta 
+                    LEFT JOIN 
+                        oferta_combo ON oferta_combo.id_oferta_combo = oferta_combo_venta.id_oferta_combo
+                    WHERE 
+                        oferta_combo_venta.id_venta = $P{NroVenta}
+                ) AS subquery
+            ) AS subquery
+            WHERE v.id = $P{NroVenta};
+		]]>
 	</queryString>
 	<field name="monto_final_venta" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="monto_final_venta"/>
 		<property name="com.jaspersoft.studio.field.label" value="monto_final_venta"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
 	</field>
 	<field name="nro_pago" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="nro_pago"/>
 		<property name="com.jaspersoft.studio.field.label" value="nro_pago"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
 	</field>
-	<field name="monto_limite_descuento" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="monto_limite_descuento"/>
-		<property name="com.jaspersoft.studio.field.label" value="monto_limite_descuento"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="ofertas_montos"/>
-	</field>
-	<field name="monto_descuento" class="java.lang.Integer">
+	<field name="porcentaje_descuento" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="porcentaje_descuento"/>
+		<property name="com.jaspersoft.studio.field.label" value="porcentaje_descuento"/>
+	</field>
+	<field name="total_sin_descuento" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_sin_descuento"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_sin_descuento"/>
+	</field>
+	<field name="monto_descuento" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="monto_descuento"/>
 		<property name="com.jaspersoft.studio.field.label" value="monto_descuento"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="ofertas"/>
 	</field>
 	<background>
-		<band splitType="Stretch"/>
+		<band height="8" splitType="Stretch"/>
 	</background>
 	<pageFooter>
-		<band height="83" splitType="Stretch">
+		<band height="101" splitType="Stretch">
 			<rectangle>
-				<reportElement x="241" y="-10" width="280" height="91" uuid="30900599-4059-49a5-a7a1-e54ecc40637a"/>
+				<reportElement x="230" y="-4" width="331" height="95" uuid="30900599-4059-49a5-a7a1-e54ecc40637a"/>
 			</rectangle>
-			<rectangle>
-				<reportElement x="241" y="50" width="280" height="31" forecolor="#000000" backcolor="#030303" uuid="2908b671-902d-4a65-8965-9138fbeb064c"/>
-			</rectangle>
-			<staticText>
-				<reportElement x="241" y="50" width="80" height="30" forecolor="#FFFFFF" uuid="d9dd7346-c34f-44b4-91b2-27c2a6ec42eb"/>
-				<textElement>
-					<font size="20" isBold="true"/>
-				</textElement>
-				<text><![CDATA[TOTAL:]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="401" y="-10" width="120" height="20" uuid="a233f750-3dca-412b-96d6-022b6ca2791b"/>
-				<textElement textAlignment="Right"/>
+				<reportElement x="390" y="-4" width="170" height="20" uuid="a233f750-3dca-412b-96d6-022b6ca2791b"/>
 				<textFieldExpression><![CDATA["#"+$F{nro_pago}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="401" y="10" width="120" height="20" uuid="08322710-d15a-4cbc-a7e1-5a0a14b404b7"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[("$"+$F{monto_limite_descuento})=="$"?"NO APLICA":"$"+$F{monto_limite_descuento}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="321" y="50" width="200" height="30" forecolor="#FFFFFF" uuid="cd5bc1dd-b288-478b-936e-c326297d66d4"/>
-				<textElement textAlignment="Right">
-					<font size="20" isBold="true"/>
+			<staticText>
+				<reportElement x="230" y="16" width="150" height="20" forecolor="#030303" uuid="b9594ce8-ed3b-4e9b-80fe-fc30e60f0d28"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["$"+$F{monto_final_venta}]]></textFieldExpression>
+				<text><![CDATA[Subtotal:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="390" y="16" width="170" height="20" uuid="cd5bc1dd-b288-478b-936e-c326297d66d4"/>
+				<textFieldExpression><![CDATA["$"+$F{total_sin_descuento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="301" y="-10" width="100" height="20" uuid="cffae6b5-4818-45e1-bcce-e44d7c33800f"/>
+				<reportElement x="230" y="36" width="150" height="20" forecolor="#030303" uuid="b9594ce8-ed3b-4e9b-80fe-fc30e60f0d28"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descuento por monto:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="390" y="36" width="170" height="20" forecolor="#030303" backcolor="#FFFFFF" uuid="f7d52609-b20b-4773-b261-3564e5cd69f4"/>
+				<textFieldExpression><![CDATA[($F{monto_descuento} != null ? "- $" + $F{monto_descuento} + " (" + ($F{porcentaje_descuento} != null ? $F{porcentaje_descuento} + "%" : "No aplica") + ")" : "No aplica")]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="230" y="60" width="330" height="31" forecolor="#000000" backcolor="#030303" uuid="2908b671-902d-4a65-8965-9138fbeb064c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="230" y="-4" width="150" height="20" forecolor="#030303" uuid="d9dd7346-c34f-44b4-91b2-27c2a6ec42eb"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Nro. de pago:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="301" y="10" width="100" height="20" uuid="b9594ce8-ed3b-4e9b-80fe-fc30e60f0d28"/>
-				<text><![CDATA[Descuento por monto]]></text>
+				<reportElement x="270" y="65" width="70" height="20" forecolor="#FFFFFF" uuid="cffae6b5-4818-45e1-bcce-e44d7c33800f"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="401" y="30" width="120" height="20" uuid="f7d52609-b20b-4773-b261-3564e5cd69f4"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[("%"+$F{monto_descuento})=="%"?"NO APLICA":"%"+$F{monto_descuento}]]></textFieldExpression>
+				<reportElement x="390" y="64" width="175" height="23" forecolor="#FFFFFF" uuid="f7d52609-b20b-4773-b261-3564e5cd69f4"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["$"+$F{monto_final_venta}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="301" y="30" width="100" height="20" uuid="d85010fc-130f-4bee-8edf-219dc5fdedc4"/>
-				<text><![CDATA[Porcentaje por monto]]></text>
-			</staticText>
 		</band>
 	</pageFooter>
 </jasperReport>

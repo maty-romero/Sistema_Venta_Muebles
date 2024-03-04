@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Productos_Mas_Vendidos" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="e9bb1a27-f975-4aa4-98f9-75524c5daafa">
     <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
@@ -13,37 +12,49 @@
     <parameter name="Fecha_fin" class="java.lang.String"/>
     <queryString language="SQL">
         <![CDATA[
-            SELECT id_producto,productos.nombre_producto,productos.precio_producto as precio_unitario,SUM(unidades_vendidas_prod), tp.nombre_tipo_mueble
-            FROM producto_venta 
-            LEFT JOIN productos ON producto_venta.id_producto= productos.id
-            LEFT JOIN ventas ON producto_venta.id_venta= ventas.id
-            INNER JOIN tipos_muebles tp on tp.id = productos.id_tipo_mueble
-            WHERE ventas.fecha_venta BETWEEN $P{Fecha_inicio} AND $P{Fecha_fin} 
-            GROUP BY producto_venta.id_producto
-            ORDER BY SUM(unidades_vendidas_prod) DESC
+            SELECT
+                productos.nombre_producto as nombre_producto,
+                COUNT(ventas.id) AS ventas_realizadas,
+                productos.precio_producto AS precio_unitario,
+                SUM(unidades_vendidas_prod) AS total_unidades_vendidas,
+                tp.nombre_tipo_mueble as nombre_tipo_mueble
+            FROM 
+                producto_venta 
+            LEFT JOIN 
+                productos ON producto_venta.id_producto = productos.id
+            LEFT JOIN 
+                ventas ON producto_venta.id_venta = ventas.id
+            INNER JOIN 
+                tipos_muebles tp ON tp.id = productos.id_tipo_mueble
+            WHERE 
+                ventas.fecha_venta BETWEEN $P{Fecha_inicio} AND $P{Fecha_fin} 
+            GROUP BY 
+                producto_venta.id_producto
+            ORDER BY 
+                total_unidades_vendidas DESC;
+
         ]]>
     </queryString>
-    <field name="id_producto" class="java.lang.Integer">
-        <property name="com.jaspersoft.studio.field.name" value="id_producto"/>
-        <property name="com.jaspersoft.studio.field.label" value="id_producto"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="producto_venta"/>
-    </field>
     <field name="nombre_producto" class="java.lang.String">
         <property name="com.jaspersoft.studio.field.name" value="nombre_producto"/>
         <property name="com.jaspersoft.studio.field.label" value="nombre_producto"/>
         <property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
+    </field>
+    <field name="ventas_realizadas" class="java.lang.Long">
+        <fieldDescription><![CDATA[ventas_realizadas]]></fieldDescription>
     </field>
     <field name="precio_unitario" class="java.lang.Double">
         <property name="com.jaspersoft.studio.field.name" value="precio_producto"/>
         <property name="com.jaspersoft.studio.field.label" value="precio_unitario"/>
         <property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
     </field>
-    <field name="SUM(unidades_vendidas_prod)" class="java.math.BigDecimal">
-        <property name="com.jaspersoft.studio.field.name" value="SUM(unidades_vendidas_prod)"/>
-        <property name="com.jaspersoft.studio.field.label" value="SUM(unidades_vendidas_prod)"/>
+    <field name="total_unidades_vendidas" class="java.math.BigDecimal">
+        <property name="com.jaspersoft.studio.field.name" value="total_unidades_vendidas"/>
+        <property name="com.jaspersoft.studio.field.label" value="total_unidades_vendidas"/>
     </field>
     <field name="nombre_tipo_mueble" class="java.lang.String">
-        <fieldDescription><![CDATA[tp.nombre_tipo_mueble]]></fieldDescription>
+        <property name="com.jaspersoft.studio.field.name" value="nombre_tipo_mueble"/>
+        <property name="com.jaspersoft.studio.field.label" value="nombre_tipo_mueble"/>
     </field>
     <background>
         <band height="822" splitType="Stretch">
@@ -84,7 +95,7 @@
                 <textElement textAlignment="Left" verticalAlignment="Middle">
                     <font size="26"/>
                 </textElement>
-                <textFieldExpression><![CDATA["Desde el " + new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{Fecha_inicio})) + " al " + new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{Fecha_fin}))]]></textFieldExpression>
+                <textFieldExpression><![CDATA["Desde el " + new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{Fecha_inicio})) + " al " + new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{Fecha_fin}))]]></textFieldExpression>
             </textField>
         </band>
     </title>
@@ -96,33 +107,34 @@
             <frame>
                 <reportElement mode="Opaque" x="0" y="5" width="554" height="20" backcolor="#666666" uuid="eb0fefed-b830-492b-a0c9-ec23411537a7"/>
                 <staticText>
-                    <reportElement x="2" y="0" width="58" height="20" forecolor="#FFFFFF" uuid="6e3da373-2140-4707-b420-1ded022e6cb1"/>
-                    <textElement verticalAlignment="Middle"/>
-                    <text><![CDATA[Nro]]></text>
+                    <reportElement x="2" y="0" width="120" height="20" forecolor="#FFFFFF" uuid="78b29863-daf3-4535-9a42-b5f4f2b63dd7"/>
+                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
+                    <text><![CDATA[Nombre del producto]]></text>
                 </staticText>
                 <staticText>
-                    <reportElement x="62" y="0" width="120" height="20" forecolor="#FFFFFF" uuid="78b29863-daf3-4535-9a42-b5f4f2b63dd7"/>
-                    <textElement verticalAlignment="Middle"/>
-                    <text><![CDATA[Nombre]]></text>
+                    <reportElement x="122" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="11a179d0-6090-465d-93d4-30083a60404f"/>
+                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
+                    <text><![CDATA[Ventas realizadas]]></text>
                 </staticText>
                 <staticText>
-                    <reportElement x="242" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="11a179d0-6090-465d-93d4-30083a60404f"/>
-                    <textElement verticalAlignment="Middle"/>
+                    <reportElement x="222" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="11a179d0-6090-465d-93d4-30083a60404f"/>
+                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
                     <text><![CDATA[Precio unitario]]></text>
                 </staticText>
                 <staticText>
-                    <reportElement x="342" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="354fced8-8c04-4494-a240-bfcdfe4e4873"/>
-                    <textElement verticalAlignment="Middle"/>
-                    <text><![CDATA[Unidades vendidas]]></text>
+                    <reportElement x="322" y="0" width="130" height="20" forecolor="#FFFFFF" uuid="354fced8-8c04-4494-a240-bfcdfe4e4873"/> <!-- Ajusta el ancho aquí -->
+                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
+                    <text><![CDATA[Total unidades vendidas]]></text>
                 </staticText>
                 <staticText>
-                    <reportElement x="442" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="354fced8-8c04-4494-a240-bfcdfe4e4874"/>
-                    <textElement verticalAlignment="Middle"/>
+                    <reportElement x="452" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="354fced8-8c04-4494-a240-bfcdfe4e4874"/>
+                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
                     <text><![CDATA[Tipo de mueble]]></text>
                 </staticText>
             </frame>
         </band>
     </columnHeader>
+
     <detail>
         <band height="18" splitType="Stretch">
             <frame>
@@ -130,39 +142,50 @@
                     <property name="com.jaspersoft.studio.unit.height" value="px"/>
                 </reportElement>
                 <textField>
-                    <reportElement x="62" y="1" width="120" height="14" uuid="c5b3d235-314d-4558-b892-e5b484a2a255">
+                    <reportElement x="2" y="1" width="120" height="14" uuid="c5b3d235-314d-4558-b892-e5b484a2a255">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="68094530-13a2-481e-8530-19482a559f92"/>
                         <property name="com.jaspersoft.studio.unit.height" value="px"/>
                     </reportElement>
+                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
                     <textFieldExpression><![CDATA[$F{nombre_producto}]]></textFieldExpression>
                 </textField>
                 <textField>
-                    <reportElement x="242" y="1" width="100" height="14" uuid="6f10bd5a-01cf-4554-9356-8aa6aa187484">
+                    <reportElement x="122" y="1" width="100" height="14" uuid="6f10bd5a-01cf-4554-9356-8aa6aa187484">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
                         <property name="com.jaspersoft.studio.unit.height" value="px"/>
                     </reportElement>
+                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
+                    <textFieldExpression><![CDATA[$F{ventas_realizadas}]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="222" y="1" width="100" height="14" uuid="6f10bd5a-01cf-4554-9356-8aa6aa187484">
+                        <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
+                        <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    </reportElement>
+                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
                     <textFieldExpression><![CDATA["$"+$F{precio_unitario}]]></textFieldExpression>
                 </textField>
                 <textField>
-                    <reportElement x="342" y="1" width="100" height="14" uuid="3da4470b-8c6f-4cae-9e78-438961b6e588">
+                    <reportElement x="332" y="1" width="100" height="14" uuid="3da4470b-8c6f-4cae-9e78-438961b6e588">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="09a8289f-6ae9-4ffb-8377-1496eb53e026"/>
                         <property name="com.jaspersoft.studio.unit.height" value="px"/>
                     </reportElement>
-                    <textFieldExpression><![CDATA[$F{SUM(unidades_vendidas_prod)}]]></textFieldExpression>
+                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
+                    <textFieldExpression><![CDATA[$F{total_unidades_vendidas}]]></textFieldExpression>
                 </textField>
                 <textField>
-                    <reportElement x="442" y="1" width="100" height="14" uuid="3da4470b-8c6f-4cae-9e78-438961b6e588">
+                    <reportElement x="452" y="1" width="100" height="14" uuid="3da4470b-8c6f-4cae-9e78-438961b6e588">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="09a8289f-6ae9-4ffb-8377-1496eb53e027"/>
                         <property name="com.jaspersoft.studio.unit.height" value="px"/>
                     </reportElement>
-                    <textFieldExpression><![CDATA[$F{nombre_tipo_mueble}]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="4" y="1" width="56" height="14" uuid="7ae0e793-72af-4b6a-afc0-cf08162c73a9">
-                        <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8d820649-9408-417a-94b2-9d81afa0d6fe"/>
-                        <property name="com.jaspersoft.studio.unit.height" value="px"/>
-                    </reportElement>
-                    <textFieldExpression><![CDATA[$F{id_producto}]]></textFieldExpression>
+                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
+                    <textFieldExpression>
+                    <![CDATA[ 
+                        $F{nombre_tipo_mueble} != null && !$F{nombre_tipo_mueble}.isEmpty() ? 
+                        $F{nombre_tipo_mueble}.substring(0,1).toUpperCase() + $F{nombre_tipo_mueble}.substring(1) : 
+                        $F{nombre_tipo_mueble}
+                    ]]>
+                    </textFieldExpression>
                 </textField>
                 <line>
                     <reportElement x="0" y="15" width="553" height="1" forecolor="#ABABAB" uuid="1bb74eb1-929c-4f5c-9a33-270080ac19d6">
@@ -174,6 +197,8 @@
             </frame>
         </band>
     </detail>
+
+
     <columnFooter>
         <band splitType="Stretch"/>
     </columnFooter>

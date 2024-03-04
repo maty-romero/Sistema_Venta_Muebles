@@ -82,14 +82,6 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('administrador_ofertas') }}" class="text-[#D6D6D6] flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <svg class="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 25">
-                        <path d="M6 14.75L13.5 7.25M6.625 7.875H6.6375M12.875 14.125H12.8875M18.5 23.5V3.5C18.5 2.83696 18.2366 2.20107 17.7678 1.73223C17.2989 1.26339 16.663 1 16 1H3.5C2.83696 1 2.20107 1.26339 1.73223 1.73223C1.26339 2.20107 1 2.83696 1 3.5V23.5L5.375 21L9.75 23.5L14.125 21L18.5 23.5ZM7.25 7.875C7.25 8.04076 7.18415 8.19973 7.06694 8.31694C6.94973 8.43415 6.79076 8.5 6.625 8.5C6.45924 8.5 6.30027 8.43415 6.18306 8.31694C6.06585 8.19973 6 8.04076 6 7.875C6 7.70924 6.06585 7.55027 6.18306 7.43306C6.30027 7.31585 6.45924 7.25 6.625 7.25C6.79076 7.25 6.94973 7.31585 7.06694 7.43306C7.18415 7.55027 7.25 7.70924 7.25 7.875ZM13.5 14.125C13.5 14.2908 13.4342 14.4497 13.3169 14.5669C13.1997 14.6842 13.0408 14.75 12.875 14.75C12.7092 14.75 12.5503 14.6842 12.4331 14.5669C12.3158 14.4497 12.25 14.2908 12.25 14.125C12.25 13.9592 12.3158 13.8003 12.4331 13.6831C12.5503 13.5658 12.7092 13.5 12.875 13.5C13.0408 13.5 13.1997 13.5658 13.3169 13.6831C13.4342 13.8003 13.5 13.9592 13.5 14.125Z" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span class="flex-1 ml-2 whitespace-nowrap">Ofertas</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('administrador_reportes') }}" class="text-[#D6D6D6] flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="flex-shrink-0 w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M17.222,5.041l-4.443-4.414c-0.152-0.151-0.356-0.235-0.571-0.235h-8.86c-0.444,0-0.807,0.361-0.807,0.808v17.602c0,0.448,0.363,0.808,0.807,0.808h13.303c0.448,0,0.808-0.36,0.808-0.808V5.615C17.459,5.399,17.373,5.192,17.222,5.041zM15.843,17.993H4.157V2.007h7.72l3.966,3.942V17.993z"></path>
