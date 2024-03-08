@@ -23,40 +23,11 @@ class ReporteController extends Controller
         return view("administrador.reportes.index", compact("usuarios", "id"));
     }
 
+    /*
     // ReporteRedirect Andando 
     public function reporteRedirect(Request $request)
     {
-
-        
-        $checkResultados = "";
-        $fechaInicio = date('d/m/Y', strtotime($request->fechaInicio));
-        $fechaFin = date('d/m/Y', strtotime($request->fechaFin));
-        //dd("Fecha Inicio: " .$fechaInicio."\nFechaFin: " .$fechaFin);
-
-
-        // if ($request->input("idCliente")) {
-        //     $checkCliente = Cliente::find($request->input("idCliente"));
-
-        //     if ($checkCliente !== null) {
-        //         $checkResultados = DB::select("SELECT monto_final_venta,nro_pago,codigo_postal_destino,domicilio_destino,fecha_venta
-        //         FROM clientes
-        //         LEFT JOIN ventas ON clientes.id_usuario_cliente = ventas.id_usuario_cliente
-        //         WHERE (ventas.fecha_venta BETWEEN '$fechaInicio' AND '$fechaFin')
-        //          AND clientes.id_usuario_cliente=$checkCliente->id_usuario_cliente");
-        //     }
-        // } else {
-        //     $checkResultados = DB::select("SELECT id_producto,productos.nombre_producto,productos.precio_producto as precio_unitario,SUM(unidades_vendidas_prod)
-        //     FROM producto_venta 
-        //     LEFT JOIN productos ON producto_venta.id_producto= productos.id
-        //     LEFT JOIN ventas ON producto_venta.id_venta= ventas.id
-        //     WHERE ventas.fecha_venta BETWEEN '$fechaInicio' AND '$fechaFin'
-        //     GROUP BY producto_venta.id_producto
-        //     ORDER BY SUM(unidades_vendidas_prod) DESC");
-        // }
-
-
-        // if ($checkResultados !== null) {
-
+        //dd(route('cliente_comprobante_compra', 3));
         if ("VC" === $request->input('tipoReporte')) {
 
 
@@ -76,7 +47,7 @@ class ReporteController extends Controller
                     'driver' => 'mysql',
                     'host' => '127.0.0.1',
                     'port' => '3306',
-                    'database' => 'laravel',
+                    'database' => 'muebleApp',
                     'username' => 'root',
 
                 ],
@@ -102,7 +73,7 @@ class ReporteController extends Controller
                     'driver' => 'mysql',
                     'host' => '127.0.0.1',
                     'port' => '3306',
-                    'database' => 'laravel',
+                    'database' => 'muebleApp',
                     'username' => 'root',
 
                 ],
@@ -128,7 +99,7 @@ class ReporteController extends Controller
                     'driver' => 'mysql',
                     'host' => '127.0.0.1',
                     'port' => '3306',
-                    'database' => 'laravel',
+                    'database' => 'muebleApp',
                     'username' => 'root',
 
                 ],
@@ -150,10 +121,10 @@ class ReporteController extends Controller
         //     return response(["error" => "No hay resultados para generar el reporte seleccionado."]);
         // }
     }
+    */
 
-
-    /*
-        ReporteRedirect NO TERMINADO 
+    
+    //ReporteRedirect NO TERMINADO 
 
 
     public function reporteRedirect(Request $request)
@@ -163,15 +134,15 @@ class ReporteController extends Controller
         //dd($request->input('tipoReporte'));
         if ("VC" === $request->input('tipoReporte')) {
 
+            $input = base_path() . '\database\reportes\Ventas_Cliente_InfoClienteSubreport.jrxml';
+            $jasper->compile($input)->execute();
+
             $input = base_path() . '\database\reportes\Ventas_Cliente_ProductosSubreport.jrxml';
             $jasper->compile($input)->execute();
 
-            $input = base_path() . '\database\reportes\Ventas_Cliente_TotalSubreport.jrxml';
-            $jasper->compile($input)->execute(); 
-
             $input = base_path() . '\database\reportes\Ventas_Cliente_VentasSubreport.jrxml';
             $jasper->compile($input)->execute();
-
+             
             $path_subreport = base_path() . '/database/reportes/'; 
 
             $input = base_path() . '\database\reportes\Ventas_Cliente.jrxml';
@@ -269,7 +240,7 @@ class ReporteController extends Controller
     }
     
 
-    */
+    /**/
 
     
 
@@ -298,9 +269,9 @@ class ReporteController extends Controller
 
         $path_subreport = base_path() . '//database//reportes/';
 
-        $input = base_path() . '\database\reportes\detalleVentaSubreport.jrxml';
+        $input = base_path() . '\database\reportes\FacturaCliente.jrxml';
 
-        $output = base_path() . '\database\reportes\output\detalleVentaSubreport';
+        $output = base_path() . '\database\reportes\output\FacturaCliente';
 
 
 

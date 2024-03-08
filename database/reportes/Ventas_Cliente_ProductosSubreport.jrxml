@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ventas_Cliente_TotalSubreport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3e5a8168-24cd-4cef-9285-c6f2a79c6260">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="220"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="769"/>
+	<parameter name="ID_Venta" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT 
+    pv.nombre_item AS nombre_producto_combo, 
+    pv.unidades AS cantidad_producto,
+    pv.precio_unitario AS precio_unitario,
+    pv.total AS importe_producto_combo
+FROM 
+    ventas v
+LEFT JOIN 
+    (
+        SELECT 
+            pv.id_venta,
+            p.nombre_producto AS nombre_item,
+            pv.unidades_vendidas_prod AS unidades,
+            pv.precio_venta_prod AS precio_unitario,
+            pv.unidades_vendidas_prod * pv.precio_venta_prod AS total
+        FROM 
+            producto_venta pv
+        LEFT JOIN 
+            productos p ON p.id = pv.id_producto
+        UNION 
+        SELECT 
+            ocv.id_venta,
+            oc.nombre_combo AS nombre_item,
+            ocv.unidades_vendidas_combo AS unidades,
+            ocv.precio_combo AS precio_unitario,
+            ocv.unidades_vendidas_combo * ocv.precio_combo AS total
+        FROM 
+            oferta_combo_venta ocv
+        LEFT JOIN 
+            oferta_combo oc ON oc.id_oferta_combo = ocv.id_oferta_combo
+    ) AS pv ON v.id = pv.id_venta
+WHERE 
+    v.id = $P{ID_Venta};]]>
+	</queryString>
+	<field name="nombre_producto_combo" class="java.lang.String"/>
+	<field name="cantidad_producto" class="java.lang.Integer"/>
+	<field name="precio_unitario" class="java.math.BigDecimal"/>
+	<field name="importe_producto_combo" class="java.math.BigDecimal"/>
+	<background>
+		<band height="9" splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="260" y="-20" width="90" height="16" uuid="34f04c64-61d9-40ee-b321-02d665cad2c2"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_producto_combo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="-20" width="70" height="16" uuid="89fa7692-5ed1-41d6-b3cd-d34b48899d86"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["$"+$F{precio_unitario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="-20" width="70" height="16" uuid="e017cea9-0f80-42ab-b902-4ee0c2ff9a7e"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["$"+$F{importe_producto_combo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="-20" width="50" height="16" uuid="cafcec61-3f94-4405-885a-3e8017eac904"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad_producto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
