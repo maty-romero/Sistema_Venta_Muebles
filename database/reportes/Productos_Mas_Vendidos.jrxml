@@ -13,25 +13,26 @@
     <queryString language="SQL">
         <![CDATA[
             SELECT
-                productos.nombre_producto as nombre_producto,
-                COUNT(ventas.id) AS ventas_realizadas,
-                productos.precio_producto AS precio_unitario,
-                SUM(unidades_vendidas_prod) AS total_unidades_vendidas,
-                tp.nombre_tipo_mueble as nombre_tipo_mueble
-            FROM 
-                producto_venta 
-            LEFT JOIN 
-                productos ON producto_venta.id_producto = productos.id
-            LEFT JOIN 
-                ventas ON producto_venta.id_venta = ventas.id
-            INNER JOIN 
-                tipos_muebles tp ON tp.id = productos.id_tipo_mueble
-            WHERE 
-                ventas.fecha_venta BETWEEN $P{Fecha_inicio} AND $P{Fecha_fin} 
-            GROUP BY 
-                producto_venta.id_producto
-            ORDER BY 
-                total_unidades_vendidas DESC;
+    productos.nombre_producto AS nombre_producto,
+    COUNT(ventas.id) AS ventas_realizadas,
+    productos.precio_producto AS precio_unitario,
+    SUM(unidades_vendidas_prod) AS total_unidades_vendidas,
+    tp.nombre_tipo_mueble AS nombre_tipo_mueble
+FROM 
+    producto_venta 
+LEFT JOIN 
+    productos ON producto_venta.id_producto = productos.id
+LEFT JOIN 
+    ventas ON producto_venta.id_venta = ventas.id
+INNER JOIN 
+    tipos_muebles tp ON tp.id = productos.id_tipo_mueble
+WHERE 
+    DATE(ventas.fecha_venta) BETWEEN DATE($P{Fecha_inicio}) AND DATE($P{Fecha_fin})
+GROUP BY 
+    producto_venta.id_producto
+ORDER BY 
+    total_unidades_vendidas DESC;
+
 
         ]]>
     </queryString>
@@ -85,7 +86,7 @@
             </rectangle>
             <staticText>
                 <reportElement style="Title" x="0" y="3" width="553" height="57" forecolor="#FFFFFF" uuid="524767a9-e7e5-4041-9b08-5a7210b38e22"/>
-                <textElement textAlignment="Left" verticalAlignment="Middle">
+                <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font size="40" isBold="false"/>
                 </textElement>
                 <text><![CDATA[Productos más vendidos]]></text>

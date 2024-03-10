@@ -15,12 +15,13 @@
 	<parameter name="SubReportPath" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT 
-		    v.id AS id_venta
-		FROM 
-		    ventas v
-		WHERE 
-		    v.id_usuario_cliente = $P{Cliente}
-		    AND v.fecha_venta BETWEEN $P{Fecha_inicio} AND $P{Fecha_fin};]]>
+    v.id AS id_venta
+FROM 
+    ventas v
+WHERE 
+    v.id_usuario_cliente = $P{Cliente}
+    AND DATE(v.fecha_venta) BETWEEN DATE($P{Fecha_inicio}) AND DATE($P{Fecha_fin});
+]]>
 	</queryString>
 	<field name="id_venta" class="java.lang.Integer"/>
 	<title>
