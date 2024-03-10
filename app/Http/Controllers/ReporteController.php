@@ -205,7 +205,6 @@ class ReporteController extends Controller
             $output = base_path() . '\database\reportes\output\OfertasMasVendidas';
 
 
-
             $options = [
                 'format' => ['pdf'],
                 'locale' => 'en',
