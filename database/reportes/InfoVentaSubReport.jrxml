@@ -217,7 +217,7 @@
 				<textFieldExpression><![CDATA[$F{domicilio_destino}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="430" y="130" width="126" height="15" uuid="03076dab-1de9-4690-b3e5-36da75258419"/>
+				<reportElement x="432" y="130" width="126" height="15" uuid="03076dab-1de9-4690-b3e5-36da75258419"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{codigo_postal_destino}]]></textFieldExpression>
 			</textField>
@@ -229,7 +229,7 @@
 				<text><![CDATA[Domicilio:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="360" y="130" width="70" height="15" uuid="0f93419c-4091-4b5b-a934-1a2e92162ae5"/>
+				<reportElement x="360" y="130" width="80" height="15" uuid="0f93419c-4091-4b5b-a934-1a2e92162ae5"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -245,7 +245,7 @@
 			<textField>
 				<reportElement x="65" y="130" width="115" height="15" uuid="044fd9ca-9d7d-48e1-b526-6647d13ff19d"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{tipo_cliente}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[String.valueOf($F{tipo_cliente}.charAt(0)).toUpperCase() + $F{tipo_cliente}.substring(1)]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="145" width="65" height="15" uuid="ea68ee0d-f125-4e3f-9186-f8f233ac215e"/>

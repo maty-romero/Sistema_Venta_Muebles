@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ventas_Cliente_VentasSubreport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ffaa330a-65a9-4d94-b834-303f0de69f2b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="220"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="769"/>
+	<parameter name="Cliente" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+			    nombre_cliente,
+			    tipo_cliente,
+			    dni_cuit,
+			    nro_telefono
+			FROM 
+			    clientes c
+			WHERE 
+			    c.id_usuario_cliente = $P{Cliente};]]>
+	</queryString>
+	<field name="nombre_cliente" class="java.lang.String"/>
+	<field name="tipo_cliente" class="java.lang.String"/>
+	<field name="dni_cuit" class="java.lang.String"/>
+	<field name="nro_telefono" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="75" splitType="Stretch">
+			<textField>
+				<reportElement x="-20" y="-20" width="553" height="80" forecolor="#000000" uuid="99f79010-99cb-4ca5-b253-cc702e5a69fc"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nombre del Cliente: " + $F{nombre_cliente} + "\n" +
+"Tipo de Cliente: " + ($F{tipo_cliente} != null ? $F{tipo_cliente}.substring(0, 1).toUpperCase() + $F{tipo_cliente}.substring(1) : "") + "\n" +
+"DNI/CUIT: " + $F{dni_cuit} + "\n" +
+"Nro. de Teléfono: " + $F{nro_telefono}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

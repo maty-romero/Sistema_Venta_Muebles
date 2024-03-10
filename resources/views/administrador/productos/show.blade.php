@@ -101,7 +101,7 @@ Productos
 
       <div class="w-full">
         <h4 class='text-3xl text-left ml-1'>Ofertas de muebles de {{Str::ucfirst($producto->tipo_mueble->nombre_tipo_mueble)}}:</h4>
-        @if (!empty($ofertasTipo))
+        @if (!empty($ofertasTipo) && $producto->discontinuado == 0)
           
           <x-custom.table :columnas="['Id Oferta', 'Fecha inicio oferta','Fecha fin oferta', 'Descuento']">
             @foreach ($ofertasTipo as $result)

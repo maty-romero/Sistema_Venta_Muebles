@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ventas_Cliente_ProductosSubreport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4d00f91f-71d1-49ac-98e2-97738a2e7876">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="220"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="769"/>
+	<parameter name="ID_Venta" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT 
+    v.id AS id_venta,
+    v.nro_pago AS nro_pago,
+    v.fecha_venta AS fecha_venta,
+    v.codigo_postal_destino AS codigo_postal_destino,
+    v.domicilio_destino AS domicilio_destino,
+    vd.total_sin_descuento AS subtotal,
+    vd.monto_descuento AS descuento_monto,
+    v.monto_final_venta AS monto_final_venta
+FROM 
+    ventas v
+LEFT JOIN 
+    (
+        (
+            SELECT 
+                pv.id_venta,
+                p.nombre_producto AS nombre_item,
+                pv.unidades_vendidas_prod AS unidades,
+                pv.precio_venta_prod AS precio_unitario,
+                pv.unidades_vendidas_prod * pv.precio_venta_prod AS total
+            FROM 
+                producto_venta pv
+            LEFT JOIN 
+                productos p ON p.id = pv.id_producto
+        ) 
+        UNION 
+        (
+            SELECT 
+                ocv.id_venta,
+                oc.nombre_combo AS nombre_item,
+                ocv.unidades_vendidas_combo AS unidades,
+                ocv.precio_combo AS precio_unitario,
+                ocv.unidades_vendidas_combo * ocv.precio_combo AS total
+            FROM 
+                oferta_combo_venta ocv
+            LEFT JOIN 
+                oferta_combo oc ON oc.id_oferta_combo = ocv.id_oferta_combo
+        )
+    ) AS pv ON v.id = pv.id_venta
+LEFT JOIN 
+    (
+        SELECT 
+            v.id,
+            COALESCE(SUM(total), 0) AS total_sin_descuento,
+            (COALESCE(SUM(total), 0) - v.monto_final_venta) AS monto_descuento
+        FROM 
+            ventas v
+        LEFT JOIN 
+            (
+                SELECT 
+                    pv.id_venta,
+                    pv.unidades_vendidas_prod * pv.precio_venta_prod AS total
+                FROM 
+                    producto_venta pv
+                UNION ALL
+                SELECT 
+                    ocv.id_venta,
+                    ocv.unidades_vendidas_combo * ocv.precio_combo AS total
+                FROM 
+                    oferta_combo_venta ocv
+                LEFT JOIN 
+                    oferta_combo oc ON oc.id_oferta_combo = ocv.id_oferta_combo
+            ) AS subquery ON v.id = subquery.id_venta
+        GROUP BY 
+            v.id
+    ) AS vd ON v.id = vd.id
+WHERE 
+    v.id = $P{ID_Venta}
+LIMIT 1;]]>
+	</queryString>
+	<field name="subtotal" class="java.math.BigDecimal"/>
+	<field name="descuento_monto" class="java.math.BigDecimal"/>
+	<field name="monto_final_venta" class="java.math.BigDecimal"/>
+	<field name="id_venta" class="java.lang.Integer"/>
+	<field name="fecha_venta" class="java.sql.Date"/>
+	<field name="codigo_postal_destino" class="java.lang.String"/>
+	<field name="domicilio_destino" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="139" splitType="Stretch">
+			<frame>
+				<reportElement x="-20" y="-19" width="558" height="19" uuid="960831c4-fcc1-4d48-8000-87fc46b24531">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-19" width="554" height="20" backcolor="#030303" uuid="f42cf0ee-1ed9-4838-b9d9-b808c7d8ed8a"/>
+				<staticText>
+					<reportElement x="2" y="0" width="38" height="20" forecolor="#FFFFFF" uuid="a870c723-3cfe-4ed7-8d1f-6f6c93dac680"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Nro]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="40" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="a7808a40-4a0d-4fd5-a399-d742ba247220"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Fecha venta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="110" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="5f35c5a4-4773-475f-b618-c410cee3cdff"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Codigo postal]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="180" y="-1" width="80" height="20" forecolor="#FFFFFF" uuid="f1bfee42-4e73-4955-b7ec-0e07cdcf58e0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Domicilio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="480" y="0" width="72" height="20" forecolor="#FFFFFF" uuid="b3206ab7-a341-4b10-b364-c751636de6fd"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="260" y="0" width="110" height="20" forecolor="#FFFFFF" uuid="8f54f0d0-e2a8-4e34-a395-69100fc3ab21"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Producto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="440" y="0" width="40" height="20" forecolor="#FFFFFF" uuid="e0338dac-2b5c-4b59-a694-51f207c06975"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Cant]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="370" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="f0f1b971-0018-4ef1-b76a-8d36d7ebbd8e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Precio unitario]]></text>
+				</staticText>
+			</frame>
+			<textField>
+				<reportElement x="-19" y="1" width="40" height="14" uuid="e6d8b6e1-55f9-421b-8d86-61f49df0017e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="50192fae-d41c-41f4-8984-c6c0e70bf353"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{id_venta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="1" width="70" height="14" uuid="9a9b2ec2-3c7a-4036-9ccb-87645fc70ab6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ecdbda65-7d4d-4d0c-a132-ff47d112959b"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd-MM-yyyy").format($F{fecha_venta})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="1" width="76" height="14" uuid="7d95b1fd-a8cd-4f55-a822-0b8ba30843fb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d3b9a315-98b0-4817-b57d-5cb3d36a0731"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{codigo_postal_destino}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="166" y="1" width="80" height="14" uuid="775b0ade-5195-4d9d-95ad-0346661a9846">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ff5b79dc-a0d5-4351-83f5-3072dcdae164"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{domicilio_destino}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="-19" y="71" width="553" height="61" forecolor="#ADADAD" backcolor="#636363" uuid="0df4b3fb-1b10-48a8-819b-108492b2686f"/>
+			</rectangle>
+			<textField>
+				<reportElement x="411" y="111" width="115" height="14" forecolor="#FFFFFF" uuid="d3fafe4b-2399-495b-95b4-a3bc9e35e08a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2154a072-bd90-4584-a86b-2ecfa3346dcc"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["$"+$F{monto_final_venta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="411" y="94" width="115" height="14" forecolor="#FFFFFF" uuid="b4808a59-3dd9-4b72-9479-cea8b2114a00">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2154a072-bd90-4584-a86b-2ecfa3346dcc"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[($F{descuento_monto} != null && $F{descuento_monto}.compareTo(BigDecimal.ZERO) != 0 ? "$" + $F{descuento_monto} : "No aplica")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="77" width="115" height="14" forecolor="#FFFFFF" uuid="6559a07b-9f3d-4cb7-ab92-bf9e17e584bf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2154a072-bd90-4584-a86b-2ecfa3346dcc"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["$"+$F{subtotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-14" y="74" width="135" height="20" forecolor="#FFFFFF" uuid="964f58fb-3eca-495f-9e9a-e3de9d43e4ca"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-14" y="91" width="135" height="20" forecolor="#FFFFFF" uuid="bc5e5960-3d61-4b0d-850e-e78c8b07dda9"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Descuento por monto:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-14" y="108" width="135" height="20" forecolor="#FFFFFF" uuid="2b39a4b7-88c3-40c8-9f89-4ae03308d0e5"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total: ]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="-21" y="15" width="555" height="50" uuid="e1f190f9-fb07-46aa-a0f9-e9bb9ef4c902"/>
+				<subreportParameter name="ID_Venta">
+					<subreportParameterExpression><![CDATA[$P{ID_Venta}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Ventas_Cliente_ProductosSubreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>
