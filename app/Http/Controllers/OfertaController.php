@@ -69,6 +69,8 @@ class OfertaController extends Controller
             
             foreach($ofertas as $of){
                 $of->tipo = $of->getTipoOferta();
+                $of->fecha_inicio_oferta = date('d-m-Y', strtotime($of->fecha_inicio_oferta));
+                $of->fecha_fin_oferta = date('d-m-Y', strtotime($of->fecha_fin_oferta));
             }
 
             return response()->json(['ofertas' => $ofertas, "rol" => $rol]);

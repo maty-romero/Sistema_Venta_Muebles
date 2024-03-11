@@ -16,73 +16,76 @@
     o.id AS id_oferta,
     o.fecha_inicio_oferta,
     o.fecha_fin_oferta,
-    'Oferta unitaria' AS tipo_oferta,
+    CONCAT('Unitaria ', p.nombre_producto) AS tipo_oferta,
     o.porcentaje_descuento,
-    COUNT(*) AS total_ventas
-FROM 
-    ofertas o
-JOIN 
-    oferta_producto op ON o.id = op.id_oferta
-JOIN 
-    producto_venta pv ON op.id_producto = pv.id_producto
-JOIN 
-    ventas v ON pv.id_venta = v.id
-WHERE 
-    (DATE(v.fecha_venta) BETWEEN DATE($P{Fecha_inicio}) AND DATE($P{Fecha_fin}))
-GROUP BY 
-    o.id
+    SUM(pv.unidades_vendidas_prod) AS total_ventas
+	FROM 
+		ofertas o
+	JOIN 
+		oferta_producto op ON o.id = op.id_oferta
+	JOIN 
+		producto_venta pv ON op.id_producto = pv.id_producto
+	JOIN 
+		ventas v ON pv.id_venta = v.id
+	JOIN 
+		productos p ON p.id = pv.id_producto
+	WHERE 
+		(DATE(v.fecha_venta) BETWEEN DATE($P{Fecha_inicio}) AND DATE($P{Fecha_fin}))
+	GROUP BY 
+		o.id, p.nombre_producto
 
-UNION
 
-SELECT 
-    o.id AS id_oferta,
-    o.fecha_inicio_oferta,
-    o.fecha_fin_oferta,
-    CONCAT('Oferta combo - ', oc.nombre_combo) AS tipo_oferta,
-    o.porcentaje_descuento,
-    COUNT(*) AS total_ventas
-FROM 
-    ofertas o
-JOIN 
-    oferta_combo oc ON o.id = oc.id_oferta_combo
-JOIN 
-    oferta_combo_venta ocv ON oc.id_oferta_combo = ocv.id_oferta_combo
-JOIN 
-    ventas v ON ocv.id_venta = v.id
-WHERE 
-    (DATE(v.fecha_venta) BETWEEN DATE($P{Fecha_inicio}) AND DATE($P{Fecha_fin}))
-GROUP BY 
-    o.id
+	UNION
 
-UNION
+	SELECT 
+		o.id AS id_oferta,
+		o.fecha_inicio_oferta,
+		o.fecha_fin_oferta,
+		CONCAT('Combo ', oc.nombre_combo) AS tipo_oferta,
+		o.porcentaje_descuento,
+		COUNT(*) AS total_ventas
+	FROM 
+		ofertas o
+	JOIN 
+		oferta_combo oc ON o.id = oc.id_oferta_combo
+	JOIN 
+		oferta_combo_venta ocv ON oc.id_oferta_combo = ocv.id_oferta_combo
+	JOIN 
+		ventas v ON ocv.id_venta = v.id
+	WHERE 
+		(DATE(v.fecha_venta) BETWEEN DATE($P{Fecha_inicio}) AND DATE($P{Fecha_fin}))
+	GROUP BY 
+		o.id
 
-SELECT 
-    o.id AS id_oferta,
-    o.fecha_inicio_oferta,
-    o.fecha_fin_oferta,
-    'Oferta por tipo' AS tipo_oferta,
-    o.porcentaje_descuento,
-    COUNT(*) AS total_ventas
-FROM 
-    ofertas o
-JOIN 
-    ofertas_tipos_muebles ot ON o.id = ot.id_oferta_tipo
-JOIN 
-    ventas v ON o.id = v.id_oferta_monto
-JOIN 
-    producto_venta pv ON v.id = pv.id_venta
-JOIN 
-    productos p ON pv.id_producto = p.id
-LEFT JOIN 
-    oferta_producto ou ON ou.id_producto = pv.id_producto
-LEFT JOIN 
-    ofertas ouo ON ou.id_oferta = ouo.id
-WHERE 
-    (DATE(v.fecha_venta) BETWEEN DATE($P{Fecha_inicio}) AND DATE($P{Fecha_fin}))
-    AND ouo.id IS NULL
-GROUP BY 
-    o.id
-ORDER BY 
+	UNION
+
+	SELECT 
+		o.id AS id_oferta,
+		o.fecha_inicio_oferta,
+		o.fecha_fin_oferta,
+		'Oferta por tipo' AS tipo_oferta,
+		o.porcentaje_descuento,
+		COUNT(*) AS total_ventas
+	FROM 
+		ofertas o
+	JOIN 
+		ofertas_tipos_muebles ot ON o.id = ot.id_oferta_tipo
+	JOIN 
+		ventas v ON o.id = v.id_oferta_monto
+	JOIN 
+		producto_venta pv ON v.id = pv.id_venta
+	JOIN 
+		productos p ON pv.id_producto = p.id
+	LEFT JOIN 
+		oferta_producto ou ON ou.id_producto = pv.id_producto
+	LEFT JOIN 
+		ofertas ouo ON ou.id_oferta = ouo.id
+	WHERE 
+		(DATE(v.fecha_venta) BETWEEN DATE($P{Fecha_inicio}) AND DATE($P{Fecha_fin}))
+		AND ouo.id IS NULL
+	GROUP BY 
+		o.id
+	ORDER BY 
     total_ventas DESC;]]>
 	</queryString>
 	<field name="total_ventas" class="java.lang.Integer">
@@ -137,44 +140,44 @@ ORDER BY
 				<staticText>
 					<reportElement x="60" y="0" width="146" height="20" forecolor="#FFFFFF" uuid="6e3da373-2140-4707-b420-1ded022e6cb1"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Nombre oferta]]></text>
+					<text><![CDATA[Oferta]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="430" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="78b29863-daf3-4535-9a42-b5f4f2b63dd7"/>
+					<reportElement x="390" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="78b29863-daf3-4535-9a42-b5f4f2b63dd7"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[Descuento]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="316" y="0" width="114" height="20" forecolor="#FFFFFF" uuid="11a179d0-6090-465d-93d4-30083a60404f"/>
+					<reportElement x="300" y="0" width="90" height="20" forecolor="#FFFFFF" uuid="11a179d0-6090-465d-93d4-30083a60404f"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Fecha fin]]></text>
+					<text><![CDATA[Fecha de fin]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="206" y="0" width="110" height="20" forecolor="#FFFFFF" uuid="3222ad5a-ceeb-4d25-9c4e-bb0461ec17eb"/>
+					<reportElement x="206" y="0" width="94" height="20" forecolor="#FFFFFF" uuid="3222ad5a-ceeb-4d25-9c4e-bb0461ec17eb"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Fecha inicio]]></text>
+					<text><![CDATA[Fecha de inicio]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="490" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="96b55b7a-e5a4-4d38-b8b2-f8b2fd0bda1f"/>
+					<reportElement x="460" y="0" width="94" height="20" forecolor="#FFFFFF" uuid="96b55b7a-e5a4-4d38-b8b2-f8b2fd0bda1f"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Total ventas]]></text>
+					<text><![CDATA[Total de ventas]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="6480a8f9-9716-4755-bdb2-cd1350caa156"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Codigo]]></text>
+					<text><![CDATA[ID]]></text>
 				</staticText>
 			</frame>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<frame>
-				<reportElement x="0" y="0" width="554" height="20" uuid="5d75be3e-ea39-4b96-baf8-b49497315044">
+				<reportElement x="0" y="0" width="554" height="30" uuid="5d75be3e-ea39-4b96-baf8-b49497315044">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textField>
-					<reportElement x="60" y="0" width="146" height="14" uuid="c5b3d235-314d-4558-b892-e5b484a2a255">
+					<reportElement x="60" y="3" width="146" height="17" uuid="c5b3d235-314d-4558-b892-e5b484a2a255">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="68094530-13a2-481e-8530-19482a559f92"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -182,7 +185,7 @@ ORDER BY
 					<textFieldExpression><![CDATA[$F{tipo_oferta}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="316" y="0" width="114" height="14" uuid="6f10bd5a-01cf-4554-9356-8aa6aa187484">
+					<reportElement x="300" y="3" width="90" height="17" uuid="6f10bd5a-01cf-4554-9356-8aa6aa187484">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -190,7 +193,7 @@ ORDER BY
 					<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd-MM-yyyy").format($F{fecha_fin_oferta})]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="206" y="0" width="110" height="16" uuid="6f52576d-fb67-4b83-9d33-49975fdd5c31">
+					<reportElement x="206" y="3" width="94" height="17" uuid="6f52576d-fb67-4b83-9d33-49975fdd5c31">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -198,7 +201,7 @@ ORDER BY
 					<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd-MM-yyyy").format($F{fecha_inicio_oferta})]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="430" y="0" width="60" height="14" uuid="1e2d1d4b-5e32-49ec-bcc2-4a464a675019">
+					<reportElement x="390" y="3" width="70" height="17" uuid="1e2d1d4b-5e32-49ec-bcc2-4a464a675019">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -206,7 +209,7 @@ ORDER BY
 					<textFieldExpression><![CDATA[$F{porcentaje_descuento} + "%"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="490" y="0" width="60" height="14" uuid="1b5f7546-bf7f-413b-8609-7a72e73ae57a">
+					<reportElement x="460" y="3" width="94" height="17" uuid="1b5f7546-bf7f-413b-8609-7a72e73ae57a">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -214,7 +217,7 @@ ORDER BY
 					<textFieldExpression><![CDATA[$F{total_ventas}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="0" y="0" width="60" height="14" uuid="99aaa2b7-a9fb-4995-8934-bc8ce2b578a0">
+					<reportElement x="0" y="3" width="60" height="17" uuid="99aaa2b7-a9fb-4995-8934-bc8ce2b578a0">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="68094530-13a2-481e-8530-19482a559f92"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>

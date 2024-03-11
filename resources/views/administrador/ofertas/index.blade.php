@@ -50,13 +50,13 @@ Ofertas
                     </a>
                 </td>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
-                    {{$oferta->porcentaje_descuento}}%
+                    {{ $oferta->porcentaje_descuento}}%
                 </td>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
-                    {{$oferta->fecha_inicio_oferta}}
+                    {{ date('d-m-Y', strtotime($oferta->fecha_inicio_oferta)) }}
                 </td>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
-                    {{$oferta->fecha_fin_oferta}}
+                    {{ date('d-m-Y', strtotime($oferta->fecha_fin_oferta)) }}
                 </td>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center hover:underline text-lg font-semibold text-gray-900">
                     <div class='grid grid-cols-2'>
@@ -91,10 +91,10 @@ Ofertas
                     {{$oferta->porcentaje_descuento}}%
                 </td>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
-                    {{$oferta->fecha_inicio_oferta}}
+                    {{ date('d-m-Y', strtotime($oferta->fecha_inicio_oferta)) }}
                 </td>
                 <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
-                    {{$oferta->fecha_fin_oferta}}
+                    {{ date('d-m-Y', strtotime($oferta->fecha_fin_oferta)) }}
                 </td>
             </tr>
             @endforeach
