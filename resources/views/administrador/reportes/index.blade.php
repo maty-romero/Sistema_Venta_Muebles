@@ -40,7 +40,7 @@ Reportes
             <select class="rounded-lg border-gray-600" name="idCliente" id="idCliente" required>
                 @foreach ($usuarios as $usuario)
                 @if($usuario->rol_usuario == 'cliente')
-                    <option value='{{$usuario->id}}' {{$id==$usuario->id?"selected":""}}>{{$usuario->name}}</option>
+                    <option value='{{$usuario->id}}' {{$id==$usuario->id?"selected":""}}>{{$usuario->cliente->nombre_cliente}}</option>
                 @endif
                 @endforeach
             </select>

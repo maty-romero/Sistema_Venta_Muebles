@@ -5,7 +5,11 @@ Usuarios
 @endsection
 
 @section('encabezado')
-Usuarios
+    @if (Auth::user()->rol_usuario == 'administrador')
+        Usuarios    
+    @else
+        Clientes
+    @endif
 @endsection
 
 @section('contenido')
@@ -47,7 +51,11 @@ Usuarios
         @foreach ($usuarios as $usuario)
         <tr>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
-                {{ $usuario->name }}
+                @if ($usuario->rol_usuario == 'cliente')
+                    {{ $usuario->cliente->nombre_cliente }}      
+                @else
+                    {{ $usuario->name }}     
+                @endif
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 @if($usuario->rol_usuario != 'jefe_ventas')
