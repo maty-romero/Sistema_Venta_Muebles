@@ -77,11 +77,7 @@ class VentaController extends Controller
             }
             $msj = 'Error al realizar la compra. La información de envío está incompleta.';
             session()->flash('msj', $msj); 
-            return redirect()->route('carrito', [
-                'subtotal' => Venta::calcularSubtotal(),
-                'carrito' => Venta::getCarrito(),
-                'ofertaMonto' => $ofertaMonto,
-            ])->withErrors($e->validator->errors())->withInput();
+            return redirect()->back()->withInput()->withErrors($e->validator->errors());
         }
         
     }
