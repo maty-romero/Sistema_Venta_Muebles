@@ -61,7 +61,7 @@ Usuarios
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 @if ($usuario->rol_usuario == 'cliente')
-                <a href="{{ route('administrador_reportes_cliente', ['id' => $usuario->id]) }}">Informe Compras</a>
+                <a href="{{ route('administrador_reportes_cliente', ['id' => $usuario->id]) }}" class='hover:underline'>Informe de Compras</a>
                 @endif
             </td>
             @if(Auth::user()->rol_usuario == 'administrador')

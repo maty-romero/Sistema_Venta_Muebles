@@ -32,16 +32,16 @@ Ventas
 </div>
 
 <div class="w-full text-center">
-    <x-custom.table :columnas="['Cliente', 'Personaria', 'Fecha', 'Total', 'Domicilio de Destino', 'Código postal']">
+    <x-custom.table :columnas="['Cliente', 'Personaria', 'Fecha', 'Total', 'Domicilio de Destino', 'Código postal', '']">
         @foreach ($ventas as $venta)
         <tr>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-left text-lg font-semibold text-gray-900">
                 {{ $venta->cliente->nombre_cliente }}
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+            <td class="px-2 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 {{ Str::ucfirst($venta->cliente->tipo_cliente) }}
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+            <td class="px-2 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 {{ date('d-m-Y', strtotime($venta->fecha_venta)) }}
             </td>
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-right text-lg font-semibold text-gray-900">
@@ -49,8 +49,13 @@ Ventas
             <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 {{ $venta->domicilio_destino }}
             </td>
-            <td class="px-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+            <td class="px-2 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
                 {{ $venta->codigo_postal_destino }}
+            </td>
+            <td class="pl-2 pr-5 py-3 border-b-2 border-gray-500 bg-slate-100 text-center text-lg font-semibold text-gray-900">
+                <a class="inline-block hover:underline" href="{{ route('cliente_comprobante_compra', ['nroComprobante' => $venta->id]) }}" target="_blank">
+                    Detalle
+                </a>
             </td>
         </tr>
         @endforeach

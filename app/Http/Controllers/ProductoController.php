@@ -365,19 +365,6 @@ class ProductoController extends Controller
             if (count($idProductos) === count($idProductosCheck) && count($idProductos) > 0) {
 
                 array_push($arrayCHECKTEMP, $combo->id);
-
-                $precioTotal = 0;
-                foreach ($idProductosCheck as $producto) {
-                    $infoProducto = Producto::find($producto->id);
-
-
-                    $productoArray = [
-                        'producto' => $infoProducto,
-                        'cantidadCombo' => $producto->cantidad_producto_combo,
-                    ];
-                    $precioTotal +=  $infoProducto->precio_producto * $producto->cantidad_producto_combo;
-                    array_push($tempProductoArray, $productoArray);
-                }
                 $comboInfo = OfertaCombo::find($combo->id);
                 $comboCompleto = [
                     "idCombo" => $combo->id,
@@ -385,6 +372,7 @@ class ProductoController extends Controller
                     "nombreCombo" => $comboInfo->nombre_combo,
                     "descuentoCombo" => $combo->porcentaje_descuento,
                     "precioTotal" => $comboInfo->getPrecioCombo(),
+                    "precioSinDesc" => $comboInfo->getPrecioComboSinDescuento(),
                     "imagenURL" => $comboInfo->imagenURL
                 ];
 

@@ -8,9 +8,9 @@
         <div class="flex-col items-center mt-6">
             <p class="mt-1 text-sm font-medium text-gray-400 capitalize">Combo</p>
             <p class="text-base font-medium text-black dark:text-gray-300 capitalize">{{$combo["nombreCombo"]}}</p>
-            <p class=" text-xs font-semibold text-[#5690FF] line-through">@money($combo["precioTotal"])</p>
+            <p class=" text-xs font-semibold text-[#5690FF] line-through">@money($combo["precioSinDesc"])</p>
             <p class=" text-base font-semibold text-[#5690FF] ">
-                @money($combo["precioTotal"]*((100-$combo["descuentoCombo"])/100))</p>
+                @money($combo["precioTotal"])</p>
         </div>
         <div class="flex flex-col card-layer p-4">
 

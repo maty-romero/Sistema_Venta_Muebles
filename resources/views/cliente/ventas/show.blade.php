@@ -22,11 +22,6 @@
     </x-custom.navbar_client>
     <div id="detalleVenta" class="container mx-auto p-6">
         <h1 class="mb-2 block font-sans text-5xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">Detalle Compra</h1><br>
-        
-        @php
-            //dump($datos);
-        @endphp
-        
         <div class="w-full">
 
             <x-custom.table :columnas="['Nombre Producto', 'Cantidad', 'Precio Unitario', 'Descuento', 'Total']">

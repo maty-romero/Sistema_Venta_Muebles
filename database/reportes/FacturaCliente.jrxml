@@ -61,20 +61,17 @@
 	<parameter name="NroVenta" class="java.lang.String"/>
 	<parameter name="SubReportPath" class="java.lang.String"/>
 	<queryString language="SQL">
-	<![CDATA[
-		SELECT nombre_producto AS nombre_item,unidades_vendidas_prod AS unidades,precio_venta_prod AS precio_unitario,id_producto AS nro_producto,   unidades_vendidas_prod * precio_venta_prod AS total
+		<![CDATA[SELECT nombre_producto AS nombre_item,unidades_vendidas_prod AS unidades, CONCAT("$",FORMAT(precio_venta_prod,2,'en_US')) AS precio_unitario,id_producto AS nro_producto,  CONCAT("$",FORMAT(unidades_vendidas_prod*precio_venta_prod, 2, 'en_US')) AS total
 		FROM  producto_venta 
 		LEFT JOIN productos ON productos.id = producto_venta.id_producto
 		WHERE producto_venta.id_venta=$P{NroVenta} 
 		
-		
 		UNION 
 		
-		SELECT nombre_combo AS nombre_item,unidades_vendidas_combo AS unidades ,precio_combo AS precio_unitario,oferta_combo_venta.id_oferta_combo AS nro_producto,unidades_vendidas_combo * precio_combo AS total
+		SELECT CONCAT("Combo ", nombre_combo) AS nombre_item,unidades_vendidas_combo AS unidades , CONCAT("$",FORMAT(precio_combo,2,'en_US')) AS precio_unitario,oferta_combo_venta.id_oferta_combo AS nro_producto, CONCAT("$",FORMAT(unidades_vendidas_combo * precio_combo, 2, 'en_US')) AS total
 		FROM oferta_combo_venta 
 		LEFT JOIN oferta_combo ON oferta_combo.id_oferta_combo=oferta_combo_venta.id_oferta_combo
-		WHERE oferta_combo_venta.id_venta=$P{NroVenta}
-	]]>
+		WHERE oferta_combo_venta.id_venta=$P{NroVenta}]]>
 	</queryString>
 	<field name="nombre_item" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nombre_item"/>
@@ -84,7 +81,7 @@
 		<property name="com.jaspersoft.studio.field.name" value="unidades"/>
 		<property name="com.jaspersoft.studio.field.label" value="unidades"/>
 	</field>
-	<field name="precio_unitario" class="java.math.BigDecimal">
+	<field name="precio_unitario" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="precio_unitario"/>
 		<property name="com.jaspersoft.studio.field.label" value="precio_unitario"/>
 	</field>
@@ -92,7 +89,7 @@
 		<property name="com.jaspersoft.studio.field.name" value="nro_producto"/>
 		<property name="com.jaspersoft.studio.field.label" value="nro_producto"/>
 	</field>
-	<field name="total" class="java.math.BigDecimal">
+	<field name="total" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="total"/>
 		<property name="com.jaspersoft.studio.field.label" value="total"/>
 	</field>
@@ -111,38 +108,41 @@
 	<columnHeader>
 		<band height="20">
 			<rectangle>
-				<reportElement x="-9" y="0" width="566" height="20" forecolor="#FFFFFF" backcolor="#8C8C8C" uuid="b4042163-034a-4277-8ab9-fdec2ce66b77"/>
+				<reportElement x="0" y="0" width="555" height="20" forecolor="#FFFFFF" backcolor="#8C8C8C" uuid="b4042163-034a-4277-8ab9-fdec2ce66b77"/>
+				<graphicElement>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#030000"/>
+				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="477" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="65ca9509-3b75-4cf6-9585-e1361deac69d"/>
+				<reportElement x="450" y="0" width="105" height="20" forecolor="#FFFFFF" uuid="65ca9509-3b75-4cf6-9585-e1361deac69d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Importe total]]></text>
+				<text><![CDATA[Subtotal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="309" y="0" width="110" height="20" forecolor="#FFFFFF" uuid="2ef7fa0c-91bc-487e-8a27-8ecfa60ae184"/>
+				<reportElement x="280" y="0" width="101" height="20" forecolor="#FFFFFF" uuid="2ef7fa0c-91bc-487e-8a27-8ecfa60ae184"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Precio Unitario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-9" y="0" width="101" height="20" forecolor="#FFFFFF" uuid="c03d95a3-1b84-4652-becd-96a0405795a7"/>
+				<reportElement x="0" y="0" width="91" height="20" forecolor="#FFFFFF" uuid="c03d95a3-1b84-4652-becd-96a0405795a7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Código]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="91" y="0" width="218" height="20" forecolor="#FFFFFF" uuid="c81e45b8-526b-4f5f-b2c5-5e97e01922b5"/>
+				<reportElement x="91" y="0" width="189" height="20" forecolor="#FFFFFF" uuid="c81e45b8-526b-4f5f-b2c5-5e97e01922b5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Descripción]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="420" y="0" width="56" height="20" forecolor="#FFFFFF" uuid="577f9fb4-e4a0-408f-b279-a25ed8bd8795"/>
+				<reportElement x="381" y="0" width="69" height="20" forecolor="#FFFFFF" uuid="577f9fb4-e4a0-408f-b279-a25ed8bd8795"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -151,41 +151,50 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="18">
+		<band height="17">
 			<rectangle>
-				<reportElement x="-8" y="0" width="564" height="17" uuid="5588532c-58a3-4ba3-b774-05e273cec69c"/>
+				<reportElement x="0" y="0" width="555" height="17" uuid="5588532c-58a3-4ba3-b774-05e273cec69c"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement x="476" y="0" width="80" height="18" uuid="0107b80a-b317-43de-aa55-fecb429b0dd9"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA["$"+$F{total}]]></textFieldExpression>
+				<reportElement x="450" y="0" width="80" height="17" uuid="0107b80a-b317-43de-aa55-fecb429b0dd9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="-9" y="0" width="100" height="18" uuid="47172317-330f-4360-8056-c6f55575f5f1"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{nro_producto}]]></textFieldExpression>
+				<reportElement x="280" y="0" width="80" height="17" uuid="e5d84d61-ff88-4ef0-9aa9-46e100b6c87f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{precio_unitario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="309" y="-1" width="111" height="18" uuid="e5d84d61-ff88-4ef0-9aa9-46e100b6c87f"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA["$"+$F{precio_unitario}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="91" y="-1" width="218" height="18" uuid="f9c63e35-f216-43b8-903c-f93653f2433e"/>
-				<textElement textAlignment="Center"/>
+				<reportElement x="91" y="0" width="189" height="17" uuid="f9c63e35-f216-43b8-903c-f93653f2433e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{nombre_item}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="420" y="0" width="56" height="18" uuid="2dd4f844-8791-4be2-89d4-e66a1d752619"/>
-				<textElement textAlignment="Center"/>
+				<reportElement x="381" y="0" width="69" height="17" uuid="2dd4f844-8791-4be2-89d4-e66a1d752619"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{unidades}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="91" height="17" uuid="47172317-330f-4360-8056-c6f55575f5f1"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nro_producto}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<lastPageFooter>
-		<band height="300">
-			<subreport>
-				<reportElement x="-8" y="0" width="563" height="131" uuid="c5f81231-e10a-4631-80c9-a8326e79600d"/>
+		<band height="231">
+			<subreport overflowType="Stretch">
+				<reportElement x="0" y="0" width="555" height="200" uuid="ef6c549f-ec98-454c-82b2-180dd78b25cb">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
 				<subreportParameter name="NroVenta">
 					<subreportParameterExpression><![CDATA[$P{NroVenta}]]></subreportParameterExpression>
 				</subreportParameter>
