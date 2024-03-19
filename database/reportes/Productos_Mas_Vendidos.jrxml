@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Productos_Mas_Vendidos" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="e9bb1a27-f975-4aa4-98f9-75524c5daafa">
-    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
-    <property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="220"/>
-    <property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="769"/>
-    <style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
-    <style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
-    <style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
-    <style name="Detail" fontName="Arial" fontSize="12"/>
-    <parameter name="Fecha_inicio" class="java.lang.String"/>
-    <parameter name="Fecha_fin" class="java.lang.String"/>
-    <queryString language="SQL">
-        <![CDATA[
-            SELECT
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="220"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="769"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="Fecha_inicio" class="java.lang.String"/>
+	<parameter name="Fecha_fin" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+	productos.id AS id,
     productos.nombre_producto AS nombre_producto,
     COUNT(ventas.id) AS ventas_realizadas,
-    productos.precio_producto AS precio_unitario,
+    FORMAT(productos.precio_producto,2, 'en_US') AS precio_unitario,
     SUM(unidades_vendidas_prod) AS total_unidades_vendidas,
     tp.nombre_tipo_mueble AS nombre_tipo_mueble
 FROM 
@@ -31,182 +32,203 @@ WHERE
 GROUP BY 
     producto_venta.id_producto
 ORDER BY 
-    total_unidades_vendidas DESC;
-
-
-        ]]>
-    </queryString>
-    <field name="nombre_producto" class="java.lang.String">
-        <property name="com.jaspersoft.studio.field.name" value="nombre_producto"/>
-        <property name="com.jaspersoft.studio.field.label" value="nombre_producto"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
-    </field>
-    <field name="ventas_realizadas" class="java.lang.Long">
-        <fieldDescription><![CDATA[ventas_realizadas]]></fieldDescription>
-    </field>
-    <field name="precio_unitario" class="java.lang.Double">
-        <property name="com.jaspersoft.studio.field.name" value="precio_producto"/>
-        <property name="com.jaspersoft.studio.field.label" value="precio_unitario"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
-    </field>
-    <field name="total_unidades_vendidas" class="java.math.BigDecimal">
-        <property name="com.jaspersoft.studio.field.name" value="total_unidades_vendidas"/>
-        <property name="com.jaspersoft.studio.field.label" value="total_unidades_vendidas"/>
-    </field>
-    <field name="nombre_tipo_mueble" class="java.lang.String">
-        <property name="com.jaspersoft.studio.field.name" value="nombre_tipo_mueble"/>
-        <property name="com.jaspersoft.studio.field.label" value="nombre_tipo_mueble"/>
-    </field>
-    <background>
-        <band height="822" splitType="Stretch">
-            <frame>
-                <reportElement mode="Opaque" x="-20" y="800" width="105" height="22" forecolor="#666666" backcolor="#666666" uuid="58048a65-569d-454e-b6dd-f3bb46c94ee3"/>
-                <box>
-                    <pen lineWidth="0.0"/>
-                    <topPen lineWidth="0.0"/>
-                    <leftPen lineWidth="0.0"/>
-                    <bottomPen lineWidth="0.0"/>
-                    <rightPen lineWidth="0.0"/>
-                </box>
-                <textField evaluationTime="Report">
-                    <reportElement style="Column header" x="0" y="2" width="104" height="20" forecolor="#000000" uuid="e06a687c-0f3f-4451-a45e-f88c505ba589"/>
-                    <box leftPadding="4" rightPadding="4"/>
-                    <textElement textAlignment="Center">
-                        <font size="16" isBold="false"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
-                </textField>
-            </frame>
-        </band>
-    </background>
-    <title>
-        <band height="110" splitType="Stretch">
-            <rectangle>
-                <reportElement x="0" y="3" width="553" height="57" backcolor="#030303" uuid="a2f4b05f-40e9-40f1-a673-f127cd9a5359"/>
-            </rectangle>
-            <staticText>
-                <reportElement style="Title" x="0" y="3" width="553" height="57" forecolor="#FFFFFF" uuid="524767a9-e7e5-4041-9b08-5a7210b38e22"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="40" isBold="false"/>
-                </textElement>
-                <text><![CDATA[Productos más vendidos]]></text>
-            </staticText>
-            <textField>
-                <reportElement x="0" y="60" width="555" height="50" forecolor="#666666" uuid="53ec4907-b6bc-42ad-89f7-35c3e75a011d"/>
-                <textElement textAlignment="Left" verticalAlignment="Middle">
-                    <font size="26"/>
-                </textElement>
-                <textFieldExpression><![CDATA["Desde el " + new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{Fecha_inicio})) + " al " + new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{Fecha_fin}))]]></textFieldExpression>
-            </textField>
-        </band>
-    </title>
-    <pageHeader>
-        <band splitType="Stretch"/>
-    </pageHeader>
-    <columnHeader>
-        <band height="25" splitType="Stretch">
-            <frame>
-                <reportElement mode="Opaque" x="0" y="5" width="554" height="20" backcolor="#666666" uuid="eb0fefed-b830-492b-a0c9-ec23411537a7"/>
-                <staticText>
-                    <reportElement x="2" y="0" width="120" height="20" forecolor="#FFFFFF" uuid="78b29863-daf3-4535-9a42-b5f4f2b63dd7"/>
-                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
-                    <text><![CDATA[Nombre del producto]]></text>
-                </staticText>
-                <staticText>
-                    <reportElement x="122" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="11a179d0-6090-465d-93d4-30083a60404f"/>
-                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
-                    <text><![CDATA[Ventas realizadas]]></text>
-                </staticText>
-                <staticText>
-                    <reportElement x="222" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="11a179d0-6090-465d-93d4-30083a60404f"/>
-                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
-                    <text><![CDATA[Precio unitario]]></text>
-                </staticText>
-                <staticText>
-                    <reportElement x="322" y="0" width="130" height="20" forecolor="#FFFFFF" uuid="354fced8-8c04-4494-a240-bfcdfe4e4873"/> <!-- Ajusta el ancho aquí -->
-                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
-                    <text><![CDATA[Total unidades vendidas]]></text>
-                </staticText>
-                <staticText>
-                    <reportElement x="452" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="354fced8-8c04-4494-a240-bfcdfe4e4874"/>
-                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
-                    <text><![CDATA[Tipo de mueble]]></text>
-                </staticText>
-            </frame>
-        </band>
-    </columnHeader>
-
-    <detail>
-        <band height="18" splitType="Stretch">
-            <frame>
-                <reportElement x="0" y="0" width="554" height="18" uuid="5d75be3e-ea39-4b96-baf8-b49497315044">
-                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
-                </reportElement>
-                <textField>
-                    <reportElement x="2" y="1" width="120" height="14" uuid="c5b3d235-314d-4558-b892-e5b484a2a255">
-                        <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="68094530-13a2-481e-8530-19482a559f92"/>
-                        <property name="com.jaspersoft.studio.unit.height" value="px"/>
-                    </reportElement>
-                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
-                    <textFieldExpression><![CDATA[$F{nombre_producto}]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="122" y="1" width="100" height="14" uuid="6f10bd5a-01cf-4554-9356-8aa6aa187484">
-                        <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
-                        <property name="com.jaspersoft.studio.unit.height" value="px"/>
-                    </reportElement>
-                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
-                    <textFieldExpression><![CDATA[$F{ventas_realizadas}]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="222" y="1" width="100" height="14" uuid="6f10bd5a-01cf-4554-9356-8aa6aa187484">
-                        <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
-                        <property name="com.jaspersoft.studio.unit.height" value="px"/>
-                    </reportElement>
-                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
-                    <textFieldExpression><![CDATA["$"+$F{precio_unitario}]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="332" y="1" width="100" height="14" uuid="3da4470b-8c6f-4cae-9e78-438961b6e588">
-                        <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="09a8289f-6ae9-4ffb-8377-1496eb53e026"/>
-                        <property name="com.jaspersoft.studio.unit.height" value="px"/>
-                    </reportElement>
-                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
-                    <textFieldExpression><![CDATA[$F{total_unidades_vendidas}]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="452" y="1" width="100" height="14" uuid="3da4470b-8c6f-4cae-9e78-438961b6e588">
-                        <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="09a8289f-6ae9-4ffb-8377-1496eb53e027"/>
-                        <property name="com.jaspersoft.studio.unit.height" value="px"/>
-                    </reportElement>
-                    <textElement verticalAlignment="Middle" textAlignment="Center"/> <!-- Centrado -->
-                    <textFieldExpression>
-                    <![CDATA[ 
-                        $F{nombre_tipo_mueble} != null && !$F{nombre_tipo_mueble}.isEmpty() ? 
+    total_unidades_vendidas DESC;]]>
+	</queryString>
+	<field name="nombre_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_producto"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
+	</field>
+	<field name="ventas_realizadas" class="java.lang.Long">
+		<fieldDescription><![CDATA[ventas_realizadas]]></fieldDescription>
+	</field>
+	<field name="precio_unitario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="precio_producto"/>
+		<property name="com.jaspersoft.studio.field.label" value="precio_unitario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
+	</field>
+	<field name="total_unidades_vendidas" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_unidades_vendidas"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_unidades_vendidas"/>
+	</field>
+	<field name="nombre_tipo_mueble" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_tipo_mueble"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_tipo_mueble"/>
+	</field>
+	<field name="id" class="java.lang.Integer"/>
+	<background>
+		<band height="822" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="800" width="105" height="22" forecolor="#666666" backcolor="#666666" uuid="58048a65-569d-454e-b6dd-f3bb46c94ee3"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="0" y="2" width="104" height="20" forecolor="#000000" uuid="e06a687c-0f3f-4451-a45e-f88c505ba589"/>
+					<box leftPadding="4" rightPadding="4"/>
+					<textElement textAlignment="Center">
+						<font size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</background>
+	<title>
+		<band height="110" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="3" width="553" height="57" backcolor="#030303" uuid="a2f4b05f-40e9-40f1-a673-f127cd9a5359"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="60" width="555" height="50" forecolor="#666666" uuid="53ec4907-b6bc-42ad-89f7-35c3e75a011d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="26"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Desde el " + new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{Fecha_inicio})) + " al " + new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{Fecha_fin}))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="14" width="260" height="35" forecolor="#FFFFFF" uuid="612d86bf-bd76-493c-ab83-fa4a6ad5303c">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Muebles Patagonia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="241" y="14" width="305" height="35" forecolor="#FFFFFF" uuid="0b67a84f-b94a-4ed0-8903-e872eb6dbcc7">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Productos más vendidos ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="5" width="554" height="20" backcolor="#666666" uuid="eb0fefed-b830-492b-a0c9-ec23411537a7"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<staticText>
+					<reportElement x="48" y="0" width="122" height="20" forecolor="#FFFFFF" uuid="78b29863-daf3-4535-9a42-b5f4f2b63dd7"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Nombre del producto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="170" y="0" width="90" height="20" forecolor="#FFFFFF" uuid="11a179d0-6090-465d-93d4-30083a60404f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Ventas realizadas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="260" y="0" width="90" height="20" forecolor="#FFFFFF" uuid="11a179d0-6090-465d-93d4-30083a60404f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Precio unitario]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="434" y="0" width="120" height="20" forecolor="#FFFFFF" uuid="354fced8-8c04-4494-a240-bfcdfe4e4873"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Unidades vendidas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="350" y="0" width="84" height="20" forecolor="#FFFFFF" uuid="354fced8-8c04-4494-a240-bfcdfe4e4874"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Tipo de mueble]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="48" height="20" forecolor="#FFFFFF" uuid="05b69b90-8660-4935-8faa-af25f8468f4f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Código]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="554" height="18" uuid="5d75be3e-ea39-4b96-baf8-b49497315044">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textField>
+					<reportElement x="48" y="0" width="122" height="18" uuid="c5b3d235-314d-4558-b892-e5b484a2a255">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="68094530-13a2-481e-8530-19482a559f92"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{nombre_producto}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="170" y="0" width="90" height="18" uuid="6f10bd5a-01cf-4554-9356-8aa6aa187484">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{ventas_realizadas}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="266" y="0" width="70" height="18" uuid="6f10bd5a-01cf-4554-9356-8aa6aa187484">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54e79bde-e3ae-47d7-a96e-ba935bd5f121"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["$"+$F{precio_unitario}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="434" y="0" width="120" height="18" uuid="3da4470b-8c6f-4cae-9e78-438961b6e588">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="09a8289f-6ae9-4ffb-8377-1496eb53e026"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{total_unidades_vendidas}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="350" y="0" width="84" height="18" uuid="3da4470b-8c6f-4cae-9e78-438961b6e588">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="09a8289f-6ae9-4ffb-8377-1496eb53e027"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{nombre_tipo_mueble} != null && !$F{nombre_tipo_mueble}.isEmpty() ? 
                         $F{nombre_tipo_mueble}.substring(0,1).toUpperCase() + $F{nombre_tipo_mueble}.substring(1) : 
-                        $F{nombre_tipo_mueble}
-                    ]]>
-                    </textFieldExpression>
-                </textField>
-                <line>
-                    <reportElement x="0" y="15" width="553" height="1" forecolor="#ABABAB" uuid="1bb74eb1-929c-4f5c-9a33-270080ac19d6">
-                        <property name="com.jaspersoft.studio.unit.x" value="px"/>
-                        <property name="com.jaspersoft.studio.unit.y" value="px"/>
-                        <property name="com.jaspersoft.studio.unit.height" value="px"/>
-                    </reportElement>
-                </line>
-            </frame>
-        </band>
-    </detail>
-
-
-    <columnFooter>
-        <band splitType="Stretch"/>
-    </columnFooter>
-    <pageFooter>
-        <band height="100" splitType="Stretch"/>
-    </pageFooter>
-    <summary>
-        <band splitType="Stretch"/>
-    </summary>
+                        $F{nombre_tipo_mueble}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="48" height="18" uuid="a38256b7-7f50-4c28-8706-51ae18ff566d">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="68094530-13a2-481e-8530-19482a559f92"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="100" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
 </jasperReport>

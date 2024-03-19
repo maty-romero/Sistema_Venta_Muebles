@@ -12,7 +12,7 @@
 	<parameter name="Fecha_inicio" class="java.lang.String"/>
 	<parameter name="Fecha_fin" class="java.lang.String"/>
 	<queryString language="SQL">
-	<![CDATA[SELECT 
+		<![CDATA[SELECT 
     	o.id AS id_oferta,
     	o.fecha_inicio_oferta,
     	o.fecha_fin_oferta,
@@ -102,16 +102,6 @@
 	<field name="tipo_oferta" class="java.lang.String"/>
 	<title>
 		<band height="121" splitType="Stretch">
-			<rectangle>
-				<reportElement x="0" y="3" width="553" height="57" backcolor="#030303" uuid="a2f4b05f-40e9-40f1-a673-f127cd9a5359"/>
-			</rectangle>
-			<staticText>
-				<reportElement style="Title" x="0" y="3" width="553" height="57" forecolor="#FFFFFF" uuid="524767a9-e7e5-4041-9b08-5a7210b38e22"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="40" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Ofertas más vendidas]]></text>
-			</staticText>
 			<textField pattern="dd-MM-yyyy">
 				<reportElement x="0" y="71" width="555" height="50" forecolor="#666666" uuid="53ec4907-b6bc-42ad-89f7-35c3e75a011d"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -119,6 +109,29 @@
 				</textElement>
 				<textFieldExpression><![CDATA["Desde el " + new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{Fecha_inicio})) + " al " + new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{Fecha_fin}))]]></textFieldExpression>
 			</textField>
+			<rectangle>
+				<reportElement x="0" y="3" width="553" height="57" backcolor="#030303" uuid="b376e539-ce12-4fec-a535-51a59229c7e1"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="6" y="14" width="260" height="35" forecolor="#FFFFFF" uuid="34b3d1e1-0c1b-4a73-a023-416808374fef">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Muebles Patagonia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="241" y="14" width="305" height="35" forecolor="#FFFFFF" uuid="a6bdc35f-89a6-415a-bb4b-f75e6be5a0fb">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ofertas más vendidas]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
