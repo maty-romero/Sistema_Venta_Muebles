@@ -17,8 +17,8 @@
             <p class="mt-10 text-2xl font-medium text-white capitalize">{{$combo["nombreCombo"]}}</p>
             <p class="mt-2 text-sm font-medium text-white">Contenido del combo</p>
             @foreach ($combo["infoContenidoCombo"] as $producto)
-            <p class="text-sm font-light text-white">{{ $producto["producto"]->nombre_producto }} x {{
-                $producto["cantidadCombo"]}} unidades </p>
+            <p class="text-sm font-light text-white">{{ $producto->nombre_producto }} x {{
+                $producto->pivot->cantidad_producto_combo}} unidades </p>
             @endforeach
 
             <div class="flex mt-auto justify-center">

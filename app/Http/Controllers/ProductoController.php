@@ -368,7 +368,7 @@ class ProductoController extends Controller
                 $comboInfo = OfertaCombo::find($combo->id);
                 $comboCompleto = [
                     "idCombo" => $combo->id,
-                    "infoContenidoCombo" => $tempProductoArray,
+                    "infoContenidoCombo" => $comboInfo->oferta_combo_producto,
                     "nombreCombo" => $comboInfo->nombre_combo,
                     "descuentoCombo" => $combo->porcentaje_descuento,
                     "precioTotal" => $comboInfo->getPrecioCombo(),
