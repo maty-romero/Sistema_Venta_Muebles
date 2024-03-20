@@ -8,17 +8,17 @@
         <div class="flex-col items-center mt-6">
             <p class="mt-1 text-sm font-medium text-gray-400 capitalize">Combo</p>
             <p class="text-base font-medium text-black dark:text-gray-300 capitalize">{{$combo["nombreCombo"]}}</p>
-            <p class=" text-xs font-semibold text-[#5690FF] line-through">@money($combo["precioTotal"])</p>
+            <p class=" text-xs font-semibold text-[#5690FF] line-through">@money($combo["precioSinDesc"])</p>
             <p class=" text-base font-semibold text-[#5690FF] ">
-                @money($combo["precioTotal"]*((100-$combo["descuentoCombo"])/100))</p>
+                @money($combo["precioTotal"])</p>
         </div>
         <div class="flex flex-col card-layer p-4">
 
             <p class="mt-10 text-2xl font-medium text-white capitalize">{{$combo["nombreCombo"]}}</p>
             <p class="mt-2 text-sm font-medium text-white">Contenido del combo</p>
             @foreach ($combo["infoContenidoCombo"] as $producto)
-            <p class="text-sm font-light text-white">{{ $producto["producto"]->nombre_producto }} x {{
-                $producto["cantidadCombo"]}} unidades </p>
+            <p class="text-sm font-light text-white">{{ $producto->nombre_producto }} x {{
+                $producto->pivot->cantidad_producto_combo}} unidades </p>
             @endforeach
 
             <div class="flex mt-auto justify-center">

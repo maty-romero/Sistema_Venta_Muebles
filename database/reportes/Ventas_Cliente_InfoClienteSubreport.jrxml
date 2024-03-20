@@ -11,30 +11,87 @@
 			    nombre_cliente,
 			    tipo_cliente,
 			    dni_cuit,
-			    nro_telefono
-			FROM 
-			    clientes c
-			WHERE 
-			    c.id_usuario_cliente = $P{Cliente};]]>
+			    nro_telefono,
+				email
+			FROM clientes c INNER JOIN users u ON c.id_usuario_cliente = u.id
+			WHERE c.id_usuario_cliente = $P{Cliente};]]>
 	</queryString>
 	<field name="nombre_cliente" class="java.lang.String"/>
 	<field name="tipo_cliente" class="java.lang.String"/>
 	<field name="dni_cuit" class="java.lang.String"/>
 	<field name="nro_telefono" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
 	<background>
-		<band splitType="Stretch"/>
+		<band height="10" splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="75" splitType="Stretch">
-			<textField>
-				<reportElement x="-20" y="-20" width="553" height="80" forecolor="#000000" uuid="99f79010-99cb-4ca5-b253-cc702e5a69fc"/>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font size="12" isBold="false"/>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement x="-15" y="-16" width="190" height="23" uuid="5a36aae1-c1ff-4f32-ad07-2fe4d514cad7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Nombre del Cliente: " + $F{nombre_cliente} + "\n" +
-"Tipo de Cliente: " + ($F{tipo_cliente} != null ? $F{tipo_cliente}.substring(0, 1).toUpperCase() + $F{tipo_cliente}.substring(1) : "") + "\n" +
-"DNI/CUIT: " + $F{dni_cuit} + "\n" +
-"Nro. de Teléfono: " + $F{nro_telefono}]]></textFieldExpression>
+				<text><![CDATA[Información del cliente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-15" y="7" width="65" height="15" uuid="4ee2ab09-d454-4e44-8342-692f696bc70a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="7" width="115" height="15" uuid="fe810ff5-f688-4ada-bd9f-611f1567d332"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-15" y="22" width="65" height="15" uuid="baedf094-3ab5-4ba4-ae95-264f4b6e894a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Personería:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="22" width="115" height="15" uuid="089e60e8-510e-421b-8885-fef62c8b1673"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($F{tipo_cliente} != null ? $F{tipo_cliente}.substring(0, 1).toUpperCase() + $F{tipo_cliente}.substring(1) : "")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-15" y="37" width="65" height="15" uuid="eec067a5-db74-4f04-be2e-33744a233bab"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI/CUIT:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="37" width="115" height="15" uuid="938ffe66-917a-4317-baae-7f5c9d3df36f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dni_cuit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="165" y="7" width="88" height="15" uuid="b0fd797d-bec3-470f-84ee-0ff7d3dc209e"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. de Teléfono:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="253" y="7" width="115" height="15" uuid="8de60251-7813-4493-b03a-e171a8e2356c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nro_telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="165" y="22" width="88" height="15" uuid="f4892a3b-102a-4b03-b772-8d19c1d423d1"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-Mail:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="253" y="22" width="115" height="15" uuid="5c172dc6-fefb-4b8c-8387-d889540094e7"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

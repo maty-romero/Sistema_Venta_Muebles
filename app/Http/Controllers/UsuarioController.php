@@ -106,7 +106,7 @@ class UsuarioController extends Controller
     {
         $cliente = Auth::user()->cliente;
         $ventas = $cliente->ventas()
-            ->orderByRaw("DATE_FORMAT(fecha_venta, '%m/%e/%Y %H:%i') DESC")
+            ->orderBy('fecha_venta', 'DESC')
             ->paginate(5);
         return view('cliente.usuario.index', compact('cliente', 'ventas'));
     }

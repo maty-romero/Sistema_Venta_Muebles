@@ -6,11 +6,11 @@
 	<parameter name="NroVenta" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT 
-                v.monto_final_venta AS monto_final_venta, 
+                FORMAT(v.monto_final_venta,2, 'en_US') AS monto_final_venta, 
                 v.nro_pago, 
                 o.porcentaje_descuento AS porcentaje_descuento,
-                subquery.total_sin_descuento as total_sin_descuento,
-                (subquery.total_sin_descuento - v.monto_final_venta) AS monto_descuento
+                FORMAT(subquery.total_sin_descuento, 2, 'en_US') AS total_sin_descuento,
+                FORMAT((subquery.total_sin_descuento - v.monto_final_venta), 2, 'en_US') AS monto_descuento
             FROM ventas v 
             LEFT JOIN ofertas_montos ofm ON v.id_oferta_monto = ofm.id_oferta_monto
             LEFT JOIN ofertas o ON ofm.id_oferta_monto = o.id,
@@ -39,10 +39,9 @@
                         oferta_combo_venta.id_venta = $P{NroVenta}
                 ) AS subquery
             ) AS subquery
-            WHERE v.id = $P{NroVenta};
-		]]>
+            WHERE v.id = $P{NroVenta};]]>
 	</queryString>
-	<field name="monto_final_venta" class="java.math.BigDecimal">
+	<field name="monto_final_venta" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="monto_final_venta"/>
 		<property name="com.jaspersoft.studio.field.label" value="monto_final_venta"/>
 	</field>
@@ -54,11 +53,11 @@
 		<property name="com.jaspersoft.studio.field.name" value="porcentaje_descuento"/>
 		<property name="com.jaspersoft.studio.field.label" value="porcentaje_descuento"/>
 	</field>
-	<field name="total_sin_descuento" class="java.math.BigDecimal">
+	<field name="total_sin_descuento" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="total_sin_descuento"/>
 		<property name="com.jaspersoft.studio.field.label" value="total_sin_descuento"/>
 	</field>
-	<field name="monto_descuento" class="java.math.BigDecimal">
+	<field name="monto_descuento" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="monto_descuento"/>
 		<property name="com.jaspersoft.studio.field.label" value="monto_descuento"/>
 	</field>
@@ -68,54 +67,57 @@
 	<pageFooter>
 		<band height="101" splitType="Stretch">
 			<rectangle>
-				<reportElement x="230" y="-4" width="331" height="95" uuid="30900599-4059-49a5-a7a1-e54ecc40637a"/>
+				<reportElement x="230" y="-10" width="331" height="101" uuid="30900599-4059-49a5-a7a1-e54ecc40637a"/>
 			</rectangle>
 			<textField>
-				<reportElement x="390" y="-4" width="170" height="20" uuid="a233f750-3dca-412b-96d6-022b6ca2791b"/>
+				<reportElement x="390" y="-4" width="155" height="20" uuid="a233f750-3dca-412b-96d6-022b6ca2791b"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["#"+$F{nro_pago}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="230" y="16" width="150" height="20" forecolor="#030303" uuid="b9594ce8-ed3b-4e9b-80fe-fc30e60f0d28"/>
-				<textElement textAlignment="Center">
+				<reportElement x="240" y="16" width="140" height="20" forecolor="#030303" uuid="b9594ce8-ed3b-4e9b-80fe-fc30e60f0d28"/>
+				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Subtotal:]]></text>
+				<text><![CDATA[Total parcial:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="390" y="16" width="170" height="20" uuid="cd5bc1dd-b288-478b-936e-c326297d66d4"/>
+				<reportElement x="390" y="16" width="155" height="20" uuid="cd5bc1dd-b288-478b-936e-c326297d66d4"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["$"+$F{total_sin_descuento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="230" y="36" width="150" height="20" forecolor="#030303" uuid="b9594ce8-ed3b-4e9b-80fe-fc30e60f0d28"/>
-				<textElement textAlignment="Center">
+				<reportElement x="240" y="36" width="140" height="20" forecolor="#030303" uuid="b9594ce8-ed3b-4e9b-80fe-fc30e60f0d28"/>
+				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Descuento por monto:]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Transparent" x="390" y="36" width="170" height="20" forecolor="#030303" backcolor="#FFFFFF" uuid="f7d52609-b20b-4773-b261-3564e5cd69f4"/>
-				<textFieldExpression><![CDATA[($F{monto_descuento} != null ? "- $" + $F{monto_descuento} + " (" + ($F{porcentaje_descuento} != null ? $F{porcentaje_descuento} + "%" : "No aplica") + ")" : "No aplica")]]></textFieldExpression>
+				<reportElement mode="Transparent" x="390" y="36" width="155" height="20" forecolor="#030303" backcolor="#FFFFFF" uuid="f7d52609-b20b-4773-b261-3564e5cd69f4"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[($F{porcentaje_descuento} != null ? "(" + $F{porcentaje_descuento} + "%) " + "$" + $F{monto_descuento} : "No aplica")]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement x="230" y="60" width="330" height="31" forecolor="#000000" backcolor="#030303" uuid="2908b671-902d-4a65-8965-9138fbeb064c"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="230" y="-4" width="150" height="20" forecolor="#030303" uuid="d9dd7346-c34f-44b4-91b2-27c2a6ec42eb"/>
-				<textElement textAlignment="Center">
+				<reportElement x="240" y="-4" width="140" height="20" forecolor="#030303" uuid="d9dd7346-c34f-44b4-91b2-27c2a6ec42eb"/>
+				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nro. de pago:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="270" y="65" width="70" height="20" forecolor="#FFFFFF" uuid="cffae6b5-4818-45e1-bcce-e44d7c33800f"/>
-				<textElement textAlignment="Center">
+				<reportElement x="242" y="65" width="98" height="20" forecolor="#FFFFFF" uuid="cffae6b5-4818-45e1-bcce-e44d7c33800f"/>
+				<textElement textAlignment="Left">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Total:]]></text>
+				<text><![CDATA[Total final:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="390" y="64" width="175" height="23" forecolor="#FFFFFF" uuid="f7d52609-b20b-4773-b261-3564e5cd69f4"/>
-				<textElement textAlignment="Left">
+				<reportElement x="390" y="64" width="155" height="23" forecolor="#FFFFFF" uuid="f7d52609-b20b-4773-b261-3564e5cd69f4"/>
+				<textElement textAlignment="Right">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["$"+$F{monto_final_venta}]]></textFieldExpression>

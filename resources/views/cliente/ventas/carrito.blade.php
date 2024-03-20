@@ -53,6 +53,7 @@
                     <div class="bg-white rounded-lg shadow-md p-6">
                         <h2 class="text-xl font-semibold mb-4">Resumen de la compra</h2>
 
+                        @if(Auth::user())
                         <div class="mb-4">
                             <label class='block font-medium text-base text-zinc-700'>Código postal</label>
                             @if (Auth::user())
@@ -76,13 +77,35 @@
 
                         <div>
                             <label class='block font-medium text-base text-zinc-700'>Domicilio de destino</label>
-                            <input id='direccionDestino' type='text' maxlength='100' name='direccionDestino' value="{{ old('direccionDestino') }}" required
+                            <input id='direccionDestino' type='text' maxlength='100' name='direccionDestino' value="{{ old('direccionDestinoHidden') }}" required
                                 class='w-full border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
                             @error('direccionDestinoHidden')
                                 <br>
                                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
                         </div>
+
+                        @else
+                        <div class="mb-4">
+                            <label class='block font-medium text-base text-zinc-700'>Código postal</label>
+                                <input id='codPostal' disabled
+                                    class='w-full border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm bg-gray-100'>
+                        </div>
+                        <div>
+                            <label class='block font-medium text-base text-zinc-700'>Domicilio de destino</label>
+                            <input id='direccionDestino' type='text' disabled 
+                                class='w-full border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm bg-gray-100'>
+                        </div>
+                        @endif
+
+                        @if (isset($ofertaMonto->porcentaje_descuento) && !empty($carrito))
+                        <hr class="my-2">
+                        <div>
+                            <label class='block text-center font-medium text-base bg-[#5690FF] text-white rounded-md py-1'>
+                                {{ $ofertaMonto->porcentaje_descuento }}% de desuento en compras mayores a @money($ofertaMonto->ofertaMonto[0]->monto_limite_descuento)
+                            </label>
+                        </div>
+                        @endif
 
                         <hr class="my-2">
                         {{-- Totales --}}
@@ -98,7 +121,7 @@
                                 <span class='text-right'>@money($subtotalSinDesc)</span>
                             </div>
                             <div class="flex justify-between mb-2 grid grid-cols-2">
-                                <span class="text-base">Descuento por<br>monto ({{ $ofertaMonto->porcentaje_descuento }}%)</span>
+                                <span class="text-base">Descuento por<br>monto</span>
                                 <span class='text-right'>@money($descuentoMonto)</span>
                             </div>
                             <hr class="my-2">
@@ -115,7 +138,13 @@
 
                         {{-- Boton finalizar compra con verificación de logeo --}}
                         @component('components.custom.modal_login')
-                            @slot('textoBtn', 'Finalizar compra')
+
+                            @if(Auth::user())
+                                @slot('textoBtn', 'Finalizar compra')
+                            @else
+                                @slot('textoBtn', 'Iniciar Sesión')
+                            @endif
+                            
                             @slot('clasesBtn', 'bg-zinc-700 hover:bg-zinc-500 text-white font-bold py-4 px-12 mt-2 mx-auto w-full
                                 text-xl rounded-md')
 
@@ -128,7 +157,7 @@
                                             @csrf
                                             <div>
                                                 <label class='block font-medium text-base text-zinc-700'>Medio de pago</label>
-                                                <select id='medioPago' name='medioPago' required
+                                                <select id='medioPago' name='medioPago' required value="{{ old('medioPago') }}"
                                                     class='block w-full mt-1 border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
                                                     <option></option>
                                                     <option>Tarjeta de crédito</option>
@@ -137,7 +166,7 @@
                                             </div>
                                             <div class='mt-4'>
                                                 <label class='block font-medium text-base text-zinc-700'>Número de Tarjeta</label>
-                                                <input id='nroTarjeta' type='number' name='nroTarjeta' required
+                                                <input id='nroTarjeta' type='number' name='nroTarjeta' required min='0' value="{{ old('nroTarjeta') }}"
                                                     class='block w-full mt-1 border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
                                             </div>
                                             <div class='mt-4'>
@@ -150,8 +179,9 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td><select id='mes' name='mes' required
+                                                        <td><select id='mes' name='mes' required value="{{ old('mes') }}"
                                                                 class='block w-full mt-1 border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                                                                <option></option>
                                                                 <option>1</option>
                                                                 <option>2</option>
                                                                 <option>3</option>
@@ -165,9 +195,9 @@
                                                                 <option>11</option>
                                                                 <option>12</option>
                                                             </select></td>
-                                                        <td><select id='ano' name='ano' required
+                                                        <td><select id='ano' name='ano' required value="{{ old('ano') }}"
                                                                 class='block w-full mt-1 border-gray-400 text-base focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm '>
-                                                                <option>2023</option>
+                                                                <option></option>
                                                                 <option>2024</option>
                                                                 <option>2025</option>
                                                                 <option>2026</option>
@@ -188,11 +218,15 @@
                                             <input type="hidden" name="direccionDestinoHidden" id="direccionDestinoHidden"
                                                 value="">
 
-
-
-                                            <button type='submit'
-                                                class='inline-flex items-center px-4 py-2 bg-zinc-700 hover:bg-zinc-500 border border-transparent rounded-md font-semibold text-base text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'>Realizar
+                                            @if(!empty($carrito))
+                                                <button type='submit'
+                                                    class='inline-flex items-center px-4 py-2 bg-zinc-700 hover:bg-zinc-500 border border-transparent rounded-md font-semibold text-base text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'>Realizar
+                                                    pago</button>
+                                            @else
+                                                <button type='submit' disabled
+                                                class='inline-flex items-center px-4 py-2 bg-zinc-500 border border-transparent rounded-md font-semibold text-base text-white uppercase tracking-widest transition ease-in-out duration-150'>Realizar
                                                 pago</button>
+                                            @endif
                                 </div>
                                 </form>
                             @endslot

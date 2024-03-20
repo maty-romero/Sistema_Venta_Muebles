@@ -220,11 +220,19 @@ class Venta extends Model
                 //Actualizar stock del combo
                 $item->elemento->reducirStockCombo($item->unidades);
             } else if ($item->tipoItem == 'Producto') {
+                
+                $idOferta = null; //Buscar qué oferta tiene aplicada
+                if(isset($item->elemento->ofertaValida[0])){
+                    $idOferta = $item->elemento->ofertaValida[0]->id;
+                } else if(isset($item->elemento->ofertaTipoValida()[0])){
+                    $idOferta = $item->elemento->ofertaTipoValida()[0]->id;
+                }
+
                 $producto = new ProductoVendido();
                 $producto->id_venta = $venta->id;
                 $producto->id_producto = $item->elemento->id;
                 $producto->unidades_vendidas_prod = $item->unidades;
-                $producto->id_oferta = isset($item->elemento->oferta[0]->id) ? $item->elemento->oferta[0]->id : null;
+                $producto->id_oferta = $idOferta;
                 $producto->precio_venta_prod = $item->elemento->getPrecioDeVenta();
                 $producto->save();
                 //Actualizar stock del producto
@@ -238,10 +246,6 @@ class Venta extends Model
         $request->session()->put('carrito', array());
 
         return $venta->id;
-    }
-
-    private function actualizarStockVendido()
-    {
     }
 
     public static function realizarPago()
